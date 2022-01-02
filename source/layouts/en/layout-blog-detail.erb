@@ -1,0 +1,71 @@
+<% 
+I18n.locale = :en
+
+article_title = current_page.title
+article_subtitle = current_page.metadata[:page][:subtitle] || nil
+article_date_display = I18n.l current_page.date, :format => config.date_format_long[I18n.locale]
+%>
+
+<% wrap_layout :"en/layout-common" do %>
+
+    <section class="section main">
+        <div class="container">
+        
+            <div class="columns is-multiline is-variable is-8">
+                <div class="column is-9-desktop is-full-tablet">
+                    <div class="content is-medium">
+                        <article>
+                            <div class="meta">
+                                <span class="reading-time">READING TIME <%= get_reading_time(current_page.body, :basic) %></span>
+                                &mdash;
+                                <time pubdate datetime="<%= current_page.date.xmlschema %>" title="<%= article_date_display %>"><%= article_date_display %></time>
+
+                                <% if current_page.tags %>
+                                <div class="tags mt-3">
+                                    <% current_page.tags.each do |tag| %>
+                                        <%= link_to tag, tag_path(tag, "english"), class: 'tag is-info' %>
+                                    <% end %>
+                                </div>
+                                <% end %>
+
+                            </div>
+                            
+                            <h1 class="title"><%= article_title %></h1>
+                            <% if article_subtitle %>
+                                <h2 class="subtitle is-size-4-desktop">
+                                    <%= article_subtitle %>
+                                </h2>
+                            <% end %>
+                            
+                            <div class="yield"><%= yield %></div>
+                        </article>
+                        
+                        <% if current_page.article_previous || current_page.article_next %>
+                            <nav class="mt-6 pagination is-centered" role="navigation" aria-label="pagination">
+                                <% if current_page.article_previous %><%= link_to "&laquo; " + current_page.article_previous.title, current_page.article_previous, class: "pagination-previous has-text-link" %><% end %>
+                                <% if current_page.article_next %><%= link_to current_page.article_next.title + " &raquo;", current_page.article_previous, class: "pagination-next has-text-link" %><% end %>
+                            </nav>
+                        <% end %>
+
+                    </div>
+                </div>
+                <div class="column is-3-desktop is-full-tablet">
+                    <div class="content">
+                        <%= partial 'partials/related_posts', locals: {
+                              locale: I18n.locale,
+                              current_page: current_page,
+                              blog: "english",
+                        } %>
+
+                        <%= partial 'partials/posts_by_year', locals: {
+                              locale: I18n.locale,
+                              articles: blog.articles,
+                        } %>
+                        
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+<% end %>

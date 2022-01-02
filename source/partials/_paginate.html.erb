@@ -1,0 +1,34 @@
+<% if paginate && num_pages > 1 %>
+<nav class="pagination" role="navigation" aria-label="pagination">
+    <% if prev_page %>
+        <a class="pagination-previous" title="<%= t('go_to_previous_page') %>" href="<%= prev_page.url %>">
+            <span class="icon"><i class="fas fa-arrow-left"></i></span><%= t('previous_page') %>
+        </a>
+    <% end %>
+
+    <% if next_page %>
+        <a class="pagination-next" title="<%= t('go_to_next_page') %>" href="<%= next_page.url %>">
+            <%= t('next_page') %><span class="icon"><i class="fas fa-arrow-right"></i></span>
+        </a>
+    <% end %>
+
+    <ul class="pagination-list">
+        <%
+        (1..num_pages).each do |n|
+            page_url = "#{blog.options.prefix}#{blog.options.page_link}/".sub('{num}', n.to_s)
+            page_url = blog.options.prefix if n == 1
+            if locals["page_type"]
+                page_url = locals[:link_schema] + "sayfa/{num}/"
+                page_url = page_url.sub('{num}', "#{n}")
+                page_url = locals[:link_schema] if n == 1
+            end
+        %>
+        <li>
+            <a title="<%= I18n.t('go_to_page_number', num: n) %>" class="pagination-link<% if n == page_number %> is-current<% end %>" aria-label="<%= I18n.t('go_to_page_number', num: n) %>" href="<%= page_url %>"<% if n == page_number %> aria-current="page"<% end %>>
+                <%= n %>
+            </a>
+        </li>
+        <% end %>
+    </ul>
+</nav>
+<% end %>

@@ -1,0 +1,103 @@
+---
+title: Sunumlar
+cover: "oyuncak-muzesi.jpg"
+layout: :"tr/layout-common"
+---
+<%
+I18n.locale = :tr
+
+presentations = data.talks.map do |item|
+  item['custom_date'] = DateTime.parse(item['date'])
+  item
+end.sort_by{ |item| -item['custom_date'].to_i }
+   .group_by{ |item| item['custom_date'].year }
+
+last_talks_year = presentations.first.first
+first_talks_year = presentations.sort.first.first
+
+current_page_last_updated_at = File.mtime(current_page.source_file)
+current_page_hr_date = I18n.l current_page_last_updated_at, format: config.date_format_long[I18n.locale]
+
+%>
+<section class="section main">
+    <div class="container">
+        <div class="content is-medium">
+
+            <article>
+                <div class="meta">
+                    <span class="reading-time">SON GÜNCELLEME</span> &mdash;
+                    <time pubdate datetime="<%= current_page_last_updated_at.xmlschema %>" title="<%= current_page_hr_date %>">
+                        <%= current_page_hr_date %>
+                    </time>
+                </div>
+
+                <h1 class="title">Sunumlar</h1>
+                <p>
+                    <%= first_talks_year %> - <%= last_talks_year %> 
+                    yılları arasında, etkinlik ve konferanslarda yaptığım sunumları bu sayfada bulabilirsiniz.
+                </p>
+                
+                <div class="talks yield">
+                    <% 
+                    presentations.each do |item|
+                        year = item.first
+                        talks = item.last
+                        %>
+                    <div class="columns is-multiline is-variable is-8">
+                        <div class="column is-2-desktop is-3-tablet">
+                            <div class="content">
+                                <h2 class="title"><%= year %></h2>
+                            </div>
+                        </div>
+
+                        <div class="column is-10-desktop is-9-tablet">
+                            <div class="content">
+                                <% talks.each do |talk| %>
+                                    <div class="talk">
+                                        <h3><%= talk.title %></h3>
+                                        <div class="mb-4">
+                                            <strong><%= talk.event.name %></strong> etkinliğindeki sunumum.
+                                            <div class="meta">
+                                                <time pubdate datetime="<%= talk.custom_date.xmlschema %>" title="<%= I18n.l talk.custom_date, :format => config.date_format_long[:tr] %>">
+                                                    <%= I18n.l talk.custom_date, :format => config.date_format_long[:tr] %>
+                                                </time>
+                                            </div>
+                                        </div>
+                                        <p>
+                                            <% if talk.event.url %>
+                                                <%= link_to '<span class="icon"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>', talk.event.url, title: talk.event.name, target: "_blank" %>
+                                            <% end %>
+                                    
+                                            <% if talk.attachments %>
+                                                <% talk.attachments.each do |attachment|
+                                                    attachment_type = attachment[0]
+                                                    attachment_url = attachment[1]
+
+                                                    case attachment_type
+                                                    when 'slide'
+                                                        attachment_icon = 'desktop'
+                                                    when 'code', 'example'
+                                                        attachment_icon = 'code'
+                                                    when 'video'
+                                                        attachment_icon = 'video-camera'
+                                                    end
+
+                                                    fa_icon = "<span class='icon'><i class='fa-solid fa-#{attachment_icon}'></i></span>"
+                                                    %>
+                                                    <%= link_to fa_icon, attachment_url, title: attachment_type.titlecase %>
+                                                <% end %>
+                                            <% end %>
+                                        </p>
+                                    </div>
+                                <% end %>
+                            </div>
+                        </div>
+                    </div>
+                    <% end %>
+                </div>
+                
+            </article>
+        
+        </div>
+    </div>
+</section>

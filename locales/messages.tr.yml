@@ -1,0 +1,18 @@
+---
+tr:
+  photo: Fotoğraf
+  photo_or_screenshot: Fotoğraf ya da ekran görüntüsü
+  posts_by_year: Yıllara Göre
+  year_has_posts: '%{year} yılına ait %{count} makale'
+  latest_github_repos: 'Güncel GitHub Repolarım'
+  previous_page: Önceki
+  next_page: Sonraki
+  go_to_next_page: Sonraki sayfaya git
+  go_to_previous_page: Önceki sayfaya git
+  go_to_page_number: '%{num}. sayfaya git'
+  tagged_items: etiketli “%{count}” kayıt bulunuyor.
+  blog_posts: Blog arşivinde toplam “%{count}” kayıt bulunuyor.
+  similar_articles:
+    one: Benzer Makale
+    other: Benzer Makaleler
+  we_have_similar_articles: Konu ile ilgili toplam “%{count}” adet benzer makale bulunuyor.

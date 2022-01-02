@@ -1,0 +1,26 @@
+---
+en:
+  photo: Photo
+  photo_or_screenshot: Photo or screenshot
+  posts_by_year: By Year
+  year_has_posts:
+    one: '%{year} has 1 post'
+    other: '%{year} has %{count} posts'
+  latest_github_repos: 'Latest GitHub Repos'
+  previous_page: Previous
+  next_page: Next
+  go_to_next_page: Go to next page
+  go_to_previous_page: Go to previous page
+  go_to_page_number: 'Go to page number %{num}'
+  tagged_items:
+    one: Found “1” post.
+    other: Found “%{count}” posts.
+  blog_posts:
+    one: Only “1” post available.
+    other: There are “%{count}” posts in blog archive.
+  similar_articles:
+    one: Similar Article
+    other: Similar Articles
+  we_have_similar_articles:
+    one: We have one similar article about this subject.
+    other: We have “%{count}” similar articles about this subject.

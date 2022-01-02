@@ -1,0 +1,52 @@
+<%
+texts = {
+    tr: {
+        loading: "Yükleniyor...",
+    },
+    en: {
+        loading: "Loading...",
+    }
+}
+%>
+<div class="github-repos blog-post-list content">
+    <h3><%= I18n.t('latest_github_repos') %></h3>
+    <div id="github-latests"><%= texts[I18n.locale][:loading] %></div>
+</div>
+
+<% content_for :extra_js do %>
+    <%= javascript_include_tag 'moment.min' %>
+        <%= javascript_include_tag 'moment-tr' %>
+        <script type="text/javascript">
+            $("#latest-posts time").each(function(i, obj){
+                var t = moment($(obj).attr("datetime"));
+                obj.innerText = t.fromNow();
+            });
+
+            $.ajax({
+                type: 'GET',
+                url: 'https://api.github.com/users/vigo/repos?sort=pushed',
+                dataType: "json",
+                error: function(err){
+                    $("#github-latests").html('GitHub&rsquo;dan repo&rsquo;ları yükleyemedim...');
+                },
+                success: function(data){
+                    var html = ['<ul>'],
+                    need_data = data.filter(function(obj, index){
+                        if(!obj.fork){ return true; }
+                    });
+                    $.each(need_data, function(index, repo){
+                    if(index < 10){
+                        var t = moment(repo.pushed_at);
+                        html.push('<li>');
+                        html.push('<a href="' + repo.html_url + '">' + repo.full_name + '</a>');
+                        html.push('<time pubdate datetime="' + repo.pushed_at + '">' + t.fromNow() + '</time>');
+                        html.push('<p class="mt-2">[ ★ ' + String(repo.stargazers_count).padStart(3, '0') + ' ]</span> <span class="repo-desc">' + repo.description + '</p>');
+                        html.push('</li>');
+                    }
+                });
+                html.push('</ul>');
+                $("#github-latests").html(html.join("\n"));
+                }
+            });
+        </script>
+<% end %>

@@ -1,0 +1,27 @@
+main_links:
+  tr:
+    - title: Anasayfa
+      url: /
+    - title: Blog Arşiv
+      url: /blog/tr/
+    - title: Sunumlar
+      url: /sayfa/tr/sunumlar/
+  en:
+    - title: Home
+      url: /en/
+    - title: Blog Archive
+      url: /blog/en/
+    - title: About
+      url: /page/en/about/
+
+other_links:
+  tr:
+    - title: "VB"
+      url: "https://vbyazilim.com"
+    - title: "English"
+      url: "/en/"
+  en:
+    - title: "VB"
+      url: "https://vbyazilim.com"
+    - title: "Türkçe"
+      url: "/"

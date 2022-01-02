@@ -1,0 +1,41 @@
+---
+pageable: true
+per_page: 20
+blog: english
+cover: "fist2-02.jpg"
+layout: :"en/layout-common"
+---
+
+<%
+I18n.locale = :en
+@cover_title = I18n.t('year_has_posts', year: year, count: articles.size)
+%>
+
+<section class="section main">
+    <div class="container">
+        
+        <div class="columns is-multiline is-variable is-8">
+            <div class="column is-9-desktop is-full-tablet">
+                
+                <%= partial 'partials/list-blog-posts', locals: {
+                    articles: page_articles,
+                    which_blog: current_page.metadata[:page][:blog],
+                    post_amount: current_page.metadata[:page][:per_page],
+                } %>
+                
+                <%= partial 'partials/paginate', locals: {
+                    link_schema: "/blog/tr/yil/#{year}/",
+                } %>
+            </div>
+            <div class="column is-3-desktop is-full-tablet">
+                <div class="content">
+                    <%= partial 'partials/posts_by_year', locals: {
+                          locale: I18n.locale,
+                          articles: blog.articles,
+                    } %>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,36 @@
+<%
+if locals[:meta][:cover]
+  cover_image = "/" + config[:images_dir] + "/covers/" + locals[:meta][:cover]
+
+  align = "has-text-left"
+  align = locals[:meta][:cover_align] if locals[:meta][:cover_align]
+  align = @cover_align unless @cover_align.nil?
+  
+  color = "has-text-white"
+  color  = locals[:meta][:cover_color] if locals[:meta][:cover_color]
+  color  = @cover_color unless @cover_color.nil?
+  
+  bgcolor = "has-background-black"
+  bgcolor = locals[:meta][:cover_bgcolor] if locals[:meta][:cover_bgcolor]
+  bgcolor = @cover_bgcolor unless @cover_bgcolor.nil?
+  
+  cover_title = nil
+  cover_title = locals[:meta][:cover_title] if locals[:meta][:cover_title]
+  cover_title = @cover_title unless @cover_title.nil?
+
+  cover_subtitle = nil
+  cover_subtitle = locals[:meta][:cover_subtitle] if locals[:meta][:cover_subtitle]
+  cover_subtitle = @cover_subtitle unless @cover_subtitle.nil?
+  
+  %>
+    <section class="hero is-medium cover is-hidden-touch" style="background-image: url(<%= cover_image %>);">
+        <div class="hero-body">
+            <div class="container <%= align %>">
+                <% if cover_title %><p class="is-size-3 has-text-weight-bold <%= color %>"><span class="bandage <%= bgcolor %>"><%= cover_title %></span></p><% end %>
+                <% if cover_subtitle %><p class="is-size-4 has-text-weight-medium <%= color %>"><span class="bandage <%= bgcolor %>"><%= cover_subtitle %></span></p><% end %>
+            </div>
+        </div>
+    </section>
+  <%
+end
+%>

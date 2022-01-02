@@ -1,0 +1,39 @@
+<%
+which_blog = locals[:which_blog]
+sorted_articles = locals[:articles].sort_by{|a| a.date}.reverse
+post_amount = locals[:post_amount] || 5
+%>
+<div class="blog-post-list">
+    <ul>
+    <% 
+    sorted_articles.first(post_amount).each_with_index do |article, index|
+        article_date_display = I18n.l article.date, :format => config.date_format_long[I18n.locale]
+        %>
+        <li>
+            <%
+            article_url = article.url
+            article_url = "#{article_url}?p=#{page_number}" if paginate && page_number > 1 && !locals.has_key?("page_type")
+            article_title = article.title
+            article_title = "<strike>#{article.title}</strike>" unless article.published?
+            %>
+            <%= link_to article_title, article_url, class: 'is-size-4-desktop' %>
+
+            <time pubdate datetime="<%= article.date.xmlschema %>">
+                <%= article_date_display %>
+            </time>
+
+            <div class="is-size-4-desktop">
+                <% if article.tags %>
+                    <% article.tags.each do |tag| %>
+                        <%= link_to tag, tag_path(tag, which_blog), class: 'tag is-info' %>
+                    <% end %>
+                <% end %>
+
+                <p class="summary"><%= custom_strip_tags(article.summary) %></p>
+            </div>
+        </li>
+        <% 
+    end 
+    %>
+    </ul>
+</div>

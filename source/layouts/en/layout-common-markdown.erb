@@ -1,0 +1,41 @@
+<%
+I18n.locale = :en
+
+current_page_last_updated_at = File.mtime(current_page.source_file)
+current_page_hr_date = I18n.l current_page_last_updated_at, format: config.date_format_long[I18n.locale]
+%>
+<% wrap_layout :"en/layout-common" do %>
+<section class="section main">
+    <div class="container">
+        
+        <div class="columns is-multiline is-variable is-8">
+            <div class="column is-9-desktop is-full-tablet">
+                <div class="content is-medium">
+                    <article>
+                        <div class="meta">
+                            <span class="reading-time">LAST UPDATED AT</span> &mdash;
+                            <time pubdate datetime="<%= current_page_last_updated_at.xmlschema %>" title="<%= current_page_hr_date %>">
+                                <%= current_page_hr_date %>
+                            </time>
+                        </div>
+                        <div class="yield"><%= yield %></div>
+                    </article>
+                </div>
+            </div>
+            <div class="column is-3-desktop is-full-tablet">
+                <div class="content">
+                    <%= partial 'partials/posts_by_year', locals: {
+                          locale: I18n.locale,
+                          articles: blog.articles,
+                    } %>
+                    
+                    <%= partial 'partials/github_repos', locals: {
+                        locale: I18n.locale,
+                    } %>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<% end %>

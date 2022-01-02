@@ -1,0 +1,30 @@
+<section class="section menu">
+    <div class="container">
+        <nav class="level is-mobile">
+            <div class="level-left">
+                <%
+                data.menu.main_links[locals[:locale]].each do |link|
+                    is_active = "is-active" if current_resource.url == link.url || (!["/", "/en/"].include?(link.url) && current_resource.url.include?(link.url))
+                    content_tag :div, class: "level-item" do
+                        link_to link.title, link.url, class: is_active
+                    end
+                end
+                %>
+            </div>
+            <div class="level-right">
+                <%
+                data.menu.other_links[locals[:locale]].each do |link|
+                    is_active = "is-active" if current_resource.url == link.url || (link.url != "/" && current_resource.url.include?(link.url))
+                    content_tag :div, class: "level-item" do
+                        if link.url.starts_with?('http')
+                            link_to link.title, link.url, class: is_active, target: '_blank'
+                        else
+                            link_to link.title, link.url, class: is_active
+                        end
+                    end
+                end
+                %>
+            </div>
+        </nav>
+    </div>
+</section>

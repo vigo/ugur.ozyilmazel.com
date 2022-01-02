@@ -1,0 +1,13 @@
+<div class="blog-post-list sidebar">
+    <h1><%= I18n.t('posts_by_year') %></h1>
+    <p><%= I18n.t('blog_posts', count: blog.articles.size) %></p>
+    <%
+    blog.articles.group_by {|a| a.date.year }.each do |article_year, articles|
+        content_tag :p do
+            link_class = ''
+            link_class = article_year == year ? 'is-active' : '' if locals.has_key?("year")
+            concat link_to I18n.t('year_has_posts', year: article_year, count: articles.size), blog_year_path(article_year), class: link_class
+        end
+    end 
+    %>
+</div>

@@ -1,0 +1,41 @@
+<% content_for :extra_css do %>
+    <%= stylesheet_link_tag 'easy-autocomplete.css' %>
+<% end %>
+
+<% content_for :extra_js do %>
+    <%= javascript_include_tag 'jquery.easy-autocomplete.js' %>
+    <%
+    placeholder_value = {
+        tr: 'Aramak istediğiniz kelimeyi yazın...',
+        en: 'Type your keyword here...'
+    }
+    %>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                var search_options = {
+                    url: "/search-<%= I18n.locale %>.json",
+                    placeholder: '<%= placeholder_value[I18n.locale] %>',
+                    getValue: "title",
+                    list: {
+                        maxNumberOfElements: 10,
+                        match: { enabled: true },
+                        onChooseEvent: function(){
+                            var selected = $("#search_keyword").getSelectedItemData().url;
+                            window.location.href = selected;
+                        },
+                    }
+                };
+
+                $("#search_keyword").easyAutocomplete(search_options);
+            });
+        </script>
+<% end %>
+<div class="columns is-hidden-mobile">
+    <div class="column">
+        <form id="search_form" onsubmit="return false;">
+        <div class="field">
+            <input type="text" class="input is-medium" name="search_keyword" id="search_keyword">
+        </div>
+        </form>
+    </div>
+</div>

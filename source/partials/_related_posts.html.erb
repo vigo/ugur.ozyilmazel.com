@@ -1,0 +1,37 @@
+<%
+similar_articles = []
+current_page.tags.each do |tag|
+  blog(locals[:blog]).tags[tag].each do |article|
+    unless article == current_page
+      similar_articles << article unless similar_articles.include?(article)
+    end
+  end
+end
+%>
+<%
+if similar_articles.count > 0
+    sorted_articles = similar_articles.sort_by{|a| a.date}.reverse
+    %>
+    <div class="blog-post-list sidebar">
+        <h1><%= I18n.t('similar_articles', count: similar_articles.count) %></h1>
+        <p><%= I18n.t('we_have_similar_articles', count: similar_articles.count) %></p>
+        <ul>
+        <% 
+        sorted_articles.each_with_index do |article, index|
+            article_date_display = I18n.l article.date, :format => config.date_format_short[I18n.locale]
+            %>
+            <li>
+                <%= link_to article.title, article %>
+                <time pubdate datetime="<%= article.date.xmlschema %>">
+                    <%= article_date_display %>
+                </time>
+            </li>
+            <% 
+        end 
+        %>
+        </ul>
+    </div>
+    
+    <%
+end 
+%>

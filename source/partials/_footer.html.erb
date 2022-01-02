@@ -1,0 +1,79 @@
+<%
+titles = {
+    "tr": {
+        "github": "GitHub profili",
+        "github_sponsor": "GitHub sponsorluk",
+        "patreon": "Patreon destek",
+        "rss": "RSS aboneliği",
+        "email": "E-Posta",
+        "dockerhub": "Dockerhub profili",
+        "linkedin": "LinkedIn profili",
+        "rubygems": "Rubygems profili",
+        "pypi": "Python Package Index profili",
+    },
+    "en": {
+        "github": "GitHub profile",
+        "github_sponsor": "GitHub Sponsorship",
+        "patreon": "Patreon Sponsorship",
+        "rss": "RSS subscription",
+        "email": "E-Mail",
+        "dockerhub": "Dockerhub profile",
+        "linkedin": "LinkedIn profile",
+        "rubygems": "Rubygems profile",
+        "pypi": "Python Package Index profile",
+    },
+}
+%>
+<footer class="footer">
+    <div class="container">
+        <div class="content">
+            <a href="/feed-<%= I18n.locale %>.xml" title="<%= titles[I18n.locale][:rss] %>">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-square-rss fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/sponsors/vigo" title="<%= titles[I18n.locale][:github_sponsor] %>">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-heart fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://patreon.com/vigoo" title="<%= titles[I18n.locale][:patreon] %>">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-patreon fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/vigo" title="<%= titles[I18n.locale][:github] %>">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-github fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://hub.docker.com/u/vigo/" title="<%= titles[I18n.locale][:dockerhub] %>">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-docker fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.linkedin.com/in/ugurozyilmazel" title="<%= titles[I18n.locale][:linkedin] %>">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-linkedin fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://rubygems.org/profiles/vigo" title="<%= titles[I18n.locale][:rubygems] %>">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://pypi.org/user/vigo" title="<%= titles[I18n.locale][:pypi] %>">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://csdb.dk/scener/?id=8379" title="CSDB">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.pouet.net/user.php?who=4721" title="Pouet">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="http://janeway.exotica.org.uk/author.php?id=11962" title="Amiga Exotica">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://demozoo.org/sceners/6273" title="Demozoo">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.demoparty.net/users/vigo" title="Demoparty.net">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            
+            <script type="text/javascript">
+            document.write('<a href="mailto:');
+            document.write("hthebmlvyznmry\100tznvy\056pbz".replace(/[a-zA-Z]/g, function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
+            document.write('" title="<%= titles[I18n.locale][:email] %>"');
+            document.write('<span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-at fa-stack-1x"></i></span>');
+            document.write('</a>');
+            </script>
+        </div>
+    </div>
+</footer>

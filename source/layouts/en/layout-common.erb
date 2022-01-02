@@ -1,0 +1,18 @@
+<% wrap_layout :layout do %>
+
+    <%= partial 'partials/menu', locals: {
+        locale: I18n.locale,
+        current_url: current_page.url,
+    } %>
+    
+    <%= partial 'partials/page_cover', locals: {
+        meta: current_page.metadata[:page],
+    } %>
+    
+    <%= yield %>
+
+    <%= partial 'partials/footer', locals: {
+        locale: I18n.locale,
+    } %>
+
+<% end %>
