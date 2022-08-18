@@ -25,6 +25,7 @@
         <%= javascript_include_tag "application" %>
     <%= yield_content :extra_js %>
     <%= partial 'partials/html_meta' %>
+    <%= favicon_tag 'favicon.png', rel: 'shortcut icon' %>
     </head>
 <body>
     <% if development? %><p class="debug"></p><% end %>

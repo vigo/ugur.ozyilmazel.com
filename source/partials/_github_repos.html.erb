@@ -15,38 +15,62 @@ texts = {
 
 <% content_for :extra_js do %>
     <%= javascript_include_tag 'moment.min' %>
-        <%= javascript_include_tag 'moment-tr' %>
+        <% if I18n.locale == :tr %><%= javascript_include_tag 'moment-tr' %><% end %>
+        
         <script type="text/javascript">
-            $("#latest-posts time").each(function(i, obj){
-                var t = moment($(obj).attr("datetime"));
-                obj.innerText = t.fromNow();
-            });
+            function setGitHubData(data) {
+                non_forks = data.filter(function(obj, index){
+                    if(!obj.fork){ return true; }
+                });
 
-            $.ajax({
-                type: 'GET',
-                url: 'https://api.github.com/users/vigo/repos?sort=pushed',
-                dataType: "json",
-                error: function(err){
-                    $("#github-latests").html('GitHub&rsquo;dan repo&rsquo;ları yükleyemedim...');
-                },
-                success: function(data){
-                    var html = ['<ul>'],
-                    need_data = data.filter(function(obj, index){
-                        if(!obj.fork){ return true; }
-                    });
-                    $.each(need_data, function(index, repo){
+                let htmlData = ['<ul>'];
+
+                $.each(non_forks, function(index, repo){
                     if(index < 10){
-                        var t = moment(repo.pushed_at);
-                        html.push('<li>');
-                        html.push('<a href="' + repo.html_url + '">' + repo.full_name + '</a>');
-                        html.push('<time pubdate datetime="' + repo.pushed_at + '">' + t.fromNow() + '</time>');
-                        html.push('<p class="mt-2">[ ★ ' + String(repo.stargazers_count).padStart(3, '0') + ' ]</span> <span class="repo-desc">' + repo.description + '</p>');
-                        html.push('</li>');
+                        let t = moment(repo.pushed_at);
+
+                        htmlData.push('<li>');
+                        htmlData.push('<a href="' + repo.html_url + '">' + repo.full_name + '</a>');
+                        htmlData.push('<time pubdate datetime="' + repo.pushed_at + '">' + t.fromNow() + '</time>');
+                        htmlData.push('<p class="mt-2">[ ★ ' + String(repo.stargazers_count).padStart(3, '0') + ' ]</span> <span class="repo-desc">' + repo.description + '</p>');
+                        htmlData.push('</li>');
                     }
                 });
-                html.push('</ul>');
-                $("#github-latests").html(html.join("\n"));
+                htmlData.push('</ul>');
+                $("#github-latests").html(htmlData.join("\n"));
+            }
+            
+            $(document).ready(function(){
+                let locale = "<%= I18n.locale.to_s %>";
+                let latestRepos = JSON.parse(window.localStorage.getItem(`latestRepos-${locale}`));
+                
+                if(latestRepos == null || new Date() > new Date(latestRepos.expiresAt)){
+                    console.log("fetching new data...");
+                    $.ajax({
+                        type: 'GET',
+                        url: 'https://api.github.com/users/vigo/repos?sort=pushed',
+                        dataType: "json",
+                        error: function(err){
+                            $("#github-latests").html('GitHub&rsquo;dan repo&rsquo;ları yükleyemedim...');
+                        },
+                        success: function(data){
+                            var d = new Date();
+                            d.setDate(d.getDate() + 1); // 1 day
+
+                            var ghData = {
+                                data: data,
+                                expiresAt: d,
+                            }
+                            window.localStorage.setItem(`latestRepos-${locale}`, JSON.stringify(ghData));
+
+                            setGitHubData(data);
+                        }
+                    });
+                } else {
+                    console.log("coming from cache...");
+                    setGitHubData(latestRepos.data);
                 }
+
             });
         </script>
 <% end %>
