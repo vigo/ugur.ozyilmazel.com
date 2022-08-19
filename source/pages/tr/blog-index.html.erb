@@ -39,3 +39,16 @@ I18n.locale = :tr
 
     </div>
 </section>
+
+<% content_for :extra_js do %>
+    <%= javascript_include_tag 'moment.min' %>
+        <%= javascript_include_tag 'moment-tr' %>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $(".blog-post-list time").each(function(i, obj){
+                    var t = moment($(obj).attr("datetime"));
+                    obj.innerText = obj.innerText + ' - [' + t.fromNow() + ']';
+                });
+            });
+        </script>
+<% end %>
