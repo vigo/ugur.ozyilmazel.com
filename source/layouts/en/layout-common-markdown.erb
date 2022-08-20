@@ -2,6 +2,7 @@
 I18n.locale = :en
 
 current_page_last_updated_at = File.mtime(current_page.source_file)
+current_page_last_updated_at = Time.parse(current_page.data['date']) if current_page.data.keys.include?('date')
 current_page_hr_date = I18n.l current_page_last_updated_at, format: config.date_format_long[I18n.locale]
 %>
 <% wrap_layout :"en/layout-common" do %>
