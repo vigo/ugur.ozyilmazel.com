@@ -120,6 +120,7 @@ GEM
     sassc (2.4.0)
       ffi (~> 1.9)
     servolux (0.13.0)
+    stringex (2.8.5)
     temple (0.8.2)
     thor (1.1.0)
     tilt (2.0.10)
@@ -146,6 +147,7 @@ DEPENDENCIES
   readingtime (~> 0.4.0)
   redcarpet (~> 3.5, >= 3.5.1)
   sanitize (~> 6.0)
+  stringex (~> 2.8, >= 2.8.5)
 
 BUNDLED WITH
    2.2.33

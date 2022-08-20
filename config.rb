@@ -75,14 +75,14 @@ page '/*.txt',  layout: false
 #   },
 # )
 
-proxy '/blog/tr/index.html', '/pages/tr/blog-index.html', locals: {locale: "tr"}, :ignore => true
-proxy '/blog/en/index.html', '/pages/en/blog-index.html', locals: {locale: "en"}, :ignore => true
+proxy "/blog/tr/index.html", "/pages/tr/blog-index.html", locals: {locale: "tr"}, ignore: true
+proxy '/blog/en/index.html', '/pages/en/blog-index.html', locals: {locale: "en"}, ignore: true
 
 proxy "/sayfa/tr/sunumlar/index.html", "/pages/tr/sunumlar.html", locals: {locale: "tr"}, ignore: true
 
-proxy '/en/index.html', '/pages/en/index.html', locals: {locale: "en"}, :ignore => true
+proxy "/en/index.html", "/pages/en/index.html", locals: {locale: "en"}, ignore: true
 
-proxy '/page/en/about/index.html', '/pages/en/about.html', locals: {locale: "en"}, :ignore => true
+proxy "/page/en/about/index.html", "/pages/en/about.html", locals: {locale: "en"}, ignore: true
 
 activate :blog do |blog|
   blog.name              = "turkish"

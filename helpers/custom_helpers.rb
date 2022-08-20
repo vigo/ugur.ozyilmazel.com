@@ -8,7 +8,7 @@ module CustomHelpers
   end
 
   def custom_strip_tags(text, **options)
-    elements = options[:elements] || ['code', 'strong']
+    elements = options[:elements] || ['a', 'code', 'strong']
     attributes = options[:attributes] || {}
 
     Sanitize.fragment(text, elements: elements, attributes: attributes).chomp
