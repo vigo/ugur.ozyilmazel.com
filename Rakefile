@@ -16,12 +16,16 @@ task :build do
 end
 
 desc "Deploy"
-task :deploy do
+task :deploy, [:bump] do |_, args|
+  args.with_defaults(bump: 'patch')
+
   now = Time.now.strftime("%Y-%m-%d-%H-%M")
   system %{
     cd build/ &&
     git pull &&
     cd ../ &&
+    bumpversion #{args.bump} &&
+    git push &&
     middleman build &&
     cd build/ &&
     git add . &&
