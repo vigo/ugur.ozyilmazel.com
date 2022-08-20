@@ -15,7 +15,7 @@ task :build do
   system "bin/middleman build --verbose"
 end
 
-desc "deploy to gh-pages"
+desc "deploy to gh-pages with bump"
 task :deploy, [:bump] do |_, args|
   args.with_defaults(bump: 'patch')
 

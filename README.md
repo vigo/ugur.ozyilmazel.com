@@ -11,12 +11,13 @@ Kişisel web sitem...
 $ rake -T
 
 rake build                                  # build pages
-rake deploy                                 # Deploy
+rake deploy[bump]                           # deploy to gh-pages with bump
 rake new:page[title,language]               # new page
 rake new:post[title,language,publish_date]  # new blog post
 rake run_server                             # run server
 ```
 
+---
 
 ## Lisans
 
