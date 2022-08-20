@@ -19,7 +19,7 @@
 
         <script src="/public/js/application.js"></script>
     
-        <meta name="date" content="2022-08-20T13:45:18+03:00" />
+        <meta name="date" content="2022-08-20T16:04:12+03:00" />
         <meta name="description" content="İster komut satırı aracı, ister kütüphane ya da servis geliştirirken bazı 3.parti kütüphaneler / yardımcılar, hayatımızı kolaylaştırır. Bu yazımda sizlere sık kullandığım paketlerden bahsedeceğim." />
         <meta name="author" content="Uğur “vigo” Özyılmazel"/>
         <meta name="copyright" content="(c) 2006 / 2022 - Uğur “vigo” Özyılmazel" />
@@ -68,10 +68,12 @@
                     <div class="content is-large">
                         <article>
                             <div class="meta">
-                                <span class="reading-time">OKUMA SÜRESİ 02:32</span>
+                                <span class="reading-time">OKUMA SÜRESİ 03:01</span>
                                 &mdash;
                                 <time pubdate datetime="2021-09-26T13:45:00+03:00" title="26 Eylül 2021, Pazar 13:45">26 Eylül 2021, Pazar 13:45</time>
-                                
+
+                                  <br><span class="reading-time">GÜNCELLEME</span> &mdash; <time pubdate datetime="2022-08-10T15:34:00+03:00" title="10 Ağustos 2022, Çarşamba 15:34">10 Ağustos 2022, Çarşamba 15:34</time>
+
                                 <div class="tags mt-3">
                                         <a href="/blog/tr/etiket/golang/" class="tag is-info">golang</a>
                                 </div>
@@ -83,6 +85,28 @@
                             <div class="yield"><p>İster komut satırı aracı, ister kütüphane ya da servis geliştirirken bazı 3.parti
 kütüphaneler / yardımcılar, hayatımızı kolaylaştırır. Bu yazımda sizlere sık
 kullandığım paketlerden bahsedeceğim.</p>
+
+<h3>github.com/go-playground/validator <span style="vertical-align: middle;" class="tag is-info">yeni</span></h3>
+
+<p><a href="https://github.com/go-playground/validator">https://github.com/go-playground/validator</a></p>
+
+<p>Veri validasyonu için kullanıyorum. Elinizdeki <code>string</code> acaba geçerli bir
+e-posta değeri mi? <code>struct</code> içindeki alanların duruma göre diğer alana
+göre kontrolü gibi işler için ideal.</p>
+
+<h3>go.uber.org/zap <span style="vertical-align: middle;" class="tag is-info">yeni</span></h3>
+
+<p><a href="https://github.com/uber-go/zap">https://github.com/uber-go/zap</a></p>
+
+<p>Yapılandırılmış, alan-alan ayrıştırabileceğiniz hızlı bir log kütüphanesi.</p>
+
+<h3>github.com/DATA-DOG/go-sqlmock <span style="vertical-align: middle;" class="tag is-info">yeni</span></h3>
+
+<p><a href="https://github.com/DATA-DOG/go-sqlmock">https://github.com/DATA-DOG/go-sqlmock</a></p>
+
+<p>Standart kütüphane ile gelen sql driver’ını kullanarak size mocking yapmayı
+sağlıyor. Sql driver’ı taklit ederek sahte sorgular ve sonuçlar elde
+edebilirsiniz.</p>
 
 <h3>github.com/fatih/color</h3>
 
@@ -131,7 +155,7 @@ kullanmadan uğraşıp yaptığım şeyleri inanılmaz derecede kolay ve hızlı
 kütüphane <code>env</code>.</p>
 <div class="highlight"><pre class="highlight go"><code><span class="err">$</span> <span class="k">go</span> <span class="n">get</span> <span class="o">-</span><span class="n">u</span> <span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">codingconcepts</span><span class="o">/</span><span class="n">env</span>
 </code></pre></div>
-<h3>air</h3>
+<h3>github.com/cosmtrek/air</h3>
 
 <p><a href="https://github.com/cosmtrek/air">https://github.com/cosmtrek/air</a></p>
 
@@ -141,12 +165,11 @@ uygulamanın otomatik olarak tekrar derlenip çalışması için <code>air</code
 uygulamayı elle durdurup tekrar çalıştırma işi yapmamanız için harika bir
 çözüm!</p>
 
-<h3>github.com/gofrs/uuid</h3>
+<h3>github.com/google/uuid <span style="vertical-align: middle;" class="tag is-info">güncelleme</span></h3>
 
-<p><a href="https://github.com/gofrs/uuid">https://github.com/gofrs/uuid</a></p>
+<p><a href="https://github.com/google/uuid">https://github.com/google/uuid</a></p>
 
-<p><code>UUID</code> gereken yerlerde işinize yarayacak güzel bir kütüphane. Versiyon 5’e
-kadar destekliyor.</p>
+<p><code>UUID</code> gereken yerlerde işinize yarayacak güzel bir kütüphane.</p>
 
 <h3>github.com/stretchr/testify</h3>
 

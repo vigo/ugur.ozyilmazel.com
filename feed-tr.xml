@@ -53,13 +53,35 @@ bir gazla blog yazmaya heveslendim.&lt;/p&gt;
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2021/09/26/olmazsa-olmaz-golang-kutuphaneleri/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2021/09/26/olmazsa-olmaz-golang-kutuphaneleri/</id>
     <published>2021-09-26T13:45:00+03:00</published>
-    <updated>2022-08-20T12:50:14+03:00</updated>
+    <updated>2022-08-20T16:01:18+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
     <content type="html">&lt;p&gt;İster komut satırı aracı, ister kütüphane ya da servis geliştirirken bazı 3.parti
 kütüphaneler / yardımcılar, hayatımızı kolaylaştırır. Bu yazımda sizlere sık
 kullandığım paketlerden bahsedeceğim.&lt;/p&gt;
+
+&lt;h3&gt;github.com/go-playground/validator &lt;span style="vertical-align: middle;" class="tag is-info"&gt;yeni&lt;/span&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href="https://github.com/go-playground/validator"&gt;https://github.com/go-playground/validator&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Veri validasyonu için kullanıyorum. Elinizdeki &lt;code&gt;string&lt;/code&gt; acaba geçerli bir
+e-posta değeri mi? &lt;code&gt;struct&lt;/code&gt; içindeki alanların duruma göre diğer alana
+göre kontrolü gibi işler için ideal.&lt;/p&gt;
+
+&lt;h3&gt;go.uber.org/zap &lt;span style="vertical-align: middle;" class="tag is-info"&gt;yeni&lt;/span&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href="https://github.com/uber-go/zap"&gt;https://github.com/uber-go/zap&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Yapılandırılmış, alan-alan ayrıştırabileceğiniz hızlı bir log kütüphanesi.&lt;/p&gt;
+
+&lt;h3&gt;github.com/DATA-DOG/go-sqlmock &lt;span style="vertical-align: middle;" class="tag is-info"&gt;yeni&lt;/span&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href="https://github.com/DATA-DOG/go-sqlmock"&gt;https://github.com/DATA-DOG/go-sqlmock&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Standart kütüphane ile gelen sql driver’ını kullanarak size mocking yapmayı
+sağlıyor. Sql driver’ı taklit ederek sahte sorgular ve sonuçlar elde
+edebilirsiniz.&lt;/p&gt;
 
 &lt;h3&gt;github.com/fatih/color&lt;/h3&gt;
 
@@ -108,7 +130,7 @@ kullanmadan uğraşıp yaptığım şeyleri inanılmaz derecede kolay ve hızlı
 kütüphane &lt;code&gt;env&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre class="highlight go"&gt;&lt;code&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="k"&gt;go&lt;/span&gt; &lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;u&lt;/span&gt; &lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;codingconcepts&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h3&gt;air&lt;/h3&gt;
+&lt;h3&gt;github.com/cosmtrek/air&lt;/h3&gt;
 
 &lt;p&gt;&lt;a href="https://github.com/cosmtrek/air"&gt;https://github.com/cosmtrek/air&lt;/a&gt;&lt;/p&gt;
 
@@ -118,12 +140,11 @@ uygulamanın otomatik olarak tekrar derlenip çalışması için &lt;code&gt;air
 uygulamayı elle durdurup tekrar çalıştırma işi yapmamanız için harika bir
 çözüm!&lt;/p&gt;
 
-&lt;h3&gt;github.com/gofrs/uuid&lt;/h3&gt;
+&lt;h3&gt;github.com/google/uuid &lt;span style="vertical-align: middle;" class="tag is-info"&gt;güncelleme&lt;/span&gt;&lt;/h3&gt;
 
-&lt;p&gt;&lt;a href="https://github.com/gofrs/uuid"&gt;https://github.com/gofrs/uuid&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/google/uuid"&gt;https://github.com/google/uuid&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;UUID&lt;/code&gt; gereken yerlerde işinize yarayacak güzel bir kütüphane. Versiyon 5’e
-kadar destekliyor.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;UUID&lt;/code&gt; gereken yerlerde işinize yarayacak güzel bir kütüphane.&lt;/p&gt;
 
 &lt;h3&gt;github.com/stretchr/testify&lt;/h3&gt;
 
