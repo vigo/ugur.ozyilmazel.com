@@ -2,6 +2,8 @@
 title: "Olmazsa Olmaz Golang Kütüphaneleri"
 locale: tr
 date: 2021-09-26 13:45
+updates:
+  - 2022-08-10 15:34
 cover: "golang.png"
 tags: golang
 comments: false
@@ -10,6 +12,28 @@ comments: false
 İster komut satırı aracı, ister kütüphane ya da servis geliştirirken bazı 3.parti
 kütüphaneler / yardımcılar, hayatımızı kolaylaştırır. Bu yazımda sizlere sık
 kullandığım paketlerden bahsedeceğim.READ_MORE
+
+### github.com/go-playground/validator <%= update_badge('yeni') %>
+
+https://github.com/go-playground/validator
+
+Veri validasyonu için kullanıyorum. Elinizdeki `string` acaba geçerli bir
+e-posta değeri mi? `struct` içindeki alanların duruma göre diğer alana
+göre kontrolü gibi işler için ideal.
+
+### go.uber.org/zap <%= update_badge('yeni') %>
+
+https://github.com/uber-go/zap
+
+Yapılandırılmış, alan-alan ayrıştırabileceğiniz hızlı bir log kütüphanesi.
+
+### github.com/DATA-DOG/go-sqlmock <%= update_badge('yeni') %>
+
+https://github.com/DATA-DOG/go-sqlmock
+
+Standart kütüphane ile gelen sql driver’ını kullanarak size mocking yapmayı
+sağlıyor. Sql driver’ı taklit ederek sahte sorgular ve sonuçlar elde
+edebilirsiniz.
 
 ### github.com/fatih/color
 
@@ -78,7 +102,7 @@ $ go get -u github.com/codingconcepts/env
 ```
 
 
-### air
+### github.com/cosmtrek/air
 
 https://github.com/cosmtrek/air
 
@@ -89,12 +113,11 @@ uygulamayı elle durdurup tekrar çalıştırma işi yapmamanız için harika bi
 çözüm!
 
 
-### github.com/gofrs/uuid
+### github.com/google/uuid <%= update_badge('güncelleme') %>
 
-https://github.com/gofrs/uuid
+https://github.com/google/uuid
 
-`UUID` gereken yerlerde işinize yarayacak güzel bir kütüphane. Versiyon 5’e
-kadar destekliyor.
+`UUID` gereken yerlerde işinize yarayacak güzel bir kütüphane.
 
 
 ### github.com/stretchr/testify

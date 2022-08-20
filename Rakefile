@@ -108,3 +108,7 @@ namespace :new do
   
 end
 
+desc "print now"
+task :now do
+  system "date +'%Y-%M-%d %H:%M'"
+end

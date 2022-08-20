@@ -1,4 +1,11 @@
 module CustomHelpers
+  def update_badge(text, **options)
+    options[:class] ||= 'is-info'
+    options[:align] ||= 'middle'
+
+    '<span style="vertical-align: ' + options[:align] + ';" class="tag ' + options[:class] + '">' + text + '</span>'
+  end
+  
   def inspect_obj(obj)
     '<pre class="debug">' + escape_html(obj) + '</pre>' if development?
   end

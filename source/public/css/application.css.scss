@@ -237,6 +237,10 @@ section.main {
     padding-bottom: 4px;
     border-bottom: 4px solid $color-h3;
   }
+  
+//  h3:not(:first-child) {
+//    margin-top: 0;
+//  }
 
   h4 {
     color: $color-h4;

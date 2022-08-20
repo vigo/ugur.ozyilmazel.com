@@ -20,6 +20,18 @@ article_date_display = I18n.l current_page.date, :format => config.date_format_l
                                 &mdash;
                                 <time pubdate datetime="<%= current_page.date.xmlschema %>" title="<%= article_date_display %>"><%= article_date_display %></time>
 
+                                <%
+                                if current_page.data.respond_to?('updates')
+                                  current_page.data.updates.each do |updated_at|
+                                      updated_at_date = Time.parse(updated_at)
+                                      updated_at_display = I18n.l updated_at_date, :format => config.date_format_long[I18n.locale]
+                                  %>
+                                  <br><span class="reading-time">UPDATE</span> &mdash; <time pubdate datetime="<%= updated_at_date.xmlschema %>" title="<%= updated_at_display %>"><%= updated_at_display %></time>
+                                  <%
+                                  end
+                                end
+                                %>
+
                                 <% if current_page.tags %>
                                 <div class="tags mt-3">
                                     <% current_page.tags.each do |tag| %>
