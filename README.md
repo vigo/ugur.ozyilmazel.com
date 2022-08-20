@@ -7,8 +7,11 @@ Kişisel web sitem...
 ```bash
 $ rake -T
 
-rake build       # build
-rake run_server  # run server
+rake build                                  # build pages
+rake deploy                                 # Deploy
+rake new:page[title,language]               # new page
+rake new:post[title,language,publish_date]  # new blog post
+rake run_server                             # run server
 ```
 
 
