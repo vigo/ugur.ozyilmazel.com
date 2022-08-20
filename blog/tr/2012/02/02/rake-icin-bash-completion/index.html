@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Rake için bash-completion - Uğur “vigo” Özyılmazel</title>
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (Türkçe)" href="/feed-tr.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (English)" href="/feed-en.xml" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <script src="https://kit.fontawesome.com/ebc2456445.js" crossorigin="anonymous"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+        <link href="/public/css/syntax.css" rel="stylesheet" />
+        <link href="/public/css/application.css" rel="stylesheet" />
+    
+
+        <script src="/public/js/application.js"></script>
+    
+        <meta name="date" content="2022-08-20T12:58:47+03:00" />
+        <meta name="description" content="Terminal’de çalışırken hep işimi hızlı ve en kolay şekilde yapabilmenin yollarını ararım. Bu sayede pek çok yeni şey de öğrendim. Octopress sağolsun ciddi ciddi Ruby öğrenmeme büyük katkıda bulundu…" />
+        <meta name="author" content="Uğur “vigo” Özyılmazel"/>
+        <meta name="copyright" content="(c) 2006 / 2022 - Uğur “vigo” Özyılmazel" />
+        <meta property="og:url" content="https://ugur.ozyilmazel.com/blog/tr/2012/02/02/rake-icin-bash-completion/" />
+        <meta property="og:title" content="Rake için bash-completion" />
+        <meta property="og:site_name" content="vigo" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="Terminal’de çalışırken hep işimi hızlı ve en kolay şekilde yapabilmenin yollarını ararım. Bu sayede pek çok yeni şey de öğrendim. Octopress sağolsun ciddi ciddi Ruby öğrenmeme büyük katkıda bulundu…" />
+        <meta property="og:image" content="https://ugur.ozyilmazel.com/public/images/covers/2012-02-02-rake-completion.png" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="3360" />
+        <meta property="og:image:height" content="706" />
+
+    <link href="/public/images/favicon.png" rel="shortcut icon" type="image/png" />
+    </head>
+<body>
+    
+    
+    <section class="section menu">
+    <div class="container">
+        <nav class="level is-mobile">
+            <div class="level-left">
+<div class="level-item"><a href="/">Anasayfa</a></div><div class="level-item"><a href="/blog/tr/" class="is-active">Blog Arşiv</a></div><div class="level-item"><a href="/sayfa/tr/sunumlar/">Sunumlar</a></div>            </div>
+            <div class="level-right">
+<div class="level-item"><a href="https://vbyazilim.com" target="_blank">VB</a></div><div class="level-item"><a href="/en/">English</a></div>            </div>
+        </nav>
+    </div>
+</section>
+
+    
+        <section class="hero is-medium cover is-hidden-touch" style="background-image: url(/public/images/covers/2012-02-02-rake-completion.png);">
+        <div class="hero-body">
+            <div class="container has-text-left">
+                
+                
+            </div>
+        </div>
+    </section>
+  
+    
+        <section class="section main">
+        <div class="container">
+        
+            <div class="columns is-multiline is-variable is-8">
+                <div class="column is-9-desktop is-full-tablet">
+                    <div class="content is-large">
+                        <article>
+                            <div class="meta">
+                                <span class="reading-time">OKUMA SÜRESİ 00:58</span>
+                                &mdash;
+                                <time pubdate datetime="2012-02-02T15:30:00+02:00" title="02 Şubat 2012, Perşembe 15:30">02 Şubat 2012, Perşembe 15:30</time>
+                                
+                                <div class="tags mt-3">
+                                        <a href="/blog/tr/etiket/ruby/" class="tag is-info">ruby</a>
+                                        <a href="/blog/tr/etiket/rake/" class="tag is-info">rake</a>
+                                        <a href="/blog/tr/etiket/bash-completion/" class="tag is-info">bash completion</a>
+                                </div>
+                                
+                            </div>
+                            
+                            <h1 class="title">Rake için bash-completion</h1>
+                            
+                            <div class="yield"><p>Terminal’de çalışırken hep işimi hızlı ve en kolay şekilde yapabilmenin yollarını ararım.
+Bu sayede pek çok yeni şey de öğrendim. Octopress sağolsun ciddi ciddi <a href="http://www.ruby-lang.org/" title="Ruby">Ruby</a>
+öğrenmeme büyük katkıda bulundu&hellip;
+</p>
+
+<p><code>Rakefile</code> sayesinde pek çok şeyi otomatize ediyoruz. Eğer;</p>
+<div class="highlight"><pre class="highlight plaintext"><code>rake -T
+</code></pre></div>
+<p>bize yapabileceğimiz işlerin listesini veriyor. Örneğin Octopress sitenizde
+bunu denerseniz:</p>
+<div class="highlight"><pre class="highlight shell"><code>rake clean                      <span class="c"># Clean out caches: .pygments-cache, .gist-cache, .sass-cache</span>
+rake copydot[source,dest]       <span class="c"># copy dot files for deployment</span>
+rake deploy                     <span class="c"># Default deploy task</span>
+rake gen_deploy                 <span class="c"># Generate website and deploy</span>
+rake generate                   <span class="c"># Generate jekyll site</span>
+</code></pre></div>
+<p>gibi pek çok <strong>rake task</strong>’i görebilirsiniz. Aklıma ilk şu geldi:</p>
+
+<blockquote>
+<p>peki ben tüm <code>rake</code> komutlarını ezbere mi bileceğim?</p>
+</blockquote>
+
+<p>Bunun mutlaka <code>bash-completion</code>’ı vardır dedim ve buldum. Mac OS X kullanıyorum
+ve paket yöneticisi olarak <a href="http://mxcl.github.com/homebrew/" title="The missing package manager for OS X">Homebrew</a> kullanıyorum. Eğer yoksa ilk
+olarak ilgili paketi kurmanız gerekiyor :</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="c"># önce kontrol edin</span>
+brew <span class="nb">ls </span>bash-completion <span class="c"># eğer yoksa hata verir...</span>
+
+<span class="c"># yoksa</span>
+brew update
+brew <span class="nb">install </span>bash-completion
+</code></pre></div>
+<p>Kurumdan sonra; <code>/usr/local/etc/bash_completion.d</code> altına <code>completion_rake</code>
+adında bir dosya oluşturup içine aşağıdaki fonksiyonu yazın:</p>
+<div class="highlight"><pre class="highlight shell"><code>
+<span class="nb">touch</span> /usr/local/etc/bash_completion.d/completion_rake <span class="c"># dosyayı oluşturduk</span>
+nano /usr/local/etc/bash_completion.d/completion_rake <span class="c"># açtık</span>
+
+<span class="c"># eğer TextMate’iniz ayarlıysa</span>
+mate /usr/local/etc/bash_completion.d/completion_rake
+</code></pre></div><div class="highlight"><pre class="highlight shell"><code>_rake<span class="o">()</span>
+<span class="o">{</span>
+    <span class="k">if</span> <span class="o">[[</span> <span class="o">!</span> <span class="nt">-e</span> Rakefile <span class="o">]]</span><span class="p">;</span> <span class="k">then
+        return
+    fi
+    </span><span class="nv">opts</span><span class="o">=</span><span class="si">$(</span>rake <span class="nt">-T</span> | <span class="nb">awk</span> <span class="s1">'NR != 1 {print $2}'</span><span class="si">)</span>
+    <span class="nv">cur</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">COMP_WORDS</span><span class="p">[COMP_CWORD]</span><span class="k">}</span><span class="s2">"</span>
+    <span class="nv">COMPREPLY</span><span class="o">=(</span> <span class="si">$(</span><span class="nb">compgen</span> <span class="nt">-W</span> <span class="s2">"</span><span class="k">${</span><span class="nv">opts</span><span class="k">}</span><span class="s2">"</span> <span class="nt">--</span> <span class="k">${</span><span class="nv">cur</span><span class="k">}</span><span class="si">)</span> <span class="o">)</span>
+<span class="o">}</span>
+<span class="nb">complete</span> <span class="nt">-F</span> _rake rake
+</code></pre></div>
+<p>Benim <code>.dotfiles</code> şeklinde kendi ayarlarım var bu bakımdan tüm bash-completion
+dosyalarım <code>~/Dotfiles/completions/</code> altında bulunuyor bu bakımdan ben
+<code>/usr/local/etc/bash_completion.d</code> altına linkliyorum dosyayı.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>ln -s ~/Dotfiles/completions/completion_rake /usr/local/etc/bash_completion.d/completion_rake
+</code></pre></div>
+<p>şeklinde yapıyorum.</p>
+</div>
+                        </article>
+                        
+                            <nav class="mt-6 pagination is-centered" role="navigation" aria-label="pagination">
+                                <a href="/blog/tr/2012/02/02/ve-blogumu-octopress-tr-altyapisiyla-kendi-sunucuma-tasidim/" class="pagination-previous has-text-link">&laquo; ve Blog’umu Octopress-TR altyapısıyla kendi sunucuma taşıdım</a>
+                                <a href="/blog/tr/2012/02/02/ve-blogumu-octopress-tr-altyapisiyla-kendi-sunucuma-tasidim/" class="pagination-next has-text-link">IRB için yardımcı gem: ORI &raquo;</a>
+                            </nav>
+                    </div>
+                </div>
+                <div class="column is-3-desktop is-full-tablet">
+                    <div class="content">
+                            <div class="blog-post-list sidebar">
+        <h1>Benzer Makaleler</h1>
+        <p>Konu ile ilgili toplam “8” adet benzer makale bulunuyor.</p>
+        <ul>
+            <li>
+                <a href="/blog/tr/2016/07/30/solid-prensibi/">SOLID Prensibi</a>
+                <time pubdate datetime="2016-07-30T18:30:00+03:00">
+                    30 Temmuz 2016, Cumartesi
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2013/02/20/bash-completion-anotomisi/">Bash Completion Anotomisi</a>
+                <time pubdate datetime="2013-02-20T23:37:00+02:00">
+                    20 Şubat 2013, Çarşamba
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2012/05/02/irb-icin-yardimci-gem-ori/">IRB için yardımcı gem: ORI</a>
+                <time pubdate datetime="2012-05-02T13:51:00+03:00">
+                    02 Mayıs 2012, Çarşamba
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2011/03/30/textmate-ve-path-sorunsali/">TextMate ve Path sorunsalı</a>
+                <time pubdate datetime="2011-03-30T14:40:00+03:00">
+                    30 Mart 2011, Çarşamba
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2011/03/29/kendi-rubyini-gemini-kendin-kur/">Kendi Ruby’ini Gem’ini kendin kur</a>
+                <time pubdate datetime="2011-03-29T00:39:00+03:00">
+                    29 Mart 2011, Salı
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2011/02/22/pip-icin-bash-completion/">Pip için bash completion</a>
+                <time pubdate datetime="2011-02-22T11:05:00+02:00">
+                    22 Şubat 2011, Salı
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2009/08/27/macports-ssh-otomatik-tamamlama-ve-genel-bilgiler/">Macports, ssh otomatik tamamlama ve genel bilgiler</a>
+                <time pubdate datetime="2009-08-27T15:41:00+03:00">
+                    27 Ağustos 2009, Perşembe
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2009/07/29/django-icin-bash-completion/">Django için bash completion</a>
+                <time pubdate datetime="2009-07-29T15:59:00+03:00">
+                    29 Temmuz 2009, Çarşamba
+                </time>
+            </li>
+        </ul>
+    </div>
+    
+
+                        
+                        <div class="blog-post-list sidebar">
+    <h1>Yıllara Göre</h1>
+    <p>Blog arşivinde toplam “77” kayıt bulunuyor.</p>
+<p><a href="/blog/tr/yil/2022/" class="">2022 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2021/" class="">2021 yılına ait 4 makale</a></p><p><a href="/blog/tr/yil/2016/" class="">2016 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2015/" class="">2015 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2014/" class="">2014 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2013/" class="">2013 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2012/" class="">2012 yılına ait 8 makale</a></p><p><a href="/blog/tr/yil/2011/" class="">2011 yılına ait 16 makale</a></p><p><a href="/blog/tr/yil/2010/" class="">2010 yılına ait 6 makale</a></p><p><a href="/blog/tr/yil/2009/" class="">2009 yılına ait 22 makale</a></p><p><a href="/blog/tr/yil/2008/" class="">2008 yılına ait 11 makale</a></p><p><a href="/blog/tr/yil/2006/" class="">2006 yılına ait 1 makale</a></p></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <footer class="footer">
+    <div class="container">
+        <div class="content">
+            <a href="/feed-tr.xml" title="RSS aboneliği">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-square-rss fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/sponsors/vigo" title="GitHub sponsorluk">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-heart fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://patreon.com/vigoo" title="Patreon destek">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-patreon fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/vigo" title="GitHub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-github fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://hub.docker.com/u/vigo/" title="Dockerhub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-docker fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.linkedin.com/in/ugurozyilmazel" title="LinkedIn profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-linkedin fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://rubygems.org/profiles/vigo" title="Rubygems profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://pypi.org/user/vigo" title="Python Package Index profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://csdb.dk/scener/?id=8379" title="CSDB">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.pouet.net/user.php?who=4721" title="Pouet">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="http://janeway.exotica.org.uk/author.php?id=11962" title="Amiga Exotica">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://demozoo.org/sceners/6273" title="Demozoo">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.demoparty.net/users/vigo" title="Demoparty.net">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            
+            <script type="text/javascript">
+            document.write('<a href="mailto:');
+            document.write("hthebmlvyznmry\100tznvy\056pbz".replace(/[a-zA-Z]/g, function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
+            document.write('" title="E-Posta"');
+            document.write('<span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-at fa-stack-1x"></i></span>');
+            document.write('</a>');
+            </script>
+        </div>
+    </div>
+</footer>
+
+
+
+</body>
+</html>

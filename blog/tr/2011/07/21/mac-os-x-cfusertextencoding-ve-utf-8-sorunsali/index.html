@@ -1,0 +1,320 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Mac OS X: CFUserTextEncoding ve UTF-8 sorunsalı - Uğur “vigo” Özyılmazel</title>
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (Türkçe)" href="/feed-tr.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (English)" href="/feed-en.xml" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <script src="https://kit.fontawesome.com/ebc2456445.js" crossorigin="anonymous"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+        <link href="/public/css/syntax.css" rel="stylesheet" />
+        <link href="/public/css/application.css" rel="stylesheet" />
+    
+
+        <script src="/public/js/application.js"></script>
+    
+        <meta name="date" content="2022-08-20T12:58:51+03:00" />
+        <meta name="description" content="Mac OS X’le tanıştığım günden beri sinir olduğum ve kimsenin çözümünü bilemediği bir sorunum var. Aslında bu sorun, Amerikalı olmayan herkesin sorunu. Bu sorun yüzünden ne Python’la ne de Ruby’le bile  işlem yapmakta sıkıntı oluyor." />
+        <meta name="author" content="Uğur “vigo” Özyılmazel"/>
+        <meta name="copyright" content="(c) 2006 / 2022 - Uğur “vigo” Özyılmazel" />
+        <meta property="og:url" content="https://ugur.ozyilmazel.com/blog/tr/2011/07/21/mac-os-x-cfusertextencoding-ve-utf-8-sorunsali/" />
+        <meta property="og:title" content="Mac OS X: CFUserTextEncoding ve UTF-8 sorunsalı" />
+        <meta property="og:site_name" content="vigo" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="Mac OS X’le tanıştığım günden beri sinir olduğum ve kimsenin çözümünü bilemediği bir sorunum var. Aslında bu sorun, Amerikalı olmayan herkesin sorunu. Bu sorun yüzünden ne Python’la ne de Ruby’le bile  işlem yapmakta sıkıntı oluyor." />
+        <meta property="og:image" content="https://ugur.ozyilmazel.com/public/images/covers/2011-07-21-makas.jpg" />
+        <meta property="og:image:type" content="image/jpg" />
+        <meta property="og:image:width" content="3360" />
+        <meta property="og:image:height" content="706" />
+
+    <link href="/public/images/favicon.png" rel="shortcut icon" type="image/png" />
+    </head>
+<body>
+    
+    
+    <section class="section menu">
+    <div class="container">
+        <nav class="level is-mobile">
+            <div class="level-left">
+<div class="level-item"><a href="/">Anasayfa</a></div><div class="level-item"><a href="/blog/tr/" class="is-active">Blog Arşiv</a></div><div class="level-item"><a href="/sayfa/tr/sunumlar/">Sunumlar</a></div>            </div>
+            <div class="level-right">
+<div class="level-item"><a href="https://vbyazilim.com" target="_blank">VB</a></div><div class="level-item"><a href="/en/">English</a></div>            </div>
+        </nav>
+    </div>
+</section>
+
+    
+        <section class="hero is-medium cover is-hidden-touch" style="background-image: url(/public/images/covers/2011-07-21-makas.jpg);">
+        <div class="hero-body">
+            <div class="container has-text-left">
+                
+                
+            </div>
+        </div>
+    </section>
+  
+    
+        <section class="section main">
+        <div class="container">
+        
+            <div class="columns is-multiline is-variable is-8">
+                <div class="column is-9-desktop is-full-tablet">
+                    <div class="content is-large">
+                        <article>
+                            <div class="meta">
+                                <span class="reading-time">OKUMA SÜRESİ 06:13</span>
+                                &mdash;
+                                <time pubdate datetime="2011-07-21T23:22:00+03:00" title="21 Temmuz 2011, Perşembe 23:22">21 Temmuz 2011, Perşembe 23:22</time>
+                                
+                                <div class="tags mt-3">
+                                        <a href="/blog/tr/etiket/mac-os-x/" class="tag is-info">mac os x</a>
+                                        <a href="/blog/tr/etiket/encoding/" class="tag is-info">encoding</a>
+                                </div>
+                                
+                            </div>
+                            
+                            <h1 class="title">Mac OS X: CFUserTextEncoding ve UTF-8 sorunsalı</h1>
+                            
+                            <div class="yield"><p>Mac OS X’le tanıştığım günden beri sinir olduğum ve kimsenin çözümünü
+bilemediği bir sorunum var. Aslında bu sorun, Amerikalı olmayan herkesin
+sorunu. Bu sorun yüzünden ne <a href="http://python.org" title="Python">Python</a>’la ne de <a href="http://www.ruby-lang.org/" title="Ruby">Ruby</a>’le bile 
+işlem yapmakta sıkıntı oluyor.</p>
+
+<p>Bu sorunu ilk kez <a href="http://en.wikipedia.org/wiki/Quick_Look" title="Quicklook">Quicklook</a>’la tanışınca yaşamıştım. Çok sevdiğim bir
+özelliktir quicklook. Dosyayı açmadan içine bakmak. Bir tür hızlı önizleme.
+UTF-8 olarak kaydedilmiş text dosyalarına quicklook’la bakmak istediğimde
+Türkçe harflerin bozuk olduğunu görmüştüm.</p>
+
+<p>Başladım aramaya google’da&hellip; Sonra gördümki bu sorun sırf Türkçe için geçerli
+değil. Fince, Almanca, Norveç dili vs, İngilizce olmayan yani ASCII’nin
+dışında kalan her dilde bu sorun varmış.</p>
+
+<p>Çeşitli çözümlemeleri var. Örneğin her oluşturduğunuz text dosyası için elle,
+manuel olarak <strong>bom</strong> yani byte order mark eklemek. Bu delilik. Hele hele Mac
+OS’un pek çok harika özelliğini düşünürsek bu kabus gibi bir şey!</p>
+
+<p>FriendFeed’den takip ettiğim developer <a href="http://friendfeed.com/bluesign" title="Deniz Edincik">Deniz <q>Bluesign</q> Edincik</a>, 
+ilgili bir FriendFeed yorumunda:</p>
+
+<blockquote>
+<p>eğer içine 0x08000100:0x08000100 yazarsanız quicklook’da türkçe sorununu çözersiniz.</p>
+</blockquote>
+
+<p>demişti. <code>$HOME</code> folder’ınızda bulunan <code>.CFUserTextEncoding</code>dosyasını 
+Terminal’den görebilirsiniz:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">cd</span> <span class="nv">$HOME</span>
+<span class="nb">ls</span> <span class="nt">-al</span>
+
+<span class="c"># ya da</span>
+<span class="nb">ls</span> <span class="nt">-al</span> .CFUserTextEncoding
+</code></pre></div>
+<p>Evet, söylediği de doğruydu. Denedim, çalışmıştı. Fakat daha sonra garip
+problemler çıkmaya başladı sistemde. DVD-ROM çalışmamaya başladı, Safari ara
+ara sapıtmaya başladı vs&hellip; Geriye dönüp düşündüğümde; en son yaptığım şey
+neydi? dediğimde bu <strong>CFUserTextEncoding</strong> olayını hatırladım ve tekrar
+eski/orijinal değeri olan <strong>0:0</strong>’a geri döndüm ve herşey düzeldi.</p>
+
+<p>Araştırdım günlerce. Meğerse bu <strong>CFUserTextEncoding</strong> çok ciddi anlamda
+sistemin <strong>core</strong> elementlerindenmiş. <u>XXX:XXX</u> şeklinde verilen iki parametre
+şu anlama geliyormuş;</p>
+
+<p>İlk değer kullanıcının <strong>tercih ettiği encoding</strong>, ikinci değer de 
+<strong>default encoding</strong>. Aslında <code>0x08000100:0</code> da yazsak; yani ilki 
+Türkçe (<em>kullanıcı tercihi</em>), ikinci 0 (<em>default</em>) olarak da çalışan bir durum 
+var ortada.</p>
+
+<p>Bu bakımdan her iki değeri de <code>0x08000100:0x08000100</code> yapınca sistemdeki diğer
+uygulamalar hatta donanıma kadar giden bir zincir içinde sorunlar
+çıkabiliyormuş. Akıllara durgunluk verecek bir durum. Bu olaylar <strong>Windows</strong>’da
+bile olmuyor&hellip;</p>
+
+<p>Her ne kadar da <strong>System Preferences</strong>’dan Language listesinde <strong>Türkçe</strong> olsa da,
+Finder türkçe file/folder adlarını doğru sort etse de Terminal/Shell’deki
+sorunlar hiç bitmiyor.</p>
+
+<p>Aynı sorunu <a href="http://mobileme.com/idisk">iDisk</a>’te yaşadım. iPhone için Apple iDisk uygulaması çıkarttığında
+hemen bu durumu kontrol ettim. Aynen Mac OS’da olduğu gibi iDisk’te de Türkçe
+karakterler bozuk çıktı. Bu olay beni gerçekten çok sinir etti. Koskoca Apple
+daha doğru dürüst <code>UTF-8</code>desteğini veremiyor.</p>
+
+<p>İşin komiği, ücretsiz servis veren <a href="http://www.dropbox.com/" title="Dropbox">Dropbox</a>’da (<u>iPhone/iPad app</u>) böyle bir
+sıkıntı yok! Aslanlar gibi <code>Türkçe</code> / <code>UTF-8</code> dosyaları görebiliyorsunuz. Yani
+yıllık <strong>$100</strong>’a yakın para ödediğim servis daha doğru dürüst <code>UTF-8</code> text
+dosyasını dahi gösteremezken ücretsiz servis/uygulama sorunsuz çalışıyor&hellip;</p>
+
+<p>Üşenmedim, bu durumları Apple’ın ilgili sitesine <a href="http://bugreport.apple.com">bug-report</a> yaptım. 
+<strong>18 Aralık 2009</strong>’dan beri (<u>2 yıl neredeyse</u>) bu ticket açık halen&hellip; 
+Muhtemelen Apple, kendi halinde bir Türk yazılımcısının hata raporunu; 
+Türkçe sort vs gibi sorununu kaale almadı? sallamadı&hellip;</p>
+
+<div class="card blog-card mt-2 mb-4"><div class="card-image has-text-centered"><img class="mt-4" title="Fotoğraf ya da ekran görüntüsü" src="/public/images/posts/cfusertextencoding-1.png" alt="Fotoğraf ya da ekran görüntüsü" /></div></div>
+
+<div class="card blog-card mt-2 mb-4"><div class="card-image has-text-centered"><img class="mt-4" title="Fotoğraf ya da ekran görüntüsü" src="/public/images/posts/cfusertextencoding-2.png" alt="Fotoğraf ya da ekran görüntüsü" /></div></div>
+
+<div class="card blog-card mt-2 mb-4"><div class="card-image has-text-centered"><img class="mt-4" title="Fotoğraf ya da ekran görüntüsü" src="/public/images/posts/cfusertextencoding-3.png" alt="Fotoğraf ya da ekran görüntüsü" /></div></div>
+
+<p>Şoklar devam etti. <a href="http://en.wikipedia.org/wiki/Mac_OS_X_Snow_Leopard" title="Mac OS X Snow Leopard">Snow Leopard</a> çıktı. Sorun aynen devam ediyor.
+Hatta daha acı şeyler oldu. OS ile birlikte gelen unix tool’larının hiç
+birinde Türkçe karakter kullanılamıyor! </p>
+
+<p>Örneğin sistemle gelen <a href="http://python.org" title="Python">Python</a>&hellip; Python’un interaktif shell’i var.
+Açtım ve ilk olarak <code>ğ</code> harfine bastım. Tabiik basmadı. Daha sonra 
+<a href="http://www.nano-editor.org/" title="Nano">nano</a> text editor’ü açtım aynen&hellip; Türke yazamıyorsunuz.</p>
+
+<p>python.org’dan Mac OS için hazırlanmış installation paketini indirip kurdum,
+Python’un versiyonunu yükseltmek için. Baktım aynı sorun onda da var ????????
+Yani <a href="http://ubuntu.com/" title="Ubuntu">Ubuntu</a>’da <a href="http://www.gentoo.org/" title="Gentoo">Gentoo</a>’da ya da Debian’da olmayan
+her türlü sorun bunda&hellip;</p>
+
+<p>Demekki sorun ne python’da ne de nano’da&hellip; Çünkü sistemin (<em>unix</em>) kalbi
+sayılabilecek kütüphanelerden biri olan <strong>readline</strong> apple tarafından
+derlenirken <code>UTF-8</code> desteği atlanmış&hellip; Yazdığım önceki python derleme yazılarımda
+bundan bahsetmiştim.</p>
+
+<p>Zaten kendi kendine derlemek ve <a href="http://macports.org" title="Macports">macports</a>’a <a href="http://mxcl.github.com/homebrew/" title="The missing package manager for OS X">homebrew</a>’a 
+yöneliş hep bu eksiklikler yüzünden oldu.</p>
+
+<p>Neyse, sözü uzatmadan, 2 hafta önce <a href="http://en.wikipedia.org/wiki/Mac_OS_X_Lion" title="Mac OS X Lion">OS X Lion</a> (<em>10.7</em>)’i ofisteki test
+makinesine kurdum ve ilk yaptığım iş nano’yu açıp <code>ğ</code> yazmak oldu ve gözlerim
+yaşardı! Evet bu kez nix tool’ları için <strong>readline</strong> doğru derlenmişti.
+Hemen python’u denedim. O da sorunsuz çalıştı ama yine <strong>2009</strong>’da submit ettiğim
+sort işini yapamama, shell locale sorunu aynen olduğu gibi duruyordu.</p>
+
+<p>Pek çok şey denedim, Shell’den <code>LOCALE</code>, <code>LC_ALL</code> set edilemiyor. Edilmiş gibi
+görünüyor ama çalışmıyor. Bu locale olayları yüzünden sisteme eklediğim
+fontlarla bile sorunlar yaşadım. (<u>Başka bir blog post olur bundan!</u>)</p>
+
+<p>Quicklook’a gelince, takip ettiğim bir blog’da konu hakkında güzel yorumlar ve
+çözümler yazılmış. Arkadaşların çoğu İskandinav ülkelerinde yaşadıkları için
+onların da bizim gibi kendi dillerinde karakter sorunları var. Oradaki
+arkadaşlardan biri demişki:</p>
+
+<blockquote>
+<p>Quicklook, text dosyasını preview edeceği zaman gidip TextEdit’i kullanıyor.
+Bu bakımdan eğer TextEdit’in default dosya açma özelliği UTF-8 değilse
+Quicklook’da sorun oluyor.</p>
+</blockquote>
+
+<p>Denedim, hakikatten arkadaş haklıymış.</p>
+
+<div class="card blog-card mt-2 mb-4"><div class="card-image has-text-centered"><img class="mt-4" title="Fotoğraf ya da ekran görüntüsü" src="/public/images/posts/cfusertextencoding-4.png" alt="Fotoğraf ya da ekran görüntüsü" /></div></div>
+
+<p>Quicklook için text dosyalarını TextMate ile preview yaptırabiliyorsunuz hatta
+bunun için TextMate’in süper bir Quicklook Plug’ini bile var. Tek dezavantajı
+arka planda TextMate’in hep açık olması gerekiyor aksi taktirde <code>space</code>’e
+basında text dosyası üzerinde, ekrana hiç bir şey çıkmıyor&hellip;</p>
+
+<p>Bu yazıdaki amacım Apple’ı kötülemek değil. Ben büyük bir Apple / Mac OS sever
+olarak, diğer Unix/Linux türevlerinde yıllar yıllar önce çözülmüş sorunları
+neden <strong>2011</strong> yılında dahi Mac’de yaşıyorum? Bu konular o kadar basit konularki.
+Beni nasıl mı etkiliyor?</p>
+
+<p>Yazılım geliştiricisi olarak, python’la ya da ruby’le ya da 2007’den beri
+kullanmadığım php ile bir proje yaparken, saydığım dillerin hiç birinde
+<code>array/list/tuple/hash</code> vs sort özelliğini kullanamayacağım. Elimde 10 kişinin
+adı soyadı olacak bir listede (<u>ya da array’de</u>) ve ben bunları tek bir
+hareketle sort edemeyeceğim.</p>
+
+<p>Bu en basit örnek. Olay sırf sort değil. Upper/Lower case için özel yöntemler
+icat etmem gerekecek vs&hellip; Bir dünya dert.</p>
+
+<p>Tek avunduğum nokta production server’larımız ya <strong>gentoo</strong> ya da <strong>ubuntu</strong>.
+Yani kaya gibi <strong>Linux</strong>&hellip; Bu bakımdan local’de buglı çalışan sort işleminin en
+azından remote’da sorunsuz olacağını biliyorum.</p>
+
+<p>Sonuç;</p>
+
+<ol>
+<li><code>.CFUserTextEncoding</code> ile oynamamak lazım</li>
+<li><strong>Quicklook</strong>’da Türkçe text için TextEdit’e ayar yapmak lazım</li>
+<li>Dua edelim Apple sesimizi duysun ve unix tarafında gerekli ayarlamaları yapsın!</li>
+</ol>
+</div>
+                        </article>
+                        
+                            <nav class="mt-6 pagination is-centered" role="navigation" aria-label="pagination">
+                                <a href="/blog/tr/2011/06/26/rails-istanbul-bulusmasi-2/" class="pagination-previous has-text-link">&laquo; Rails İstanbul Buluşması #2</a>
+                                <a href="/blog/tr/2011/06/26/rails-istanbul-bulusmasi-2/" class="pagination-next has-text-link">Güle güle Steve Jobs &raquo;</a>
+                            </nav>
+                    </div>
+                </div>
+                <div class="column is-3-desktop is-full-tablet">
+                    <div class="content">
+                        
+                        
+                        <div class="blog-post-list sidebar">
+    <h1>Yıllara Göre</h1>
+    <p>Blog arşivinde toplam “77” kayıt bulunuyor.</p>
+<p><a href="/blog/tr/yil/2022/" class="">2022 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2021/" class="">2021 yılına ait 4 makale</a></p><p><a href="/blog/tr/yil/2016/" class="">2016 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2015/" class="">2015 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2014/" class="">2014 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2013/" class="">2013 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2012/" class="">2012 yılına ait 8 makale</a></p><p><a href="/blog/tr/yil/2011/" class="">2011 yılına ait 16 makale</a></p><p><a href="/blog/tr/yil/2010/" class="">2010 yılına ait 6 makale</a></p><p><a href="/blog/tr/yil/2009/" class="">2009 yılına ait 22 makale</a></p><p><a href="/blog/tr/yil/2008/" class="">2008 yılına ait 11 makale</a></p><p><a href="/blog/tr/yil/2006/" class="">2006 yılına ait 1 makale</a></p></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <footer class="footer">
+    <div class="container">
+        <div class="content">
+            <a href="/feed-tr.xml" title="RSS aboneliği">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-square-rss fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/sponsors/vigo" title="GitHub sponsorluk">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-heart fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://patreon.com/vigoo" title="Patreon destek">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-patreon fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/vigo" title="GitHub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-github fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://hub.docker.com/u/vigo/" title="Dockerhub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-docker fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.linkedin.com/in/ugurozyilmazel" title="LinkedIn profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-linkedin fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://rubygems.org/profiles/vigo" title="Rubygems profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://pypi.org/user/vigo" title="Python Package Index profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://csdb.dk/scener/?id=8379" title="CSDB">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.pouet.net/user.php?who=4721" title="Pouet">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="http://janeway.exotica.org.uk/author.php?id=11962" title="Amiga Exotica">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://demozoo.org/sceners/6273" title="Demozoo">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.demoparty.net/users/vigo" title="Demoparty.net">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            
+            <script type="text/javascript">
+            document.write('<a href="mailto:');
+            document.write("hthebmlvyznmry\100tznvy\056pbz".replace(/[a-zA-Z]/g, function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
+            document.write('" title="E-Posta"');
+            document.write('<span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-at fa-stack-1x"></i></span>');
+            document.write('</a>');
+            </script>
+        </div>
+    </div>
+</footer>
+
+
+
+</body>
+</html>

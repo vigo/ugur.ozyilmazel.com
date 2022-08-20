@@ -1,0 +1,460 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Bash Completion Anotomisi - Uğur “vigo” Özyılmazel</title>
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (Türkçe)" href="/feed-tr.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (English)" href="/feed-en.xml" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <script src="https://kit.fontawesome.com/ebc2456445.js" crossorigin="anonymous"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+        <link href="/public/css/syntax.css" rel="stylesheet" />
+        <link href="/public/css/application.css" rel="stylesheet" />
+    
+
+        <script src="/public/js/application.js"></script>
+    
+        <meta name="date" content="2022-08-20T12:58:49+03:00" />
+        <meta name="description" content="Terminal’le, Bash’le ilk tanıştığım andan itibaren tab-completion olayının hastası olmuş, hemen:" />
+        <meta name="author" content="Uğur “vigo” Özyılmazel"/>
+        <meta name="copyright" content="(c) 2006 / 2022 - Uğur “vigo” Özyılmazel" />
+        <meta property="og:url" content="https://ugur.ozyilmazel.com/blog/tr/2013/02/20/bash-completion-anotomisi/" />
+        <meta property="og:title" content="Bash Completion Anotomisi" />
+        <meta property="og:site_name" content="vigo" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="Terminal’le, Bash’le ilk tanıştığım andan itibaren tab-completion olayının hastası olmuş, hemen:" />
+        <meta property="og:image" content="https://ugur.ozyilmazel.com/public/images/covers/2013-02-20-bash-completion.png" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="3360" />
+        <meta property="og:image:height" content="706" />
+
+    <link href="/public/images/favicon.png" rel="shortcut icon" type="image/png" />
+    </head>
+<body>
+    
+    
+    <section class="section menu">
+    <div class="container">
+        <nav class="level is-mobile">
+            <div class="level-left">
+<div class="level-item"><a href="/">Anasayfa</a></div><div class="level-item"><a href="/blog/tr/" class="is-active">Blog Arşiv</a></div><div class="level-item"><a href="/sayfa/tr/sunumlar/">Sunumlar</a></div>            </div>
+            <div class="level-right">
+<div class="level-item"><a href="https://vbyazilim.com" target="_blank">VB</a></div><div class="level-item"><a href="/en/">English</a></div>            </div>
+        </nav>
+    </div>
+</section>
+
+    
+        <section class="hero is-medium cover is-hidden-touch" style="background-image: url(/public/images/covers/2013-02-20-bash-completion.png);">
+        <div class="hero-body">
+            <div class="container has-text-left">
+                
+                
+            </div>
+        </div>
+    </section>
+  
+    
+        <section class="section main">
+        <div class="container">
+        
+            <div class="columns is-multiline is-variable is-8">
+                <div class="column is-9-desktop is-full-tablet">
+                    <div class="content is-large">
+                        <article>
+                            <div class="meta">
+                                <span class="reading-time">OKUMA SÜRESİ 05:57</span>
+                                &mdash;
+                                <time pubdate datetime="2013-02-20T23:37:00+02:00" title="20 Şubat 2013, Çarşamba 23:37">20 Şubat 2013, Çarşamba 23:37</time>
+                                
+                                <div class="tags mt-3">
+                                        <a href="/blog/tr/etiket/bash/" class="tag is-info">bash</a>
+                                        <a href="/blog/tr/etiket/bash-completion/" class="tag is-info">bash-completion</a>
+                                        <a href="/blog/tr/etiket/ruby/" class="tag is-info">ruby</a>
+                                        <a href="/blog/tr/etiket/rake/" class="tag is-info">rake</a>
+                                        <a href="/blog/tr/etiket/bundle/" class="tag is-info">bundle</a>
+                                        <a href="/blog/tr/etiket/dscacheutil/" class="tag is-info">dscacheutil</a>
+                                </div>
+                                
+                            </div>
+                            
+                            <h1 class="title">Bash Completion Anotomisi</h1>
+                            
+                            <div class="yield"><p>Terminal’le, <a href="http://www.gnu.org/software/bash/" title="Bash">Bash</a>’le ilk tanıştığım andan itibaren <code>tab-completion</code> olayının
+hastası olmuş, hemen:</p>
+
+<p></p>
+
+<blockquote>
+<p>Hmmm&hellip; Kesin öğrenmeliyim! Ben de kendi komutlarımı oluşturmalıyım!</p>
+</blockquote>
+
+<p>demiştim. Neticede bir şekilde programlanabilir birşey olmalıydı. Mac OS’la
+uğraşmaya başladığım ilk günlerde tanıştığım <a href="http://macports.org" title="Macports">MacPorts</a> içinde
+pek çok <code>bash-completion</code> eklentileriyle geliyordu. Bu sayede <code>tab</code> ile tamamlama
+yapabilmek için gerekli kaynağı inceleme şansı bulmuştum.</p>
+
+<p>Mantık olarak, bir şekilde, bir değişkende bir yerde tamamlanacak kelimeler
+durmalıydı. <code>tab</code> bu kelimeler içinde <code>cycle</code> yapmayı sağlamalıydı.</p>
+
+<h3>dscacheutil</h3>
+
+<p>Denemek için ilk yaptığım tamamlama <code>dscacheutil</code> içindi. DNS işleriyle ilgili
+bu tool’u dns-cache’i silmek için kullanıyordum. Komutu:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>dscacheutil -flushcache
+</code></pre></div>
+<p>şeklinde kullanıyordum. Yapmak istediğim şey <code>dscacheutil</code> yazdıktan sonra <code>-</code>
+yazıp <code>tab</code> tuşuna basmak ve ilgili opsiyonları otomatik olarak yazdırmaktı.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>dscacheutil -h
+</code></pre></div>
+<p>ile baktım başka ne gibi opsiyonlar var. Pekde anlamadım diğer özellikleri.
+İçlerin kafama yatanları seçtim:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>-flushcache -statistics -configuration -cachedump -h -q
+</code></pre></div>
+<p>Bash’in <code>complete</code> adında minik bir komutu var. Mantık olarak, şu komut
+yazılıp <code>tab</code> tuşuna basılınca bu fonksiyon çalışsın.</p>
+
+<p>Gördüğüm örneklerde tamamlama işini yapacak fonksiyon adı, ilgili komut adına
+<code>_</code> eklenerek oluyor. Yani <code>dscacheutil</code> için yazacağınız fonksiyonun adı
+<code>_dscacheutil</code> olmalı. Bu sadece bir notasyon yani zorunlu bir durum değil.</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">complete</span> <span class="nt">-F</span> FONKSİYON KOMUT
+<span class="nb">complete</span> <span class="nt">-F</span> _dscacheutil dscacheutil
+</code></pre></div>
+<p>Düşe kalka bir şekilde ilk completion’ımı yazmayı başarmıştım:</p>
+<div class="highlight"><pre class="highlight shell"><code>_dscacheutil<span class="o">()</span> 
+<span class="o">{</span>
+    <span class="nb">local </span>cur prev opts
+    <span class="nv">COMPREPLY</span><span class="o">=()</span>
+    <span class="nv">cur</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">COMP_WORDS</span><span class="p">[COMP_CWORD]</span><span class="k">}</span><span class="s2">"</span>
+    <span class="nv">prev</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">COMP_WORDS</span><span class="p">[COMP_CWORD-1]</span><span class="k">}</span><span class="s2">"</span>
+    <span class="nv">opts</span><span class="o">=</span><span class="s2">"-flushcache -statistics -configuration -cachedump -h -q"</span>
+    <span class="k">if</span> <span class="o">[[</span> <span class="k">${</span><span class="nv">cur</span><span class="k">}</span> <span class="o">==</span> -<span class="k">*</span> <span class="o">]]</span> <span class="p">;</span> <span class="k">then
+        </span><span class="nv">COMPREPLY</span><span class="o">=(</span> <span class="si">$(</span><span class="nb">compgen</span> <span class="nt">-W</span> <span class="s2">"</span><span class="k">${</span><span class="nv">opts</span><span class="k">}</span><span class="s2">"</span> <span class="nt">--</span> <span class="k">${</span><span class="nv">cur</span><span class="k">}</span><span class="si">)</span> <span class="o">)</span>
+        <span class="k">return </span>0
+    <span class="k">fi</span>
+<span class="o">}</span>
+<span class="nb">complete</span> <span class="nt">-F</span> _dscacheutil dscacheutil
+</code></pre></div>
+<h3>Satır Satır “_dscacheutil”</h3>
+
+<p>Şimdi, <strong>4.</strong>satırda <code>COMPREPLY</code> adında boş bir <code>array</code> var. <code>cur</code> Current /
+Cursor yani <code>tab</code> basıldığında aktif olarak yakalanan / gelen. <code>prev</code> de
+Previous yani tamamlanacak olan kelimelerde, <strong>aktif</strong> olandan bir önceki.
+Yani tamamlamak istediğimiz kelimeler <strong>7.</strong>satırdaki <code>opts</code> değişkeninde
+sırasıyla;</p>
+<div class="highlight"><pre class="highlight plaintext"><code>-flushcache -statistics -configuration -cachedump -h -q
+</code></pre></div>
+<p>şeklinde duruyor. <code>dscacheutil</code> yazıp bir boşluk verip <code>tab</code>e ilk bastığınızda
+<strong>index</strong> 0 ve ilk kelime: <strong>-flushcache</strong> yani <code>cur</code> daki değer olur.</p>
+
+<p>Eğer <code>dscacheutil</code> yazıp, bir boşluk bırakıp, <code>-s</code> yazıp <code>tab</code>e bastığınızda
+tamamlanacak kelimler listesindeki <strong>ikinci</strong> kelimeyi <strong>Current</strong> yani <code>cur</code>
+yapmış olursunuz. Çünkü kelimelerde <code>-s</code> ile başlayan bir tek <code>-statistics</code>
+var. Eğer <code>-s</code> ile başlayan iki kelime olsaydı, <code>-statistics</code> ve <code>-super</code>
+gibi; İlk <code>tab</code>e basışta <code>cur</code>: <strong>-statistics</strong>, ikincide <code>cur</code>: <strong>-super</strong> ve
+<code>prev</code>: <strong>-statistics</strong> olacaktı.</p>
+
+<p>Bu fonksiyonun asıl gizli silahı <code>compgen</code>. <code>-W</code> parametresi <strong>WORD LIST</strong> yani
+kelime listesi anlamında. Hemen daha iyi anlamak için:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>compgen -W "ali veli selami"
+# ali
+# veli
+# selami
+
+compgen -W "ali veli selami" -- veli
+# veli
+</code></pre></div>
+<p>şeklinde çıktı verir. Yani yukarıdaki örnekte <code>opts</code>: <strong>ali veli selami</strong>,
+<code>cur</code>: <strong>veli</strong> olmuş ve işlem bize sonuç olarak <code>veli</code> dönmüştür. Yani
+<strong>9.</strong>satırı düşünürsek:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>COMPREPLY=( $(compgen -W "ali veli selami" -- veli) )
+</code></pre></div>
+<p>gibi. <strong>8.</strong>satıra bakarsak;</p>
+<div class="highlight"><pre class="highlight plaintext"><code>if [[ ${cur} == -* ]] ; then
+</code></pre></div>
+<p>yani; <code>-</code> ile başlayanları yakala. <code>opts</code> içinde geçen ve <code>-</code> ile başlayan.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>complete -F _dscacheutil dscacheutil
+</code></pre></div>
+<p><code>-F function</code> yani, <code>dscacheutil</code> komutu için <code>_dscacheutil</code> fonksiyonunu
+kullanarak tamamlama yap.</p>
+
+<p>Özetle, <code>dscacheutil</code> komutundan sonra <code>-</code> + <code>tab</code> yapınca
+<code>-flushcache -statistics -configuration -cachedump -h -q</code> kelimeleri içinde
+dönüp duracağız.</p>
+
+<h3>bundle exec</h3>
+
+<p>İlk denemem üzerinden epeyce bir zaman geçmişti. Keza geçen süre içinde
+bash bilgim de arttı. Hep gördüğüm, merak ettiğim bir konu da zincirleme
+tamamlama. Yani;</p>
+<div class="highlight"><pre class="highlight plaintext"><code>KOMUT ALT-KOMUT ALT-KOMUT / OPSIYON
+</code></pre></div>
+<p>gibi tamamlamalar. Buna en güzel örnek <a href="https://github.com/nvie/gitflow" title="Gitflow">Gitflow</a>. <code>git</code> <code>flow</code>
+<code>feature</code> <code>start</code> şeklinde arka arkaya 3-4 komutu tamamlamak mümkün. Bu
+durumdan yola çıkarak <code>bundle</code> komutu için benzer bir yardımcı yazmaya
+karar verdim.</p>
+
+<p>Umarım yazıyı okuyanlar <a href="http://www.ruby-lang.org/" title="Ruby">Ruby</a> ile ilgilidir. Çünkü <a href="http://gembundler.com" title="Bundler">Bundler</a>
+Ruby ve <a href="http://rubyonrails.org/" title="Ruby on Rails">Rails</a> dünyasının çok yakından bildiği ve kullandığı
+ruby modülü / kütüphanesi paket yöneticisidir. Özellikle bu okuduğunuz
+blog’da kullandığım <a href="http://octopress.org" title="Octopress">Octopress</a>’de bile <strong>Bundler</strong> kullanmaktayım.</p>
+
+<p>Tamamlama işlemi için <code>bundle</code> <code>exec</code> <code>rake</code> ve rake’e ait alt özellikler vs
+zincirleme işlem yapmam gerekiyor. Öncelikle <code>bundle</code>a ait alt komutları,
+daha sonra da <code>rake</code>e ait komutları tamamlamam gerekiyor.</p>
+
+<script src="https://gist.github.com/5008330.js"></script>
+
+<p>İlk önce <strong>8.</strong>satırda yazan <code>bundle</code> komutlarını buldum. <code>bundle --help</code>
+ile tek tek baktım neler var diye. Tabi bir başka durum daha vardı. Bu
+tamamlama özelliği eğer <code>bundle</code> komutu varsa çalışmalıydı. Bundler’ı
+genelde tüm sisteme kurmak yerine proje bazlı kullanmak daha temizdir.</p>
+
+<p><code>gem</code>leri kurarken;</p>
+<div class="highlight"><pre class="highlight plaintext"><code>bundle install --path vendor/bundle
+</code></pre></div>
+<p>şeklinde kullanıyorum. Bulunduğum proje altında <code>vendor/bundle</code> dizinine
+kurduruyorum. Bu bakımdan tüm sistem yerine proje bazlı kurulum var. Yani
+ilgili proje / ruby versiyonu aktif olduğu zaman, eğer varsa Bundler aktif
+oluyor. Bunun içinde fonksiyonun en başında <code>which bundle</code> ile kontrol
+ediyorum.</p>
+
+<p><code>bundle</code> komutuna ait alt komutlar ve opsiyonlar var. Opsiyonlar <code>--</code> ile
+başlıyor. Yani <code>bundle</code> <code>--verbose</code> <code>install</code> şeklinde bir tamamlama sekansı
+olabilir. Keza, <code>rake</code> veya <code>exec</code> arkasında da ilgili tamamlamalar gelmeli.</p>
+
+<p><code>rake</code> komutu da başlı başına kendine has opsiyonlara sahip. <code>rake -T</code>
+özelliği ile ilgili <strong>RAKE TASK</strong>’leri listeleyebiliyorsunuz. Örnek;</p>
+<div class="highlight"><pre class="highlight shell"><code>rake <span class="nt">-T</span>
+
+rake clean                      <span class="c"># Clean out caches: .pygments-cache, .gist-cache, .sass-cache</span>
+rake copydot[source,dest]       <span class="c"># copy dot files for deployment</span>
+rake deploy                     <span class="c"># Default deploy task</span>
+rake gen_deploy                 <span class="c"># Generate website and deploy</span>
+rake generate                   <span class="c"># Generate jekyll site</span>
+</code></pre></div>
+<p>gibi&hellip; Tabi <code>rake</code> komutu da aynı <code>bundle</code> komutu gibi başka bir dosyanın
+varlığına bağlı. <code>Rakefile</code> tüm task’lerin ve diğer ayarların bulunduğu
+dosya. Eğer <code>Rakefile</code> olmazsa <code>rake</code> komutu da çalışmaz.</p>
+
+<p><code>gem</code>lerin yeri aktif olan ruby modülleri bölgesinde olmadığı için, <code>bundle</code>
+komutuyla <code>vendor/bundle</code> altına kurduğumuz <code>executable</code> yani çalıştıralabilir
+dosyaları da çağırabiliyoruz. </p>
+
+<p><code>bundle exec</code> ile, <code>vendor/bundle</code> altına kurulan <code>gem</code>lerin <code>executable</code>larını da
+çağırabiliyorsunuz. Örneğin, Octopress için kurulan <code>gem</code>lerin içinde;</p>
+<div class="highlight"><pre class="highlight plaintext"><code>compass    jekyll    posix-spawn-benchmark  redcloth     tilt
+dw         kramdown  rackup                 sass        
+haml       maruku    rake                   sass-convert
+html2haml  marutex   rdiscount              scss        
+</code></pre></div>
+<p><code>binary</code> dosyalar var.. Çalıştırmak için: <code>bundle exec html2haml</code> gibi
+kullanabilirsiniz. Bu bakımdan <code>bund</code> <code>exec</code> dedikten sonra komutu da 
+tamamlamamız / bulmamız gerekiyor. Bunun için <strong>28</strong> ve <strong>29.</strong>satırlara
+bakalım. Önce, <code>vendor/bundle</code> altındaki <code>bin</code> dizinlerini bulmamız gerekiyor.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>find . -name 'bin' # içinde bin kelimesi geçen file/folder’ları bul
+
+./vendor/bundle/ruby/1.9.1/bin
+./vendor/bundle/ruby/1.9.1/gems/classifier-1.3.3/bin
+./vendor/bundle/ruby/1.9.1/gems/compass-0.11.6/bin
+./vendor/bundle/ruby/1.9.1/gems/directory_watcher-1.4.1/bin
+./vendor/bundle/ruby/1.9.1/gems/haml-3.1.4/bin
+./vendor/bundle/ruby/1.9.1/gems/haml-3.1.4/vendor/sass/bin
+./vendor/bundle/ruby/1.9.1/gems/jekyll-0.11.0/bin
+./vendor/bundle/ruby/1.9.1/gems/kramdown-0.13.4/bin
+./vendor/bundle/ruby/1.9.1/gems/maruku-0.6.0/bin
+./vendor/bundle/ruby/1.9.1/gems/posix-spawn-0.3.6/bin
+./vendor/bundle/ruby/1.9.1/gems/rack-1.3.5/bin
+./vendor/bundle/ruby/1.9.1/gems/rake-0.9.2.2/bin
+./vendor/bundle/ruby/1.9.1/gems/rb-fsevent-0.9.1/bin
+./vendor/bundle/ruby/1.9.1/gems/rdiscount-1.6.8/bin
+./vendor/bundle/ruby/1.9.1/gems/RedCloth-4.2.9/bin
+./vendor/bundle/ruby/1.9.1/gems/sass-3.1.12/bin
+./vendor/bundle/ruby/1.9.1/gems/tilt-1.3.3/bin
+
+# xargs ile bu sonuçları tek satır yapıyoruz
+
+find . -name 'bin' | xargs
+</code></pre></div>
+<p>Elimizde, <code>space</code> karakteri ile ayrılmış upuzun bir <strong>string</strong> var artık.
+Yani aynı ilk <code>_dscacheutil</code> örneğindeki <code>$opts</code> gibi oldu. Yapmanız gereken
+elimizdeki liste içinden ilk elemanı almak. Bunun için küçük bir nurmara
+yapıyoruz.</p>
+<div class="highlight"><pre class="highlight plaintext"><code> bin_folder=( $(find . -name 'bin' | xargs) # ./vendor/bundle/ruby/1.9.1/bin
+</code></pre></div>
+<p>Artık içine bakmamız gereken dizini biliyoruz. Şimdi yapmamız gereken aynı
+şekilde liste alıp <code>space</code> ile ayrılmış <strong>string</strong> oluşturmak.</p>
+<div class="highlight"><pre class="highlight plaintext"><code> executables=`command ls ${bin_folder} | xargs`
+</code></pre></div>
+<p><code>command ls</code> aslında bildiğiniz <code>ls</code> komutunu çağırıyor ama eğer <code>alias</code> ya da
+başka bir <code>override</code> durumu varsa; Yani siz belkide:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>alias ls="ls -al --color"
+</code></pre></div>
+<p>yaptınız ve her <code>ls</code> komutu çalıştığında aslında <code>ls -al --color</code> çalıştırıyor
+olabilirsiniz. Bunu engellemek için bash’in içindeki <strong>default</strong> komutu çağırmak
+gerekiyor. <code>command</code> bu işe yarıyor.</p>
+
+<p>Son olarak <strong>34.</strong> satırda;</p>
+<div class="highlight"><pre class="highlight plaintext"><code>COMPREPLY=( $(compgen -W "${commands}" -- ${cur}) )
+</code></pre></div>
+<p><code>word list</code> olarak <code>compgen</code> komutuna <code>$commands</code> değişkenini geçiyoruz. Yani
+tüm yaptığımız, en son satırda kullanacağımız <code>COMPREPLY</code> için gerekli
+<strong>string</strong>’i oluşturmak.</p>
+
+<p>Bu tamamlama fonksiyonunu kullanabilmek için; <code>.bashrc</code> ya da <code>.profile</code> ya da
+her ne kullanıyorsanız, o dosyaya eklemek. Örneğin bu <code>_bundler_complete</code>
+fonksiyonunu <code>$HOME/bundler_complete.sh</code> şeklinde kaydettiyseniz; kullandığınız
+<code>.bashrc</code> içinde</p>
+<div class="highlight"><pre class="highlight plaintext"><code>source $HOME/bundler_complete.sh
+</code></pre></div>
+<p>yapmanız gerekiyor. <a href="http://www.gnu.org/software/bash/manual/html_node/Programmable-Completion.html#Programmable-Completion" title="Bash Completion">Bash Completion</a> konusuyla ilgili daha fazla
+ve detaylı bilgi için <a href="http://www.gnu.org/software/bash/manual/html_node/Programmable-Completion.html#Programmable-Completion" title="Bash Completion">link</a>’e tıklayabilirsiniz.</p>
+</div>
+                        </article>
+                        
+                            <nav class="mt-6 pagination is-centered" role="navigation" aria-label="pagination">
+                                <a href="/blog/tr/2013/02/04/derlenmis-python-dosyalari-bazen-sizi-yaniltabilir/" class="pagination-previous has-text-link">&laquo; Derlenmiş Python Dosyaları Bazen Sizi Yanıltabilir</a>
+                                <a href="/blog/tr/2013/02/04/derlenmis-python-dosyalari-bazen-sizi-yaniltabilir/" class="pagination-next has-text-link">TextMate 1 ve Mavericks &raquo;</a>
+                            </nav>
+                    </div>
+                </div>
+                <div class="column is-3-desktop is-full-tablet">
+                    <div class="content">
+                            <div class="blog-post-list sidebar">
+        <h1>Benzer Makaleler</h1>
+        <p>Konu ile ilgili toplam “9” adet benzer makale bulunuyor.</p>
+        <ul>
+            <li>
+                <a href="/blog/tr/2021/08/28/json-isleme-araci-jq/">JSON İşleme Aracı: jq</a>
+                <time pubdate datetime="2021-08-28T11:38:00+03:00">
+                    28 Ağustos 2021, Cumartesi
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2016/07/30/solid-prensibi/">SOLID Prensibi</a>
+                <time pubdate datetime="2016-07-30T18:30:00+03:00">
+                    30 Temmuz 2016, Cumartesi
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2012/05/02/irb-icin-yardimci-gem-ori/">IRB için yardımcı gem: ORI</a>
+                <time pubdate datetime="2012-05-02T13:51:00+03:00">
+                    02 Mayıs 2012, Çarşamba
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2012/02/02/rake-icin-bash-completion/">Rake için bash-completion</a>
+                <time pubdate datetime="2012-02-02T15:30:00+02:00">
+                    02 Şubat 2012, Perşembe
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2011/03/30/textmate-ve-path-sorunsali/">TextMate ve Path sorunsalı</a>
+                <time pubdate datetime="2011-03-30T14:40:00+03:00">
+                    30 Mart 2011, Çarşamba
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2011/03/29/kendi-rubyini-gemini-kendin-kur/">Kendi Ruby’ini Gem’ini kendin kur</a>
+                <time pubdate datetime="2011-03-29T00:39:00+03:00">
+                    29 Mart 2011, Salı
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2009/07/26/bash-completion-olayi/">Bash Completion olayı!</a>
+                <time pubdate datetime="2009-07-26T15:12:00+03:00">
+                    26 Temmuz 2009, Pazar
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2009/06/04/hosts-dosyasi-icin-textmate-bundle/">/etc/hosts dosyası için TextMate Bundle</a>
+                <time pubdate datetime="2009-06-04T11:56:00+03:00">
+                    04 Haziran 2009, Perşembe
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2009/01/12/textmate-ve-bundle-repositoryleri/">TextMate ve Bundle Repository’leri</a>
+                <time pubdate datetime="2009-01-12T15:30:00+02:00">
+                    12 Ocak 2009, Pazartesi
+                </time>
+            </li>
+        </ul>
+    </div>
+    
+
+                        
+                        <div class="blog-post-list sidebar">
+    <h1>Yıllara Göre</h1>
+    <p>Blog arşivinde toplam “77” kayıt bulunuyor.</p>
+<p><a href="/blog/tr/yil/2022/" class="">2022 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2021/" class="">2021 yılına ait 4 makale</a></p><p><a href="/blog/tr/yil/2016/" class="">2016 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2015/" class="">2015 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2014/" class="">2014 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2013/" class="">2013 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2012/" class="">2012 yılına ait 8 makale</a></p><p><a href="/blog/tr/yil/2011/" class="">2011 yılına ait 16 makale</a></p><p><a href="/blog/tr/yil/2010/" class="">2010 yılına ait 6 makale</a></p><p><a href="/blog/tr/yil/2009/" class="">2009 yılına ait 22 makale</a></p><p><a href="/blog/tr/yil/2008/" class="">2008 yılına ait 11 makale</a></p><p><a href="/blog/tr/yil/2006/" class="">2006 yılına ait 1 makale</a></p></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <footer class="footer">
+    <div class="container">
+        <div class="content">
+            <a href="/feed-tr.xml" title="RSS aboneliği">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-square-rss fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/sponsors/vigo" title="GitHub sponsorluk">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-heart fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://patreon.com/vigoo" title="Patreon destek">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-patreon fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/vigo" title="GitHub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-github fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://hub.docker.com/u/vigo/" title="Dockerhub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-docker fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.linkedin.com/in/ugurozyilmazel" title="LinkedIn profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-linkedin fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://rubygems.org/profiles/vigo" title="Rubygems profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://pypi.org/user/vigo" title="Python Package Index profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://csdb.dk/scener/?id=8379" title="CSDB">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.pouet.net/user.php?who=4721" title="Pouet">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="http://janeway.exotica.org.uk/author.php?id=11962" title="Amiga Exotica">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://demozoo.org/sceners/6273" title="Demozoo">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.demoparty.net/users/vigo" title="Demoparty.net">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            
+            <script type="text/javascript">
+            document.write('<a href="mailto:');
+            document.write("hthebmlvyznmry\100tznvy\056pbz".replace(/[a-zA-Z]/g, function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
+            document.write('" title="E-Posta"');
+            document.write('<span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-at fa-stack-1x"></i></span>');
+            document.write('</a>');
+            </script>
+        </div>
+    </div>
+</footer>
+
+
+
+</body>
+</html>

@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Blog Arşivi - Uğur “vigo” Özyılmazel</title>
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (Türkçe)" href="/feed-tr.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (English)" href="/feed-en.xml" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <script src="https://kit.fontawesome.com/ebc2456445.js" crossorigin="anonymous"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+        <link href="/public/css/syntax.css" rel="stylesheet" />
+        <link href="/public/css/application.css" rel="stylesheet" />
+        <link href="/public/css/easy-autocomplete.css" rel="stylesheet" />
+
+
+        <script src="/public/js/application.js"></script>
+        <script src="/public/js/jquery.easy-autocomplete.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                var search_options = {
+                    url: "/search-tr.json",
+                    placeholder: 'Aramak istediğiniz kelimeyi yazın...',
+                    getValue: "title",
+                    list: {
+                        maxNumberOfElements: 10,
+                        match: { enabled: true },
+                        onChooseEvent: function(){
+                            var selected = $("#search_keyword").getSelectedItemData().url;
+                            window.location.href = selected;
+                        },
+                    }
+                };
+
+                $("#search_keyword").easyAutocomplete(search_options);
+            });
+        </script>
+    <script src="/public/js/moment.min.js"></script>
+        <script src="/public/js/moment-tr.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $(".blog-post-list time").each(function(i, obj){
+                    var t = moment($(obj).attr("datetime"));
+                    obj.innerText = obj.innerText + ' - [' + t.fromNow() + ']';
+                });
+            });
+        </script>
+
+        <meta name="date" content="2022-08-20T12:58:49+03:00" />
+        <meta name="description" content="" />
+        <meta name="author" content="Uğur “vigo” Özyılmazel"/>
+        <meta name="copyright" content="(c) 2006 / 2022 - Uğur “vigo” Özyılmazel" />
+        <meta property="og:url" content="https://ugur.ozyilmazel.com/blog/tr/" />
+        <meta property="og:title" content="Blog Arşivi" />
+        <meta property="og:site_name" content="vigo" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="" />
+        <meta property="og:image" content="https://ugur.ozyilmazel.com/public/images/og/ugur-vigo-ozyilmazel-500x500.jpg" />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:width" content="500" />
+        <meta property="og:image:height" content="500" />
+
+    <link href="/public/images/favicon.png" rel="shortcut icon" type="image/png" />
+    </head>
+<body>
+    
+    
+    <section class="section menu">
+    <div class="container">
+        <nav class="level is-mobile">
+            <div class="level-left">
+<div class="level-item"><a href="/">Anasayfa</a></div><div class="level-item"><a href="/blog/tr/" class="is-active">Blog Arşiv</a></div><div class="level-item"><a href="/sayfa/tr/sunumlar/">Sunumlar</a></div>            </div>
+            <div class="level-right">
+<div class="level-item"><a href="https://vbyazilim.com" target="_blank">VB</a></div><div class="level-item"><a href="/en/">English</a></div>            </div>
+        </nav>
+    </div>
+</section>
+
+    
+        <section class="hero is-medium cover is-hidden-touch" style="background-image: url(/public/images/covers/fist2-01.jpg);">
+        <div class="hero-body">
+            <div class="container has-text-left">
+                <p class="is-size-3 has-text-weight-bold has-text-white"><span class="bandage has-background-black">Blog Arşivi</span></p>
+                
+            </div>
+        </div>
+    </section>
+  
+    
+    <section class="section main">
+    <div class="container">
+        
+        <div class="columns is-multiline is-variable is-8">
+            <div class="column is-9-desktop is-full-tablet">
+                
+<div class="columns is-hidden-mobile">
+    <div class="column">
+        <form id="search_form" onsubmit="return false;">
+        <div class="field">
+            <input type="text" class="input is-medium" name="search_keyword" id="search_keyword">
+        </div>
+        </form>
+    </div>
+</div>
+
+                <div class="blog-post-list">
+    <ul>
+        <li>
+            <a href="/blog/tr/2022/08/13/merhaba-dunya/" class="is-size-4-desktop">Yeniden Merhaba Dünya V6</a>
+
+            <time pubdate datetime="2022-08-13T21:33:00+03:00">
+                13 Ağustos 2022, Cumartesi 21:33
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/merhaba/" class="tag is-info">merhaba</a>
+
+                <p class="summary"> Uzunca zamandır aklımdaydı, sitemi güncellemek istiyordum. Özellikle <code>ruby</code>
+bağımlılıkları, <code>middleman</code>’in yeni versiyonuna geçmek gibi planlarım vardı.
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2021/09/26/olmazsa-olmaz-golang-kutuphaneleri/" class="is-size-4-desktop">Olmazsa Olmaz Golang Kütüphaneleri</a>
+
+            <time pubdate datetime="2021-09-26T13:45:00+03:00">
+                26 Eylül 2021, Pazar 13:45
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/golang/" class="tag is-info">golang</a>
+
+                <p class="summary"> İster komut satırı aracı, ister kütüphane ya da servis geliştirirken bazı 3.parti
+kütüphaneler / yardımcılar, hayatımızı kolaylaştırır. Bu yazımda sizlere sık
+kullandığım paketlerden bahsedeceğim. </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2021/08/28/json-isleme-araci-jq/" class="is-size-4-desktop">JSON İşleme Aracı: jq</a>
+
+            <time pubdate datetime="2021-08-28T11:38:00+03:00">
+                28 Ağustos 2021, Cumartesi 11:38
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/json/" class="tag is-info">json</a>
+                        <a href="/blog/tr/etiket/jq/" class="tag is-info">jq</a>
+                        <a href="/blog/tr/etiket/bash/" class="tag is-info">bash</a>
+
+                <p class="summary"> <code>JSON</code> dosya formatı artık hayatımızın vazgeçilmezi. Gündelik hayatta hep
+onunla işimiz oluyor. Peki bir araç olsa, istediğimiz gibi filtreleme
+yapsak, hem de hiç kod yazmasak? 
+
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2021/08/22/django-model-ipuclari/" class="is-size-4-desktop">Django Model İpuçları</a>
+
+            <time pubdate datetime="2021-08-22T09:43:00+03:00">
+                22 Ağustos 2021, Pazar 09:43
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/django/" class="tag is-info">django</a>
+
+                <p class="summary"> Yaklaşık 2008’den beri Django geliştiriyorum. Pek çok proje yaptım. Model
+tanımlamaları ile ilgili bazı edindiğim, okuduğum makalelerden öğrendiğim
+şeyleri yazmak istedim. </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2021/05/27/istediginiz-yerden-go-kodunu-calistirabilirsiniz/" class="is-size-4-desktop">İstediğiniz Yerden Go Kodunu Çalıştırabilirsiniz</a>
+
+            <time pubdate datetime="2021-05-27T18:35:00+03:00">
+                27 Mayıs 2021, Perşembe 18:35
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/golang/" class="tag is-info">golang</a>
+
+                <p class="summary"> Dikkatimi çekti, pek çok kişi bu özelliğin ya farkında değil ya da bilmiyor.
+Ben de yakın zamanda tam olarak öğrenip konuyu anladım ve çok mutlu oldum. </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2016/07/30/solid-prensibi/" class="is-size-4-desktop">SOLID Prensibi</a>
+
+            <time pubdate datetime="2016-07-30T18:30:00+03:00">
+                30 Temmuz 2016, Cumartesi 18:30
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/solid/" class="tag is-info">solid</a>
+                        <a href="/blog/tr/etiket/ruby/" class="tag is-info">ruby</a>
+
+                <p class="summary"> Object Oriented Programming (OOP) yani Nesne Yönelimli Programlama’nın en temel
+prensibi olarak kabul edilir. </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2015/04/13/textmate-ve-interaktif-giris/" class="is-size-4-desktop">TextMate ve İnteraktif Giriş</a>
+
+            <time pubdate datetime="2015-04-13T09:28:00+03:00">
+                13 Nisan 2015, Pazartesi 09:28
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/textmate/" class="tag is-info">textmate</a>
+
+                <p class="summary"> Çoğu zaman birşeyleri hızla denemek için <a>TextMate</a>’i kullanırım. 
+İstediğim programlama dilinde, anında birşeyleri yazıp çalıştırmak mümkündür
+TextMate’de.  </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2014/11/25/yeniden-merhaba/" class="is-size-4-desktop">Middleman ile yeniden merhaba ...</a>
+
+            <time pubdate datetime="2014-11-25T22:20:00+02:00">
+                25 Kasım 2014, Salı 22:20
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/merhaba/" class="tag is-info">merhaba</a>
+
+                <p class="summary"> Bir çılgınlık yaptım ve websitemi <a>Octopress</a> yerine 
+<a>Middleman</a>’e taşıdım!  </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2014/11/14/textmate-1-ve-yosemite/" class="is-size-4-desktop">TextMate 1 ve Yosemite</a>
+
+            <time pubdate datetime="2014-11-14T13:29:00+02:00">
+                14 Kasım 2014, Cuma 13:29
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/textmate/" class="tag is-info">textmate</a>
+                        <a href="/blog/tr/etiket/yosemite/" class="tag is-info">yosemite</a>
+
+                <p class="summary"> Eğer siz de benim gibi dinozorsanız ve halen en eski <a>TextMate</a>’i
+Version <strong>1.5.11</strong> (1635)’i kullanıyorsanız bu yazıyı okumanız iyi olur :)
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2014/09/23/rubygem-hazirliyoruz/" class="is-size-4-desktop">Rubygem Hazırlıyoruz</a>
+
+            <time pubdate datetime="2014-09-23T12:45:00+03:00">
+                23 Eylül 2014, Salı 12:45
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/gem/" class="tag is-info">gem</a>
+                        <a href="/blog/tr/etiket/bundler/" class="tag is-info">bundler</a>
+
+                <p class="summary"> <a>How I start</a> sitesinde görüp, kesinlikle Türkçe’si
+de olmalı dediğim, sıfırdan Ruby GEM’i hazırlamayı anlatan blog
+postuma hoşgeldiniz!
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2013/10/24/textmate-1-ve-mavericks/" class="is-size-4-desktop">TextMate 1 ve Mavericks</a>
+
+            <time pubdate datetime="2013-10-24T14:00:00+03:00">
+                24 Ekim 2013, Perşembe 14:00
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/textmate/" class="tag is-info">textmate</a>
+                        <a href="/blog/tr/etiket/mavericks/" class="tag is-info">mavericks</a>
+
+                <p class="summary"> Mac OS X’in yeni sürümü Mavericks’i eğer <strong>upgrade</strong> yöntemiyle güncellediyseniz
+<a>TextMate 1</a> Bundle’larının büyük bir kısmı çalışmayacaktır!
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2013/02/20/bash-completion-anotomisi/" class="is-size-4-desktop">Bash Completion Anotomisi</a>
+
+            <time pubdate datetime="2013-02-20T23:37:00+02:00">
+                20 Şubat 2013, Çarşamba 23:37
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/bash/" class="tag is-info">bash</a>
+                        <a href="/blog/tr/etiket/bash-completion/" class="tag is-info">bash-completion</a>
+                        <a href="/blog/tr/etiket/ruby/" class="tag is-info">ruby</a>
+                        <a href="/blog/tr/etiket/rake/" class="tag is-info">rake</a>
+                        <a href="/blog/tr/etiket/bundle/" class="tag is-info">bundle</a>
+                        <a href="/blog/tr/etiket/dscacheutil/" class="tag is-info">dscacheutil</a>
+
+                <p class="summary"> Terminal’le, <a>Bash</a>’le ilk tanıştığım andan itibaren <code>tab-completion</code> olayının
+hastası olmuş, hemen: 
+
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2013/02/04/derlenmis-python-dosyalari-bazen-sizi-yaniltabilir/" class="is-size-4-desktop">Derlenmiş Python Dosyaları Bazen Sizi Yanıltabilir</a>
+
+            <time pubdate datetime="2013-02-04T12:15:00+02:00">
+                04 Şubat 2013, Pazartesi 12:15
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/python/" class="tag is-info">python</a>
+                        <a href="/blog/tr/etiket/django/" class="tag is-info">django</a>
+                        <a href="/blog/tr/etiket/pyc/" class="tag is-info">pyc</a>
+                        <a href="/blog/tr/etiket/pyo/" class="tag is-info">pyo</a>
+                        <a href="/blog/tr/etiket/uncompyle/" class="tag is-info">uncompyle</a>
+
+                <p class="summary"> Suç kesinlikle Python’da değil! Yanlış anlaşılma olmasın! Geçtiğimiz günlerde 
+yaşadığım iki dikkatsizliğin bana ciddi vakit kaybettirmesi bu blog postunu 
+yazmama sebeb oldu.
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2012/10/28/js-istanbul-2012/" class="is-size-4-desktop">JS İstanbul 2012</a>
+
+            <time pubdate datetime="2012-10-28T12:25:00+02:00">
+                28 Ekim 2012, Pazar 12:25
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/jstanbul/" class="tag is-info">jstanbul</a>
+                        <a href="/blog/tr/etiket/javascript/" class="tag is-info">javascript</a>
+
+                <p class="summary"> Yaklaşık <strong>3 ay</strong>’lık bir gecikme ardından <a>JS İstanbul 2012</a> ile ilgili
+yazımı yazmaya fırsat bulabildim!
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2012/10/26/python-fonksiyonu-nasil-yazilmali/" class="is-size-4-desktop">Python fonksiyonu nasıl yazılmalı?</a>
+
+            <time pubdate datetime="2012-10-26T00:03:00+03:00">
+                26 Ekim 2012, Cuma 00:03
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/python/" class="tag is-info">python</a>
+                        <a href="/blog/tr/etiket/function/" class="tag is-info">function</a>
+
+                <p class="summary"> <a>Coursera</a>’dan aldığım <a>Learn to Program: The Fundamentals</a> dersinde
+bugüne kadar görmediğim bir şeyi sizlerle paylaşmak istiyorum.
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2012/10/25/ozgur-web-gunleri-2012/" class="is-size-4-desktop">Özgür Web Günleri 2012</a>
+
+            <time pubdate datetime="2012-10-25T15:50:00+03:00">
+                25 Ekim 2012, Perşembe 15:50
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/python/" class="tag is-info">python</a>
+                        <a href="/blog/tr/etiket/tdd/" class="tag is-info">tdd</a>
+                        <a href="/blog/tr/etiket/django/" class="tag is-info">django</a>
+
+                <p class="summary"> Geçtiğimiz hafta düzenlenen (19-20 Ekim) <a>Özgür Web Günleri 2012</a>’de
+hayatımın ilk sunumunu yaptım! Evet, ilk sunum. Aslında daha önceleri 
+<a>Demoscene</a> partilerinde pek çok kez sunum, açık oturum, panel vs
+gibi şeylere katılmış / yapmıştım ama…
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2012/05/25/irb-konfigurasyonu-ve-ufak-tefek-ayarlar/" class="is-size-4-desktop">IRB konfigürasyonu ve ufak tefek ayarlar</a>
+
+            <time pubdate datetime="2012-05-25T00:06:00+03:00">
+                25 Mayıs 2012, Cuma 00:06
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/irb/" class="tag is-info">irb</a>
+                        <a href="/blog/tr/etiket/irbrc/" class="tag is-info">irbrc</a>
+                        <a href="/blog/tr/etiket/wirble/" class="tag is-info">wirble</a>
+                        <a href="/blog/tr/etiket/ori/" class="tag is-info">ori</a>
+                        <a href="/blog/tr/etiket/awesome-print/" class="tag is-info">awesome_print</a>
+
+                <p class="summary"> <a>IRB</a> konfigüre edilebilen bir interaktif konsoldur. Aynı <a>IPython</a> gibi.
+Hem test yapmak, hem de günlük ihtiyaçları kullanmak için en sık başvurduğum
+<strong>tool</strong>’dur. <a>Python</a>’dan alıştığım <a>Pretty Print</a> beni IRB uzmanı
+olmaya yöneltti.
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2012/05/24/irb-rbenv-readline-ve-turkce-karakter/" class="is-size-4-desktop">IRB rbenv readline ve Türkçe karakter sorunu / çözümü</a>
+
+            <time pubdate datetime="2012-05-24T22:22:00+03:00">
+                24 Mayıs 2012, Perşembe 22:22
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/irb/" class="tag is-info">irb</a>
+                        <a href="/blog/tr/etiket/rbenv/" class="tag is-info">rbenv</a>
+                        <a href="/blog/tr/etiket/readline/" class="tag is-info">readline</a>
+
+                <p class="summary"> <a>RVM</a>’mi? <a>Rbenv</a>’mi? Her ikiside <a>Ruby</a> için versiyon
+yönetim sistemi. Yani birden farklı değişik veriyon Ruby kullanmak için
+kullanılan yardımcı araçlar. İlk önce <strong>rvm</strong>’le başladım fakat daha sonra
+garip durumlar olduğunu gördüm ve <strong>rbenv</strong>’e geçtim.
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2012/05/02/irb-icin-yardimci-gem-ori/" class="is-size-4-desktop">IRB için yardımcı gem: ORI</a>
+
+            <time pubdate datetime="2012-05-02T13:51:00+03:00">
+                02 Mayıs 2012, Çarşamba 13:51
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/ruby/" class="tag is-info">ruby</a>
+                        <a href="/blog/tr/etiket/irb/" class="tag is-info">irb</a>
+                        <a href="/blog/tr/etiket/ori/" class="tag is-info">ori</a>
+
+                <p class="summary"> <a>Peepcode</a> screencast’lerinden <a>Play by play: Aaron Patterson</a>’ı
+izlerken daldan dala atladım ve <a>IRB</a> ile ilgili çok işe yarar bir gem
+buldum: <strong>ORI</strong>
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2012/02/02/rake-icin-bash-completion/" class="is-size-4-desktop">Rake için bash-completion</a>
+
+            <time pubdate datetime="2012-02-02T15:30:00+02:00">
+                02 Şubat 2012, Perşembe 15:30
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/ruby/" class="tag is-info">ruby</a>
+                        <a href="/blog/tr/etiket/rake/" class="tag is-info">rake</a>
+                        <a href="/blog/tr/etiket/bash-completion/" class="tag is-info">bash completion</a>
+
+                <p class="summary"> Terminal’de çalışırken hep işimi hızlı ve en kolay şekilde yapabilmenin yollarını ararım.
+Bu sayede pek çok yeni şey de öğrendim. Octopress sağolsun ciddi ciddi <a>Ruby</a>
+öğrenmeme büyük katkıda bulundu…
+ </p>
+            </div>
+        </li>
+    </ul>
+</div>
+
+                
+                <nav class="pagination" role="navigation" aria-label="pagination">
+
+        <a class="pagination-next" title="Sonraki sayfaya git" href="/blog/tr/sayfa/2/">
+            Sonraki<span class="icon"><i class="fas fa-arrow-right"></i></span>
+        </a>
+
+    <ul class="pagination-list">
+        <li>
+            <a title="1. sayfaya git" class="pagination-link is-current" aria-label="1. sayfaya git" href="/blog/tr/" aria-current="page">
+                1
+            </a>
+        </li>
+        <li>
+            <a title="2. sayfaya git" class="pagination-link" aria-label="2. sayfaya git" href="/blog/tr/sayfa/2/">
+                2
+            </a>
+        </li>
+        <li>
+            <a title="3. sayfaya git" class="pagination-link" aria-label="3. sayfaya git" href="/blog/tr/sayfa/3/">
+                3
+            </a>
+        </li>
+        <li>
+            <a title="4. sayfaya git" class="pagination-link" aria-label="4. sayfaya git" href="/blog/tr/sayfa/4/">
+                4
+            </a>
+        </li>
+    </ul>
+</nav>
+
+            </div>
+            <div class="column is-3-desktop is-full-tablet">
+                <div class="content">
+                    
+                    <div class="blog-post-list sidebar">
+    <h1>Yıllara Göre</h1>
+    <p>Blog arşivinde toplam “77” kayıt bulunuyor.</p>
+<p><a href="/blog/tr/yil/2022/" class="">2022 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2021/" class="">2021 yılına ait 4 makale</a></p><p><a href="/blog/tr/yil/2016/" class="">2016 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2015/" class="">2015 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2014/" class="">2014 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2013/" class="">2013 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2012/" class="">2012 yılına ait 8 makale</a></p><p><a href="/blog/tr/yil/2011/" class="">2011 yılına ait 16 makale</a></p><p><a href="/blog/tr/yil/2010/" class="">2010 yılına ait 6 makale</a></p><p><a href="/blog/tr/yil/2009/" class="">2009 yılına ait 22 makale</a></p><p><a href="/blog/tr/yil/2008/" class="">2008 yılına ait 11 makale</a></p><p><a href="/blog/tr/yil/2006/" class="">2006 yılına ait 1 makale</a></p></div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+
+    <footer class="footer">
+    <div class="container">
+        <div class="content">
+            <a href="/feed-tr.xml" title="RSS aboneliği">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-square-rss fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/sponsors/vigo" title="GitHub sponsorluk">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-heart fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://patreon.com/vigoo" title="Patreon destek">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-patreon fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/vigo" title="GitHub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-github fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://hub.docker.com/u/vigo/" title="Dockerhub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-docker fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.linkedin.com/in/ugurozyilmazel" title="LinkedIn profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-linkedin fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://rubygems.org/profiles/vigo" title="Rubygems profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://pypi.org/user/vigo" title="Python Package Index profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://csdb.dk/scener/?id=8379" title="CSDB">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.pouet.net/user.php?who=4721" title="Pouet">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="http://janeway.exotica.org.uk/author.php?id=11962" title="Amiga Exotica">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://demozoo.org/sceners/6273" title="Demozoo">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.demoparty.net/users/vigo" title="Demoparty.net">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            
+            <script type="text/javascript">
+            document.write('<a href="mailto:');
+            document.write("hthebmlvyznmry\100tznvy\056pbz".replace(/[a-zA-Z]/g, function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
+            document.write('" title="E-Posta"');
+            document.write('<span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-at fa-stack-1x"></i></span>');
+            document.write('</a>');
+            </script>
+        </div>
+    </div>
+</footer>
+
+
+
+</body>
+</html>

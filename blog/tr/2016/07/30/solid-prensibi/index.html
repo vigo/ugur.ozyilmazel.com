@@ -1,0 +1,479 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>SOLID Prensibi - Uğur “vigo” Özyılmazel</title>
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (Türkçe)" href="/feed-tr.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (English)" href="/feed-en.xml" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <script src="https://kit.fontawesome.com/ebc2456445.js" crossorigin="anonymous"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+        <link href="/public/css/syntax.css" rel="stylesheet" />
+        <link href="/public/css/application.css" rel="stylesheet" />
+    
+
+        <script src="/public/js/application.js"></script>
+    
+        <meta name="date" content="2022-08-20T12:58:55+03:00" />
+        <meta name="description" content="Object Oriented Programming (OOP) yani Nesne Yönelimli Programlama’nın en temel prensibi olarak kabul edilir." />
+        <meta name="author" content="Uğur “vigo” Özyılmazel"/>
+        <meta name="copyright" content="(c) 2006 / 2022 - Uğur “vigo” Özyılmazel" />
+        <meta property="og:url" content="https://ugur.ozyilmazel.com/blog/tr/2016/07/30/solid-prensibi/" />
+        <meta property="og:title" content="SOLID Prensibi" />
+        <meta property="og:site_name" content="vigo" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="Object Oriented Programming (OOP) yani Nesne Yönelimli Programlama’nın en temel prensibi olarak kabul edilir." />
+        <meta property="og:image" content="https://ugur.ozyilmazel.com/public/images/covers/2016-07-30-solid.jpg" />
+        <meta property="og:image:type" content="image/jpg" />
+        <meta property="og:image:width" content="3360" />
+        <meta property="og:image:height" content="706" />
+
+    <link href="/public/images/favicon.png" rel="shortcut icon" type="image/png" />
+    </head>
+<body>
+    
+    
+    <section class="section menu">
+    <div class="container">
+        <nav class="level is-mobile">
+            <div class="level-left">
+<div class="level-item"><a href="/">Anasayfa</a></div><div class="level-item"><a href="/blog/tr/" class="is-active">Blog Arşiv</a></div><div class="level-item"><a href="/sayfa/tr/sunumlar/">Sunumlar</a></div>            </div>
+            <div class="level-right">
+<div class="level-item"><a href="https://vbyazilim.com" target="_blank">VB</a></div><div class="level-item"><a href="/en/">English</a></div>            </div>
+        </nav>
+    </div>
+</section>
+
+    
+        <section class="hero is-medium cover is-hidden-touch" style="background-image: url(/public/images/covers/2016-07-30-solid.jpg);">
+        <div class="hero-body">
+            <div class="container has-text-left">
+                
+                
+            </div>
+        </div>
+    </section>
+  
+    
+        <section class="section main">
+        <div class="container">
+        
+            <div class="columns is-multiline is-variable is-8">
+                <div class="column is-9-desktop is-full-tablet">
+                    <div class="content is-large">
+                        <article>
+                            <div class="meta">
+                                <span class="reading-time">OKUMA SÜRESİ 05:31</span>
+                                &mdash;
+                                <time pubdate datetime="2016-07-30T18:30:00+03:00" title="30 Temmuz 2016, Cumartesi 18:30">30 Temmuz 2016, Cumartesi 18:30</time>
+                                
+                                <div class="tags mt-3">
+                                        <a href="/blog/tr/etiket/solid/" class="tag is-info">solid</a>
+                                        <a href="/blog/tr/etiket/ruby/" class="tag is-info">ruby</a>
+                                </div>
+                                
+                            </div>
+                            
+                            <h1 class="title">SOLID Prensibi</h1>
+                                <h2 class="subtitle is-size-4-desktop">
+                                    Nesne Yönelimli Programlama yapı taşı
+                                </h2>
+                            
+                            <div class="yield"><p>Object Oriented Programming (OOP) yani Nesne Yönelimli Programlama’nın en temel
+prensibi olarak kabul edilir.</p>
+
+<p><mark>2015 yılında AslanobaLabs projesi bünyesinde yayınladığım yazımı proje iptal
+edildiği için kendi bloguma taşıdım. Biraz düzeltme ve güncellemeler de
+yaptım.</mark></p>
+
+<p>2000’lerin başında konuşulmaya başlanan, <a href="https://twitter.com/mfeathers">Michael Feathers</a> tarafından tanıtılan
+ve <q>İlk Beş Prensip</q> diye <a href="http://en.wikipedia.org/wiki/Robert_Cecil_Martin">Robert C. Martin</a> tarafından adlandırılan 
+Nesne Yönelimli Programlama’nın temel prensibidir <strong>S.O.L.I.D</strong></p>
+
+<p>S.O.L.I.D’deki her harf bir prensibe/kurala denk gelir:</p>
+
+<table><thead>
+<tr>
+<th style="text-align: center">Harf</th>
+<th>Açıklaması</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: center"><strong>S</strong></td>
+<td>Single responsibility principle</td>
+</tr>
+<tr>
+<td style="text-align: center"><strong>O</strong></td>
+<td>Open/closed principle</td>
+</tr>
+<tr>
+<td style="text-align: center"><strong>L</strong></td>
+<td>Liskov substitution principle</td>
+</tr>
+<tr>
+<td style="text-align: center"><strong>I</strong></td>
+<td>Interface segregation principle</td>
+</tr>
+<tr>
+<td style="text-align: center"><strong>D</strong></td>
+<td>Dependency inversion principle</td>
+</tr>
+</tbody></table>
+
+<p>Bu prensipler, daha iyi program yazmanın yanı sıra, sürdürülebilir uygulama
+geliştirmeye yardımcı olur. <a href="https://twitter.com/sandimetz">Sandi Metz</a>’in 2009’da düzenlenen
+<a href="http://confreaks.tv/events/goruco2009">GoRuCo</a> konferansında yaptığı <a href="http://confreaks.tv/videos/goruco2009-solid-object-oriented-design">sunumun</a> başında;</p>
+
+<blockquote>
+<p>Uygulamanızı görmedim, ne yaptığınızı bilmiyorum ama kesin olarak bildiğim
+şey şu: uygulamanız değişecek!</p>
+</blockquote>
+
+<p>Evet, Sandi Metz, bu konuda çok haklıydı. Çünkü gerçekten de yazdığımız
+uygulama, bir noktada mutlaka değişikliklere uğrayacaktı. İster hata düzeltme
+ister yeni özellikler ekleme olsun, uygulamalar bir şekilde hiçbir zaman
+ilk yazıldığı gün gibi kalmayacaktı.</p>
+
+<p>Sağlam temelleri olan bir uygulama geliştirmek için ilk adımın Test Driven
+Development olduğunu biliyoruz, ama bir noktada ne yazıkki bu yöntem de 
+<a href="http://www.sandimetz.com/blog/2009/03/21/solid-design-principles">yetersiz kalabiliyor</a>. </p>
+
+<p>Uygulama geliştirirken başımızın fazla ağrımaması için, uzmanlar <strong>SOLID</strong>
+prensipleri ortaya koydular. Şimdi tek tek bu prensiplere göz atalım.</p>
+
+<h2>[S]: Single responsibility</h2>
+
+<p>Bir sınıf (<em>class</em>) sadece tek bir işten sorumlu olmalıdır. Örneğin, bir
+web uygulaması içinde, veritabanı ile bağlantı yapacak olan sınıfın tek işi
+bağlantıyı açması ve kapatması olmalıdır. Sorgu yapmak, tablo silmek
+ya da oluşturmak işlerinden biri <strong>OLMAMALIDIR</strong>!</p>
+
+<p><a href="https://docs.google.com/file/d/0ByOwmqah_nuGNHEtcU5OekdDMkk/edit">Kaynak</a>, <a href="http://en.wikipedia.org/wiki/Single_responsibility_principle">Kaynak</a></p>
+
+<hr>
+
+<h2>[O]: Open/closed</h2>
+
+<p>Bir sınıf, genişlemeye açık olmalı ama değişime kapalı olmalı. Yani kodu
+değiştirmeden, değişebilmeli. Modüller <code>extend</code> edilebilmeli ama asla ilgili
+işi yapabilmek adına, hali hazırda bulunan kod tekrardan yazılmamalı, 
+değiştirilmemeli.</p>
+
+<p>Örneğin, Daire ve Kare çizen bir uygulama olsun. Çizdirme işini yaparken,
+<q>eğer tipi daire ise şöyle çiz, kare ise böyle çiz</q> şeklinde bir akış 
+kullanırsak, ileride <strong>üçgen</strong> çizdirmemiz gerektiğinde bu prensibi bozmak
+zorunda kalırız. Kodu değiştirip <q>eğer tipi üçgen ise</q> koşulunu eklememiz
+gerekir.</p>
+
+<p>Halbuki, <code>Şekil</code> adında bir sınıf olsa, <code>Daire</code> ve <code>Kare</code> bu sınıftan türese,
+her iki şeklinde kendi <code>çizim</code> metodu olsa. En sonda da <code>ŞekliÇiz</code> diye
+ayrı bir sınıf olsa, bu sınıfı oluştururken ilgili şekli parametre olarak
+geçsek ve çizme işlemi için ilgili şeklin <code>çizim</code> metodunu çağırsak?</p>
+
+<p>Aşağıdaki örnek bu prensibi ihlal eder. Yarın <code>json</code> çıktı almak yerine
+<code>pdf</code> ya da <code>xml</code> çıktı gerekse kodu değiştirmek gerekecek&hellip;</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="c1"># Ruby kodu</span>
+<span class="k">class</span> <span class="nc">Rapor</span>
+  <span class="k">def</span> <span class="nf">dokuman</span>
+    <span class="n">dokumani_uret</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">yazdir</span>
+    <span class="n">dokuman</span><span class="p">.</span><span class="nf">to_json</span> <span class="c1"># json çıktı alır</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>Yukarıdaki sınıf sadece <code>json</code> çıktı almak üzerine planlanmış. <code>pdf</code> çıktı
+almak gerektiği noktada bu kod’u değiştirmek gerekecek&hellip; Halbuki aşağıdaki 
+kod parçası bu durumu düşünüp kurala uymuş;</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="c1"># Ruby kodu</span>
+<span class="k">class</span> <span class="nc">Rapor</span>
+  <span class="k">def</span> <span class="nf">dokuman</span>
+    <span class="n">dokumani_uret</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">yazdir</span><span class="p">(</span><span class="ss">cikti_formati: </span><span class="no">JSONFormatter</span><span class="p">.</span><span class="nf">new</span><span class="p">)</span>
+    <span class="n">cikti_formati</span><span class="p">.</span><span class="nf">format</span> <span class="n">dokuman</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">aylik_rapor</span> <span class="o">=</span> <span class="no">Rapor</span><span class="p">.</span><span class="nf">new</span>
+<span class="n">aylik_rapor</span><span class="p">.</span><span class="nf">yazdir</span><span class="p">(</span><span class="ss">cikti_formati: </span><span class="no">XMLFormatter</span><span class="p">.</span><span class="nf">new</span><span class="p">)</span> <span class="c1"># xml olarak aldık...</span>
+</code></pre></div>
+<p><a href="https://drive.google.com/file/d/0BwhCYaYDn8EgN2M5MTkwM2EtNWFkZC00ZTI3LWFjZTUtNTFhZGZiYmUzODc1/view">Kaynak</a></p>
+
+<hr>
+
+<h2>[L]: Liskov substitution</h2>
+
+<p>Alt sınıf (<em>türeyen sınıf - sub class</em>), üst sınıfın (<em>base class</em>) yerini
+alabilecek şekilde olmalıdır. Şimdi iki tane sınıfımız olsun. <strong>Dörtgen</strong> ve <strong>Kare</strong>.
+Kare, Dörtgen’den türemiş olsun. Dörtgen sınıfının <code>genislik</code> ve <code>yukseklik</code>
+adında iki tane <strong>accessor</strong>’ü (<em>getter-setter</em>) var, Ruby’den örnekliyoruz:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="c1"># Ruby kodu</span>
+<span class="k">class</span> <span class="nc">Dortgen</span>
+  <span class="nb">attr_accessor</span> <span class="ss">:genislik</span><span class="p">,</span> <span class="ss">:yukseklik</span>
+<span class="k">end</span> 
+</code></pre></div>
+<p>ve <code>Dortgen</code>’den türemiş <code>Kare</code>:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="c1"># Ruby kodu</span>
+<span class="k">class</span> <span class="nc">Kare</span> <span class="o">&lt;</span> <span class="no">Dortgen</span>
+  <span class="k">def</span> <span class="nf">yukseklik</span><span class="o">=</span><span class="p">(</span><span class="n">yukseklik</span><span class="p">)</span>
+    <span class="vi">@degisken</span> <span class="o">=</span> <span class="n">yukseklik</span>
+  <span class="k">end</span>
+  <span class="k">def</span> <span class="nf">genislik</span><span class="o">=</span><span class="p">(</span><span class="n">genislik</span><span class="p">)</span>
+    <span class="vi">@degisken</span> <span class="o">=</span> <span class="n">genislik</span>
+  <span class="k">end</span>
+  <span class="k">def</span> <span class="nf">genislik</span>
+    <span class="vi">@degisken</span>
+  <span class="k">end</span>
+  <span class="k">def</span> <span class="nf">yukseklik</span>
+    <span class="vi">@degisken</span>
+  <span class="k">end</span>
+<span class="k">end</span> 
+</code></pre></div>
+<p>Ruby’de <code>=</code> ile biten metod <code>setter</code> anlamına geliyor. Yani <code>yukseklik=</code> <strong>setter</strong>,
+<code>yukseklik</code> ise <strong>getter</strong>.</p>
+
+<p>Şimdi her iki şeklinde alanını hesap edelim:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>alan = genislik * yukseklik
+</code></pre></div><div class="highlight"><pre class="highlight ruby"><code><span class="c1"># Ruby kodu</span>
+<span class="n">dortgen</span> <span class="o">=</span> <span class="no">Dortgen</span><span class="p">.</span><span class="nf">new</span>
+<span class="n">kare</span> <span class="o">=</span> <span class="no">Kare</span><span class="p">.</span><span class="nf">new</span>
+
+<span class="n">dortgen</span><span class="p">.</span><span class="nf">genislik</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">dortgen</span><span class="p">.</span><span class="nf">yukseklik</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">dortgen</span><span class="p">.</span><span class="nf">genislik</span> <span class="o">*</span> <span class="n">dortgen</span><span class="p">.</span><span class="nf">yukseklik</span> <span class="c1"># =&gt; 20</span>
+
+<span class="n">kare</span><span class="p">.</span><span class="nf">genislik</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">kare</span><span class="p">.</span><span class="nf">yukseklik</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">kare</span><span class="p">.</span><span class="nf">genislik</span> <span class="o">*</span> <span class="n">kare</span><span class="p">.</span><span class="nf">yukseklik</span>       <span class="c1"># =&gt; 25 ???</span>
+</code></pre></div>
+<p><code>Kare</code> sınıfı, Liskov değişimi kuralını ihlal edip, üst sınıftan gelen
+özellikleri modifiye etmiştir.</p>
+
+<p>Başka bir örnek;</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="c1"># Ruby kodu</span>
+<span class="k">class</span> <span class="nc">Hayvan</span>
+  <span class="k">def</span> <span class="nf">yuru</span>
+     <span class="n">yurume_islemi</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Kedi</span> <span class="o">&lt;</span> <span class="no">Hayvan</span>
+  <span class="k">def</span> <span class="nf">kos</span>
+    <span class="n">kosma_islemi</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>Verdiğim örnek Ruby’den ve Ruby’de <strong>interface</strong> mantığı yok. Yukarıdaki
+kod Liskov değişimi prensibini ihlal ediyor. Neden? <code>Kedi</code> sınıfı <code>Hayvan</code>dan
+türedi ve <code>Hayvan</code> sınıfının <code>kos</code> diye bir metodu yok&hellip; Bu durumda,
+<code>Hayvan</code> sınıfını bir <strong>interface</strong> gibi düşünmeli ve interface’de olan
+metodları <strong>implement</strong> etmeliyiz. Bu bakımdan <code>Hayvan</code> sınıfı aşağıdaki
+gibi olmalı:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="c1"># Ruby kodu</span>
+<span class="k">class</span> <span class="nc">Hayvan</span>
+  <span class="k">def</span> <span class="nf">yuru</span>
+    <span class="n">yurume_islemi</span>
+  <span class="k">end</span>
+  <span class="k">def</span> <span class="nf">kos</span>                          <span class="c1"># koşma özelliği olmasa bile</span>
+    <span class="k">raise</span> <span class="no">NotImplementedError</span>      <span class="c1"># prensibe göre çapraz</span>
+  <span class="k">end</span>                              <span class="c1"># eşitlik olmalı...</span>
+<span class="k">end</span>
+</code></pre></div>
+<p><a href="http://en.wikipedia.org/wiki/Liskov_substitution_principle">Kaynak</a>, <a href="https://drive.google.com/file/d/0BwhCYaYDn8EgNzAzZjA5ZmItNjU3NS00MzQ5LTkwYjMtMDJhNDU5ZTM0MTlh/view">Kaynak</a></p>
+
+<hr>
+
+<h2>[I] Interface segregation</h2>
+
+<p>Genel amaca hizmet eden tek bir arayüz yapmak yerine, istemciye uygun farklı 
+farklı arayüzler yapmak daha iyidir. Yani bir sınıf, bir interface’den
+türerken sadece kendi işine yarayacak metodları almalıdır.</p>
+
+<p>Bu sayede daha uyumlu kod yazma ve <strong>less coupling</strong> yani başka kütphane/kod’a 
+bağlı kalmama özelliğini arttırmış/sağlamış oluruz.</p>
+
+<p><a href="https://drive.google.com/file/d/0BwhCYaYDn8EgOTViYjJhYzMtMzYxMC00MzFjLWJjMzYtOGJiMDc5N2JkYmJi/view">Kaynak</a>, <a href="http://en.wikipedia.org/wiki/Interface_segregation_principle">Kaynak</a></p>
+
+<hr>
+
+<h2>[D] Dependency inversion</h2>
+
+<p>Bağımlılığın tersine dönmesi. Tek parça monolit/devasa bir sınıf olmak yerine
+kendi işlerini yapan küçük parçalardan oluşan sınıflar haline gelmek. Bağımlılıkları
+minimale indirmek, hatta başka bir değişle <strong>Dependency Injection</strong> yapmak.</p>
+
+<p>Özellikle <a href="http://en.wikipedia.org/wiki/Test-driven_development">TDD</a> yaparken sık kullandığımız <a href="http://en.wikipedia.org/wiki/Mock_object">Mock</a>, <a href="http://en.wikipedia.org/wiki/Method_stub">Stub</a>, 
+<a href="http://en.wikipedia.org/wiki/Test_double">Test Double</a> gibi kavramlar bu prensip üzerine kuruludur.</p>
+
+<p>Bir sınıf oluşturuken parametre olarak <code>Hash</code> / <code>Dictionary</code> yani <strong>key-value</strong>
+tutan nesne geçmek ya da ilgili başka bir sınıfı geçmek araya bağımlılık enjekte
+etmek anlamına gelir. Buradaki bağımlılık aslında bize esneklik sağlar.</p>
+
+<p>Fonksiyonu ya da metodu çağırken sabit parametre yerine kullanılan Hash, hem
+bize parametre sırası zorunluluğundan kurtatır hem de ilgili fonksiyon içinde
+bağımsız hareket edebilme özgürlüğünü sağlar.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="c1"># Ruby kodu</span>
+<span class="no">DEFAULTS</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">a: </span><span class="mi">1</span><span class="p">,</span>
+  <span class="ss">b: </span><span class="mi">2</span><span class="p">,</span>
+  <span class="ss">c: </span><span class="s2">"c"</span>
+<span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">test_func</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="p">{})</span>
+  <span class="n">args</span> <span class="o">=</span> <span class="no">DEFAULTS</span><span class="p">.</span><span class="nf">merge</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="n">test_func</span>
+<span class="c1"># =&gt; {:a=&gt;1, :b=&gt;2, :c=&gt;"c"}</span>
+
+<span class="n">test_func</span><span class="p">({</span><span class="ss">a: </span><span class="s2">"ali"</span><span class="p">,</span> <span class="ss">b: </span><span class="s2">"veli"</span><span class="p">,</span> <span class="ss">c: </span><span class="kp">nil</span><span class="p">})</span>
+<span class="c1"># =&gt; {:a=&gt;"ali", :b=&gt;"veli", :c=&gt;nil}</span>
+</code></pre></div>
+<p>Test yazarken, henüz nasıl çalışacağına karar vermediğimiz ama tahminen sonucunu
+ne olması gerektiğini bildiğimiz durumlara, bu metodu varmış gibi taklit etmek,
+gerçek kodda kullanmak da tam bir <strong>Dependency Injection</strong> örneğidir.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="c1"># Ruby, Rspec örnek...</span>
+<span class="n">f</span> <span class="o">=</span> <span class="s2">"./test_file.txt"</span>
+
+<span class="n">file_downloader</span> <span class="o">=</span> <span class="n">double</span><span class="p">(</span><span class="s2">"Fetcher"</span><span class="p">)</span>
+<span class="c1"># Henüz Fetcher sınıfını yazmadık ama </span>
+
+<span class="n">file_downloader</span><span class="p">.</span><span class="nf">stud</span><span class="p">(</span><span class="ss">:download</span><span class="p">).</span><span class="nf">and_return</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="c1"># download metodu olacağını ve bir text dosyası döneceğini biliyoruz!</span>
+</code></pre></div>
+<hr>
+
+<p>Tüm bu prensipler aslında daha kullanışlı, daha rahat yönetilebilen ve
+sürdürülebilir yazılım geliştirmemizi sağlamak amacıyla uzmanların
+ortaya koyduğu kurallardır.</p>
+
+<p>Başta da belirttiğim gibi, usta <a href="https://twitter.com/sandimetz">Sandi Metz</a> bu konuyla ilgili çok
+güzel bir sunum yapmıştı. Bu sunumu da <a href="https://speakerdeck.com/skmetz/solid-object-oriented-design">linkten</a> indirebilirsiniz.</p>
+</div>
+                        </article>
+                        
+                            <nav class="mt-6 pagination is-centered" role="navigation" aria-label="pagination">
+                                <a href="/blog/tr/2015/04/13/textmate-ve-interaktif-giris/" class="pagination-previous has-text-link">&laquo; TextMate ve İnteraktif Giriş</a>
+                                <a href="/blog/tr/2015/04/13/textmate-ve-interaktif-giris/" class="pagination-next has-text-link">İstediğiniz Yerden Go Kodunu Çalıştırabilirsiniz &raquo;</a>
+                            </nav>
+                    </div>
+                </div>
+                <div class="column is-3-desktop is-full-tablet">
+                    <div class="content">
+                            <div class="blog-post-list sidebar">
+        <h1>Benzer Makaleler</h1>
+        <p>Konu ile ilgili toplam “5” adet benzer makale bulunuyor.</p>
+        <ul>
+            <li>
+                <a href="/blog/tr/2013/02/20/bash-completion-anotomisi/">Bash Completion Anotomisi</a>
+                <time pubdate datetime="2013-02-20T23:37:00+02:00">
+                    20 Şubat 2013, Çarşamba
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2012/05/02/irb-icin-yardimci-gem-ori/">IRB için yardımcı gem: ORI</a>
+                <time pubdate datetime="2012-05-02T13:51:00+03:00">
+                    02 Mayıs 2012, Çarşamba
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2012/02/02/rake-icin-bash-completion/">Rake için bash-completion</a>
+                <time pubdate datetime="2012-02-02T15:30:00+02:00">
+                    02 Şubat 2012, Perşembe
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2011/03/30/textmate-ve-path-sorunsali/">TextMate ve Path sorunsalı</a>
+                <time pubdate datetime="2011-03-30T14:40:00+03:00">
+                    30 Mart 2011, Çarşamba
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2011/03/29/kendi-rubyini-gemini-kendin-kur/">Kendi Ruby’ini Gem’ini kendin kur</a>
+                <time pubdate datetime="2011-03-29T00:39:00+03:00">
+                    29 Mart 2011, Salı
+                </time>
+            </li>
+        </ul>
+    </div>
+    
+
+                        
+                        <div class="blog-post-list sidebar">
+    <h1>Yıllara Göre</h1>
+    <p>Blog arşivinde toplam “77” kayıt bulunuyor.</p>
+<p><a href="/blog/tr/yil/2022/" class="">2022 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2021/" class="">2021 yılına ait 4 makale</a></p><p><a href="/blog/tr/yil/2016/" class="">2016 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2015/" class="">2015 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2014/" class="">2014 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2013/" class="">2013 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2012/" class="">2012 yılına ait 8 makale</a></p><p><a href="/blog/tr/yil/2011/" class="">2011 yılına ait 16 makale</a></p><p><a href="/blog/tr/yil/2010/" class="">2010 yılına ait 6 makale</a></p><p><a href="/blog/tr/yil/2009/" class="">2009 yılına ait 22 makale</a></p><p><a href="/blog/tr/yil/2008/" class="">2008 yılına ait 11 makale</a></p><p><a href="/blog/tr/yil/2006/" class="">2006 yılına ait 1 makale</a></p></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <footer class="footer">
+    <div class="container">
+        <div class="content">
+            <a href="/feed-tr.xml" title="RSS aboneliği">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-square-rss fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/sponsors/vigo" title="GitHub sponsorluk">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-heart fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://patreon.com/vigoo" title="Patreon destek">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-patreon fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/vigo" title="GitHub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-github fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://hub.docker.com/u/vigo/" title="Dockerhub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-docker fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.linkedin.com/in/ugurozyilmazel" title="LinkedIn profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-linkedin fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://rubygems.org/profiles/vigo" title="Rubygems profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://pypi.org/user/vigo" title="Python Package Index profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://csdb.dk/scener/?id=8379" title="CSDB">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.pouet.net/user.php?who=4721" title="Pouet">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="http://janeway.exotica.org.uk/author.php?id=11962" title="Amiga Exotica">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://demozoo.org/sceners/6273" title="Demozoo">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.demoparty.net/users/vigo" title="Demoparty.net">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            
+            <script type="text/javascript">
+            document.write('<a href="mailto:');
+            document.write("hthebmlvyznmry\100tznvy\056pbz".replace(/[a-zA-Z]/g, function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
+            document.write('" title="E-Posta"');
+            document.write('<span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-at fa-stack-1x"></i></span>');
+            document.write('</a>');
+            </script>
+        </div>
+    </div>
+</footer>
+
+
+
+</body>
+</html>

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Blog Arşivi - Uğur “vigo” Özyılmazel</title>
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (Türkçe)" href="/feed-tr.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (English)" href="/feed-en.xml" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <script src="https://kit.fontawesome.com/ebc2456445.js" crossorigin="anonymous"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+        <link href="/public/css/syntax.css" rel="stylesheet" />
+        <link href="/public/css/application.css" rel="stylesheet" />
+        <link href="/public/css/easy-autocomplete.css" rel="stylesheet" />
+
+
+        <script src="/public/js/application.js"></script>
+        <script src="/public/js/jquery.easy-autocomplete.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                var search_options = {
+                    url: "/search-tr.json",
+                    placeholder: 'Aramak istediğiniz kelimeyi yazın...',
+                    getValue: "title",
+                    list: {
+                        maxNumberOfElements: 10,
+                        match: { enabled: true },
+                        onChooseEvent: function(){
+                            var selected = $("#search_keyword").getSelectedItemData().url;
+                            window.location.href = selected;
+                        },
+                    }
+                };
+
+                $("#search_keyword").easyAutocomplete(search_options);
+            });
+        </script>
+    <script src="/public/js/moment.min.js"></script>
+        <script src="/public/js/moment-tr.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $(".blog-post-list time").each(function(i, obj){
+                    var t = moment($(obj).attr("datetime"));
+                    obj.innerText = obj.innerText + ' - [' + t.fromNow() + ']';
+                });
+            });
+        </script>
+
+        <meta name="date" content="2022-08-20T12:58:48+03:00" />
+        <meta name="description" content="" />
+        <meta name="author" content="Uğur “vigo” Özyılmazel"/>
+        <meta name="copyright" content="(c) 2006 / 2022 - Uğur “vigo” Özyılmazel" />
+        <meta property="og:url" content="https://ugur.ozyilmazel.com/blog/tr/sayfa/2/" />
+        <meta property="og:title" content="Blog Arşivi" />
+        <meta property="og:site_name" content="vigo" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="" />
+        <meta property="og:image" content="https://ugur.ozyilmazel.com/public/images/og/ugur-vigo-ozyilmazel-500x500.jpg" />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:width" content="500" />
+        <meta property="og:image:height" content="500" />
+
+    <link href="/public/images/favicon.png" rel="shortcut icon" type="image/png" />
+    </head>
+<body>
+    
+    
+    <section class="section menu">
+    <div class="container">
+        <nav class="level is-mobile">
+            <div class="level-left">
+<div class="level-item"><a href="/">Anasayfa</a></div><div class="level-item"><a href="/blog/tr/" class="is-active">Blog Arşiv</a></div><div class="level-item"><a href="/sayfa/tr/sunumlar/">Sunumlar</a></div>            </div>
+            <div class="level-right">
+<div class="level-item"><a href="https://vbyazilim.com" target="_blank">VB</a></div><div class="level-item"><a href="/en/">English</a></div>            </div>
+        </nav>
+    </div>
+</section>
+
+    
+        <section class="hero is-medium cover is-hidden-touch" style="background-image: url(/public/images/covers/fist2-01.jpg);">
+        <div class="hero-body">
+            <div class="container has-text-left">
+                <p class="is-size-3 has-text-weight-bold has-text-white"><span class="bandage has-background-black">Blog Arşivi</span></p>
+                
+            </div>
+        </div>
+    </section>
+  
+    
+    <section class="section main">
+    <div class="container">
+        
+        <div class="columns is-multiline is-variable is-8">
+            <div class="column is-9-desktop is-full-tablet">
+                
+<div class="columns is-hidden-mobile">
+    <div class="column">
+        <form id="search_form" onsubmit="return false;">
+        <div class="field">
+            <input type="text" class="input is-medium" name="search_keyword" id="search_keyword">
+        </div>
+        </form>
+    </div>
+</div>
+
+                <div class="blog-post-list">
+    <ul>
+        <li>
+            <a href="/blog/tr/2012/02/02/ve-blogumu-octopress-tr-altyapisiyla-kendi-sunucuma-tasidim/?p=2" class="is-size-4-desktop">ve Blog’umu Octopress-TR altyapısıyla kendi sunucuma taşıdım</a>
+
+            <time pubdate datetime="2012-02-02T00:41:00+02:00">
+                02 Şubat 2012, Perşembe 00:41
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/octopress/" class="tag is-info">octopress</a>
+
+                <p class="summary"> Yeni yılın ilk post’undan merhabalar! <strong>27 Kasım 2010</strong>’dan beri kullandığım <a>Tumblr</a>
+sevisini an itibariyle bırakmış bulunuyorum. Neden? genel olarak yazılım geliştirme
+ve programlama üzerine blog yazıyorum. Çoğu zaman programlama örnekleri post
+etmem gerekiyor.
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2011/11/26/webkit2png-ile-ekran-goruntusu-almak/?p=2" class="is-size-4-desktop">webkit2png ile ekran görüntüsü almak</a>
+
+            <time pubdate datetime="2011-11-26T23:56:00+02:00">
+                26 Kasım 2011, Cumartesi 23:56
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/python/" class="tag is-info">python</a>
+                        <a href="/blog/tr/etiket/webkit/" class="tag is-info">webkit</a>
+
+                <p class="summary"> Uzunca bir zamandır yazmak istediğim fakat&nbsp;fırsat bulamadığım bir konu:
+Python’la yazılmış <strong>CommandLine Tool</strong>’u yani Terminal’den çalışan bir script.
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2011/10/07/gule-gule-steve-jobs/?p=2" class="is-size-4-desktop">Güle güle Steve Jobs</a>
+
+            <time pubdate datetime="2011-10-07T15:45:00+03:00">
+                07 Ekim 2011, Cuma 15:45
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/steve-jobs/" class="tag is-info">steve jobs</a>
+                        <a href="/blog/tr/etiket/rip/" class="tag is-info">rip</a>
+
+                <p class="summary"> Efsane aramızdan ayrıldı… </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2011/07/21/mac-os-x-cfusertextencoding-ve-utf-8-sorunsali/?p=2" class="is-size-4-desktop">Mac OS X: CFUserTextEncoding ve UTF-8 sorunsalı</a>
+
+            <time pubdate datetime="2011-07-21T23:22:00+03:00">
+                21 Temmuz 2011, Perşembe 23:22
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/mac-os-x/" class="tag is-info">mac os x</a>
+                        <a href="/blog/tr/etiket/encoding/" class="tag is-info">encoding</a>
+
+                <p class="summary"> Mac OS X’le tanıştığım günden beri sinir olduğum ve kimsenin çözümünü
+bilemediği bir sorunum var. Aslında bu sorun, Amerikalı olmayan herkesin
+sorunu. Bu sorun yüzünden ne <a>Python</a>’la ne de <a>Ruby</a>’le bile 
+işlem yapmakta sıkıntı oluyor. </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2011/06/26/rails-istanbul-bulusmasi-2/?p=2" class="is-size-4-desktop">Rails İstanbul Buluşması #2</a>
+
+            <time pubdate datetime="2011-06-26T14:19:00+03:00">
+                26 Haziran 2011, Pazar 14:19
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/rails/" class="tag is-info">rails</a>
+                        <a href="/blog/tr/etiket/rails-istanbul/" class="tag is-info">rails istanbul</a>
+
+                <p class="summary"> Rails geliştiricileri biraraya geldi!
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2011/05/13/rails-istanbul-bulusmasi/?p=2" class="is-size-4-desktop">Rails İstanbul Buluşması</a>
+
+            <time pubdate datetime="2011-05-13T16:35:00+03:00">
+                13 Mayıs 2011, Cuma 16:35
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/rails/" class="tag is-info">rails</a>
+                        <a href="/blog/tr/etiket/rails-istanbul/" class="tag is-info">rails istanbul</a>
+
+                <p class="summary"> Geçen çarşamba akşamı (11 Mayıs 2011) çok harika bir etkinliğe katıldım.
+Adı <strong>Rails İstanbul Buluşması</strong>;
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2011/05/08/etli-dolma-yaptim/?p=2" class="is-size-4-desktop">Etli dolma yaptım! (yaptık)</a>
+
+            <time pubdate datetime="2011-05-08T00:00:00+03:00">
+                08 Mayıs 2011, Pazar 00:00
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/dolma/" class="tag is-info">dolma</a>
+                        <a href="/blog/tr/etiket/yemek-tarifi/" class="tag is-info">yemek tarifi</a>
+
+                <p class="summary"> Bana sorsalar; hiç bıkmadan her öğün gece-gündüz hangi yemeği yiyebilirsin?
+hiç tereddüt etmeden şu cevabı veririm: <strong>DOLMA!</strong>
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2011/03/30/pythonpathe-ilave/?p=2" class="is-size-4-desktop">PYTHONPATH’e ilave</a>
+
+            <time pubdate datetime="2011-03-30T15:40:00+03:00">
+                30 Mart 2011, Çarşamba 15:40
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/python/" class="tag is-info">python</a>
+                        <a href="/blog/tr/etiket/applescript/" class="tag is-info">applescript</a>
+                        <a href="/blog/tr/etiket/pypi/" class="tag is-info">pypi</a>
+
+                <p class="summary"> <a>AppleScript</a> ile pek çok uygulama (tabi desteği varsa) kontrol edilebiliyor.
+Yine daldan dala atlarken python için yazılmış <a>appscript</a>
+diye bir modül gördüm. Hemen <code>pip</code>’den kurayım dedim.
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2011/03/30/textmate-ve-path-sorunsali/?p=2" class="is-size-4-desktop">TextMate ve Path sorunsalı</a>
+
+            <time pubdate datetime="2011-03-30T14:40:00+03:00">
+                30 Mart 2011, Çarşamba 14:40
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/textmate/" class="tag is-info">textmate</a>
+                        <a href="/blog/tr/etiket/ruby/" class="tag is-info">ruby</a>
+
+                <p class="summary"> TextMate’in sevdiğim özelliklerinden biri <strong>in-line</strong> olarak programlama
+yapabilmek. Örneğin <strong>html</strong> ile uğraşıyorsunuz, hemen bir <code>div</code> ve o div’in
+içinde 15 tane <code>p</code> ve p’lerin içinde de <code>span</code>’e ihtiyacınız var (iyi uydurdum dimi?)
+basit bir hareketle bunu programatik olarak yapabilirsiniz.
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2011/03/29/kendi-rubyini-gemini-kendin-kur/?p=2" class="is-size-4-desktop">Kendi Ruby’ini Gem’ini kendin kur</a>
+
+            <time pubdate datetime="2011-03-29T00:39:00+03:00">
+                29 Mart 2011, Salı 00:39
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/ruby/" class="tag is-info">ruby</a>
+                        <a href="/blog/tr/etiket/irb/" class="tag is-info">irb</a>
+                        <a href="/blog/tr/etiket/wirble/" class="tag is-info">wirble</a>
+
+                <p class="summary"> Sıcağı sıcağına hemen yazmak istiyorum. Kendin kur kampanyamızın devamı yeni
+bir maceraya daha hoş geldiniz. Amacımız Mac OS X’e Ruby kurmak. Öncelikle
+macports’un kurulu olması gerekiyor!
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2011/03/23/bu-defa-son/?p=2" class="is-size-4-desktop">Bu defa son</a>
+
+            <time pubdate datetime="2011-03-23T15:30:00+02:00">
+                23 Mart 2011, Çarşamba 15:30
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/python/" class="tag is-info">python</a>
+                        <a href="/blog/tr/etiket/pip/" class="tag is-info">pip</a>
+
+                <p class="summary"> Biliyorum daha dün (ya da önceki gün) bu konu ile ilgili bir güncelleme
+yapmıştım fakat asıl yapmam gerekeni daha yeni hatırladım. Hatta kendi
+tarafımda pek çok şeyi de düzeltmek zorunda kaldım.
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2011/03/22/kendi-pythonunu-kendin-kur-yazimda-eksik-yerler-buldum/?p=2" class="is-size-4-desktop">Kendi Python’unu kendin kur yazımda eksik yerler buldum</a>
+
+            <time pubdate datetime="2011-03-22T15:45:00+02:00">
+                22 Mart 2011, Salı 15:45
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/python/" class="tag is-info">python</a>
+                        <a href="/blog/tr/etiket/pip/" class="tag is-info">pip</a>
+                        <a href="/blog/tr/etiket/macports/" class="tag is-info">macports</a>
+
+                <p class="summary"> Geçtiğimiz günlerde yazdığım <a>yazımda</a> çok önemli bir eksiklik
+yaptığımı bugün farkettim. Neden bugün? Bugün yeni makine kuruyordum ve sıra
+<a>Python</a>’u kurmaya gelmişti. Hemen blog’umu açıp kendi yazdığım yazımı 
+okumaya başladım.
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2011/03/15/nano-ve-syntax-highlighting/?p=2" class="is-size-4-desktop">Nano ve Syntax Highlighting</a>
+
+            <time pubdate datetime="2011-03-15T15:44:00+02:00">
+                15 Mart 2011, Salı 15:44
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/nano/" class="tag is-info">nano</a>
+                        <a href="/blog/tr/etiket/syntax/" class="tag is-info">syntax</a>
+
+                <p class="summary"> Geçenlerde <a>Computer Networking</a> adı <a>iTunes-U</a> videosunu izlerken harika birşey
+gördüm. Mac üzerinde, Virtual olarak <a>Ubuntu</a>’dan adam terminal’i açmış
+birşeyler anlatıyor. Dikkat ettim, açık olan text editörü  <a>Nano</a>. 
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2011/02/22/pip-icin-bash-completion/?p=2" class="is-size-4-desktop">Pip için bash completion</a>
+
+            <time pubdate datetime="2011-02-22T11:05:00+02:00">
+                22 Şubat 2011, Salı 11:05
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/pip/" class="tag is-info">pip</a>
+                        <a href="/blog/tr/etiket/bash-completion/" class="tag is-info">bash completion</a>
+
+                <p class="summary"> Bir <a>önceki yazımda</a> unutmuşum, yeni farkettim. <code>pip</code>’i
+terminalde kullanırken <code>bash-completion</code> özelliğinden de faydalanabiliriz. Bunun
+için, pip’le gelen bash-completion’ı sisteme eklemek gerekiyor. Tabi, sizde
+zaten <code>bash-completion</code> kurulu diye var sayıyorum.
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2011/02/10/kendi-pythonunu-djangonu-paketlerini-kendin-kur/?p=2" class="is-size-4-desktop">Kendi Python’unu Django’nu paketlerini kendin kur</a>
+
+            <time pubdate datetime="2011-02-10T12:58:00+02:00">
+                10 Şubat 2011, Perşembe 12:58
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/python/" class="tag is-info">python</a>
+                        <a href="/blog/tr/etiket/django/" class="tag is-info">django</a>
+                        <a href="/blog/tr/etiket/pip/" class="tag is-info">pip</a>
+                        <a href="/blog/tr/etiket/macports/" class="tag is-info">macports</a>
+
+                <p class="summary"> <strong>Düzeltme: 23 Mart 2011, 15:33</strong> 
+Lütfen önce <a>bu yazıyı</a> okuyun!
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2011/01/20/27inch-imac/?p=2" class="is-size-4-desktop">27inch iMac</a>
+
+            <time pubdate datetime="2011-01-20T20:43:00+02:00">
+                20 Ocak 2011, Perşembe 20:43
+            </time>
+
+            <div class="is-size-4-desktop">
+
+                <p class="summary">       27" iMac hoş geldi! 
+    </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2011/01/07/tam-ekran-app-store-full-screen/?p=2" class="is-size-4-desktop">Tam ekran App Store (Full Screen)</a>
+
+            <time pubdate datetime="2011-01-07T10:23:00+02:00">
+                07 Ocak 2011, Cuma 10:23
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/applescript/" class="tag is-info">applescript</a>
+
+                <p class="summary"> Dün Mac OS X update’i ile gelen, tahminimce hayatımıza renk ve heyecan katacak
+olan App Store uygulamasını <strong>Full Screen</strong> yapmayı sağlayan minik bir
+applescript.
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2010/11/29/textmate-icin-yaptigim-kucuk-bir-applescript/?p=2" class="is-size-4-desktop">TextMate için yaptığım küçük bir AppleScript</a>
+
+            <time pubdate datetime="2010-11-29T21:20:00+02:00">
+                29 Kasım 2010, Pazartesi 21:20
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/textmate/" class="tag is-info">textmate</a>
+                        <a href="/blog/tr/etiket/applescript/" class="tag is-info">applescript</a>
+
+                <p class="summary"> <a>TextMate</a> için yaptığım küçük bir <a>AppleScript</a>. 
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2010/11/29/javascript-icin-i18n-plus-template-engine-ve-belki-formatstring/?p=2" class="is-size-4-desktop">JavaScript için i18n+template engine ve belki formatString</a>
+
+            <time pubdate datetime="2010-11-29T00:55:00+02:00">
+                29 Kasım 2010, Pazartesi 00:55
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/js/" class="tag is-info">js</a>
+                        <a href="/blog/tr/etiket/i18n/" class="tag is-info">i18n</a>
+                        <a href="/blog/tr/etiket/template-engine/" class="tag is-info">template engine</a>
+
+                <p class="summary"> Şimdilik hızla linki veriyorum. Tam olarak ne işe yaradığını anlatan bir
+screencast hazırlamayı düşünüyorum. Kullanımı çok basit. <a>Python</a>’la
+uğraşanların çok hoşuna gidecek. JavaScript’de Python’daki string format
+olayını yaşamak!
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2010/11/27/merhaba-dunya/?p=2" class="is-size-4-desktop">Merhaba dünya!</a>
+
+            <time pubdate datetime="2010-11-27T22:24:00+02:00">
+                27 Kasım 2010, Cumartesi 22:24
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/merhaba/" class="tag is-info">merhaba</a>
+
+                <p class="summary"> Sonunda karar verdim. Terzinin kendi söküğünü dikemediğini zaten biliyordum.
+Terzi olduğumu kabul ettim ve kişisel web sitemi tumblr’a taşımaya karar
+verdim. </p>
+            </div>
+        </li>
+    </ul>
+</div>
+
+                
+                <nav class="pagination" role="navigation" aria-label="pagination">
+        <a class="pagination-previous" title="Önceki sayfaya git" href="/blog/tr/">
+            <span class="icon"><i class="fas fa-arrow-left"></i></span>Önceki
+        </a>
+
+        <a class="pagination-next" title="Sonraki sayfaya git" href="/blog/tr/sayfa/3/">
+            Sonraki<span class="icon"><i class="fas fa-arrow-right"></i></span>
+        </a>
+
+    <ul class="pagination-list">
+        <li>
+            <a title="1. sayfaya git" class="pagination-link" aria-label="1. sayfaya git" href="/blog/tr/">
+                1
+            </a>
+        </li>
+        <li>
+            <a title="2. sayfaya git" class="pagination-link is-current" aria-label="2. sayfaya git" href="/blog/tr/sayfa/2/" aria-current="page">
+                2
+            </a>
+        </li>
+        <li>
+            <a title="3. sayfaya git" class="pagination-link" aria-label="3. sayfaya git" href="/blog/tr/sayfa/3/">
+                3
+            </a>
+        </li>
+        <li>
+            <a title="4. sayfaya git" class="pagination-link" aria-label="4. sayfaya git" href="/blog/tr/sayfa/4/">
+                4
+            </a>
+        </li>
+    </ul>
+</nav>
+
+            </div>
+            <div class="column is-3-desktop is-full-tablet">
+                <div class="content">
+                    
+                    <div class="blog-post-list sidebar">
+    <h1>Yıllara Göre</h1>
+    <p>Blog arşivinde toplam “77” kayıt bulunuyor.</p>
+<p><a href="/blog/tr/yil/2022/" class="">2022 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2021/" class="">2021 yılına ait 4 makale</a></p><p><a href="/blog/tr/yil/2016/" class="">2016 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2015/" class="">2015 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2014/" class="">2014 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2013/" class="">2013 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2012/" class="">2012 yılına ait 8 makale</a></p><p><a href="/blog/tr/yil/2011/" class="">2011 yılına ait 16 makale</a></p><p><a href="/blog/tr/yil/2010/" class="">2010 yılına ait 6 makale</a></p><p><a href="/blog/tr/yil/2009/" class="">2009 yılına ait 22 makale</a></p><p><a href="/blog/tr/yil/2008/" class="">2008 yılına ait 11 makale</a></p><p><a href="/blog/tr/yil/2006/" class="">2006 yılına ait 1 makale</a></p></div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+
+    <footer class="footer">
+    <div class="container">
+        <div class="content">
+            <a href="/feed-tr.xml" title="RSS aboneliği">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-square-rss fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/sponsors/vigo" title="GitHub sponsorluk">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-heart fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://patreon.com/vigoo" title="Patreon destek">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-patreon fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/vigo" title="GitHub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-github fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://hub.docker.com/u/vigo/" title="Dockerhub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-docker fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.linkedin.com/in/ugurozyilmazel" title="LinkedIn profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-linkedin fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://rubygems.org/profiles/vigo" title="Rubygems profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://pypi.org/user/vigo" title="Python Package Index profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://csdb.dk/scener/?id=8379" title="CSDB">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.pouet.net/user.php?who=4721" title="Pouet">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="http://janeway.exotica.org.uk/author.php?id=11962" title="Amiga Exotica">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://demozoo.org/sceners/6273" title="Demozoo">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.demoparty.net/users/vigo" title="Demoparty.net">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            
+            <script type="text/javascript">
+            document.write('<a href="mailto:');
+            document.write("hthebmlvyznmry\100tznvy\056pbz".replace(/[a-zA-Z]/g, function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
+            document.write('" title="E-Posta"');
+            document.write('<span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-at fa-stack-1x"></i></span>');
+            document.write('</a>');
+            </script>
+        </div>
+    </div>
+</footer>
+
+
+
+</body>
+</html>

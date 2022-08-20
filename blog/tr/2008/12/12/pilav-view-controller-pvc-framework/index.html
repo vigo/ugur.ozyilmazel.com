@@ -1,0 +1,516 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Pilav View Controller (PVC) Framework! - Uğur “vigo” Özyılmazel</title>
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (Türkçe)" href="/feed-tr.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (English)" href="/feed-en.xml" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <script src="https://kit.fontawesome.com/ebc2456445.js" crossorigin="anonymous"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+        <link href="/public/css/syntax.css" rel="stylesheet" />
+        <link href="/public/css/application.css" rel="stylesheet" />
+    
+
+        <script src="/public/js/application.js"></script>
+    
+        <meta name="date" content="2022-08-20T12:58:55+03:00" />
+        <meta name="description" content="Evet, tatil uzun olunca insan can sıkıntısından değişik şeylere yönelebiliyor. Bugün bana tatil fakat eşim bankacı olduğu için O’na tatil değildi. Sabahtan akşama kadar bilgisayarın başındaydım." />
+        <meta name="author" content="Uğur “vigo” Özyılmazel"/>
+        <meta name="copyright" content="(c) 2006 / 2022 - Uğur “vigo” Özyılmazel" />
+        <meta property="og:url" content="https://ugur.ozyilmazel.com/blog/tr/2008/12/12/pilav-view-controller-pvc-framework/" />
+        <meta property="og:title" content="Pilav View Controller (PVC) Framework!" />
+        <meta property="og:site_name" content="vigo" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="Evet, tatil uzun olunca insan can sıkıntısından değişik şeylere yönelebiliyor. Bugün bana tatil fakat eşim bankacı olduğu için O’na tatil değildi. Sabahtan akşama kadar bilgisayarın başındaydım." />
+        <meta property="og:image" content="https://ugur.ozyilmazel.com/public/images/covers/2008-12-12-pilav.jpg" />
+        <meta property="og:image:type" content="image/jpg" />
+        <meta property="og:image:width" content="3360" />
+        <meta property="og:image:height" content="706" />
+
+    <link href="/public/images/favicon.png" rel="shortcut icon" type="image/png" />
+    </head>
+<body>
+    
+    
+    <section class="section menu">
+    <div class="container">
+        <nav class="level is-mobile">
+            <div class="level-left">
+<div class="level-item"><a href="/">Anasayfa</a></div><div class="level-item"><a href="/blog/tr/" class="is-active">Blog Arşiv</a></div><div class="level-item"><a href="/sayfa/tr/sunumlar/">Sunumlar</a></div>            </div>
+            <div class="level-right">
+<div class="level-item"><a href="https://vbyazilim.com" target="_blank">VB</a></div><div class="level-item"><a href="/en/">English</a></div>            </div>
+        </nav>
+    </div>
+</section>
+
+    
+        <section class="hero is-medium cover is-hidden-touch" style="background-image: url(/public/images/covers/2008-12-12-pilav.jpg);">
+        <div class="hero-body">
+            <div class="container has-text-left">
+                
+                
+            </div>
+        </div>
+    </section>
+  
+    
+        <section class="section main">
+        <div class="container">
+        
+            <div class="columns is-multiline is-variable is-8">
+                <div class="column is-9-desktop is-full-tablet">
+                    <div class="content is-large">
+                        <article>
+                            <div class="meta">
+                                <span class="reading-time">OKUMA SÜRESİ 02:58</span>
+                                &mdash;
+                                <time pubdate datetime="2008-12-12T18:59:00+02:00" title="12 Aralık 2008, Cuma 18:59">12 Aralık 2008, Cuma 18:59</time>
+                                
+                                <div class="tags mt-3">
+                                        <a href="/blog/tr/etiket/pilav/" class="tag is-info">pilav</a>
+                                        <a href="/blog/tr/etiket/yemek-tarifi/" class="tag is-info">yemek tarifi</a>
+                                        <a href="/blog/tr/etiket/php/" class="tag is-info">php</a>
+                                </div>
+                                
+                            </div>
+                            
+                            <h1 class="title">Pilav View Controller (PVC) Framework!</h1>
+                            
+                            <div class="yield"><p>Evet, tatil uzun olunca insan can sıkıntısından değişik şeylere yönelebiliyor.
+Bugün bana tatil fakat eşim bankacı olduğu için O’na tatil değildi. Sabahtan
+akşama kadar bilgisayarın başındaydım. </p>
+
+<p>CSS3’ün, dokümante edilmemiş komutlarının ne işe yaradığını bulmakla kastım 
+bütün gün. Neden? iPhone için hazırladığım webApp framework’ünü test
+ediyordum.</p>
+
+<p><code>-webkit</code> diye başlayan direktifler, sadece iPhone’nun anlayacağı
+event’ler vesaire&hellip;</p>
+
+<p>Bir ara bayılma raddesine geldim&hellip; Her akşam Show TV’de <strong>Yemekteyiz</strong>
+programını izliyoruz. Aslında bu programla ilgili süper uzun bir yazı yazmak
+istiyorum. Türk insanı, para için, bu kadar mı basitleşebilir?
+Bu kadar mı örf-adet-etik ne varsa yakıp yıkar?</p>
+
+<p>Neyse, bu programdan aldığım gazla, hemen <strong>Domatesli Pilav</strong> pişirmeyi
+denedim.</p>
+
+<p>Bekarlığımda çok yaptığım bir yemekti pilav. Süper alışmış, göz kararı
+ayarlarla kendi meşrebinde süper pilav yapan biriydim. Son <strong>5 yıldır</strong> hiç
+pilav yapmamıştım. Bu işleri sağolsun sevgili eşim halleder, bende yer
+bitiririm (:</p>
+
+<p>Dedim bari <strong>open source</strong>, uzun vadeli, social bir pilav framework’ü yapiim.
+Herkese faydası olsun. <strong>GPL lisansı</strong> aliim. <a href="http://code.google.com">code.google.com</a>’da host
+ediim&hellip; Hemen gerekli tool’lar ve I.D.E’leri yazalım:</p>
+
+<ol>
+<li>Pirinç</li>
+<li>Azıcık tel şehriye</li>
+<li>Eskimiş, 2.El domates (<em>çıkma</em>)</li>
+<li>Az biraz zeytin yağı</li>
+<li>Çooook az ama çok az Knor Tavuk Tozu (<em>fake bulyon</em>)</li>
+<li>Plastik bi kab (<em>prinçleri yıkamak için</em>)</li>
+<li>Ölçü için su bardağı</li>
+<li>Teflon tenceremsi bişi (<em>kapaklı</em>)</li>
+<li>Ketıl</li>
+<li>Rende</li>
+<li>Tahta kaşık</li>
+</ol>
+
+<div class="photo-gallery full zoomable">
+<div class="columns is-multiline is-variable">
+<div class="column is-6-desktop is-6-tablet is-4-widescreen">
+<figure class="image is-fullwidth">
+<img title="Önce elinizdeki bardak ne boyutta ise, 2 bardak prinç alın..." src="/public/images/posts/2008-12-12-pilav/2008-12-12-pilav-01.jpg" alt="Önce elinizdeki bardak ne boyutta ise, 2 bardak prinç alın..."/>
+<p class="is-size-6-widescreen"> Önce elinizdeki bardak ne boyutta ise, 2 bardak prinç alın&hellip; 
+</p>
+</figure>
+</div>
+
+<div class="column is-6-desktop is-6-tablet is-4-widescreen">
+<figure class="image is-fullwidth">
+<img title="Bu kaba koyun!" src="/public/images/posts/2008-12-12-pilav/2008-12-12-pilav-02.jpg" alt="Bu kaba koyun!"/>
+<p class="is-size-6-widescreen"> Bu kaba koyun! 
+</p>
+</figure>
+</div>
+
+<div class="column is-6-desktop is-6-tablet is-4-widescreen">
+<figure class="image is-fullwidth">
+<img title="Prinç kabı" src="/public/images/posts/2008-12-12-pilav/2008-12-12-pilav-03.jpg" alt="Prinç kabı"/>
+<p class="is-size-6-widescreen"> Prinç kabı 
+</p>
+</figure>
+</div>
+
+<div class="column is-6-desktop is-6-tablet is-4-widescreen">
+<figure class="image is-fullwidth">
+<img title="Bu ilk bardağın koyulmuş haali..." src="/public/images/posts/2008-12-12-pilav/2008-12-12-pilav-04.jpg" alt="Bu ilk bardağın koyulmuş haali..."/>
+<p class="is-size-6-widescreen"> Bu ilk bardağın koyulmuş haali&hellip; 
+</p>
+</figure>
+</div>
+
+<div class="column is-6-desktop is-6-tablet is-4-widescreen">
+<figure class="image is-fullwidth">
+<img title="Full (2 bardak overloaded)" src="/public/images/posts/2008-12-12-pilav/2008-12-12-pilav-05.jpg" alt="Full (2 bardak overloaded)"/>
+<p class="is-size-6-widescreen"> Full (2 bardak overloaded) 
+</p>
+</figure>
+</div>
+
+<div class="column is-6-desktop is-6-tablet is-4-widescreen">
+<figure class="image is-fullwidth">
+<img title="Şehriyeleri ekle.." src="/public/images/posts/2008-12-12-pilav/2008-12-12-pilav-06.jpg" alt="Şehriyeleri ekle.."/>
+<p class="is-size-6-widescreen"> Şehriyeleri ekle.. 
+</p>
+</figure>
+</div>
+
+<p></div>
+</div></p>
+
+<p>İçine kafanıza göre normal içme suyu koyun, o azıcık tel şehriyenizi de atın&hellip;
+3-5 dakka bekleyin. Bu yıkama işlemi&hellip;</p>
+<div class="highlight"><pre class="highlight php"><code><span class="nv">$myPilav</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Pilav</span><span class="p">();</span>
+<span class="nv">$myPilav</span><span class="o">-&gt;</span><span class="nf">Init</span><span class="p">();</span>
+</code></pre></div>
+<div class="photo-gallery full zoomable">
+<div class="columns is-multiline is-variable">
+<div class="column is-6-desktop is-6-tablet is-4-widescreen">
+<figure class="image is-fullwidth">
+<img title="Bu o teflon tenceremsi..." src="/public/images/posts/2008-12-12-pilav/2008-12-12-pilav-07.jpg" alt="Bu o teflon tenceremsi..."/>
+<p class="is-size-6-widescreen"> Bu o teflon tenceremsi&hellip; 
+</p>
+</figure>
+</div>
+
+<div class="column is-6-desktop is-6-tablet is-4-widescreen">
+<figure class="image is-fullwidth">
+<img title="Demin yıkadığınız pirinçleri süzün, sonra tenceremsinin içine atın." src="/public/images/posts/2008-12-12-pilav/2008-12-12-pilav-08.jpg" alt="Demin yıkadığınız pirinçleri süzün, sonra tenceremsinin içine atın."/>
+<p class="is-size-6-widescreen"> Demin yıkadığınız pirinçleri süzün, sonra tenceremsinin içine atın. 
+</p>
+</figure>
+</div>
+
+<p></div>
+</div></p>
+<div class="highlight"><pre class="highlight php"><code><span class="nv">$myPilav</span><span class="o">-&gt;</span><span class="nf">AddItem</span><span class="p">(</span> <span class="s2">"pirinç"</span> <span class="p">);</span>
+<span class="nv">$myPilav</span><span class="o">-&gt;</span><span class="nf">AddItem</span><span class="p">(</span> <span class="s2">"şehriye"</span> <span class="p">);</span>
+</code></pre></div>
+<div class="photo-gallery full zoomable">
+<div class="columns is-multiline is-variable">
+<div class="column is-6-desktop is-6-tablet is-4-widescreen">
+<figure class="image is-fullwidth">
+<img title="Çok az zeytinyağı dökün..." src="/public/images/posts/2008-12-12-pilav/2008-12-12-pilav-09.jpg" alt="Çok az zeytinyağı dökün..."/>
+<p class="is-size-6-widescreen"> Çok az zeytinyağı dökün&hellip; 
+</p>
+</figure>
+</div>
+
+<div class="column is-6-desktop is-6-tablet is-4-widescreen">
+<figure class="image is-fullwidth">
+<img title="Komili..." src="/public/images/posts/2008-12-12-pilav/2008-12-12-pilav-10.jpg" alt="Komili..."/>
+<p class="is-size-6-widescreen"> Komili&hellip; 
+</p>
+</figure>
+</div>
+
+<p></div>
+</div></p>
+<div class="highlight"><pre class="highlight php"><code><span class="nv">$myPilav</span><span class="o">-&gt;</span><span class="nf">AddItem</span><span class="p">(</span> <span class="k">array</span><span class="p">(</span> <span class="n">name</span> <span class="o">=&gt;</span> <span class="s2">"yağ"</span> <span class="p">,</span> <span class="n">type</span> <span class="o">=&gt;</span> <span class="s2">"sıvı"</span> <span class="p">)</span> <span class="p">);</span>
+</code></pre></div>
+<p>Aşağıdaki gibi, işi bitmiş, salçaya bağlamış domatesleri, rende ile render edin.  </p>
+<div class="highlight"><pre class="highlight php"><code><span class="nv">$x</span> <span class="o">=</span> <span class="nv">$myPilav</span><span class="o">-&gt;</span><span class="nf">Slice</span><span class="p">(</span> <span class="s2">"domates"</span> <span class="p">,</span> <span class="s2">"hard"</span> <span class="p">);</span>
+<span class="nv">$myPilav</span><span class="o">-&gt;</span><span class="nf">AddItem</span><span class="p">(</span> <span class="o">&amp;</span><span class="nv">$x</span> <span class="p">);</span>
+</code></pre></div>
+<div class="photo-gallery full zoomable">
+<div class="columns is-multiline is-variable">
+<div class="column is-6-desktop is-6-tablet is-4-widescreen">
+<figure class="image is-fullwidth">
+<img title="Biraz okeye dönmüş domates bul" src="/public/images/posts/2008-12-12-pilav/2008-12-12-pilav-11.jpg" alt="Biraz okeye dönmüş domates bul"/>
+<p class="is-size-6-widescreen"> Biraz okeye dönmüş domates bul 
+</p>
+</figure>
+</div>
+
+<div class="column is-6-desktop is-6-tablet is-4-widescreen">
+<figure class="image is-fullwidth">
+<img title="Domatesleri rendele..." src="/public/images/posts/2008-12-12-pilav/2008-12-12-pilav-12.jpg" alt="Domatesleri rendele..."/>
+<p class="is-size-6-widescreen"> Domatesleri rendele&hellip; 
+</p>
+</figure>
+</div>
+
+<div class="column is-6-desktop is-6-tablet is-4-widescreen">
+<figure class="image is-fullwidth">
+<img title="Aynen böyle kendi imalatınız domates sosu kıvamına getirin..." src="/public/images/posts/2008-12-12-pilav/2008-12-12-pilav-13.jpg" alt="Aynen böyle kendi imalatınız domates sosu kıvamına getirin..."/>
+<p class="is-size-6-widescreen"> Aynen böyle kendi imalatınız domates sosu kıvamına getirin&hellip; 
+</p>
+</figure>
+</div>
+
+<div class="column is-6-desktop is-6-tablet is-4-widescreen">
+<figure class="image is-fullwidth">
+<img title="2.5 bardak sıcak! su ekle" src="/public/images/posts/2008-12-12-pilav/2008-12-12-pilav-14.jpg" alt="2.5 bardak sıcak! su ekle"/>
+<p class="is-size-6-widescreen"> 2.5 bardak sıcak! su ekle 
+</p>
+</figure>
+</div>
+
+<p></div>
+</div></p>
+
+<p>Ketılda su ısıtın, benim ratio = 1/1.5 yani, 2 bardak prirince 2.5 bardak
+(<em>aynı bardakla</em>) sıcak su!</p>
+<div class="highlight"><pre class="highlight php"><code><span class="nv">$myPilav</span><span class="o">-&gt;</span><span class="nf">AddItem</span><span class="p">(</span> <span class="k">array</span><span class="p">(</span> <span class="n">name</span> <span class="o">=&gt;</span> <span class="s2">"su"</span> <span class="p">,</span> <span class="n">heat</span> <span class="o">=&gt;</span> <span class="s2">"sıcak"</span> <span class="p">)</span> <span class="p">);</span>
+</code></pre></div>
+<div class="photo-gallery full zoomable">
+<div class="columns is-multiline is-variable">
+<div class="column is-6-desktop is-6-tablet is-4-widescreen">
+<figure class="image is-fullwidth">
+<img title="İşte bu sıcak suyu yemiş hali..." src="/public/images/posts/2008-12-12-pilav/2008-12-12-pilav-15.jpg" alt="İşte bu sıcak suyu yemiş hali..."/>
+<p class="is-size-6-widescreen"> İşte bu sıcak suyu yemiş hali&hellip; 
+</p>
+</figure>
+</div>
+
+<div class="column is-6-desktop is-6-tablet is-4-widescreen">
+<figure class="image is-fullwidth">
+<img title="Sonra domates suyunuzu da koyun içine!" src="/public/images/posts/2008-12-12-pilav/2008-12-12-pilav-16.jpg" alt="Sonra domates suyunuzu da koyun içine!"/>
+<p class="is-size-6-widescreen"> Sonra domates suyunuzu da koyun içine! 
+</p>
+</figure>
+</div>
+
+<div class="column is-6-desktop is-6-tablet is-4-widescreen">
+<figure class="image is-fullwidth">
+<img title="Çorba gibi oldu?" src="/public/images/posts/2008-12-12-pilav/2008-12-12-pilav-17.jpg" alt="Çorba gibi oldu?"/>
+<p class="is-size-6-widescreen"> Çorba gibi oldu? 
+</p>
+</figure>
+</div>
+
+<p></div>
+</div></p>
+
+<p>Kormayın çorba gibi görünebilir! Hemen varsa az Knor Bulyon gibi bişi ekleyin
+lezzet versin hesabı (:</p>
+
+<div class="photo-gallery full zoomable">
+<div class="columns is-multiline is-variable">
+<div class="column is-6-desktop is-6-tablet is-4-widescreen">
+<figure class="image is-fullwidth">
+<img title="Kapağını kapatın ve kısık ateşte tam 25 dakika pişirin!" src="/public/images/posts/2008-12-12-pilav/2008-12-12-pilav-18.jpg" alt="Kapağını kapatın ve kısık ateşte tam 25 dakika pişirin!"/>
+<p class="is-size-6-widescreen"> Kapağını kapatın ve kısık ateşte tam 25 dakika pişirin! 
+</p>
+</figure>
+</div>
+
+<div class="column is-6-desktop is-6-tablet is-4-widescreen">
+<figure class="image is-fullwidth">
+<img title="Pişiyo..." src="/public/images/posts/2008-12-12-pilav/2008-12-12-pilav-19.jpg" alt="Pişiyo..."/>
+<p class="is-size-6-widescreen"> Pişiyo&hellip; 
+</p>
+</figure>
+</div>
+
+<div class="column is-6-desktop is-6-tablet is-4-widescreen">
+<figure class="image is-fullwidth">
+<img title="Bu 10 dakika sonra çekildi!" src="/public/images/posts/2008-12-12-pilav/2008-12-12-pilav-20.jpg" alt="Bu 10 dakika sonra çekildi!"/>
+<p class="is-size-6-widescreen"> Bu 10 dakika sonra çekildi! 
+</p>
+</figure>
+</div>
+
+<div class="column is-6-desktop is-6-tablet is-4-widescreen">
+<figure class="image is-fullwidth">
+<img title="Final!!! Ahanda size pilav!" src="/public/images/posts/2008-12-12-pilav/2008-12-12-pilav-21.jpg" alt="Final!!! Ahanda size pilav!"/>
+<p class="is-size-6-widescreen"> Final!!! Ahanda size pilav! 
+</p>
+</figure>
+</div>
+
+<div class="column is-6-desktop is-6-tablet is-4-widescreen">
+<figure class="image is-fullwidth">
+<img title="Aman Allahım!" src="/public/images/posts/2008-12-12-pilav/2008-12-12-pilav-22.jpg" alt="Aman Allahım!"/>
+<p class="is-size-6-widescreen"> Aman Allahım! 
+</p>
+</figure>
+</div>
+
+<div class="column is-6-desktop is-6-tablet is-4-widescreen">
+<figure class="image is-fullwidth">
+<img title="Oldu galiba ?" src="/public/images/posts/2008-12-12-pilav/2008-12-12-pilav-23.jpg" alt="Oldu galiba ?"/>
+<p class="is-size-6-widescreen"> Oldu galiba ? 
+</p>
+</figure>
+</div>
+
+<div class="column is-6-desktop is-6-tablet is-4-widescreen">
+<figure class="image is-fullwidth">
+<img title="Dinlensin biraz..." src="/public/images/posts/2008-12-12-pilav/2008-12-12-pilav-24.jpg" alt="Dinlensin biraz..."/>
+<p class="is-size-6-widescreen"> Dinlensin biraz&hellip; 
+</p>
+</figure>
+</div>
+
+<p></div>
+</div></p>
+
+<p>Tabii fotoğraflarda pilava çok benziyor&hellip; Acaba tadı nasıl? Dikkat ettiyseniz
+hiç baharat koymadık!!! Tuz, Biber vs&hellip; Katı yağ / tereyağı filan da
+koymadık. Neticede lapadan hallice, yoğurtla filan aynen domatesli pilava
+benzeyen bişi oldu. İşin güzel tarafı süper diyet&hellip; bol bol yiyebilirsiniz!
+haha ahahahaah&hellip;</p>
+
+<p>Bu framework <strong>sux</strong> oldu ya&hellip; en iyisi bunu Python’la yazayım (:</p>
+
+<h3>Güncelleme: 8 Temmuz 2016</h3>
+
+<p>Google/code birkaç yıl önce kapandı. Read-only durumda.</p>
+</div>
+                        </article>
+                        
+                            <nav class="mt-6 pagination is-centered" role="navigation" aria-label="pagination">
+                                <a href="/blog/tr/2008/12/06/hayal-kahvesi-arog-ve-starbucks/" class="pagination-previous has-text-link">&laquo; Hayal Kahvesi, A.R.O.G ve Starbucks!</a>
+                                <a href="/blog/tr/2008/12/06/hayal-kahvesi-arog-ve-starbucks/" class="pagination-next has-text-link">iTunes, FriendFeed, Twitter, Twitterrific ve Shell &raquo;</a>
+                            </nav>
+                    </div>
+                </div>
+                <div class="column is-3-desktop is-full-tablet">
+                    <div class="content">
+                            <div class="blog-post-list sidebar">
+        <h1>Benzer Makaleler</h1>
+        <p>Konu ile ilgili toplam “8” adet benzer makale bulunuyor.</p>
+        <ul>
+            <li>
+                <a href="/blog/tr/2011/05/08/etli-dolma-yaptim/">Etli dolma yaptım! (yaptık)</a>
+                <time pubdate datetime="2011-05-08T00:00:00+03:00">
+                    08 Mayıs 2011, Pazar
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2010/04/06/pogaca-yaptiydim/">Poğaça yaptıydım</a>
+                <time pubdate datetime="2010-04-06T18:49:00+03:00">
+                    06 Nisan 2010, Salı
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2009/12/12/15-dakikada-cig-kofte-yaptim/">15 dakikada çiğ köfte yaptım!</a>
+                <time pubdate datetime="2009-12-12T16:45:00+02:00">
+                    12 Aralık 2009, Cumartesi
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2009/03/13/ezogelin-klonu/">Ezogelin Klonu!</a>
+                <time pubdate datetime="2009-03-13T22:18:00+02:00">
+                    13 Mart 2009, Cuma
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2009/03/02/evde-ekmek-yapimi/">Evde ekmek yapımı!</a>
+                <time pubdate datetime="2009-03-02T08:55:00+02:00">
+                    02 Mart 2009, Pazartesi
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2009/01/17/kemalpasa-tatlisi-yaptim-yaaaaa/">Kemalpaşa Tatlısı yaptım yaaaaa!!!</a>
+                <time pubdate datetime="2009-01-17T13:11:00+02:00">
+                    17 Ocak 2009, Cumartesi
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2009/01/12/textmate-ve-bundle-repositoryleri/">TextMate ve Bundle Repository’leri</a>
+                <time pubdate datetime="2009-01-12T15:30:00+02:00">
+                    12 Ocak 2009, Pazartesi
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2008/11/21/textmate-ve-php-ini/">Textmate ve php.ini</a>
+                <time pubdate datetime="2008-11-21T21:45:00+02:00">
+                    21 Kasım 2008, Cuma
+                </time>
+            </li>
+        </ul>
+    </div>
+    
+
+                        
+                        <div class="blog-post-list sidebar">
+    <h1>Yıllara Göre</h1>
+    <p>Blog arşivinde toplam “77” kayıt bulunuyor.</p>
+<p><a href="/blog/tr/yil/2022/" class="">2022 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2021/" class="">2021 yılına ait 4 makale</a></p><p><a href="/blog/tr/yil/2016/" class="">2016 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2015/" class="">2015 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2014/" class="">2014 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2013/" class="">2013 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2012/" class="">2012 yılına ait 8 makale</a></p><p><a href="/blog/tr/yil/2011/" class="">2011 yılına ait 16 makale</a></p><p><a href="/blog/tr/yil/2010/" class="">2010 yılına ait 6 makale</a></p><p><a href="/blog/tr/yil/2009/" class="">2009 yılına ait 22 makale</a></p><p><a href="/blog/tr/yil/2008/" class="">2008 yılına ait 11 makale</a></p><p><a href="/blog/tr/yil/2006/" class="">2006 yılına ait 1 makale</a></p></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <footer class="footer">
+    <div class="container">
+        <div class="content">
+            <a href="/feed-tr.xml" title="RSS aboneliği">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-square-rss fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/sponsors/vigo" title="GitHub sponsorluk">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-heart fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://patreon.com/vigoo" title="Patreon destek">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-patreon fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/vigo" title="GitHub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-github fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://hub.docker.com/u/vigo/" title="Dockerhub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-docker fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.linkedin.com/in/ugurozyilmazel" title="LinkedIn profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-linkedin fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://rubygems.org/profiles/vigo" title="Rubygems profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://pypi.org/user/vigo" title="Python Package Index profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://csdb.dk/scener/?id=8379" title="CSDB">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.pouet.net/user.php?who=4721" title="Pouet">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="http://janeway.exotica.org.uk/author.php?id=11962" title="Amiga Exotica">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://demozoo.org/sceners/6273" title="Demozoo">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.demoparty.net/users/vigo" title="Demoparty.net">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            
+            <script type="text/javascript">
+            document.write('<a href="mailto:');
+            document.write("hthebmlvyznmry\100tznvy\056pbz".replace(/[a-zA-Z]/g, function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
+            document.write('" title="E-Posta"');
+            document.write('<span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-at fa-stack-1x"></i></span>');
+            document.write('</a>');
+            </script>
+        </div>
+    </div>
+</footer>
+
+
+
+</body>
+</html>

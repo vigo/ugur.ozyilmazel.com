@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>About Me! - Uğur “vigo” Özyılmazel</title>
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (Türkçe)" href="/feed-tr.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (English)" href="/feed-en.xml" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <script src="https://kit.fontawesome.com/ebc2456445.js" crossorigin="anonymous"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+        <link href="/public/css/syntax.css" rel="stylesheet" />
+        <link href="/public/css/application.css" rel="stylesheet" />
+    
+
+        <script src="/public/js/application.js"></script>
+        <script src="/public/js/moment.min.js"></script>
+        
+        
+        <script type="text/javascript">
+            function setGitHubData(data) {
+                non_forks = data.filter(function(obj, index){
+                    if(!obj.fork){ return true; }
+                });
+
+                let htmlData = ['<ul>'];
+
+                $.each(non_forks, function(index, repo){
+                    if(index < 10){
+                        let t = moment(repo.pushed_at);
+
+                        htmlData.push('<li>');
+                        htmlData.push('<a href="' + repo.html_url + '">' + repo.full_name + '</a>');
+                        htmlData.push('<time pubdate datetime="' + repo.pushed_at + '">' + t.fromNow() + '</time>');
+                        htmlData.push('<p class="mt-2">[ ★ ' + String(repo.stargazers_count).padStart(3, '0') + ' ]</span> <span class="repo-desc">' + repo.description + '</p>');
+                        htmlData.push('</li>');
+                    }
+                });
+                htmlData.push('</ul>');
+                $("#github-latests").html(htmlData.join("\n"));
+            }
+            
+            $(document).ready(function(){
+                let locale = "en";
+                let latestRepos = JSON.parse(window.localStorage.getItem(`latestRepos-${locale}`));
+                
+                if(latestRepos == null || new Date() > new Date(latestRepos.expiresAt)){
+                    console.log("fetching new data...");
+                    $.ajax({
+                        type: 'GET',
+                        url: 'https://api.github.com/users/vigo/repos?sort=pushed',
+                        dataType: "json",
+                        error: function(err){
+                            $("#github-latests").html('GitHub&rsquo;dan repo&rsquo;ları yükleyemedim...');
+                        },
+                        success: function(data){
+                            var d = new Date();
+                            d.setDate(d.getDate() + 1); // 1 day
+
+                            var ghData = {
+                                data: data,
+                                expiresAt: d,
+                            }
+                            window.localStorage.setItem(`latestRepos-${locale}`, JSON.stringify(ghData));
+
+                            setGitHubData(data);
+                        }
+                    });
+                } else {
+                    console.log("coming from cache...");
+                    setGitHubData(latestRepos.data);
+                }
+
+            });
+        </script>
+
+        <meta name="date" content="2022-08-20T12:58:49+03:00" />
+        <meta name="description" content="" />
+        <meta name="author" content="Uğur “vigo” Özyılmazel"/>
+        <meta name="copyright" content="(c) 2006 / 2022 - Uğur “vigo” Özyılmazel" />
+        <meta property="og:url" content="https://ugur.ozyilmazel.com/page/en/about/" />
+        <meta property="og:title" content="About Me!" />
+        <meta property="og:site_name" content="vigo" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="" />
+        <meta property="og:image" content="https://ugur.ozyilmazel.com/public/images/og/ugur-vigo-ozyilmazel-500x500.jpg" />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:width" content="500" />
+        <meta property="og:image:height" content="500" />
+
+    <link href="/public/images/favicon.png" rel="shortcut icon" type="image/png" />
+    </head>
+<body>
+    
+    
+    <section class="section menu">
+    <div class="container">
+        <nav class="level is-mobile">
+            <div class="level-left">
+<div class="level-item"><a href="/en/">Home</a></div><div class="level-item"><a href="/blog/en/">Blog Archive</a></div><div class="level-item"><a href="/page/en/about/" class="is-active">About</a></div>            </div>
+            <div class="level-right">
+<div class="level-item"><a href="https://vbyazilim.com" target="_blank">VB</a></div><div class="level-item"><a href="/">Türkçe</a></div>            </div>
+        </nav>
+    </div>
+</section>
+
+    
+        <section class="hero is-medium cover is-hidden-touch" style="background-image: url(/public/images/covers/thb.jpg);">
+        <div class="hero-body">
+            <div class="container has-text-left">
+                
+                
+            </div>
+        </div>
+    </section>
+  
+    
+    <section class="section main">
+    <div class="container">
+        
+        <div class="columns is-multiline is-variable is-8">
+            <div class="column is-9-desktop is-full-tablet">
+                <div class="content is-medium">
+                    <article>
+                        <div class="meta">
+                            <span class="reading-time">LAST UPDATED AT</span> &mdash;
+                            <time pubdate datetime="2022-08-20T12:50:14+03:00" title="Saturday, August 20, 2022, 12:50 PM">
+                                Saturday, August 20, 2022, 12:50 PM
+                            </time>
+                        </div>
+                        <div class="yield"><h1>About Me</h1>
+
+<p>It’s all started with the mighty Commodore 16 back in 1984&hellip; 
+My grand-mother <strong>Muazzes Demiralp</strong> had bought my first computer which was 
+Commodore 16 aka <strong>C16</strong>. It was looking like Commodore 64 
+except the box color:</p>
+
+<div class="full zoomable"><figure class="image"><img title="Commodore 16 photo" src="/public/images/posts/2016-07-25-commodore-16-cbm-museum.png" alt="Commodore 16 photo"></figure><p> My first love: Commodore 16 - Photo © <a href="http://cbmmuseum.kuto.de/">CBM Museum</a> 
+</p></div>
+
+<p>C16 games were very disappointing. I was expecting to play games which I’ve seen
+on Commodore 64. Most of the games were made by C16’s ASCII characters. I remember
+like yesterday, I had packed my C16 and put in to a cabinet. One day, a friend of
+mine from 7th grade, came to our house. I showed him the User Manual of C16. 
+(<em>Middle of 1984</em>).</p>
+
+<p>He started to read the book. After few minutes, he discovered that, It was 
+possible to change the colors of screen and borders on C16. I unpacked the C16 
+and connected to a TV and we tried:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>COLOR 4,1
+</code></pre></div>
+<p>Oh my GOD! Border colors turned to BLACK. This was a kind a milestone in my life. 
+We tried every possible numbers;</p>
+<div class="highlight"><pre class="highlight plaintext"><code>COLOR 4,2
+COLOR 4,3
+COLOR 4,4
+:
+:
+</code></pre></div>
+<blockquote>
+<p>There were only <strong>16 colors</strong> and we had no idea about that&hellip;</p>
+</blockquote>
+
+<p>I’ve spent at least 4 years (<em>maybe 5</em>) with Commodore 16 and learned lots of
+stuff. C16 has a basic but easy graphic modes. It was easy to draw circles, plot
+some dots etc&hellip; I remember, I had written some basic programs to draw <code>f(x)</code>
+function’s graphical output. Started playing with <code>SIN</code> and <code>COS</code></p>
+
+<p>I knew that, there was a monster called Commodore 64 and I had to promote my
+self to it! C64 owners were playing great games and I couldn’t. Again, It was
+somewhere in 1989 and my beloved grandmother, again, turned my dreams into
+reality. (<em>She passed away in 1998 - miss her everyday&hellip;</em>) She bought
+Commodore 64 + 1541 Drive + some cartridges.</p>
+
+<p>I remember, I had called the computer shop and asked them:</p>
+
+<blockquote>
+<p>Please copy <strong>One-on-One</strong> and <strong>Barbarian</strong> to a disk for me!</p>
+</blockquote>
+
+<p>Computer shops were copying games to customers. There weren’t any Original Games
+back in days (<em>Where I live</em>). All my wish was to play games till the morning 
+lights!</p>
+
+<div class="full zoomable"><figure class="image"><img title="Screenshot from: One on One game" src="/public/images/posts/2016-07-25-one-on-one.png" alt="Screenshot from: One on One game"></figure><p> One on One - Commodore 64 
+</p></div>
+
+<p><strong>One on One</strong> was the best basketball game ever! Although It’s old technology,
+still amusing and awesome if you compare to actual gaming systems.</p>
+
+<div class="full zoomable"><figure class="image"><img title="Screenshot from: Barbarian game" src="/public/images/posts/2016-07-25-barbarian.png" alt="Screenshot from: Barbarian game"></figure><p> Barbarian - Commodore 64 
+</p></div>
+
+<p>For two-player fun, <strong>Barbarian</strong> was the most entertaining and challenging game
+according to It’s age&hellip;While I was playing games, something has attracted my
+attention. The thing pops up before the game starts&hellip; Yes.. I’m taking about
+the <strong>crack intros</strong> in-front of the games. <strong>Papillons</strong>’ intro was the first
+one I’ve seen&hellip;</p>
+
+<div class="full zoomable"><figure class="image"><img title="Screenshot from: Papillons C64 Intro" src="/public/images/posts/2016-11-27-papillons.png" alt="Screenshot from: Papillons C64 Intro"></figure><p> First seen intro from: <strong>Papillons</strong> 
+</p></div>
+
+<p><strong>Update</strong> (<em>March 21, 2021</em>):</p>
+
+<p>You can run this <a href="https://www.awsm.de/static/js-cracktros/papillons/">lovely intro</a> on your browser!
+Check out <a href="https://www.awsm.de">AWSM</a> website for more JS intros. It works with Firefox! (<em>you need to hear sound</em>)</p>
+
+<hr>
+
+<p>I’ve somehow managed to change scroller and added my name: <strong>UGUR</strong>. I had no idea,
+how to restart scroller from the beginning of the text. Waited for minutes to
+see my injection. I remember, I’ve asked my parents to come to my room and
+we all waited to see my name on the screen.</p>
+
+<p>That moment was a kind of milestone for me. I was 16 or 17 and captivated by
+the sorcerous sounds and images of that 8-bit master: <strong>Commodore 64</strong> till the
+end of my life&hellip;</p>
+
+<h2>Demoscene</h2>
+
+<p>It was 1989. I met a person at a computer shop. Shop owner told me that they
+were buying games form that guy. Strange right? Back in days, there were no
+software rights, originials etc in Istanbul/Turkey. I asked the guy;</p>
+
+<blockquote>
+<p>How do you import games here?</p>
+</blockquote>
+
+<p>He gave me a C64 floppy disk and asked me, If I could read/write English. And
+he mentioned that, I need to take a look at the programs called <strong>Disk Mag</strong>
+inside of the disk. He told me that, there was a section called <strong>Contacts</strong> or
+<strong>Advertisements</strong>, pick a random person/address and prep a disk, put some
+files from the disk and shoot. Well&hellip; I did :)</p>
+
+<div class="full zoomable"><figure class="image"><img title="C64 screenshot, view of a directory list" src="/public/images/posts/impulse-norway-1989.png" alt="C64 screenshot, view of a directory list"></figure><p> My first incoming warez disk from Impulse/Norway 
+</p></div>
+
+<p>Unfortunately, <strong>Running Man</strong> was broken. Disk was bended on the postal service.
+I remember, <a href="http://www.gamebase64.com/game.php?id=6521&amp;d=18&amp;h=0">Running Man</a> 
+was just released on <a href="http://www.lemonamiga.com/games/details.php?id=923">Amiga</a> and I was probably the
+first person (<em>I mean in Istanbul/Turkey</em>) who had that game! Only intro worked 
+in the beginning. That was it :)</p>
+
+<p>I acknowledged that there is a kind of clan/world going on. There are people there,
+groups there&hellip; Crackers there&hellip; That was sounding super tempting. Only kool
+people knew about it :)))</p>
+
+<h2>Dede Demo Brothers</h2>
+
+<p>Since 1984, me and my neighborhood friend Emre Yavuzkal were a kind of software
+team called <a href="http://dededemobrothers.com/">Dede Demo Brothers</a>. <strong>Dede</strong> was me.
+Means <strong>Grandpa</strong> in Turkish. It was like Grandpa and Demo brothers. Emre’s
+handle was Demo :))) He was a Sinclair/Spectrum user. I was Commodore 16. Well,
+I can not call this a scene group but feels like it.</p>
+
+<h2>The Hacker Boys</h2>
+
+<p>As you feel, super childish group name for <a href="http://thehackerboys.com/">a scene group</a> right? This was our
+first ever official scene group. It was 1989, that C64 disk with mags etc. changed
+our lives&hellip;We had coders (<em>C64, Amiga</em>), Graphic and Sound Artists. We were like
+eight (<em>8</em>) people.</p>
+
+<p>We released mostly ripped intros. Most of us only knew how to rip and change
+code. It was a bit hard for us to code something from scratch.</p>
+
+<div class="full zoomable"><figure class="image"><img title="C64 screenshot: the hacker boys music player" src="/public/images/posts/the-hacker-boys.png" alt="C64 screenshot: the hacker boys music player"></figure><p> Full Screen tech-tech, $1800 - $1806 player 
+</p></div>
+
+<p>Me and couple crew members joined <a href="http://csdb.dk/group/?id=1462">The Joker Crew</a>.
+We were really fast on importing games and demos (<em>Mostly on C64</em>). Unlike
+The Hacker Boys, all of our intros were 100% our own product :) My nick/handle 
+was <a href="http://en.wikipedia.org/wiki/Jurgen_Reil">Ventor</a>.</p>
+
+<h2>Zombie Boys</h2>
+
+<p>It was mid 1990. I joined the number one scene group of Turkey. <a href="http://zombieboys.net/">Zombie Boys</a>
+Mostly they were ruling on Amiga. They recruited Comrades/<a href="http://csdb.dk/group/?id=3206">The Danger Cobra</a>
+members all out. Powerful team with coder, gfxers, composers, swappers etc&hellip;</p>
+
+<div class="full zoomable"><figure class="image"><img title="Amiga screenshot: Zombie Boys, Heavy Metal Demo" src="/public/images/posts/zombie-boys-heavy-metal.png" alt="Amiga screenshot: Zombie Boys, Heavy Metal Demo"></figure><p> Zombie Boys, Heavy Metal Demo 
+</p></div>
+
+<p>Zombie Boys was founded by the legendary <a href="http://tuncdindas.com">Tunç “Turbo” Dindaş</a>.
+This was a kind of school to me. Unlimited resource was available. Do you need
+some source code? No problem. New everything! Games to disk mags, intros, docs etc.</p>
+
+<p>I switched my nick name to <strong>vigo</strong>. The master evil of 
+<a href="https://www.imdb.com/title/tt0097428/characters/nm0902455">The Ghostbusters II</a>. I met <a href="http://janeway.exotica.org.uk/author.php?id=13267">Ghost</a>.
+He taught me lots of lots of thing about assembly coding. I was so lucky. There
+were no internet, no google, no stackoverflow but I had Ghost :)</p>
+
+<h2>Bronx</h2>
+
+<p>All of the Zombie Boys members were really into hip-hop, graffiti, dj-ing stuff.
+We love breakdancing and almost every element of hip-hop culture. One of our
+members <strong>Jay Master Coke</strong>, he was listening Kurtis Blow’s LP and the song was:
+<a href="https://www.youtube.com/watch?v=xQPZT00wmCw">The Bronx</a> We were looking for a new
+name. <strong>Z</strong> was a bit bad idea. Need to read all of the greetings until the last
+letter comes :) Jay proposed: <strong>BRONX</strong> as a new group name!</p>
+
+<p>Young Turkish guys choosing a group name which is the most controversial
+neighborhood of NewYork/US :)) Sounds really funny right now!</p>
+
+<div class="full zoomable"><figure class="image"><img title="Amiga screenshot: Bronx, Faith of Black" src="/public/images/posts/bronx-faith-of-black.png" alt="Amiga screenshot: Bronx, Faith of Black"></figure><p> Bronx, Faith of Black 
+</p></div>
+
+<p>I was one the founders of <a href="http://bronxwhq.org">Bronx</a>. We did lots of kool
+stuff such as:</p>
+
+<ul>
+<li>Demo, Intro, Game (File, Full-Disk)</li>
+<li>Graphics, Fonts, Music Disks</li>
+<li>Disk Mags, Pack Mags, Chart Mags</li>
+<li>BBSes, Tools</li>
+<li>Imports</li>
+</ul>
+
+<p>We had more than ten (<em>10</em>) different section in the whole planet. Members from
+Germany, Denmark, Holland, Norway, Switzerland, United States, Uk, Greece and
+more. Here are some more links about team Bronx:</p>
+
+<ul>
+<li><a href="https://twitter.com/_BRONX_">Twitter</a></li>
+<li><a href="https://www.facebook.com/BronxWorldHq/">Facebook</a></li>
+<li><a href="http://bronxwhq.tumblr.com/">Tumblr</a></li>
+<li><a href="http://csdb.dk/group/?id=627">CSDB</a></li>
+<li><a href="http://janeway.exotica.org.uk/author.php?id=11573">Exotica</a></li>
+<li><a href="http://arabuusimiehet.com/break/amiga/index.php?mode=group&amp;groupid=84">Break’s Demoscene Collection</a></li>
+</ul>
+
+<h2>Other Groups</h2>
+
+<p>I was also worked on some other groups like; Coroner, Mystic, Iris, Agnostic Front,
+TRSI, Phobia, Devience &amp; Scoopex. Demoscene is a one big and great family. Had
+great friends and friendship. I have friends, we knew each other more than 25
+years. Sounds crazy :))</p>
+
+<h2>Current Status</h2>
+
+<p>Started programming in 1984 and still doing it :) Married in 2003. I became a
+father in 2011. Computer programming is a hobby, life-style and my job to live.
+I love Golang, Ruby, Python, Bash, AppleScript, Swift and C. Digging others and playing
+with: Lisp, JavaScript. I use macOS. I’ve been dealing with Python/Django, Golang
+apps in my daily routine. <strong>Command-line</strong> is my biyatch!</p>
+
+<p>Trying to complete my open-source books (<em>in Turkish</em>). If you like to get in
+touch with me, talk about demoscene, C64, Amiga and other stuff, you can
+find me on <a href="https://twitter.com/vigobronx">Twitter</a> or <a href="https://github.com/vigo">GitHub</a></p>
+
+<h2>Contact</h2>
+
+<p>If you like to talk about Ruby, Python, Golang, Bash programming languages or 
+Commodore 64/Amiga Demoscene stuff, you are welcome to drop me lines at:</p>
+
+<script type="text/javascript">
+document.write("<p>");
+document.write("hthebmlvyznmry\100tznvy\056pbz".replace(/[a-zA-Z]/g, function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
+document.write("</p>");
+</script>
+
+<p>My social network profiles are:</p>
+
+<ul>
+<li><a href="https://vigo.io">Website</a></li>
+<li><a href="https://twitter.com/vigobronx">Twitter</a> @vigobronx</li>
+<li><a href="https://github.com/vigo">GitHub</a></li>
+<li><a href="https://github.com/sponsors/vigo/">Sponsor me on GitHub</a></li>
+<li><a href="https://rubygems.org/profiles/vigo">Rubygems</a></li>
+<li><a href="https://linkedin.com/in/ugurozyilmazel">LinkedIn</a></li>
+<li><a href="https://demozoo.org/sceners/6273/">Demozoo</a></li>
+<li><a href="http://janeway.exotica.org.uk/author.php?id=11962">Exotica</a></li>
+</ul>
+</div>
+                    </article>
+                </div>
+            </div>
+            <div class="column is-3-desktop is-full-tablet">
+                <div class="content">
+                    <div class="blog-post-list sidebar">
+    <h1>By Year</h1>
+    <p>There are “3” posts in blog archive.</p>
+<p><a href="/blog/en/year/2022/" class="">2022 has 1 post</a></p><p><a href="/blog/en/year/2019/" class="">2019 has 1 post</a></p><p><a href="/blog/en/year/2016/" class="">2016 has 1 post</a></p></div>
+                    
+                    <div class="github-repos blog-post-list content">
+    <h3>Latest GitHub Repos</h3>
+    <div id="github-latests">Loading...</div>
+</div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+    <footer class="footer">
+    <div class="container">
+        <div class="content">
+            <a href="/feed-en.xml" title="RSS subscription">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-square-rss fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/sponsors/vigo" title="GitHub Sponsorship">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-heart fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://patreon.com/vigoo" title="Patreon Sponsorship">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-patreon fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/vigo" title="GitHub profile">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-github fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://hub.docker.com/u/vigo/" title="Dockerhub profile">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-docker fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.linkedin.com/in/ugurozyilmazel" title="LinkedIn profile">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-linkedin fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://rubygems.org/profiles/vigo" title="Rubygems profile">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://pypi.org/user/vigo" title="Python Package Index profile">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://csdb.dk/scener/?id=8379" title="CSDB">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.pouet.net/user.php?who=4721" title="Pouet">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="http://janeway.exotica.org.uk/author.php?id=11962" title="Amiga Exotica">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://demozoo.org/sceners/6273" title="Demozoo">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.demoparty.net/users/vigo" title="Demoparty.net">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            
+            <script type="text/javascript">
+            document.write('<a href="mailto:');
+            document.write("hthebmlvyznmry\100tznvy\056pbz".replace(/[a-zA-Z]/g, function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
+            document.write('" title="E-Mail"');
+            document.write('<span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-at fa-stack-1x"></i></span>');
+            document.write('</a>');
+            </script>
+        </div>
+    </div>
+</footer>
+
+
+
+</body>
+</html>

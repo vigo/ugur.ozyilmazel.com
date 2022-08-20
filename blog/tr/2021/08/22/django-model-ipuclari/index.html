@@ -1,0 +1,625 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Django Model İpuçları - Uğur “vigo” Özyılmazel</title>
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (Türkçe)" href="/feed-tr.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (English)" href="/feed-en.xml" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <script src="https://kit.fontawesome.com/ebc2456445.js" crossorigin="anonymous"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+        <link href="/public/css/syntax.css" rel="stylesheet" />
+        <link href="/public/css/application.css" rel="stylesheet" />
+    
+
+        <script src="/public/js/application.js"></script>
+    
+        <meta name="date" content="2022-08-20T12:58:51+03:00" />
+        <meta name="description" content="Yaklaşık 2008’den beri Django geliştiriyorum. Pek çok proje yaptım. Model tanımlamaları ile ilgili bazı edindiğim, okuduğum makalelerden öğrendiğim şeyleri yazmak istedim." />
+        <meta name="author" content="Uğur “vigo” Özyılmazel"/>
+        <meta name="copyright" content="(c) 2006 / 2022 - Uğur “vigo” Özyılmazel" />
+        <meta property="og:url" content="https://ugur.ozyilmazel.com/blog/tr/2021/08/22/django-model-ipuclari/" />
+        <meta property="og:title" content="Django Model İpuçları" />
+        <meta property="og:site_name" content="vigo" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="Yaklaşık 2008’den beri Django geliştiriyorum. Pek çok proje yaptım. Model tanımlamaları ile ilgili bazı edindiğim, okuduğum makalelerden öğrendiğim şeyleri yazmak istedim." />
+        <meta property="og:image" content="https://ugur.ozyilmazel.com/public/images/og/ugur-vigo-ozyilmazel-500x500.jpg" />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:width" content="500" />
+        <meta property="og:image:height" content="500" />
+
+    <link href="/public/images/favicon.png" rel="shortcut icon" type="image/png" />
+    </head>
+<body>
+    
+    
+    <section class="section menu">
+    <div class="container">
+        <nav class="level is-mobile">
+            <div class="level-left">
+<div class="level-item"><a href="/">Anasayfa</a></div><div class="level-item"><a href="/blog/tr/" class="is-active">Blog Arşiv</a></div><div class="level-item"><a href="/sayfa/tr/sunumlar/">Sunumlar</a></div>            </div>
+            <div class="level-right">
+<div class="level-item"><a href="https://vbyazilim.com" target="_blank">VB</a></div><div class="level-item"><a href="/en/">English</a></div>            </div>
+        </nav>
+    </div>
+</section>
+
+    
+        <section class="hero is-medium cover is-hidden-touch" style="background-image: url(/public/images/covers/django.png);">
+        <div class="hero-body">
+            <div class="container has-text-left">
+                <p class="is-size-3 has-text-weight-bold has-text-white"><span class="bandage has-background-black">from django.db import models</span></p>
+                <p class="is-size-4 has-text-weight-medium has-text-white"><span class="bandage has-background-black">Django 3.2 versiyonu</span></p>
+            </div>
+        </div>
+    </section>
+  
+    
+        <section class="section main">
+        <div class="container">
+        
+            <div class="columns is-multiline is-variable is-8">
+                <div class="column is-9-desktop is-full-tablet">
+                    <div class="content is-large">
+                        <article>
+                            <div class="meta">
+                                <span class="reading-time">OKUMA SÜRESİ 05:46</span>
+                                &mdash;
+                                <time pubdate datetime="2021-08-22T09:43:00+03:00" title="22 Ağustos 2021, Pazar 09:43">22 Ağustos 2021, Pazar 09:43</time>
+                                
+                                <div class="tags mt-3">
+                                        <a href="/blog/tr/etiket/django/" class="tag is-info">django</a>
+                                </div>
+                                
+                            </div>
+                            
+                            <h1 class="title">Django Model İpuçları</h1>
+                            
+                            <div class="yield"><p>Yaklaşık 2008’den beri Django geliştiriyorum. Pek çok proje yaptım. Model
+tanımlamaları ile ilgili bazı edindiğim, okuduğum makalelerden öğrendiğim
+şeyleri yazmak istedim.</p>
+
+<h2>Ana Kural</h2>
+
+<p>Mutlaka ama mutlaka değişken ve sınıf adlarını <strong>İngilizce</strong> olarak kullanın.
+Yarın projenizi açık-kaynak yaptığınızda ya da ekibinize Türkçe bilmeyen
+biri katıldığında kodu kolay anlamalı.</p>
+
+<h3>Model Yazma Kuralları</h3>
+
+<p>Django bildiğiniz gibi muhteşem bir dokümantasyona sahip. Bizim için her ince
+detay yazılmış, örnekler verilmiş. Lütfen kod yazma işine başlamadan
+önce <a href="https://docs.djangoproject.com/en/3.2/internals/contributing/writing-code/coding-style/#model-style">bu sayfaya</a> gidin ve okuyun.</p>
+
+<p>Doküman derki, bir model içindeki method/attribute sıralaması aşağıdaki gibi
+olmalıdır:</p>
+
+<ol>
+<li>Tüm field tanımları</li>
+<li>Custom manager attribute’ları</li>
+<li><code>class Meta</code></li>
+<li><code>def __str__()</code></li>
+<li><code>def save()</code></li>
+<li><code>def get_absolute_url()</code></li>
+<li>Kendi özel yazdığınız method, property ne varsa&hellip;</li>
+</ol>
+<div class="highlight"><pre class="highlight python"><code><span class="k">def</span> <span class="nf">get_group_creator_sentinel</span><span class="p">():</span>
+    <span class="n">payload</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">email</span><span class="o">=</span><span class="s">'deleted@xxx.com'</span><span class="p">,</span>
+        <span class="n">first_name</span><span class="o">=</span><span class="s">'Sentinel'</span><span class="p">,</span>
+        <span class="n">last_name</span><span class="o">=</span><span class="s">'User'</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">get_user_model</span><span class="p">().</span><span class="n">objects</span><span class="p">.</span><span class="n">get_or_create</span><span class="p">(</span><span class="o">**</span><span class="n">payload</span><span class="p">,</span> <span class="n">defaults</span><span class="o">=</span><span class="n">payload</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="k">class</span> <span class="nc">Group</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="s">"""
+    User.objects.filter(group__name=...)
+    Permission.objects.filter(group__name=...)
+    """</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span>
+        <span class="n">max_length</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> 
+        <span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> 
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">'name'</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">creator</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">settings</span><span class="p">.</span><span class="n">AUTH_USER_MODEL</span><span class="p">,</span>
+        <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="p">.</span><span class="n">SET</span><span class="p">(</span><span class="n">get_group_creator_sentinel</span><span class="p">),</span>
+        <span class="n">related_name</span><span class="o">=</span><span class="s">'creator_groups'</span><span class="p">,</span>
+        <span class="n">related_query_name</span><span class="o">=</span><span class="s">'group'</span><span class="p">,</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">'creator'</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">permissions</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ManyToManyField</span><span class="p">(</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">Permission</span><span class="p">,</span>
+        <span class="n">related_name</span><span class="o">=</span><span class="s">'permissions_groups'</span><span class="p">,</span>
+        <span class="n">related_query_name</span><span class="o">=</span><span class="s">'group'</span><span class="p">,</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">'permissions'</span><span class="p">),</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">GroupManager</span><span class="p">()</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">app_label</span> <span class="o">=</span> <span class="s">'core'</span>
+        <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s">'group'</span><span class="p">)</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s">'groups'</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">name</span>
+
+    <span class="k">def</span> <span class="nf">natural_key</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">name</span><span class="p">,)</span>
+
+</code></pre></div>
+<h3>Doğru Model Adı</h3>
+
+<p>Model denen şey tek bir kaydı temsil eder. Bu bakımdan ismi tekil olmalıdır.
+Eğer bu model ara tablo değilse, yani <strong>ManyToMany through</strong> tablosu değilse
+mutlaka tekil olmalıdır.</p>
+
+<p>İngilizce bazı kelimelerin tekil ve çoğul durumları farklıdır. Örneğin
+<strong>People</strong> kelimesi çoğuldur ve bunun tekili <strong>Person</strong>’dır.</p>
+
+<p>Bu doğrultuda;</p>
+
+<ul>
+<li><code>Post</code></li>
+<li><code>Article</code></li>
+<li><code>User</code></li>
+<li><code>Person</code></li>
+</ul>
+
+<p>şeklinde olmalıdır. Ama haber modeli diye bir model olacaksa o <code>News</code> olur.</p>
+
+<h3>Tablolara Ad Verin</h3>
+
+<p>Mümkünse Database Tablo adını Kendiniz Belirleyin.</p>
+
+<p>Modelin <code>class Meta:</code> kısmında <code>db_table</code> kullanarak tablo isimlerini Django
+yerine siz belirleyebilirsiniz. Bu sayede daha kısa tablo adları olur ve
+siz daha hakim olursunuz database’e.</p>
+<div class="highlight"><pre class="highlight python"><code><span class="k">class</span> <span class="nc">Customer</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="p">:</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">app_label</span> <span class="o">=</span> <span class="s">'core'</span>
+        <span class="n">db_table</span> <span class="o">=</span> <span class="s">'customer'</span>
+        <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s">'customer'</span><span class="p">)</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s">'customers'</span><span class="p">)</span>
+    <span class="p">:</span>
+    <span class="p">:</span>
+</code></pre></div>
+<h3>“created_at” ve “updated_at”</h3>
+
+<p>Mutlaka Modelin <code>created_at</code> ve <code>updated_at</code> field’ları olsun.</p>
+
+<p>Genelde benim <code>base.py</code> diye bir dosyam ve onun içinde tüm modellerde ortak
+olarak kullanmayı düşündüğüm alanları kapsayan bir <code>abstract</code> model olur:</p>
+<div class="highlight"><pre class="highlight python"><code><span class="k">class</span> <span class="nc">MyBaseModel</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">created_at</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">'created at'</span><span class="p">))</span>
+    <span class="n">updated_at</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">'updated at'</span><span class="p">))</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">abstract</span> <span class="o">=</span> <span class="bp">True</span>
+
+</code></pre></div>
+<p>Duruma göre <code>deleted_at</code>, <code>is_active</code> gibi alanlar da olabilir. İlgili
+modellerimi bundan türetirim.</p>
+
+<h3>İlişki Belirtmek</h3>
+
+<p><code>Article</code> diye bir modeliniz var, <code>Article</code> içinde <code>User</code> modeline <code>ForeignKey</code>
+tanımlayacaksınız. Dolayısıyla <code>User</code> modelini içeri <code>import</code> etmeniz gerekiyor.
+<strong>Circular import</strong> durumuna düşmemek adına ben genelde tek bir <code>app</code> altına
+tüm modelleri toplarım.</p>
+
+<p><code>User</code> modelini de kendi oluşturduğum <a href="https://docs.djangoproject.com/en/3.2/topics/auth/customizing/#specifying-a-custom-user-model">Custom User</a> modelini kullanırım.
+Bu sayede hiçbir zaman dışarıdan modeli import etmem. Peki nasıl tanımlarım?</p>
+
+<p>Normalde <code>user = models.ForeignKey(User, ...)</code> şeklinde <code>User</code>’ı import etmek
+yerine, <code>to=&#39;User&#39;</code> ile <strong>shorthand reference</strong> kullanıyorum, yani;</p>
+<div class="highlight"><pre class="highlight python"><code><span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+
+<span class="k">class</span> <span class="nc">Article</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">settings</span><span class="p">.</span><span class="n">AUTH_USER_MODEL</span><span class="p">,</span>
+        <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="p">.</span><span class="n">CASCADE</span><span class="p">,</span>
+        <span class="p">:</span>
+        <span class="p">:</span>
+    <span class="p">)</span>
+</code></pre></div>
+<p>şeklinde. <code>to=&#39;String&#39;</code> de olur;</p>
+<div class="highlight"><pre class="highlight python"><code><span class="k">class</span> <span class="nc">City</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">country</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="n">to</span><span class="o">=</span><span class="s">'Country'</span><span class="p">,</span>
+        <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="p">.</span><span class="n">CASCADE</span><span class="p">,</span>
+        <span class="n">related_name</span><span class="o">=</span><span class="s">'cities'</span><span class="p">,</span>
+        <span class="n">related_query_name</span><span class="o">=</span><span class="s">'city'</span><span class="p">,</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">'country'</span><span class="p">),</span>
+    <span class="p">)</span>
+
+</code></pre></div>
+<p>bu sayede model import işleriyle uğraşmam. </p>
+
+<p><strong>28 Ağustos 2021</strong></p>
+
+<p>Sevgili <a href="https://www.linkedin.com/in/muhammet-bahad%C4%B1r-kacar-698019187/">Muhammet Bahadır Kacar</a>
+beni ikaz etti. Ben gözden kaçırmışım. Eğer <code>application.Model</code> şeklinde
+<strong>string</strong> olarak verilirse başka bir app’den de bu yöntemle <strong>lazy/short-hand
+ref</strong> olarak <a href="https://docs.djangoproject.com/en/3.2/ref/models/fields/#foreignkey">import</a> edilebiliyor.</p>
+<div class="highlight"><pre class="highlight python"><code><span class="k">class</span> <span class="nc">Permissions</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">groups</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ManyToManyField</span><span class="p">(</span>
+        <span class="n">to</span><span class="o">=</span><span class="s">'Group'</span><span class="p">,</span>
+        <span class="n">related_name</span><span class="o">=</span><span class="s">'user_set'</span><span class="p">,</span>
+        <span class="n">related_query_name</span><span class="o">=</span><span class="s">'user'</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">'groups'</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">user_permissions</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ManyToManyField</span><span class="p">(</span>
+        <span class="n">to</span><span class="o">=</span><span class="s">'auth.Permission'</span><span class="p">,</span> <span class="c1"># &lt;- buradaki gibi...
+</span>        <span class="n">related_name</span><span class="o">=</span><span class="s">'user_set'</span><span class="p">,</span>
+        <span class="n">related_query_name</span><span class="o">=</span><span class="s">'user'</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">'user permissions'</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="p">:</span>
+    <span class="p">:</span>
+</code></pre></div>
+<h3>“related_name” ve “related_query_name”</h3>
+
+<p>Mutlaka ilişkili yani <code>ForeignKey</code> ya da <code>ManyToMany</code> field’lara <code>related_name</code>
+ve <code>related_query_name</code> tanımı yapın. <code>related_name</code> o modeldeyken tersten üst
+modele erişim sağlar.</p>
+
+<p>Yani, elimde <code>Country</code> instance’ı varsa, ben <code>country.cities.filter()</code> şeklinde
+sorgu yapabilirim. Aksi halde Django’nun otomatik eklediği <code>model_set</code> üzerinden
+gitmem gerekir.</p>
+
+<p>Aynı şekilde, <code>Country.objects.filter(city__name=&#39;xxx&#39;)</code> şeklinde <code>related_query_name</code>
+kullanarak sorgu yapabilirim.</p>
+
+<p>Keza <code>related_name</code> değeri de çoğul olarak verilmelidir. Yani <code>ForeignKey</code> ilişkisi
+aslında <strong>One to Many</strong> yani bir <code>Country</code>’nin birden fazla şehri olabilir 
+mantığında olduğu için, o <code>Country</code>’nin <code>cities</code> yani şehirleri vardır.</p>
+
+<h3>“ForeignKey” için “unique=True” Kullanmayın</h3>
+
+<p>Çünkü bu iş için <code>OneToOneField</code> var.</p>
+
+<h3>Gerektiğinde “NullBooleanField” Kullanın</h3>
+
+<p><code>models.BooleanField(null=True)</code> yerine <code>models.NullBooleanField()</code> kullanın.</p>
+
+<h3>“ObjectDoesNotExist” Yerine “Model.DoesNotExist”</h3>
+
+<p>Kayıt yoksa <code>django.core.exceptions</code>’da <code>ObjectDoesNotExist</code> exception’ı
+yakalamak yerine modelin <code>Model.DoesNotExist</code> exception’ını yakalamak daha
+iyi bir yöntem. Bazı özel durumlar dışında <code>Model.DoesNotExist</code> kullanın.</p>
+<div class="highlight"><pre class="highlight python"><code><span class="p">:</span>
+<span class="p">:</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">creator</span> <span class="o">=</span> <span class="n">user_model</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">user_model</span><span class="p">.</span><span class="n">DoesNotExist</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="n">CommandError</span><span class="p">(</span><span class="s">'email (%s) does not exists'</span> <span class="o">%</span> <span class="n">email</span><span class="p">)</span> <span class="k">from</span> <span class="n">exc</span>
+<span class="p">:</span>
+<span class="p">:</span>
+</code></pre></div>
+<h3>“choices” Kullanımı</h3>
+
+<p>Model için <code>choices</code> kullanmanız gerektiğinde ya aşağıdaki gibi ya da
+yeni gelen <a href="https://docs.djangoproject.com/en/3.2/ref/models/fields/#enumeration-types">Enumeration types</a>’ı kullanabilirsiniz. Açıkcası ben henüz
+Enumeration types kullanmadım, eski yöntem kolayıma geliyor.</p>
+<div class="highlight"><pre class="highlight python"><code><span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">gettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="k">class</span> <span class="nc">Post</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">STATUS_OFFLINE</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">STATUS_ONLINE</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">STATUS_DELETED</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">STATUS_DRAFT</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">STATUS_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">STATUS_OFFLINE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">'offline'</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">STATUS_ONLINE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">'online'</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">STATUS_DELETED</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">'deleted'</span><span class="p">)),</span>
+        <span class="p">(</span><span class="n">STATUS_DRAFT</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">'draft'</span><span class="p">)),</span>
+    <span class="p">)</span>
+
+    <span class="n">status</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">IntegerField</span><span class="p">(</span>
+        <span class="n">choices</span><span class="o">=</span><span class="n">STATUS_CHOICES</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">STATUS_ONLINE</span><span class="p">,</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">'status'</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="p">:</span>
+    <span class="p">:</span>
+</code></pre></div>
+<p>Daha detaylı bilgi için <a href="https://docs.djangoproject.com/en/3.2/ref/models/fields/#choices">tıklayabilirsiniz</a>.</p>
+
+<h3>Alan Adındaki Fuzuli Model İsmi</h3>
+
+<p>Eğer <code>User</code> diye bir model varsa, <code>user_status = models.IntegerField(...)</code>
+diye bir field yerine, <code>status = models.IntegerField(...)</code> şeklinde field’ı
+tanımlamak daha mantıklıdır. Boşuna tekrar yapmamak lazım.</p>
+
+<h3>“models.py” Yerine “models/” Paketi</h3>
+
+<p>Model dosyası uzar gider, içinde hareket etmek zorlaşır. Bu bakımdan ben
+help modelleri <code>models</code> paketi içinde tanımlarım:</p>
+<div class="highlight"><pre class="highlight shell"><code>models/
+    __init__.py
+    user.py
+    post.py
+    comment.py
+</code></pre></div>
+<p>ve <code>__init__.py</code> içinde de;</p>
+<div class="highlight"><pre class="highlight python"><code><span class="kn">from</span> <span class="nn">.user</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">.post</span> <span class="kn">import</span> <span class="n">Post</span>
+<span class="p">:</span>
+<span class="p">:</span>
+</code></pre></div>
+<p>Model dosyası içinde de nelerin importable olduğunu yazarım:</p>
+<div class="highlight"><pre class="highlight python"><code><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">'City'</span><span class="p">]</span>
+
+<span class="k">class</span> <span class="nc">City</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="p">:</span>
+    <span class="p">:</span>
+</code></pre></div>
+<h3>Güvenli “save()”</h3>
+<div class="highlight"><pre class="highlight python"><code><span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">pk</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s">'force_update'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s">'force_insert'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s">'force_insert'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s">'force_update'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="nb">super</span><span class="p">().</span><span class="n">save</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<h3>Index Eklemek</h3>
+
+<p>Sorgu yapmayı düşündüğünüz field’ları mutlaka index’leyin ama şunu da unutmayın
+ne kadar index o kadar büyük database. Eğer mümkünse index için <code>condition</code> da
+tanımlayın. Aşağıdaki örneği <strong>DjangoCon</strong> sunumlarından birinde görmüştüm.</p>
+<div class="highlight"><pre class="highlight python"><code><span class="k">class</span> <span class="nc">Order</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="p">:</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">indexes</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">Index</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="s">'unshipped_orders'</span><span class="p">,</span>
+                <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s">'pk'</span><span class="p">],</span>
+                <span class="n">condition</span><span class="o">=</span><span class="n">Q</span><span class="p">(</span><span class="n">is_shipped</span><span class="o">=</span><span class="bp">False</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+
+</code></pre></div>
+<ol>
+<li><code>null</code> değeri olan query’ler hızlanır</li>
+<li>Sadece gönderilmemiş (<em>unshipped</em>) olanlar index’lenir</li>
+</ol>
+
+<p>Keza database katmanında da validasyon için;</p>
+<div class="highlight"><pre class="highlight python"><code><span class="k">class</span> <span class="nc">MonthlyBudget</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="p">:</span>
+    <span class="p">:</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">constraints</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">CheckConstraint</span><span class="p">(</span>
+                <span class="n">check</span><span class="o">=</span><span class="n">Q</span><span class="p">(</span><span class="n">month__in</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">)),</span>
+                <span class="n">name</span><span class="o">=</span><span class="s">'check_valid_month'</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+</code></pre></div>
+<ol>
+<li>Ay değeri 1-12 (<em>inclusive</em>) olur ve <strong>13</strong> olamaz, bu da database
+katmanında bir kontrol/validasyon sağlar</li>
+<li>Özellikle <code>bulk_update()</code> işleri için çok işe yarar.</li>
+</ol>
+
+<h2>“ManyToMany” için Kendi Tablonuzu Kullanın</h2>
+
+<p>Eğer <code>ManyToMany</code> field kullanıyorsanız, Django otomatik olarak gizli bir
+tablo oluşturur. Örneğin;</p>
+<div class="highlight"><pre class="highlight python"><code><span class="k">class</span> <span class="nc">Customer</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="p">:</span>
+    <span class="p">:</span>
+    <span class="n">users</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ManyToManyField</span><span class="p">(</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">settings</span><span class="p">.</span><span class="n">AUTH_USER_MODEL</span><span class="p">,</span>
+        <span class="n">related_name</span><span class="o">=</span><span class="s">'customers'</span><span class="p">,</span>
+        <span class="n">related_query_name</span><span class="o">=</span><span class="s">'customer'</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">'users'</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="p">:</span>
+    <span class="p">:</span>    
+</code></pre></div>
+<p>gibi bir model varsa, Django yeni bir tablo yapar, buna <strong>Associative Table</strong>
+denir ve orada sadece <code>Customer ID</code> ve <code>User ID</code> tutar&hellip; Sizin bu tabloda
+başka hiçbir kontrolünüz yoktur. Ne migration seviyesinde ne de sorgu
+seviyesinde kontrol hep Django’da olur.</p>
+
+<p>Peki ek bir field daha gerekse ne olacak? Yani <code>Customer ID</code>, <code>User ID</code> ve
+<code>Is Admin?</code> tutmanız gerekse ne olacak? İşte bu durumlar için <code>through</code>
+ve <code>through_fields</code> ile ara tabloyu kendimiz oluşturabiliriz.</p>
+<div class="highlight"><pre class="highlight python"><code><span class="k">class</span> <span class="nc">Customer</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">'name'</span><span class="p">))</span>
+    <span class="n">users</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ManyToManyField</span><span class="p">(</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">settings</span><span class="p">.</span><span class="n">AUTH_USER_MODEL</span><span class="p">,</span>
+        <span class="n">through</span><span class="o">=</span><span class="s">'CustomerMembership'</span><span class="p">,</span>
+        <span class="n">through_fields</span><span class="o">=</span><span class="p">(</span><span class="s">'customer'</span><span class="p">,</span> <span class="s">'user'</span><span class="p">),</span>
+        <span class="n">related_name</span><span class="o">=</span><span class="s">'customers'</span><span class="p">,</span>
+        <span class="n">related_query_name</span><span class="o">=</span><span class="s">'customer'</span><span class="p">,</span>
+        <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">'users'</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="p">:</span>
+    <span class="p">:</span>
+
+<span class="k">class</span> <span class="nc">CustomerMembership</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">customer</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="n">to</span><span class="o">=</span><span class="s">'Customer'</span><span class="p">,</span>
+        <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="p">.</span><span class="n">CASCADE</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">settings</span><span class="p">.</span><span class="n">AUTH_USER_MODEL</span><span class="p">,</span>
+        <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="p">.</span><span class="n">CASCADE</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">is_admin</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">BooleanField</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">'customer admin status'</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="p">:</span>
+    <span class="p">:</span>
+</code></pre></div>
+<p>Ara tablo <code>CustomerMembership</code> modelinde tanımlandı. Kontrol tamamen bizde.
+Hatta bu modelin <code>save()</code>’ine istersek ek bir şeyler bile takabiliriz. Neticede
+bu artık bir model&hellip;</p>
+
+<p>Keza Django Admin’de de çok güzel bir şekilde kullanabiliriz:</p>
+<div class="highlight"><pre class="highlight python"><code><span class="k">class</span> <span class="nc">CustomerInlineAdmin</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">TabularInlineAdmin</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Customer</span><span class="p">.</span><span class="n">users</span><span class="p">.</span><span class="n">through</span>  <span class="c1"># &lt;- bu kısım!
+</span>    <span class="n">extra</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">autocomplete_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s">'customer'</span><span class="p">,</span> <span class="s">'user'</span><span class="p">]</span>
+    <span class="p">:</span>
+    <span class="p">:</span>
+
+<span class="k">class</span> <span class="nc">CustomerAdmin</span><span class="p">(</span><span class="n">admin</span><span class="p">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
+    <span class="n">list_display</span> <span class="o">=</span> <span class="p">[</span><span class="s">'__str__'</span><span class="p">]</span>
+    <span class="n">autocomplete_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s">'users'</span><span class="p">]</span>
+    <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s">'name'</span><span class="p">]</span>
+    <span class="n">inlines</span> <span class="o">=</span> <span class="p">[</span><span class="n">CustomerInlineAdmin</span><span class="p">]</span>
+    <span class="p">:</span>
+</code></pre></div>
+<p>Özetle, üşenmeyin, <code>ManyToManyField</code> durumunda <code>through</code> kullanın :)</p>
+
+<hr>
+
+<p>Son olarak, modeli planlarken yapacağınız sorguları da hayal edin. Örneğin
+sürekli tarih ile ilgili bir sorgu yapacaksınız. Yılı 2020 olan kayıtları
+getir ya da sürekli yıla göre rapor alıyorsunuz.</p>
+
+<p>Modelin <code>created_at</code> alanında sürekli <code>date lookup</code> yapmak yerine, belkide
+modele bir <code>year</code> field’ı eklemek ve bunu <code>IntegerField</code> yapmak ve index
+koymak sorgularınızı aşırı derecede hızlandırabilir. Database içinde
+tarih hesapları yapmak yerine sadece sayı sorgusu yapmak çok daha hızlı
+ve az maliyetlidir.</p>
+
+<p>Belki ay, gün için bile ek bir <code>IntegerField</code> eklenebilir. Yani ne sorgulayacağınızı
+mutlaka planlayın&hellip;</p>
+</div>
+                        </article>
+                        
+                            <nav class="mt-6 pagination is-centered" role="navigation" aria-label="pagination">
+                                <a href="/blog/tr/2021/05/27/istediginiz-yerden-go-kodunu-calistirabilirsiniz/" class="pagination-previous has-text-link">&laquo; İstediğiniz Yerden Go Kodunu Çalıştırabilirsiniz</a>
+                                <a href="/blog/tr/2021/05/27/istediginiz-yerden-go-kodunu-calistirabilirsiniz/" class="pagination-next has-text-link">JSON İşleme Aracı: jq &raquo;</a>
+                            </nav>
+                    </div>
+                </div>
+                <div class="column is-3-desktop is-full-tablet">
+                    <div class="content">
+                            <div class="blog-post-list sidebar">
+        <h1>Benzer Makaleler</h1>
+        <p>Konu ile ilgili toplam “4” adet benzer makale bulunuyor.</p>
+        <ul>
+            <li>
+                <a href="/blog/tr/2013/02/04/derlenmis-python-dosyalari-bazen-sizi-yaniltabilir/">Derlenmiş Python Dosyaları Bazen Sizi Yanıltabilir</a>
+                <time pubdate datetime="2013-02-04T12:15:00+02:00">
+                    04 Şubat 2013, Pazartesi
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2012/10/25/ozgur-web-gunleri-2012/">Özgür Web Günleri 2012</a>
+                <time pubdate datetime="2012-10-25T15:50:00+03:00">
+                    25 Ekim 2012, Perşembe
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2011/02/10/kendi-pythonunu-djangonu-paketlerini-kendin-kur/">Kendi Python’unu Django’nu paketlerini kendin kur</a>
+                <time pubdate datetime="2011-02-10T12:58:00+02:00">
+                    10 Şubat 2011, Perşembe
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2009/07/29/django-icin-bash-completion/">Django için bash completion</a>
+                <time pubdate datetime="2009-07-29T15:59:00+03:00">
+                    29 Temmuz 2009, Çarşamba
+                </time>
+            </li>
+        </ul>
+    </div>
+    
+
+                        
+                        <div class="blog-post-list sidebar">
+    <h1>Yıllara Göre</h1>
+    <p>Blog arşivinde toplam “77” kayıt bulunuyor.</p>
+<p><a href="/blog/tr/yil/2022/" class="">2022 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2021/" class="">2021 yılına ait 4 makale</a></p><p><a href="/blog/tr/yil/2016/" class="">2016 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2015/" class="">2015 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2014/" class="">2014 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2013/" class="">2013 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2012/" class="">2012 yılına ait 8 makale</a></p><p><a href="/blog/tr/yil/2011/" class="">2011 yılına ait 16 makale</a></p><p><a href="/blog/tr/yil/2010/" class="">2010 yılına ait 6 makale</a></p><p><a href="/blog/tr/yil/2009/" class="">2009 yılına ait 22 makale</a></p><p><a href="/blog/tr/yil/2008/" class="">2008 yılına ait 11 makale</a></p><p><a href="/blog/tr/yil/2006/" class="">2006 yılına ait 1 makale</a></p></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <footer class="footer">
+    <div class="container">
+        <div class="content">
+            <a href="/feed-tr.xml" title="RSS aboneliği">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-square-rss fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/sponsors/vigo" title="GitHub sponsorluk">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-heart fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://patreon.com/vigoo" title="Patreon destek">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-patreon fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/vigo" title="GitHub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-github fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://hub.docker.com/u/vigo/" title="Dockerhub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-docker fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.linkedin.com/in/ugurozyilmazel" title="LinkedIn profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-linkedin fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://rubygems.org/profiles/vigo" title="Rubygems profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://pypi.org/user/vigo" title="Python Package Index profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://csdb.dk/scener/?id=8379" title="CSDB">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.pouet.net/user.php?who=4721" title="Pouet">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="http://janeway.exotica.org.uk/author.php?id=11962" title="Amiga Exotica">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://demozoo.org/sceners/6273" title="Demozoo">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.demoparty.net/users/vigo" title="Demoparty.net">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            
+            <script type="text/javascript">
+            document.write('<a href="mailto:');
+            document.write("hthebmlvyznmry\100tznvy\056pbz".replace(/[a-zA-Z]/g, function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
+            document.write('" title="E-Posta"');
+            document.write('<span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-at fa-stack-1x"></i></span>');
+            document.write('</a>');
+            </script>
+        </div>
+    </div>
+</footer>
+
+
+
+</body>
+</html>

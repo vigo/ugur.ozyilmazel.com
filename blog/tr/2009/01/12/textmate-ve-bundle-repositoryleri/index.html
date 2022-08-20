@@ -1,0 +1,339 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>TextMate ve Bundle Repository’leri - Uğur “vigo” Özyılmazel</title>
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (Türkçe)" href="/feed-tr.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (English)" href="/feed-en.xml" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <script src="https://kit.fontawesome.com/ebc2456445.js" crossorigin="anonymous"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+        <link href="/public/css/syntax.css" rel="stylesheet" />
+        <link href="/public/css/application.css" rel="stylesheet" />
+    
+
+        <script src="/public/js/application.js"></script>
+    
+        <meta name="date" content="2022-08-20T12:58:51+03:00" />
+        <meta name="description" content="Mac OS’un en rahat kullanılan, multi-platform yazılım geliştirme aracı TextMate ile ilgili güzel bir özellikten bahsetmek istiyorum." />
+        <meta name="author" content="Uğur “vigo” Özyılmazel"/>
+        <meta name="copyright" content="(c) 2006 / 2022 - Uğur “vigo” Özyılmazel" />
+        <meta property="og:url" content="https://ugur.ozyilmazel.com/blog/tr/2009/01/12/textmate-ve-bundle-repositoryleri/" />
+        <meta property="og:title" content="TextMate ve Bundle Repository’leri" />
+        <meta property="og:site_name" content="vigo" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="Mac OS’un en rahat kullanılan, multi-platform yazılım geliştirme aracı TextMate ile ilgili güzel bir özellikten bahsetmek istiyorum." />
+        <meta property="og:image" content="https://ugur.ozyilmazel.com/public/images/og/ugur-vigo-ozyilmazel-500x500.jpg" />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:width" content="500" />
+        <meta property="og:image:height" content="500" />
+
+    <link href="/public/images/favicon.png" rel="shortcut icon" type="image/png" />
+    </head>
+<body>
+    
+    
+    <section class="section menu">
+    <div class="container">
+        <nav class="level is-mobile">
+            <div class="level-left">
+<div class="level-item"><a href="/">Anasayfa</a></div><div class="level-item"><a href="/blog/tr/" class="is-active">Blog Arşiv</a></div><div class="level-item"><a href="/sayfa/tr/sunumlar/">Sunumlar</a></div>            </div>
+            <div class="level-right">
+<div class="level-item"><a href="https://vbyazilim.com" target="_blank">VB</a></div><div class="level-item"><a href="/en/">English</a></div>            </div>
+        </nav>
+    </div>
+</section>
+
+    
+        <section class="hero is-medium cover is-hidden-touch" style="background-image: url(/public/images/covers/generic-textmate.png);">
+        <div class="hero-body">
+            <div class="container has-text-left">
+                
+                
+            </div>
+        </div>
+    </section>
+  
+    
+        <section class="section main">
+        <div class="container">
+        
+            <div class="columns is-multiline is-variable is-8">
+                <div class="column is-9-desktop is-full-tablet">
+                    <div class="content is-large">
+                        <article>
+                            <div class="meta">
+                                <span class="reading-time">OKUMA SÜRESİ 02:47</span>
+                                &mdash;
+                                <time pubdate datetime="2009-01-12T15:30:00+02:00" title="12 Ocak 2009, Pazartesi 15:30">12 Ocak 2009, Pazartesi 15:30</time>
+                                
+                                <div class="tags mt-3">
+                                        <a href="/blog/tr/etiket/textmate/" class="tag is-info">textmate</a>
+                                        <a href="/blog/tr/etiket/bundle/" class="tag is-info">bundle</a>
+                                        <a href="/blog/tr/etiket/php/" class="tag is-info">php</a>
+                                </div>
+                                
+                            </div>
+                            
+                            <h1 class="title">TextMate ve Bundle Repository’leri</h1>
+                            
+                            <div class="yield"><p>Mac OS’un en rahat kullanılan, multi-platform yazılım geliştirme aracı
+<a href="http://www.macromates.com/" title="TextMate">TextMate</a> ile ilgili güzel bir özellikten bahsetmek istiyorum. </p>
+
+<div class="full zoomable"><figure class="image"><img title="TextMate Bundle editör ekranı" src="/public/images/posts/2009-01-12-textmate/2009-01-12-textmate-bundle-editor.png" alt="TextMate Bundle editör ekranı"></figure></div>
+
+<h2>Bundle</h2>
+
+<p>TextMate’le pek çok farklı işi yapabilmek, farklı yazılım dillerinde kod
+yazabilmek, her hangi bir veri-tabanı sunucusuna bağlanabilmek ya da otomatik
+tamamlama yapabilmek gibi tonlarca şeyi bu <strong>Bundle</strong> özelliği sayesinde
+yapıyoruz.</p>
+
+<p>Uygulama içinden ilk kurduğunuz zaman pek çok (<em>built-in</em>) bundle geliyor.
+İşin güzel yanı, pek çok insan sürekli yeni bundle’lar geliştiriyor ve bunlar
+TextMate’in <strong>Bundle Repository</strong>’sinde bulunuyor.</p>
+
+<p>Bundle dediğimiz şey; aslında bir konfigürasyon ve direktifler yığınıdır.
+Bundle Editore girdiğimizde;</p>
+
+<ul>
+<li>Commands</li>
+<li>Drag Commands</li>
+<li>Macros</li>
+<li>Snippets</li>
+<li>Languages</li>
+<li>Preferences</li>
+<li>Templates</li>
+</ul>
+
+<p>gibi seçenekleri olduğunu görürüz. Eğer <strong>Show All</strong> dersek tüm seçenekleri
+görebiliriz. Filtreleme yaparak sadece Snippet’ları ya da Macro’ları
+gösterebiliriz.</p>
+
+<p>Bu alanda gördüğünüz herşey aslında TextMate’in <q>Bundle Repository</q> denen
+yazılım-geliştirme sunucularında depolanmakta ve sürekli güncellenmekte.
+Program ilk kurulduğunda üzerinde gelen bundle’lar <code>~/Library/Application\ Support/TextMate/Bundles</code>
+yani sizin kullanıcınıza ait olan bölgede bulunuyor.</p>
+
+<p>TextMate, SVN reposu üzerinde tutuyor Bundle’larını. Keza SVN üzerinden eklenen 
+ya da elle kendi eklediğiniz bundle’lar birbirinden farklı olarak saklanıyor, 
+kimse birbirini bozamıyor.</p>
+
+<p>Yani repodan gelen (<em>sistem altında!</em>) ayrı bir yerde, kendi <q>edit</q> edip 
+eklediğiniz / düzenlediğiniz ayrı yerde (<em>kullanıcı yani user dizininde&hellip;</em>)</p>
+
+<p>Yeni bundle’lar eklemek için önce Terminal’i açıyoruz ve;</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">ls</span> ~/Library/Application<span class="se">\ </span>Support/
+</code></pre></div>
+<p>diyerek acaba TextMate’e ait folder var mı? bakıyoruz. Eğer yoksa;</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">mkdir</span> <span class="nt">-p</span> ~/Library/Application<span class="se">\ </span>Support/TextMate/Bundles
+<span class="nb">cd</span> ~/Library/Application<span class="se">\ </span>Support/TextMate/Bundles
+</code></pre></div>
+<p>diyoruz ve hemen hangi ekleri (<em>ya da bundle’ları</em>) kurmak istiyorsak
+Macromates’in SVN repository’sine gidiyoruz. Web browser açıp
+(<em>Safari / Firefox vs</em>) hemen <a href="http://macromates.com/svn/Bundles/trunk/Bundles/">http://macromates.com/svn/Bundles/trunk/Bundles/</a>
+adresine gidiyoruz.</p>
+
+<p>Karşımıza büyük bir liste çıkıyor. Buradan istediğimiz Bundle’ı seçiyoruz. 
+Mesela <strong>PHP</strong> ile ilgili Bundle’ı kuralım, hem de PHP fonksiyonları için 
+<strong>auto-complete</strong> de yapıyor bu bundle. Terminal’den devam ediyoruz;</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">cd</span> ~/Library/Application<span class="se">\ </span>Support/TextMate/Bundles
+svn co http://macromates.com/svn/Bundles/trunk/Bundles/PHP.tmbundle
+</code></pre></div>
+<p>Gördüğünüz gibi gidip PHP ile ilgili bundle’ı repodan indirdik. Şimdi ya
+TextMate kapatıp açıcaz ya da <strong>Bundle Editor</strong> menüsünden <strong>Reload Bundles</strong>
+yapıcaz. (<em>Bundles &gt; Bundle Editor &gt; Reload Bundles</em>) Şimdi bir Php dosyası
+yaratalım. (<em>File &gt; New</em>) Bu dosyayı <q>test.php</q> şeklinde kaydedelim.
+(<em>İlla kaydetmek zorunda da değilsiniz!</em>)</p>
+
+<p>Şimdi Php’i komutu yazarken <kbd>⌥</kbd> (alt) ve <kbd>⎋</kbd> (esc) tuşlarına 
+basın!</p>
+
+<div class="card blog-card mt-2 mb-4"><div class="card-image has-text-centered"><img class="mt-4" title="Php otomatik tamamlama" src="/public/images/posts/2009-01-12-textmate/2009-01-12-textmate-php-complete.png" alt="Php otomatik tamamlama" /></div><div class="card-content"><div class="content has-text-centered is-size-5-desktop is-size-6-mobile"><p> Php otomatik tamamlama 
+</p></div></div></div>
+
+<p>Biraz merak ediyorsanız Bundle Editor’ü açıp bu otomatik tamamlamanın nasıl
+yapıldığına bakabilirsiniz. Çok zor değil, tüm konfigürasyon <code>KEY: VALUE</code>
+ikililerinden oluşan direktifler. Yani <strong>Dictionary Object</strong> dediğimiz şey&hellip;</p>
+
+<p>Keza, ilgili komuta ait yardım almak için <kbd>⌥</kbd> (alt) + <kbd>F1</kbd></p>
+
+<div class="card blog-card mt-2 mb-4"><div class="card-image has-text-centered"><img class="mt-4" title="Php yardımcısı" src="/public/images/posts/2009-01-12-textmate/2009-01-12-textmate-php-helper.png" alt="Php yardımcısı" /></div><div class="card-content"><div class="content has-text-centered is-size-5-desktop is-size-6-mobile"><p> Php yardımcısı 
+</p></div></div></div>
+
+<p>Belirli aralıklarla (<em>ayda bir kez mesela</em>) <code>svn up</code> yaparak reponuzu güncel
+tutabilirsiniz. Bunun için <code>check-out</code> (co) ettiğiniz yere gidin;</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">cd</span> ~/Library/Application<span class="se">\ </span>Support/Textmate/Bundles/PHP.tmbundle
+svn up
+</code></pre></div>
+<p>yapmanız yeterli olacaktır.</p>
+
+<h3>Güncelleme (8 Ağustos 2009)</h3>
+
+<p>Bundle repository adresi değişmiş: <a href="http://svn.textmate.org/trunk/Bundles/">http://svn.textmate.org/trunk/Bundles/</a></p>
+
+<h3>Güncelleme (2011)</h3>
+
+<p>Neredeyse tüm bundle’lar <a href="http://github.com">Github</a>’a aktarıldı&hellip; Yeni repo:
+<a href="https://github.com/textmate">https://github.com/textmate</a></p>
+</div>
+                        </article>
+                        
+                            <nav class="mt-6 pagination is-centered" role="navigation" aria-label="pagination">
+                                <a href="/blog/tr/2009/01/10/anket-sonucu-pcden-mace-gectim/" class="pagination-previous has-text-link">&laquo; Anket Sonucu : PC’den MAC’e geçtim ve...</a>
+                                <a href="/blog/tr/2009/01/10/anket-sonucu-pcden-mace-gectim/" class="pagination-next has-text-link">Kemalpaşa Tatlısı yaptım yaaaaa!!! &raquo;</a>
+                            </nav>
+                    </div>
+                </div>
+                <div class="column is-3-desktop is-full-tablet">
+                    <div class="content">
+                            <div class="blog-post-list sidebar">
+        <h1>Benzer Makaleler</h1>
+        <p>Konu ile ilgili toplam “11” adet benzer makale bulunuyor.</p>
+        <ul>
+            <li>
+                <a href="/blog/tr/2015/04/13/textmate-ve-interaktif-giris/">TextMate ve İnteraktif Giriş</a>
+                <time pubdate datetime="2015-04-13T09:28:00+03:00">
+                    13 Nisan 2015, Pazartesi
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2014/11/14/textmate-1-ve-yosemite/">TextMate 1 ve Yosemite</a>
+                <time pubdate datetime="2014-11-14T13:29:00+02:00">
+                    14 Kasım 2014, Cuma
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2013/10/24/textmate-1-ve-mavericks/">TextMate 1 ve Mavericks</a>
+                <time pubdate datetime="2013-10-24T14:00:00+03:00">
+                    24 Ekim 2013, Perşembe
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2013/02/20/bash-completion-anotomisi/">Bash Completion Anotomisi</a>
+                <time pubdate datetime="2013-02-20T23:37:00+02:00">
+                    20 Şubat 2013, Çarşamba
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2011/03/30/textmate-ve-path-sorunsali/">TextMate ve Path sorunsalı</a>
+                <time pubdate datetime="2011-03-30T14:40:00+03:00">
+                    30 Mart 2011, Çarşamba
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2010/11/29/textmate-icin-yaptigim-kucuk-bir-applescript/">TextMate için yaptığım küçük bir AppleScript</a>
+                <time pubdate datetime="2010-11-29T21:20:00+02:00">
+                    29 Kasım 2010, Pazartesi
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2009/08/08/textmate-ve-bundle-olaylari/">TextMate ve Bundle olayları</a>
+                <time pubdate datetime="2009-08-08T15:48:00+03:00">
+                    08 Ağustos 2009, Cumartesi
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2009/08/08/textmate-ve-xhtml-tag-tamamlama-olayi/">TextMate ve XHTML tag tamamlama olayı</a>
+                <time pubdate datetime="2009-08-08T14:57:00+03:00">
+                    08 Ağustos 2009, Cumartesi
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2009/06/04/hosts-dosyasi-icin-textmate-bundle/">/etc/hosts dosyası için TextMate Bundle</a>
+                <time pubdate datetime="2009-06-04T11:56:00+03:00">
+                    04 Haziran 2009, Perşembe
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2008/12/12/pilav-view-controller-pvc-framework/">Pilav View Controller (PVC) Framework!</a>
+                <time pubdate datetime="2008-12-12T18:59:00+02:00">
+                    12 Aralık 2008, Cuma
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2008/11/21/textmate-ve-php-ini/">Textmate ve php.ini</a>
+                <time pubdate datetime="2008-11-21T21:45:00+02:00">
+                    21 Kasım 2008, Cuma
+                </time>
+            </li>
+        </ul>
+    </div>
+    
+
+                        
+                        <div class="blog-post-list sidebar">
+    <h1>Yıllara Göre</h1>
+    <p>Blog arşivinde toplam “77” kayıt bulunuyor.</p>
+<p><a href="/blog/tr/yil/2022/" class="">2022 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2021/" class="">2021 yılına ait 4 makale</a></p><p><a href="/blog/tr/yil/2016/" class="">2016 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2015/" class="">2015 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2014/" class="">2014 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2013/" class="">2013 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2012/" class="">2012 yılına ait 8 makale</a></p><p><a href="/blog/tr/yil/2011/" class="">2011 yılına ait 16 makale</a></p><p><a href="/blog/tr/yil/2010/" class="">2010 yılına ait 6 makale</a></p><p><a href="/blog/tr/yil/2009/" class="">2009 yılına ait 22 makale</a></p><p><a href="/blog/tr/yil/2008/" class="">2008 yılına ait 11 makale</a></p><p><a href="/blog/tr/yil/2006/" class="">2006 yılına ait 1 makale</a></p></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <footer class="footer">
+    <div class="container">
+        <div class="content">
+            <a href="/feed-tr.xml" title="RSS aboneliği">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-square-rss fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/sponsors/vigo" title="GitHub sponsorluk">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-heart fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://patreon.com/vigoo" title="Patreon destek">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-patreon fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/vigo" title="GitHub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-github fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://hub.docker.com/u/vigo/" title="Dockerhub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-docker fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.linkedin.com/in/ugurozyilmazel" title="LinkedIn profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-linkedin fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://rubygems.org/profiles/vigo" title="Rubygems profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://pypi.org/user/vigo" title="Python Package Index profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://csdb.dk/scener/?id=8379" title="CSDB">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.pouet.net/user.php?who=4721" title="Pouet">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="http://janeway.exotica.org.uk/author.php?id=11962" title="Amiga Exotica">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://demozoo.org/sceners/6273" title="Demozoo">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.demoparty.net/users/vigo" title="Demoparty.net">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            
+            <script type="text/javascript">
+            document.write('<a href="mailto:');
+            document.write("hthebmlvyznmry\100tznvy\056pbz".replace(/[a-zA-Z]/g, function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
+            document.write('" title="E-Posta"');
+            document.write('<span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-at fa-stack-1x"></i></span>');
+            document.write('</a>');
+            </script>
+        </div>
+    </div>
+</footer>
+
+
+
+</body>
+</html>

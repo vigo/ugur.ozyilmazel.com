@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Anasayfa - Uğur “vigo” Özyılmazel</title>
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (Türkçe)" href="/feed-tr.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (English)" href="/feed-en.xml" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <script src="https://kit.fontawesome.com/ebc2456445.js" crossorigin="anonymous"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+        <link href="/public/css/syntax.css" rel="stylesheet" />
+        <link href="/public/css/application.css" rel="stylesheet" />
+    
+
+        <script src="/public/js/application.js"></script>
+        <script src="/public/js/moment.min.js"></script>
+        <script src="/public/js/moment-tr.js"></script>
+        
+        <script type="text/javascript">
+            function setGitHubData(data) {
+                non_forks = data.filter(function(obj, index){
+                    if(!obj.fork){ return true; }
+                });
+
+                let htmlData = ['<ul>'];
+
+                $.each(non_forks, function(index, repo){
+                    if(index < 10){
+                        let t = moment(repo.pushed_at);
+
+                        htmlData.push('<li>');
+                        htmlData.push('<a href="' + repo.html_url + '">' + repo.full_name + '</a>');
+                        htmlData.push('<time pubdate datetime="' + repo.pushed_at + '">' + t.fromNow() + '</time>');
+                        htmlData.push('<p class="mt-2">[ ★ ' + String(repo.stargazers_count).padStart(3, '0') + ' ]</span> <span class="repo-desc">' + repo.description + '</p>');
+                        htmlData.push('</li>');
+                    }
+                });
+                htmlData.push('</ul>');
+                $("#github-latests").html(htmlData.join("\n"));
+            }
+            
+            $(document).ready(function(){
+                let locale = "tr";
+                let latestRepos = JSON.parse(window.localStorage.getItem(`latestRepos-${locale}`));
+                
+                if(latestRepos == null || new Date() > new Date(latestRepos.expiresAt)){
+                    console.log("fetching new data...");
+                    $.ajax({
+                        type: 'GET',
+                        url: 'https://api.github.com/users/vigo/repos?sort=pushed',
+                        dataType: "json",
+                        error: function(err){
+                            $("#github-latests").html('GitHub&rsquo;dan repo&rsquo;ları yükleyemedim...');
+                        },
+                        success: function(data){
+                            var d = new Date();
+                            d.setDate(d.getDate() + 1); // 1 day
+
+                            var ghData = {
+                                data: data,
+                                expiresAt: d,
+                            }
+                            window.localStorage.setItem(`latestRepos-${locale}`, JSON.stringify(ghData));
+
+                            setGitHubData(data);
+                        }
+                    });
+                } else {
+                    console.log("coming from cache...");
+                    setGitHubData(latestRepos.data);
+                }
+
+            });
+        </script>
+
+        <meta name="date" content="2022-08-20T12:58:50+03:00" />
+        <meta name="description" content="" />
+        <meta name="author" content="Uğur “vigo” Özyılmazel"/>
+        <meta name="copyright" content="(c) 2006 / 2022 - Uğur “vigo” Özyılmazel" />
+        <meta property="og:url" content="https://ugur.ozyilmazel.com/" />
+        <meta property="og:title" content="Anasayfa" />
+        <meta property="og:site_name" content="vigo" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="" />
+        <meta property="og:image" content="https://ugur.ozyilmazel.com/public/images/og/ugur-vigo-ozyilmazel-500x500.jpg" />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:width" content="500" />
+        <meta property="og:image:height" content="500" />
+
+    <link href="/public/images/favicon.png" rel="shortcut icon" type="image/png" />
+    </head>
+<body>
+    
+    
+    <section class="section menu">
+    <div class="container">
+        <nav class="level is-mobile">
+            <div class="level-left">
+<div class="level-item"><a href="/" class="is-active">Anasayfa</a></div><div class="level-item"><a href="/blog/tr/">Blog Arşiv</a></div><div class="level-item"><a href="/sayfa/tr/sunumlar/">Sunumlar</a></div>            </div>
+            <div class="level-right">
+<div class="level-item"><a href="https://vbyazilim.com" target="_blank">VB</a></div><div class="level-item"><a href="/en/">English</a></div>            </div>
+        </nav>
+    </div>
+</section>
+
+    
+        <section class="hero is-medium cover is-hidden-touch" style="background-image: url(/public/images/covers/C16.jpg);">
+        <div class="hero-body">
+            <div class="container has-text-left">
+                <p class="is-size-3 has-text-weight-bold has-text-white"><span class="bandage has-background-black">Uğur “vigo” Özyılmazel</span></p>
+                <p class="is-size-4 has-text-weight-medium has-text-white"><span class="bandage has-background-black">Bilgisayar Programcısı</span></p>
+            </div>
+        </div>
+    </section>
+  
+    
+    
+<section class="section main">
+    <div class="container">
+        
+        <div class="columns is-multiline is-variable is-8">
+            <div class="column is-9-desktop is-full-tablet">
+
+                <div class="blog-post-list">
+    <ul>
+        <li>
+            <a href="/blog/tr/2022/08/13/merhaba-dunya/" class="is-size-4-desktop">Yeniden Merhaba Dünya V6</a>
+
+            <time pubdate datetime="2022-08-13T21:33:00+03:00">
+                13 Ağustos 2022, Cumartesi 21:33
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/merhaba/" class="tag is-info">merhaba</a>
+
+                <p class="summary"> Uzunca zamandır aklımdaydı, sitemi güncellemek istiyordum. Özellikle <code>ruby</code>
+bağımlılıkları, <code>middleman</code>’in yeni versiyonuna geçmek gibi planlarım vardı.
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2021/09/26/olmazsa-olmaz-golang-kutuphaneleri/" class="is-size-4-desktop">Olmazsa Olmaz Golang Kütüphaneleri</a>
+
+            <time pubdate datetime="2021-09-26T13:45:00+03:00">
+                26 Eylül 2021, Pazar 13:45
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/golang/" class="tag is-info">golang</a>
+
+                <p class="summary"> İster komut satırı aracı, ister kütüphane ya da servis geliştirirken bazı 3.parti
+kütüphaneler / yardımcılar, hayatımızı kolaylaştırır. Bu yazımda sizlere sık
+kullandığım paketlerden bahsedeceğim. </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2021/08/28/json-isleme-araci-jq/" class="is-size-4-desktop">JSON İşleme Aracı: jq</a>
+
+            <time pubdate datetime="2021-08-28T11:38:00+03:00">
+                28 Ağustos 2021, Cumartesi 11:38
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/json/" class="tag is-info">json</a>
+                        <a href="/blog/tr/etiket/jq/" class="tag is-info">jq</a>
+                        <a href="/blog/tr/etiket/bash/" class="tag is-info">bash</a>
+
+                <p class="summary"> <code>JSON</code> dosya formatı artık hayatımızın vazgeçilmezi. Gündelik hayatta hep
+onunla işimiz oluyor. Peki bir araç olsa, istediğimiz gibi filtreleme
+yapsak, hem de hiç kod yazmasak? 
+
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2021/08/22/django-model-ipuclari/" class="is-size-4-desktop">Django Model İpuçları</a>
+
+            <time pubdate datetime="2021-08-22T09:43:00+03:00">
+                22 Ağustos 2021, Pazar 09:43
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/django/" class="tag is-info">django</a>
+
+                <p class="summary"> Yaklaşık 2008’den beri Django geliştiriyorum. Pek çok proje yaptım. Model
+tanımlamaları ile ilgili bazı edindiğim, okuduğum makalelerden öğrendiğim
+şeyleri yazmak istedim. </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2021/05/27/istediginiz-yerden-go-kodunu-calistirabilirsiniz/" class="is-size-4-desktop">İstediğiniz Yerden Go Kodunu Çalıştırabilirsiniz</a>
+
+            <time pubdate datetime="2021-05-27T18:35:00+03:00">
+                27 Mayıs 2021, Perşembe 18:35
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/golang/" class="tag is-info">golang</a>
+
+                <p class="summary"> Dikkatimi çekti, pek çok kişi bu özelliğin ya farkında değil ya da bilmiyor.
+Ben de yakın zamanda tam olarak öğrenip konuyu anladım ve çok mutlu oldum. </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2016/07/30/solid-prensibi/" class="is-size-4-desktop">SOLID Prensibi</a>
+
+            <time pubdate datetime="2016-07-30T18:30:00+03:00">
+                30 Temmuz 2016, Cumartesi 18:30
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/solid/" class="tag is-info">solid</a>
+                        <a href="/blog/tr/etiket/ruby/" class="tag is-info">ruby</a>
+
+                <p class="summary"> Object Oriented Programming (OOP) yani Nesne Yönelimli Programlama’nın en temel
+prensibi olarak kabul edilir. </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2015/04/13/textmate-ve-interaktif-giris/" class="is-size-4-desktop">TextMate ve İnteraktif Giriş</a>
+
+            <time pubdate datetime="2015-04-13T09:28:00+03:00">
+                13 Nisan 2015, Pazartesi 09:28
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/textmate/" class="tag is-info">textmate</a>
+
+                <p class="summary"> Çoğu zaman birşeyleri hızla denemek için <a>TextMate</a>’i kullanırım. 
+İstediğim programlama dilinde, anında birşeyleri yazıp çalıştırmak mümkündür
+TextMate’de.  </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2014/11/25/yeniden-merhaba/" class="is-size-4-desktop">Middleman ile yeniden merhaba ...</a>
+
+            <time pubdate datetime="2014-11-25T22:20:00+02:00">
+                25 Kasım 2014, Salı 22:20
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/merhaba/" class="tag is-info">merhaba</a>
+
+                <p class="summary"> Bir çılgınlık yaptım ve websitemi <a>Octopress</a> yerine 
+<a>Middleman</a>’e taşıdım!  </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2014/11/14/textmate-1-ve-yosemite/" class="is-size-4-desktop">TextMate 1 ve Yosemite</a>
+
+            <time pubdate datetime="2014-11-14T13:29:00+02:00">
+                14 Kasım 2014, Cuma 13:29
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/textmate/" class="tag is-info">textmate</a>
+                        <a href="/blog/tr/etiket/yosemite/" class="tag is-info">yosemite</a>
+
+                <p class="summary"> Eğer siz de benim gibi dinozorsanız ve halen en eski <a>TextMate</a>’i
+Version <strong>1.5.11</strong> (1635)’i kullanıyorsanız bu yazıyı okumanız iyi olur :)
+ </p>
+            </div>
+        </li>
+        <li>
+            <a href="/blog/tr/2014/09/23/rubygem-hazirliyoruz/" class="is-size-4-desktop">Rubygem Hazırlıyoruz</a>
+
+            <time pubdate datetime="2014-09-23T12:45:00+03:00">
+                23 Eylül 2014, Salı 12:45
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/gem/" class="tag is-info">gem</a>
+                        <a href="/blog/tr/etiket/bundler/" class="tag is-info">bundler</a>
+
+                <p class="summary"> <a>How I start</a> sitesinde görüp, kesinlikle Türkçe’si
+de olmalı dediğim, sıfırdan Ruby GEM’i hazırlamayı anlatan blog
+postuma hoşgeldiniz!
+ </p>
+            </div>
+        </li>
+    </ul>
+</div>
+
+
+                <div class="content">
+                    <p>Toplam <strong>77</strong> makale bulunuyor. Tüm blog arişivi için <a href="/blog/tr/">tıklayın</a>.</p>
+                </div>
+            </div>
+            <div class="column is-3-desktop is-full-tablet">
+                <div class="content">
+                    <div class="sidebar-about-me mb-6">
+    <div class="box">
+        <div class="media">
+            <img src="/public/images/og/ugur-vigo-ozyilmazel-500x500.jpg" alt="Image">
+        </div>
+    </div>
+    <div class="content">
+        <p>
+            Merhaba, ben Uğur &ldquo;vigo&rdquo; Özyılmazel. Bilgisayar programcısıyım.
+            Web siteme hoş geldiniz. 
+        </p>
+        <p>
+            Kullandığım yazılım dilleri, programlar ve işletim
+            sistemleri ile ilgili notlarımı sitemde bulabilirsiniz.
+        </p>
+    </div>
+</div>
+                    <div class="github-repos blog-post-list content">
+    <h3>Güncel GitHub Repolarım</h3>
+    <div id="github-latests">Yükleniyor...</div>
+</div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+    <footer class="footer">
+    <div class="container">
+        <div class="content">
+            <a href="/feed-tr.xml" title="RSS aboneliği">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-square-rss fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/sponsors/vigo" title="GitHub sponsorluk">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-heart fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://patreon.com/vigoo" title="Patreon destek">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-patreon fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/vigo" title="GitHub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-github fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://hub.docker.com/u/vigo/" title="Dockerhub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-docker fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.linkedin.com/in/ugurozyilmazel" title="LinkedIn profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-linkedin fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://rubygems.org/profiles/vigo" title="Rubygems profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://pypi.org/user/vigo" title="Python Package Index profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://csdb.dk/scener/?id=8379" title="CSDB">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.pouet.net/user.php?who=4721" title="Pouet">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="http://janeway.exotica.org.uk/author.php?id=11962" title="Amiga Exotica">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://demozoo.org/sceners/6273" title="Demozoo">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.demoparty.net/users/vigo" title="Demoparty.net">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            
+            <script type="text/javascript">
+            document.write('<a href="mailto:');
+            document.write("hthebmlvyznmry\100tznvy\056pbz".replace(/[a-zA-Z]/g, function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
+            document.write('" title="E-Posta"');
+            document.write('<span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-at fa-stack-1x"></i></span>');
+            document.write('</a>');
+            </script>
+        </div>
+    </div>
+</footer>
+
+
+
+</body>
+</html>

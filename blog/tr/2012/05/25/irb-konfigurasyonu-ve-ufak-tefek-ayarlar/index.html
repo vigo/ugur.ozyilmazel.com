@@ -1,0 +1,336 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>IRB konfigürasyonu ve ufak tefek ayarlar - Uğur “vigo” Özyılmazel</title>
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (Türkçe)" href="/feed-tr.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (English)" href="/feed-en.xml" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <script src="https://kit.fontawesome.com/ebc2456445.js" crossorigin="anonymous"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+        <link href="/public/css/syntax.css" rel="stylesheet" />
+        <link href="/public/css/application.css" rel="stylesheet" />
+    
+
+        <script src="/public/js/application.js"></script>
+    
+        <meta name="date" content="2022-08-20T12:58:47+03:00" />
+        <meta name="description" content="IRB konfigüre edilebilen bir interaktif konsoldur. Aynı IPython gibi. Hem test yapmak, hem de günlük ihtiyaçları kullanmak için en sık başvurduğum tool’dur. Python’dan alıştığım Pretty Print beni IRB uzmanı olmaya yöneltti." />
+        <meta name="author" content="Uğur “vigo” Özyılmazel"/>
+        <meta name="copyright" content="(c) 2006 / 2022 - Uğur “vigo” Özyılmazel" />
+        <meta property="og:url" content="https://ugur.ozyilmazel.com/blog/tr/2012/05/25/irb-konfigurasyonu-ve-ufak-tefek-ayarlar/" />
+        <meta property="og:title" content="IRB konfigürasyonu ve ufak tefek ayarlar" />
+        <meta property="og:site_name" content="vigo" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="IRB konfigüre edilebilen bir interaktif konsoldur. Aynı IPython gibi. Hem test yapmak, hem de günlük ihtiyaçları kullanmak için en sık başvurduğum tool’dur. Python’dan alıştığım Pretty Print beni IRB uzmanı olmaya yöneltti." />
+        <meta property="og:image" content="https://ugur.ozyilmazel.com/public/images/covers/2012-05-25-irb-configurasyonu.png" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="3360" />
+        <meta property="og:image:height" content="706" />
+
+    <link href="/public/images/favicon.png" rel="shortcut icon" type="image/png" />
+    </head>
+<body>
+    
+    
+    <section class="section menu">
+    <div class="container">
+        <nav class="level is-mobile">
+            <div class="level-left">
+<div class="level-item"><a href="/">Anasayfa</a></div><div class="level-item"><a href="/blog/tr/" class="is-active">Blog Arşiv</a></div><div class="level-item"><a href="/sayfa/tr/sunumlar/">Sunumlar</a></div>            </div>
+            <div class="level-right">
+<div class="level-item"><a href="https://vbyazilim.com" target="_blank">VB</a></div><div class="level-item"><a href="/en/">English</a></div>            </div>
+        </nav>
+    </div>
+</section>
+
+    
+        <section class="hero is-medium cover is-hidden-touch" style="background-image: url(/public/images/covers/2012-05-25-irb-configurasyonu.png);">
+        <div class="hero-body">
+            <div class="container has-text-left">
+                
+                
+            </div>
+        </div>
+    </section>
+  
+    
+        <section class="section main">
+        <div class="container">
+        
+            <div class="columns is-multiline is-variable is-8">
+                <div class="column is-9-desktop is-full-tablet">
+                    <div class="content is-large">
+                        <article>
+                            <div class="meta">
+                                <span class="reading-time">OKUMA SÜRESİ 01:12</span>
+                                &mdash;
+                                <time pubdate datetime="2012-05-25T00:06:00+03:00" title="25 Mayıs 2012, Cuma 00:06">25 Mayıs 2012, Cuma 00:06</time>
+                                
+                                <div class="tags mt-3">
+                                        <a href="/blog/tr/etiket/irb/" class="tag is-info">irb</a>
+                                        <a href="/blog/tr/etiket/irbrc/" class="tag is-info">irbrc</a>
+                                        <a href="/blog/tr/etiket/wirble/" class="tag is-info">wirble</a>
+                                        <a href="/blog/tr/etiket/ori/" class="tag is-info">ori</a>
+                                        <a href="/blog/tr/etiket/awesome-print/" class="tag is-info">awesome_print</a>
+                                </div>
+                                
+                            </div>
+                            
+                            <h1 class="title">IRB konfigürasyonu ve ufak tefek ayarlar</h1>
+                            
+                            <div class="yield"><p><a href="http://en.wikipedia.org/wiki/Interactive_Ruby_Shell">IRB</a> konfigüre edilebilen bir interaktif konsoldur. Aynı <a href="http://ipython.org/">IPython</a> gibi.
+Hem test yapmak, hem de günlük ihtiyaçları kullanmak için en sık başvurduğum
+<strong>tool</strong>&rsquo;dur. <a href="http://python.org" title="Python">Python</a>&rsquo;dan alıştığım <a href="http://docs.python.org/library/pprint.html">Pretty Print</a> beni IRB uzmanı
+olmaya yöneltti.
+</p>
+
+<p><code>$HOME/.irbrc</code> adlı dosya, kullanıcı bazında IRB konfigürasyon dosyasıdır.
+İlk çalışma sırasında ne olacak? Hangi modüller default olarak yüklenmeli? Bu
+ve buna benzer şeyler standart <a href="http://www.ruby-lang.org/" title="Ruby">Ruby</a> script&rsquo;i şeklinde yazılır.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="c1"># encoding: utf-8</span>
+
+<span class="c1"># http://pablotron.org/software/wirble/README</span>
+<span class="c1"># required gems:</span>
+<span class="c1"># wirble pri awesome_print ruby-duration</span>
+
+<span class="no">IRB_START_TIME</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span>
+
+<span class="nb">require</span> <span class="s1">'rubygems'</span>
+<span class="nb">require</span> <span class="s2">"irb/completion"</span>
+<span class="nb">require</span> <span class="s1">'irb/ext/save-history'</span>
+
+<span class="no">EXISTING_GEMS</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">:RUBY_DURATION</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:exists</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:file</span> <span class="o">=&gt;</span> <span class="s1">'ruby-duration'</span> <span class="p">},</span>
+  <span class="ss">:WIRBLE</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:exists</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:file</span> <span class="o">=&gt;</span> <span class="s1">'wirble'</span> <span class="p">},</span>
+  <span class="ss">:ORI</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:exists</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:file</span> <span class="o">=&gt;</span> <span class="s1">'ori'</span> <span class="p">},</span>
+  <span class="ss">:AWESOME_PRINT</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:exists</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:file</span> <span class="o">=&gt;</span> <span class="s1">'awesome_print'</span> <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="k">begin</span>
+  <span class="nb">require</span> <span class="s1">'ruby-duration'</span>
+<span class="k">rescue</span> <span class="no">LoadError</span>
+  <span class="no">EXISTING_GEMS</span><span class="p">[</span><span class="ss">:RUBY_DURATION</span><span class="p">][</span><span class="ss">:exists</span><span class="p">]</span> <span class="o">=</span> <span class="kp">false</span>
+<span class="k">end</span>
+
+<span class="k">begin</span>
+  <span class="nb">require</span> <span class="s1">'wirble'</span>
+<span class="k">rescue</span> <span class="no">LoadError</span>
+  <span class="no">EXISTING_GEMS</span><span class="p">[</span><span class="ss">:WIRBLE</span><span class="p">][</span><span class="ss">:exists</span><span class="p">]</span> <span class="o">=</span> <span class="kp">false</span>
+<span class="k">end</span>
+
+<span class="k">begin</span>
+  <span class="c1"># ori usage:</span>
+  <span class="c1"># "".ri</span>
+  <span class="c1"># "".ri :upcase</span>
+  <span class="c1"># Array.ri</span>
+  <span class="c1"># "".ri :pretty_print</span>
+  <span class="nb">require</span> <span class="s1">'ori'</span>
+<span class="k">rescue</span> <span class="no">LoadError</span>
+  <span class="no">EXISTING_GEMS</span><span class="p">[</span><span class="ss">:ORI</span><span class="p">][</span><span class="ss">:exists</span><span class="p">]</span> <span class="o">=</span> <span class="kp">false</span>
+<span class="k">end</span>
+
+<span class="k">begin</span>
+  <span class="nb">require</span> <span class="s1">'awesome_print'</span>
+<span class="k">rescue</span> <span class="no">LoadError</span>
+  <span class="no">EXISTING_GEMS</span><span class="p">[</span><span class="ss">:AWESOME_PRINT</span><span class="p">][</span><span class="ss">:exists</span><span class="p">]</span> <span class="o">=</span> <span class="kp">false</span>
+<span class="k">end</span>
+<span class="c1"># ARGV.concat ["--readline", "--prompt-mode", "simple"]</span>
+<span class="c1"># ARGV.concat ["--readline", "--noprompt"]</span>
+
+<span class="c1"># Colors for prompt</span>
+<span class="c1"># ----------------------------------------------------------------------------</span>
+<span class="no">ANSI</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="no">ANSI</span><span class="p">[</span><span class="ss">:RESET</span><span class="p">]</span>     <span class="o">=</span> <span class="s2">"</span><span class="se">\e</span><span class="s2">[0m"</span>
+<span class="no">ANSI</span><span class="p">[</span><span class="ss">:BOLD</span><span class="p">]</span>      <span class="o">=</span> <span class="s2">"</span><span class="se">\e</span><span class="s2">[1m"</span>
+<span class="no">ANSI</span><span class="p">[</span><span class="ss">:UNDERLINE</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\e</span><span class="s2">[4m"</span>
+<span class="no">ANSI</span><span class="p">[</span><span class="ss">:LGRAY</span><span class="p">]</span>     <span class="o">=</span> <span class="s2">"</span><span class="se">\e</span><span class="s2">[0;37m"</span>
+<span class="no">ANSI</span><span class="p">[</span><span class="ss">:GRAY</span><span class="p">]</span>      <span class="o">=</span> <span class="s2">"</span><span class="se">\e</span><span class="s2">[0;90m"</span>
+<span class="no">ANSI</span><span class="p">[</span><span class="ss">:RED</span><span class="p">]</span>       <span class="o">=</span> <span class="s2">"</span><span class="se">\e</span><span class="s2">[31m"</span>
+<span class="no">ANSI</span><span class="p">[</span><span class="ss">:GREEN</span><span class="p">]</span>     <span class="o">=</span> <span class="s2">"</span><span class="se">\e</span><span class="s2">[32m"</span>
+<span class="no">ANSI</span><span class="p">[</span><span class="ss">:YELLOW</span><span class="p">]</span>    <span class="o">=</span> <span class="s2">"</span><span class="se">\e</span><span class="s2">[33m"</span>
+<span class="no">ANSI</span><span class="p">[</span><span class="ss">:BLUE</span><span class="p">]</span>      <span class="o">=</span> <span class="s2">"</span><span class="se">\e</span><span class="s2">[34m"</span>
+<span class="no">ANSI</span><span class="p">[</span><span class="ss">:MAGENTA</span><span class="p">]</span>   <span class="o">=</span> <span class="s2">"</span><span class="se">\e</span><span class="s2">[35m"</span>
+<span class="no">ANSI</span><span class="p">[</span><span class="ss">:CYAN</span><span class="p">]</span>      <span class="o">=</span> <span class="s2">"</span><span class="se">\e</span><span class="s2">[36m"</span>
+<span class="no">ANSI</span><span class="p">[</span><span class="ss">:WHITE</span><span class="p">]</span>     <span class="o">=</span> <span class="s2">"</span><span class="se">\e</span><span class="s2">[37m"</span>
+<span class="c1"># ----------------------------------------------------------------------------</span>
+
+<span class="c1"># Colors for array, hash etc...</span>
+<span class="c1"># ----------------------------------------------------------------------------</span>
+<span class="no">Wirble</span><span class="p">.</span><span class="nf">init</span><span class="p">({</span>
+  <span class="ss">:skip_prompt</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>
+  <span class="ss">:skip_history</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>
+<span class="p">})</span>
+<span class="no">Wirble</span><span class="p">.</span><span class="nf">colorize</span>
+<span class="c1"># ----------------------------------------------------------------------------</span>
+
+
+<span class="c1"># IRB configuration</span>
+<span class="c1"># ----------------------------------------------------------------------------</span>
+<span class="no">MY_CUSTOM_PROMPT</span> <span class="o">=</span> <span class="s2">"</span><span class="si">#{</span><span class="no">ANSI</span><span class="p">[</span><span class="ss">:WHITE</span><span class="p">]</span><span class="si">}</span><span class="s2">%03n</span><span class="si">#{</span><span class="no">ANSI</span><span class="p">[</span><span class="ss">:RESET</span><span class="p">]</span><span class="si">}</span><span class="s2">:</span><span class="si">#{</span><span class="no">ANSI</span><span class="p">[</span><span class="ss">:YELLOW</span><span class="p">]</span><span class="si">}</span><span class="s2">%i</span><span class="si">#{</span><span class="no">ANSI</span><span class="p">[</span><span class="ss">:RESET</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+
+<span class="no">IRB</span><span class="p">.</span><span class="nf">conf</span><span class="p">[</span><span class="ss">:SAVE_HISTORY</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="no">IRB</span><span class="p">.</span><span class="nf">conf</span><span class="p">[</span><span class="ss">:HISTORY_FILE</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="si">#{</span><span class="no">ENV</span><span class="p">[</span><span class="s1">'HOME'</span><span class="p">]</span><span class="si">}</span><span class="s2">/.irb_history"</span>
+<span class="no">IRB</span><span class="p">.</span><span class="nf">conf</span><span class="p">[</span><span class="ss">:USE_READLINE</span><span class="p">]</span> <span class="o">=</span> <span class="kp">true</span>
+<span class="no">IRB</span><span class="p">.</span><span class="nf">conf</span><span class="p">[</span><span class="ss">:AUTO_INDENT</span><span class="p">]</span> <span class="o">=</span> <span class="kp">true</span>
+<span class="no">IRB</span><span class="p">.</span><span class="nf">conf</span><span class="p">[</span><span class="ss">:PROMPT</span><span class="p">][</span><span class="ss">:SIMPLE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">:PROMPT_I</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="si">#{</span><span class="no">MY_CUSTOM_PROMPT</span><span class="si">}</span><span class="s2"> &gt; "</span><span class="p">,</span>
+  <span class="ss">:PROMPT_N</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="si">#{</span><span class="no">MY_CUSTOM_PROMPT</span><span class="si">}</span><span class="s2"> &gt;&gt; "</span><span class="p">,</span>
+  <span class="ss">:PROMPT_S</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="si">#{</span><span class="no">MY_CUSTOM_PROMPT</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="no">ANSI</span><span class="p">[</span><span class="ss">:MAGENTA</span><span class="p">]</span><span class="si">}</span><span class="s2">%l</span><span class="si">#{</span><span class="no">ANSI</span><span class="p">[</span><span class="ss">:RESET</span><span class="p">]</span><span class="si">}</span><span class="s2"> "</span><span class="p">,</span>
+  <span class="ss">:PROMPT_C</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="si">#{</span><span class="no">MY_CUSTOM_PROMPT</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="no">ANSI</span><span class="p">[</span><span class="ss">:WHITE</span><span class="p">]</span><span class="si">}</span><span class="s2">*</span><span class="si">#{</span><span class="no">ANSI</span><span class="p">[</span><span class="ss">:RESET</span><span class="p">]</span><span class="si">}</span><span class="s2"> "</span><span class="p">,</span>
+  <span class="ss">:RETURN</span>   <span class="o">=&gt;</span> <span class="s2">"</span><span class="si">#{</span><span class="no">ANSI</span><span class="p">[</span><span class="ss">:GREEN</span><span class="p">]</span><span class="si">}</span><span class="s2">=&gt;</span><span class="si">#{</span><span class="no">ANSI</span><span class="p">[</span><span class="ss">:RESET</span><span class="p">]</span><span class="si">}</span><span class="s2"> %s</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="no">IRB</span><span class="p">.</span><span class="nf">conf</span><span class="p">[</span><span class="ss">:PROMPT_MODE</span><span class="p">]</span> <span class="o">=</span> <span class="ss">:SIMPLE</span>
+<span class="c1"># ----------------------------------------------------------------------------</span>
+
+
+<span class="c1"># ----------------------------------------------------------------------------</span>
+<span class="no">EXISTING_GEMS</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">g</span><span class="p">,</span> <span class="nb">p</span><span class="o">|</span>
+  <span class="nb">puts</span> <span class="s2">"need '</span><span class="si">#{</span><span class="no">ANSI</span><span class="p">[</span><span class="ss">:RED</span><span class="p">]</span><span class="si">}#{</span><span class="nb">p</span><span class="p">[</span><span class="ss">:file</span><span class="p">]</span><span class="si">}#{</span><span class="no">ANSI</span><span class="p">[</span><span class="ss">:RESET</span><span class="p">]</span><span class="si">}</span><span class="s2">' gem"</span> <span class="k">unless</span> <span class="nb">p</span><span class="p">[</span><span class="ss">:exists</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="c1"># ----------------------------------------------------------------------------</span>
+
+<span class="c1"># ----------------------------------------------------------------------------</span>
+<span class="nb">at_exit</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="no">EXISTING_GEMS</span><span class="p">[</span><span class="ss">:RUBY_DURATION</span><span class="p">][</span><span class="ss">:exists</span><span class="p">]</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="no">Duration</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">Time</span><span class="p">.</span><span class="nf">now</span> <span class="o">-</span> <span class="no">IRB_START_TIME</span><span class="p">).</span><span class="nf">format</span><span class="p">(</span><span class="s2">"</span><span class="si">#{</span><span class="no">ANSI</span><span class="p">[</span><span class="ss">:WHITE</span><span class="p">]</span><span class="si">}</span><span class="s2">%h</span><span class="si">#{</span><span class="no">ANSI</span><span class="p">[</span><span class="ss">:RESET</span><span class="p">]</span><span class="si">}</span><span class="s2"> %~h, </span><span class="si">#{</span><span class="no">ANSI</span><span class="p">[</span><span class="ss">:WHITE</span><span class="p">]</span><span class="si">}</span><span class="s2">%m</span><span class="si">#{</span><span class="no">ANSI</span><span class="p">[</span><span class="ss">:RESET</span><span class="p">]</span><span class="si">}</span><span class="s2"> %~m, </span><span class="si">#{</span><span class="no">ANSI</span><span class="p">[</span><span class="ss">:WHITE</span><span class="p">]</span><span class="si">}</span><span class="s2">%s</span><span class="si">#{</span><span class="no">ANSI</span><span class="p">[</span><span class="ss">:RESET</span><span class="p">]</span><span class="si">}</span><span class="s2"> %~s"</span><span class="p">)</span>
+    <span class="nb">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="n">delta</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="p">}</span>
+<span class="c1"># ----------------------------------------------------------------------------</span>
+</code></pre></div>
+<p>Standart kütüphanede olmayan 4 adet modül kullanıyorum. (<em>gem</em>) Bunlar:</p>
+
+<ul>
+<li><code>ruby-duration</code></li>
+<li><code>wirble</code></li>
+<li><code>ori</code></li>
+<li><code>awesome_print</code></li>
+</ul>
+
+<p><code>ruby-duration</code> basit bir zaman hesabı işi için kullanılıyor. <code>wirble</code>
+renklendirme için. <code>ori</code> ri dökümantasyonuna erişmek için. Konu ile ilgili
+daha önce <a href="/blog/tr/2012/05/02/irb-icin-yardimci-gem-ori/">yazmıştım</a>. <code>awesome_print</code> ise belkide içlerindeki
+en süper gem. <code>Hash</code> <code>Array</code> ya da <code>Class</code> bu objeleri print etmek ve çıktıyı
+anlamak <code>awesome_print</code> sayesinde çok kolay.</p>
+
+<p>Modüller dışında, IRB&rsquo;nin prompt&rsquo;unu da değiştirdim. Hem renkli
+hem de daha anlaşılır oldu.</p>
+
+<p>İlk çalışma anında gereken <code>gem</code> kontrolü yapılıp uyarı geliyor. Çıkışta da
+geçen süre yazılıyor ekrana. En önemlisi, <a href="/blog/tr/2012/05/24/irb-rbenv-readline-ve-turkce-karakter/">önceki diğer bir yazımda</a> anlattığım
+<code>readline</code> kütüphanesi yardımıyla, <code>INPUTRC</code> çalışıyor. Bu şu anlama geliyor;
+<code>HISTORY</code> içinden otomatik tamamlama.</p>
+</div>
+                        </article>
+                        
+                            <nav class="mt-6 pagination is-centered" role="navigation" aria-label="pagination">
+                                <a href="/blog/tr/2012/05/24/irb-rbenv-readline-ve-turkce-karakter/" class="pagination-previous has-text-link">&laquo; IRB rbenv readline ve Türkçe karakter sorunu / çözümü</a>
+                                <a href="/blog/tr/2012/05/24/irb-rbenv-readline-ve-turkce-karakter/" class="pagination-next has-text-link">Özgür Web Günleri 2012 &raquo;</a>
+                            </nav>
+                    </div>
+                </div>
+                <div class="column is-3-desktop is-full-tablet">
+                    <div class="content">
+                            <div class="blog-post-list sidebar">
+        <h1>Benzer Makaleler</h1>
+        <p>Konu ile ilgili toplam “3” adet benzer makale bulunuyor.</p>
+        <ul>
+            <li>
+                <a href="/blog/tr/2012/05/24/irb-rbenv-readline-ve-turkce-karakter/">IRB rbenv readline ve Türkçe karakter sorunu / çözümü</a>
+                <time pubdate datetime="2012-05-24T22:22:00+03:00">
+                    24 Mayıs 2012, Perşembe
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2012/05/02/irb-icin-yardimci-gem-ori/">IRB için yardımcı gem: ORI</a>
+                <time pubdate datetime="2012-05-02T13:51:00+03:00">
+                    02 Mayıs 2012, Çarşamba
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2011/03/29/kendi-rubyini-gemini-kendin-kur/">Kendi Ruby’ini Gem’ini kendin kur</a>
+                <time pubdate datetime="2011-03-29T00:39:00+03:00">
+                    29 Mart 2011, Salı
+                </time>
+            </li>
+        </ul>
+    </div>
+    
+
+                        
+                        <div class="blog-post-list sidebar">
+    <h1>Yıllara Göre</h1>
+    <p>Blog arşivinde toplam “77” kayıt bulunuyor.</p>
+<p><a href="/blog/tr/yil/2022/" class="">2022 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2021/" class="">2021 yılına ait 4 makale</a></p><p><a href="/blog/tr/yil/2016/" class="">2016 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2015/" class="">2015 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2014/" class="">2014 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2013/" class="">2013 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2012/" class="">2012 yılına ait 8 makale</a></p><p><a href="/blog/tr/yil/2011/" class="">2011 yılına ait 16 makale</a></p><p><a href="/blog/tr/yil/2010/" class="">2010 yılına ait 6 makale</a></p><p><a href="/blog/tr/yil/2009/" class="">2009 yılına ait 22 makale</a></p><p><a href="/blog/tr/yil/2008/" class="">2008 yılına ait 11 makale</a></p><p><a href="/blog/tr/yil/2006/" class="">2006 yılına ait 1 makale</a></p></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <footer class="footer">
+    <div class="container">
+        <div class="content">
+            <a href="/feed-tr.xml" title="RSS aboneliği">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-square-rss fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/sponsors/vigo" title="GitHub sponsorluk">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-heart fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://patreon.com/vigoo" title="Patreon destek">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-patreon fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/vigo" title="GitHub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-github fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://hub.docker.com/u/vigo/" title="Dockerhub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-docker fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.linkedin.com/in/ugurozyilmazel" title="LinkedIn profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-linkedin fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://rubygems.org/profiles/vigo" title="Rubygems profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://pypi.org/user/vigo" title="Python Package Index profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://csdb.dk/scener/?id=8379" title="CSDB">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.pouet.net/user.php?who=4721" title="Pouet">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="http://janeway.exotica.org.uk/author.php?id=11962" title="Amiga Exotica">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://demozoo.org/sceners/6273" title="Demozoo">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.demoparty.net/users/vigo" title="Demoparty.net">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            
+            <script type="text/javascript">
+            document.write('<a href="mailto:');
+            document.write("hthebmlvyznmry\100tznvy\056pbz".replace(/[a-zA-Z]/g, function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
+            document.write('" title="E-Posta"');
+            document.write('<span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-at fa-stack-1x"></i></span>');
+            document.write('</a>');
+            </script>
+        </div>
+    </div>
+</footer>
+
+
+
+</body>
+</html>

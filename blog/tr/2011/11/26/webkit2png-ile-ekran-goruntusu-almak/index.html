@@ -1,0 +1,297 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>webkit2png ile ekran görüntüsü almak - Uğur “vigo” Özyılmazel</title>
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (Türkçe)" href="/feed-tr.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (English)" href="/feed-en.xml" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <script src="https://kit.fontawesome.com/ebc2456445.js" crossorigin="anonymous"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+        <link href="/public/css/syntax.css" rel="stylesheet" />
+        <link href="/public/css/application.css" rel="stylesheet" />
+    
+
+        <script src="/public/js/application.js"></script>
+    
+        <meta name="date" content="2022-08-20T12:58:48+03:00" />
+        <meta name="description" content="Uzunca bir zamandır yazmak istediğim fakat&nbsp;fırsat bulamadığım bir konu: Python’la yazılmış CommandLine Tool’u yani Terminal’den çalışan bir script." />
+        <meta name="author" content="Uğur “vigo” Özyılmazel"/>
+        <meta name="copyright" content="(c) 2006 / 2022 - Uğur “vigo” Özyılmazel" />
+        <meta property="og:url" content="https://ugur.ozyilmazel.com/blog/tr/2011/11/26/webkit2png-ile-ekran-goruntusu-almak/" />
+        <meta property="og:title" content="webkit2png ile ekran görüntüsü almak" />
+        <meta property="og:site_name" content="vigo" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="Uzunca bir zamandır yazmak istediğim fakat&nbsp;fırsat bulamadığım bir konu: Python’la yazılmış CommandLine Tool’u yani Terminal’den çalışan bir script." />
+        <meta property="og:image" content="https://ugur.ozyilmazel.com/public/images/covers/2011-11-26-webkit2png.png" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="3360" />
+        <meta property="og:image:height" content="706" />
+
+    <link href="/public/images/favicon.png" rel="shortcut icon" type="image/png" />
+    </head>
+<body>
+    
+    
+    <section class="section menu">
+    <div class="container">
+        <nav class="level is-mobile">
+            <div class="level-left">
+<div class="level-item"><a href="/">Anasayfa</a></div><div class="level-item"><a href="/blog/tr/" class="is-active">Blog Arşiv</a></div><div class="level-item"><a href="/sayfa/tr/sunumlar/">Sunumlar</a></div>            </div>
+            <div class="level-right">
+<div class="level-item"><a href="https://vbyazilim.com" target="_blank">VB</a></div><div class="level-item"><a href="/en/">English</a></div>            </div>
+        </nav>
+    </div>
+</section>
+
+    
+        <section class="hero is-medium cover is-hidden-touch" style="background-image: url(/public/images/covers/2011-11-26-webkit2png.png);">
+        <div class="hero-body">
+            <div class="container has-text-left">
+                
+                
+            </div>
+        </div>
+    </section>
+  
+    
+        <section class="section main">
+        <div class="container">
+        
+            <div class="columns is-multiline is-variable is-8">
+                <div class="column is-9-desktop is-full-tablet">
+                    <div class="content is-large">
+                        <article>
+                            <div class="meta">
+                                <span class="reading-time">OKUMA SÜRESİ 02:03</span>
+                                &mdash;
+                                <time pubdate datetime="2011-11-26T23:56:00+02:00" title="26 Kasım 2011, Cumartesi 23:56">26 Kasım 2011, Cumartesi 23:56</time>
+                                
+                                <div class="tags mt-3">
+                                        <a href="/blog/tr/etiket/python/" class="tag is-info">python</a>
+                                        <a href="/blog/tr/etiket/webkit/" class="tag is-info">webkit</a>
+                                </div>
+                                
+                            </div>
+                            
+                            <h1 class="title">webkit2png ile ekran görüntüsü almak</h1>
+                            
+                            <div class="yield"><p>Uzunca bir zamandır yazmak istediğim fakat fırsat bulamadığım bir konu:
+Python’la yazılmış <strong>CommandLine Tool</strong>’u yani Terminal’den çalışan bir script.
+</p>
+
+<p>Bu script sayesinde istediğiniz bir web sayfasının ekran görüntüsünü
+istediğiniz boyutlarda <code>PNG</code> formatında almanızı sağlıyor. Bu proje aynı zamanda
+harika bir Python + Objective C örneği. <strong>PyOBJC</strong> köprüsünü kullanarak
+<strong>WebKit</strong> objesine bağlanıyor. <a href="http://www.webkit.org/" title="Webkit">WebKit</a> bildiğiniz gibi 
+<a href="http://www.apple.com/safari/" title="Safari Web Browser">Safari</a> ve <a href="http://www.google.com/chrome" title="Chrome Web Browser">Chrome</a> web browser’ının temeli.</p>
+
+<h2>webkit2png</h2>
+
+<p>Script, sanki Safari web browser’ıyla verdiğiniz URL’i açıyor ve gelen sayfayı
+komple kaydediyor. Bu işi normal şartlarda yapmak için çeşitli browser
+extension’larına ihtiyacınız var. Daha önceleri Safari extension olayını
+desteklemiyordu. Chrome’a da extension olayı bildiğiniz gibi sonradan geldi.
+Mevcut tek sistem <a href="http://www.mozilla.org/tr/firefox" title="Firefox Web Browser">Firefox</a> ve <a href="http://screengrab.org/">Screengrab</a> extension’ıydı.</p>
+
+<p>Firefox’un çılgınlar gibi yeni veriyon çıkartması Screengrab extension’ını
+yazan arkadaşı delirtmiş olacak ki artık destek vermiyor.</p>
+
+<p>An itibariyle bu işi yapmak için Chrome ve Google tarafından yazılan
+<strong>Screen Capture</strong> iyi bir alternatif.</p>
+
+<p>Eğer siz de benim gibi Shell’ciyseniz <strong>webkit2png</strong>’yi kullanabilirsiniz.
+<a href="https://github.com/paulhammond/webkit2png.git">Projenin orijinal yazılımı</a> Paul Hammond’a ait.</p>
+
+<p>Ben, <a href="http://macports.org" title="Macports">MacPorts</a> ve <a href="http://mxcl.github.com/homebrew/" title="The missing package manager for OS X">Homebrew</a> için küçük bir fix yapmıştım. 
+İster orijinali ister benim <a href="https://github.com/vigo/webkit2png">fixlediğim</a> 
+versiyonu kullanabilirsiniz.</p>
+
+<p>MacPorts ve Homebrew paketi olarak mevcut.</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">sudo </span>port <span class="nb">install </span>webkit2png <span class="c"># macports’dan kurulum</span>
+brew <span class="nb">install </span>webkit2png <span class="c"># homebrew’dan kurulum</span>
+
+<span class="c"># benim ~/bin folder’ım local executable’lar için eğer sizde böyle yapmak isterseniz  </span>
+<span class="c"># mkdir ~/bin yapıp $PATH’e bu folder’ı eklemeniz gerekir.</span>
+
+git clone httxs://github.com/vigo/webkit2png <span class="c"># kendi kurulumunuz</span>
+</code></pre></div>
+<p>Kullanımı çok basit;</p>
+<div class="highlight"><pre class="highlight plaintext"><code>webkit2png -h
+</code></pre></div>
+<p>Hemen açıklaması geliyor. Default olarak 3 versiyon oluşturuyor. Fullsize,
+Thumbnail ve Clipped. Default ekran genişliği <strong>800x600</strong> pixel geliyor, aynı
+şekilde default clip <strong>200x150</strong> pixel. Ekran görüntüsünü kaydetmek istediğiniz
+folder’a gidin:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">cd</span> ~/Desktop
+webkit2png <span class="nt">-o</span> test1 http://ugur.ozyilmazel.com <span class="c"># tüm siteyi alır 3 dosya üretir...</span>
+webkit2png -o test2 -C <span class="nt">--clipwidth</span><span class="o">=</span>800 <span class="nt">--clipheight</span><span class="o">=</span>600 http://ugur.ozyilmazel.com 
+</code></pre></div>
+<p><code>test1</code> dev gibi ekran görüntüsü aldı. Toplam <strong>3 dosya</strong> üretti:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>test1-clipped.png # 200x150
+test1-full.png # ben yaptığımda 960x31024 verdi
+test1-thumb.png # test1-full’ün thumbnail’i 240x7756
+</code></pre></div>
+<p><code>test2</code> ise sadece <strong>800x600</strong>’lük alanı verdi. Son dönemde, web siteleri hep
+<strong>JavaScript</strong> kullandığı için, sitenin tam olarak yüklenmesi bazen saniye bazında
+da olsa zaman alıyor. Bunun için webkit2png’nin <strong>delay</strong> özelliğini
+kullanacağız&hellip;</p>
+<div class="highlight"><pre class="highlight plaintext"><code>webkit2png --delay=5 httx://google.com
+</code></pre></div>
+<p>Bu sayede google.com adresi request edildikten sonra 5 saniye bekleyecek ve 5
+saniye sonunda ekran görüntüsü alınacak. Başka bir örnek;</p>
+<div class="highlight"><pre class="highlight shell"><code>webkit2png <span class="nt">-o</span> bilgi <span class="nt">-F</span> <span class="nt">-W</span> 1024 httx://bilgi.edu.tr
+</code></pre></div>
+<div class="card blog-card mt-2 mb-4"><div class="card-image has-text-centered"><img class="mt-4" title="Bilgi Üniversitesi’nin websitesinden ekran görüntüsü" src="/public/images/posts/webkit-ss.png" alt="Bilgi Üniversitesi’nin websitesinden ekran görüntüsü" /></div><div class="card-content"><div class="content has-text-centered is-size-5-desktop is-size-6-mobile"><p> Sayfa tam olarak yüklenemedi&hellip; 
+</p></div></div></div>
+
+<p>Şimdi <code>--delay</code> ile tekrar deneyelim&hellip;</p>
+
+<div class="card blog-card mt-2 mb-4"><div class="card-image has-text-centered"><img class="mt-4" title="Bilgi Üniversitesi’nin websitesinden ekran görüntüsü" src="/public/images/posts/webkit-ss2.png" alt="Bilgi Üniversitesi’nin websitesinden ekran görüntüsü" /></div><div class="card-content"><div class="content has-text-centered is-size-5-desktop is-size-6-mobile"><p> Sayfa tam olarak yüklendi&hellip; 
+</p></div></div></div>
+<div class="highlight"><pre class="highlight shell"><code>webkit2png <span class="nt">-o</span> bilgi-delay <span class="nt">--delay</span><span class="o">=</span>5 <span class="nt">-F</span> <span class="nt">-W</span> 1024 httx://bilgi.edu.tr
+</code></pre></div>
+<p>Çok işe yarayan bir tool. Umarım sizin de işinize yarar&hellip;</p>
+</div>
+                        </article>
+                        
+                            <nav class="mt-6 pagination is-centered" role="navigation" aria-label="pagination">
+                                <a href="/blog/tr/2011/10/07/gule-gule-steve-jobs/" class="pagination-previous has-text-link">&laquo; Güle güle Steve Jobs</a>
+                                <a href="/blog/tr/2011/10/07/gule-gule-steve-jobs/" class="pagination-next has-text-link">ve Blog’umu Octopress-TR altyapısıyla kendi sunucuma taşıdım &raquo;</a>
+                            </nav>
+                    </div>
+                </div>
+                <div class="column is-3-desktop is-full-tablet">
+                    <div class="content">
+                            <div class="blog-post-list sidebar">
+        <h1>Benzer Makaleler</h1>
+        <p>Konu ile ilgili toplam “8” adet benzer makale bulunuyor.</p>
+        <ul>
+            <li>
+                <a href="/blog/tr/2013/02/04/derlenmis-python-dosyalari-bazen-sizi-yaniltabilir/">Derlenmiş Python Dosyaları Bazen Sizi Yanıltabilir</a>
+                <time pubdate datetime="2013-02-04T12:15:00+02:00">
+                    04 Şubat 2013, Pazartesi
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2012/10/26/python-fonksiyonu-nasil-yazilmali/">Python fonksiyonu nasıl yazılmalı?</a>
+                <time pubdate datetime="2012-10-26T00:03:00+03:00">
+                    26 Ekim 2012, Cuma
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2012/10/25/ozgur-web-gunleri-2012/">Özgür Web Günleri 2012</a>
+                <time pubdate datetime="2012-10-25T15:50:00+03:00">
+                    25 Ekim 2012, Perşembe
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2011/03/30/pythonpathe-ilave/">PYTHONPATH’e ilave</a>
+                <time pubdate datetime="2011-03-30T15:40:00+03:00">
+                    30 Mart 2011, Çarşamba
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2011/03/23/bu-defa-son/">Bu defa son</a>
+                <time pubdate datetime="2011-03-23T15:30:00+02:00">
+                    23 Mart 2011, Çarşamba
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2011/03/22/kendi-pythonunu-kendin-kur-yazimda-eksik-yerler-buldum/">Kendi Python’unu kendin kur yazımda eksik yerler buldum</a>
+                <time pubdate datetime="2011-03-22T15:45:00+02:00">
+                    22 Mart 2011, Salı
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2011/02/10/kendi-pythonunu-djangonu-paketlerini-kendin-kur/">Kendi Python’unu Django’nu paketlerini kendin kur</a>
+                <time pubdate datetime="2011-02-10T12:58:00+02:00">
+                    10 Şubat 2011, Perşembe
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2010/02/28/python-kitabi/">Python kitabı</a>
+                <time pubdate datetime="2010-02-28T11:44:00+02:00">
+                    28 Şubat 2010, Pazar
+                </time>
+            </li>
+        </ul>
+    </div>
+    
+
+                        
+                        <div class="blog-post-list sidebar">
+    <h1>Yıllara Göre</h1>
+    <p>Blog arşivinde toplam “77” kayıt bulunuyor.</p>
+<p><a href="/blog/tr/yil/2022/" class="">2022 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2021/" class="">2021 yılına ait 4 makale</a></p><p><a href="/blog/tr/yil/2016/" class="">2016 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2015/" class="">2015 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2014/" class="">2014 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2013/" class="">2013 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2012/" class="">2012 yılına ait 8 makale</a></p><p><a href="/blog/tr/yil/2011/" class="">2011 yılına ait 16 makale</a></p><p><a href="/blog/tr/yil/2010/" class="">2010 yılına ait 6 makale</a></p><p><a href="/blog/tr/yil/2009/" class="">2009 yılına ait 22 makale</a></p><p><a href="/blog/tr/yil/2008/" class="">2008 yılına ait 11 makale</a></p><p><a href="/blog/tr/yil/2006/" class="">2006 yılına ait 1 makale</a></p></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <footer class="footer">
+    <div class="container">
+        <div class="content">
+            <a href="/feed-tr.xml" title="RSS aboneliği">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-square-rss fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/sponsors/vigo" title="GitHub sponsorluk">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-heart fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://patreon.com/vigoo" title="Patreon destek">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-patreon fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/vigo" title="GitHub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-github fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://hub.docker.com/u/vigo/" title="Dockerhub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-docker fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.linkedin.com/in/ugurozyilmazel" title="LinkedIn profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-linkedin fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://rubygems.org/profiles/vigo" title="Rubygems profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://pypi.org/user/vigo" title="Python Package Index profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://csdb.dk/scener/?id=8379" title="CSDB">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.pouet.net/user.php?who=4721" title="Pouet">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="http://janeway.exotica.org.uk/author.php?id=11962" title="Amiga Exotica">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://demozoo.org/sceners/6273" title="Demozoo">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.demoparty.net/users/vigo" title="Demoparty.net">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            
+            <script type="text/javascript">
+            document.write('<a href="mailto:');
+            document.write("hthebmlvyznmry\100tznvy\056pbz".replace(/[a-zA-Z]/g, function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
+            document.write('" title="E-Posta"');
+            document.write('<span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-at fa-stack-1x"></i></span>');
+            document.write('</a>');
+            </script>
+        </div>
+    </div>
+</footer>
+
+
+
+</body>
+</html>

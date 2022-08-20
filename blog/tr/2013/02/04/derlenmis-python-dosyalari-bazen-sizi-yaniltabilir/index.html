@@ -1,0 +1,302 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Derlenmiş Python Dosyaları Bazen Sizi Yanıltabilir - Uğur “vigo” Özyılmazel</title>
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (Türkçe)" href="/feed-tr.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (English)" href="/feed-en.xml" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <script src="https://kit.fontawesome.com/ebc2456445.js" crossorigin="anonymous"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+        <link href="/public/css/syntax.css" rel="stylesheet" />
+        <link href="/public/css/application.css" rel="stylesheet" />
+    
+
+        <script src="/public/js/application.js"></script>
+    
+        <meta name="date" content="2022-08-20T12:58:51+03:00" />
+        <meta name="description" content="Suç kesinlikle Python’da değil! Yanlış anlaşılma olmasın! Geçtiğimiz günlerde  yaşadığım iki dikkatsizliğin bana ciddi vakit kaybettirmesi bu blog postunu  yazmama sebeb oldu." />
+        <meta name="author" content="Uğur “vigo” Özyılmazel"/>
+        <meta name="copyright" content="(c) 2006 / 2022 - Uğur “vigo” Özyılmazel" />
+        <meta property="og:url" content="https://ugur.ozyilmazel.com/blog/tr/2013/02/04/derlenmis-python-dosyalari-bazen-sizi-yaniltabilir/" />
+        <meta property="og:title" content="Derlenmiş Python Dosyaları Bazen Sizi Yanıltabilir" />
+        <meta property="og:site_name" content="vigo" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="Suç kesinlikle Python’da değil! Yanlış anlaşılma olmasın! Geçtiğimiz günlerde  yaşadığım iki dikkatsizliğin bana ciddi vakit kaybettirmesi bu blog postunu  yazmama sebeb oldu." />
+        <meta property="og:image" content="https://ugur.ozyilmazel.com/public/images/covers/2013-02-04-python.jpg" />
+        <meta property="og:image:type" content="image/jpg" />
+        <meta property="og:image:width" content="3360" />
+        <meta property="og:image:height" content="706" />
+
+    <link href="/public/images/favicon.png" rel="shortcut icon" type="image/png" />
+    </head>
+<body>
+    
+    
+    <section class="section menu">
+    <div class="container">
+        <nav class="level is-mobile">
+            <div class="level-left">
+<div class="level-item"><a href="/">Anasayfa</a></div><div class="level-item"><a href="/blog/tr/" class="is-active">Blog Arşiv</a></div><div class="level-item"><a href="/sayfa/tr/sunumlar/">Sunumlar</a></div>            </div>
+            <div class="level-right">
+<div class="level-item"><a href="https://vbyazilim.com" target="_blank">VB</a></div><div class="level-item"><a href="/en/">English</a></div>            </div>
+        </nav>
+    </div>
+</section>
+
+    
+        <section class="hero is-medium cover is-hidden-touch" style="background-image: url(/public/images/covers/2013-02-04-python.jpg);">
+        <div class="hero-body">
+            <div class="container has-text-left">
+                
+                
+            </div>
+        </div>
+    </section>
+  
+    
+        <section class="section main">
+        <div class="container">
+        
+            <div class="columns is-multiline is-variable is-8">
+                <div class="column is-9-desktop is-full-tablet">
+                    <div class="content is-large">
+                        <article>
+                            <div class="meta">
+                                <span class="reading-time">OKUMA SÜRESİ 02:53</span>
+                                &mdash;
+                                <time pubdate datetime="2013-02-04T12:15:00+02:00" title="04 Şubat 2013, Pazartesi 12:15">04 Şubat 2013, Pazartesi 12:15</time>
+                                
+                                <div class="tags mt-3">
+                                        <a href="/blog/tr/etiket/python/" class="tag is-info">python</a>
+                                        <a href="/blog/tr/etiket/django/" class="tag is-info">django</a>
+                                        <a href="/blog/tr/etiket/pyc/" class="tag is-info">pyc</a>
+                                        <a href="/blog/tr/etiket/pyo/" class="tag is-info">pyo</a>
+                                        <a href="/blog/tr/etiket/uncompyle/" class="tag is-info">uncompyle</a>
+                                </div>
+                                
+                            </div>
+                            
+                            <h1 class="title">Derlenmiş Python Dosyaları Bazen Sizi Yanıltabilir</h1>
+                            
+                            <div class="yield"><p>Suç kesinlikle Python’da değil! Yanlış anlaşılma olmasın! Geçtiğimiz günlerde 
+yaşadığım iki dikkatsizliğin bana ciddi vakit kaybettirmesi bu blog postunu 
+yazmama sebeb oldu.
+</p>
+
+<p><a href="https://www.djangoproject.com/" title="Django Project">Django</a> framework kullanarak bir uygulama geliştiriyoruz. Yaklaşık 6
+aydır üzerinde çalışıyoruz. Django, gereken yerlerde ilgili python dosyalarını
+derliyor. Yani; <code>admin.py</code> adında bir dosya varsa, development sunucusunu
+çalıştırdıktan sonra <code>admin.pyc</code> dosyasının oluştuğunu görürüz.</p>
+
+<p>Derlenen python hem hız hem de hafıza yönetimi açısından işleri kolay ve çabuk
+hale getiriyor. Buraya kadar hiç bir sıkıntı yok. Sıkıntı, uzun saatler
+çalışıp dikkati kaybettiğiniz anda başlıyor.</p>
+
+<p>Hiç farkında olmadan ilgili app’in altındaki <code>admin.py</code> dosyasını silmişim.
+<code>admin.pyc</code> dosyası ise halen oradaymış. Ben farkında bile değilim. Admin
+panel’e rahat rahat giriyorum, çıkıyorum hiçbir sıkıntı yok. Ne zaman kadar?
+<code>ModelAdmin</code> e yeni özellik ekleyene kadar&hellip;</p>
+
+<p>İşin kötüsü, django programcıları bilirler, <code>admin.py</code> de de çok fazla şey vardı.
+<strong>Custom</strong> pek çok şey&hellip; Hepsi uçmuş gitmiş&hellip; Ne yapacağız? Silme öyle bir
+silme ki, versiyon kontrol’den de çıkartmışım nasıl yaptıysam? Yani <code>git rm</code>
+ile silmiş ve bu silme işinden sonra yazmışım tüm kodu gibi&hellip;</p>
+
+<p>Hemen google’ladım, <code>.pyc</code> dosyasından nasıl <code>.py</code> üretebilirim diye. Hemen
+<a href="https://github.com/gstarnberger/uncompyle">uncompyle</a>’ı buldum. Kullanımı çok kolay</p>
+<div class="highlight"><pre class="highlight plaintext"><code>uncompyler.py DOSYA.pyc &gt; DOSYA_KURTAR.py
+</code></pre></div>
+<p>şeklinde dosyayı kurtardım.</p>
+
+<p>Bu da yetmedi, evde çalışmak için projeyi clone’ladım. Gereken kurulumları
+yaptım. Çalıştırdım&hellip; BOOOOM! Hata mesajı! Hata ne? neredeyse uygulamanın
+<strong>ana</strong> kütüphanelerinden biri olan dosyayı <code>import</code> edemiyor&hellip; Klasik
+<code>PATH</code> sorunu ama böyle birşey olması mümkün değil&hellip;</p>
+
+<p>Saatlerce uğraşıp yine görüyorum ki, <code>libs/</code> altında bulunması gereken
+<code>__init__.py</code> dosyası uçmuş&hellip; Diğer makinelerde düzgün çalışıyor çünkü
+derlenmiş hali bu sorunu kurtarıyor. Yani dosya varken python derlemiş,
+dosya uçmuş ama sorun yok. <code>.pyc</code> her şeyi çözüyor.</p>
+
+<p><code>git blame</code> ile bakıyorum, yine ben, neredeyse 1 ay önce silmişim dosyayı.
+Python’da <code>__init__.py</code> çok önemlidir. Herhangi bir dizin içinde bu dosya
+varsa; o dizinin paket/modül gibi kullanılabileceğini anlatır.</p>
+
+<p>Yani;</p>
+<div class="highlight"><pre class="highlight python"><code><span class="kn">from</span> <span class="nn">my_project.libs.functions</span> <span class="kn">import</span> <span class="n">test_function</span>
+</code></pre></div>
+<p>dersem; bu <code>my_project/libs/functions.py</code> dosyasından <code>test_function</code> adlı
+fonksiyonu import et anlamına gelir. (<em>Kabaca verdim bu örneği</em>) Bu örneğin
+sağlıklı çalışması için <code>my_project</code> dizini altında <code>__init__.py</code> olması
+<strong>zorunludur</strong>.</p>
+
+<p>Yaşadığım iki sorun da aslında ilk ve büyük hata tabiki bende. Daha dikkatli
+olsam bunlar başıma gelmeyecekti. Şunu gördüm ki, ben bile, bile derken en az
+15 yıldır yazılım geliştiriyorum, çok basit hataları yapabiliyorum.</p>
+
+<p>Önemli olan bu hatalardan ders çıkarıp tekrar bu kuyuya düşmemek.</p>
+
+<p>Bunun içinde, yaptığım ilk iş Python’un <code>pyc</code> ya da <code>pyo</code> dosyası oluşturma
+işini kapattım. Proje bazlı. <a href="http://http//www.virtualenv.org/">virtualenv</a> ve <a href="http://www.doughellmann.com/projects/virtualenvwrapper/">virtualenvwrapper</a>
+kullanıyorum. Çalıştığım projeye geçerken ufak bir hook ile şu değişkeni
+set ediyorum:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>export PYTHONDONTWRITEBYTECODE="1"
+</code></pre></div>
+<p>Böylece <code>pyc</code> dosyaları otomatik olarak oluşmayacak. Ben de yanlışlıkla
+birşeyleri sildiğim zaman <strong>anında</strong> farkedeceğim.</p>
+</div>
+                        </article>
+                        
+                            <nav class="mt-6 pagination is-centered" role="navigation" aria-label="pagination">
+                                <a href="/blog/tr/2012/10/28/js-istanbul-2012/" class="pagination-previous has-text-link">&laquo; JS İstanbul 2012</a>
+                                <a href="/blog/tr/2012/10/28/js-istanbul-2012/" class="pagination-next has-text-link">Bash Completion Anotomisi &raquo;</a>
+                            </nav>
+                    </div>
+                </div>
+                <div class="column is-3-desktop is-full-tablet">
+                    <div class="content">
+                            <div class="blog-post-list sidebar">
+        <h1>Benzer Makaleler</h1>
+        <p>Konu ile ilgili toplam “10” adet benzer makale bulunuyor.</p>
+        <ul>
+            <li>
+                <a href="/blog/tr/2021/08/22/django-model-ipuclari/">Django Model İpuçları</a>
+                <time pubdate datetime="2021-08-22T09:43:00+03:00">
+                    22 Ağustos 2021, Pazar
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2012/10/26/python-fonksiyonu-nasil-yazilmali/">Python fonksiyonu nasıl yazılmalı?</a>
+                <time pubdate datetime="2012-10-26T00:03:00+03:00">
+                    26 Ekim 2012, Cuma
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2012/10/25/ozgur-web-gunleri-2012/">Özgür Web Günleri 2012</a>
+                <time pubdate datetime="2012-10-25T15:50:00+03:00">
+                    25 Ekim 2012, Perşembe
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2011/11/26/webkit2png-ile-ekran-goruntusu-almak/">webkit2png ile ekran görüntüsü almak</a>
+                <time pubdate datetime="2011-11-26T23:56:00+02:00">
+                    26 Kasım 2011, Cumartesi
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2011/03/30/pythonpathe-ilave/">PYTHONPATH’e ilave</a>
+                <time pubdate datetime="2011-03-30T15:40:00+03:00">
+                    30 Mart 2011, Çarşamba
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2011/03/23/bu-defa-son/">Bu defa son</a>
+                <time pubdate datetime="2011-03-23T15:30:00+02:00">
+                    23 Mart 2011, Çarşamba
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2011/03/22/kendi-pythonunu-kendin-kur-yazimda-eksik-yerler-buldum/">Kendi Python’unu kendin kur yazımda eksik yerler buldum</a>
+                <time pubdate datetime="2011-03-22T15:45:00+02:00">
+                    22 Mart 2011, Salı
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2011/02/10/kendi-pythonunu-djangonu-paketlerini-kendin-kur/">Kendi Python’unu Django’nu paketlerini kendin kur</a>
+                <time pubdate datetime="2011-02-10T12:58:00+02:00">
+                    10 Şubat 2011, Perşembe
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2010/02/28/python-kitabi/">Python kitabı</a>
+                <time pubdate datetime="2010-02-28T11:44:00+02:00">
+                    28 Şubat 2010, Pazar
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2009/07/29/django-icin-bash-completion/">Django için bash completion</a>
+                <time pubdate datetime="2009-07-29T15:59:00+03:00">
+                    29 Temmuz 2009, Çarşamba
+                </time>
+            </li>
+        </ul>
+    </div>
+    
+
+                        
+                        <div class="blog-post-list sidebar">
+    <h1>Yıllara Göre</h1>
+    <p>Blog arşivinde toplam “77” kayıt bulunuyor.</p>
+<p><a href="/blog/tr/yil/2022/" class="">2022 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2021/" class="">2021 yılına ait 4 makale</a></p><p><a href="/blog/tr/yil/2016/" class="">2016 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2015/" class="">2015 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2014/" class="">2014 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2013/" class="">2013 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2012/" class="">2012 yılına ait 8 makale</a></p><p><a href="/blog/tr/yil/2011/" class="">2011 yılına ait 16 makale</a></p><p><a href="/blog/tr/yil/2010/" class="">2010 yılına ait 6 makale</a></p><p><a href="/blog/tr/yil/2009/" class="">2009 yılına ait 22 makale</a></p><p><a href="/blog/tr/yil/2008/" class="">2008 yılına ait 11 makale</a></p><p><a href="/blog/tr/yil/2006/" class="">2006 yılına ait 1 makale</a></p></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <footer class="footer">
+    <div class="container">
+        <div class="content">
+            <a href="/feed-tr.xml" title="RSS aboneliği">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-square-rss fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/sponsors/vigo" title="GitHub sponsorluk">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-heart fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://patreon.com/vigoo" title="Patreon destek">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-patreon fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/vigo" title="GitHub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-github fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://hub.docker.com/u/vigo/" title="Dockerhub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-docker fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.linkedin.com/in/ugurozyilmazel" title="LinkedIn profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-linkedin fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://rubygems.org/profiles/vigo" title="Rubygems profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://pypi.org/user/vigo" title="Python Package Index profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://csdb.dk/scener/?id=8379" title="CSDB">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.pouet.net/user.php?who=4721" title="Pouet">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="http://janeway.exotica.org.uk/author.php?id=11962" title="Amiga Exotica">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://demozoo.org/sceners/6273" title="Demozoo">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.demoparty.net/users/vigo" title="Demoparty.net">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            
+            <script type="text/javascript">
+            document.write('<a href="mailto:');
+            document.write("hthebmlvyznmry\100tznvy\056pbz".replace(/[a-zA-Z]/g, function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
+            document.write('" title="E-Posta"');
+            document.write('<span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-at fa-stack-1x"></i></span>');
+            document.write('</a>');
+            </script>
+        </div>
+    </div>
+</footer>
+
+
+
+</body>
+</html>

@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>SSH üzerinden tünel yapmak! - Uğur “vigo” Özyılmazel</title>
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (Türkçe)" href="/feed-tr.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (English)" href="/feed-en.xml" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <script src="https://kit.fontawesome.com/ebc2456445.js" crossorigin="anonymous"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+        <link href="/public/css/syntax.css" rel="stylesheet" />
+        <link href="/public/css/application.css" rel="stylesheet" />
+    
+
+        <script src="/public/js/application.js"></script>
+    
+        <meta name="date" content="2022-08-20T12:58:47+03:00" />
+        <meta name="description" content="Daha önceki yazımda, Terminal’den kolay ssh yapma yöntemini anlatmıştım.  Şimdi, ssh yardımıyla nasıl tünel yaparız buna bakalım." />
+        <meta name="author" content="Uğur “vigo” Özyılmazel"/>
+        <meta name="copyright" content="(c) 2006 / 2022 - Uğur “vigo” Özyılmazel" />
+        <meta property="og:url" content="https://ugur.ozyilmazel.com/blog/tr/2010/02/17/ssh-uzerinden-tunel-yapmak/" />
+        <meta property="og:title" content="SSH üzerinden tünel yapmak!" />
+        <meta property="og:site_name" content="vigo" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="Daha önceki yazımda, Terminal’den kolay ssh yapma yöntemini anlatmıştım.  Şimdi, ssh yardımıyla nasıl tünel yaparız buna bakalım." />
+        <meta property="og:image" content="https://ugur.ozyilmazel.com/public/images/covers/2010-02-17-climax.jpg" />
+        <meta property="og:image:type" content="image/jpg" />
+        <meta property="og:image:width" content="3360" />
+        <meta property="og:image:height" content="706" />
+
+    <link href="/public/images/favicon.png" rel="shortcut icon" type="image/png" />
+    </head>
+<body>
+    
+    
+    <section class="section menu">
+    <div class="container">
+        <nav class="level is-mobile">
+            <div class="level-left">
+<div class="level-item"><a href="/">Anasayfa</a></div><div class="level-item"><a href="/blog/tr/" class="is-active">Blog Arşiv</a></div><div class="level-item"><a href="/sayfa/tr/sunumlar/">Sunumlar</a></div>            </div>
+            <div class="level-right">
+<div class="level-item"><a href="https://vbyazilim.com" target="_blank">VB</a></div><div class="level-item"><a href="/en/">English</a></div>            </div>
+        </nav>
+    </div>
+</section>
+
+    
+        <section class="hero is-medium cover is-hidden-touch" style="background-image: url(/public/images/covers/2010-02-17-climax.jpg);">
+        <div class="hero-body">
+            <div class="container has-text-left">
+                
+                
+            </div>
+        </div>
+    </section>
+  
+    
+        <section class="section main">
+        <div class="container">
+        
+            <div class="columns is-multiline is-variable is-8">
+                <div class="column is-9-desktop is-full-tablet">
+                    <div class="content is-large">
+                        <article>
+                            <div class="meta">
+                                <span class="reading-time">OKUMA SÜRESİ 02:35</span>
+                                &mdash;
+                                <time pubdate datetime="2010-02-17T10:37:00+02:00" title="17 Şubat 2010, Çarşamba 10:37">17 Şubat 2010, Çarşamba 10:37</time>
+                                
+                                <div class="tags mt-3">
+                                        <a href="/blog/tr/etiket/ports/" class="tag is-info">ports</a>
+                                        <a href="/blog/tr/etiket/firefox/" class="tag is-info">firefox</a>
+                                        <a href="/blog/tr/etiket/tsocks/" class="tag is-info">tsocks</a>
+                                        <a href="/blog/tr/etiket/ssh/" class="tag is-info">ssh</a>
+                                        <a href="/blog/tr/etiket/proxy/" class="tag is-info">proxy</a>
+                                </div>
+                                
+                            </div>
+                            
+                            <h1 class="title">SSH üzerinden tünel yapmak!</h1>
+                            
+                            <div class="yield"><p>Daha <a href="/blog/tr/2009/08/27/macports-ssh-otomatik-tamamlama-ve-genel-bilgiler/">önceki yazımda</a>, Terminal’den kolay <strong>ssh</strong> yapma yöntemini anlatmıştım. 
+Şimdi, ssh yardımıyla nasıl tünel yaparız buna bakalım.
+</p>
+
+<p>Gerekenler:</p>
+
+<ol>
+<li>Uzaklarda bir makine (<em>ssh yapabileceğimiz</em>)</li>
+<li>Mac OS X (<em>Linux / Unix’de olur</em>)</li>
+<li><a href="http://macports.org" title="Macports">MacPorts</a></li>
+<li><code>tsocks</code> port’u</li>
+</ol>
+
+<p>MacPorts paketlerine <code>port</code> denir, aslında paketler uygulamalardan ya da 
+kütüphanelerden oluşur, bu bakımdan <code>xxxx</code> port’u dersem anlayınki bu bir 
+ports paketi!</p>
+
+<p>Daha önce de anlattığım gibi, <code>$HOME</code> dizininizde duran; kullanıcı adınız 
+eğer <code>vigo</code> ise, <code>/Users/vigo/</code> yada <code>~</code> işareti ile ifade edilen yer; 
+<code>.ssh/config</code> dosyanıza, o uzaklardaki makine bilgilerini girdiniz:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>Host UZAKLARDA # bu ad ile erişeceğiz  
+User vigo # uzak makinedeki kullanıcı adınız  
+Port 22 # SSH portu genelde 22dir  
+HostName 1.2.3.4 # uzak makinenin IP adresi
+</code></pre></div>
+<p>Aynı şekide, daha önce yazdığım yazıdaki gibi, <strong>ssh-key</strong> olayını da halletmiş 
+olduğunuzu düşünüyorum. Yani uzaktaki makineye ssh yapmak için (<em>Yukarıdaki 
+confige göre</em>)</p>
+<div class="highlight"><pre class="highlight shell"><code>ssh UZAKLARDA
+</code></pre></div>
+<p>denemiz yeterli olmalı&hellip; Eğer bu aşamaya kadar sorun yoksa, hemen 
+<a href="http://macports.org" title="Macports">MacPorts</a>’dan <strong>tsock</strong>’sı kuralım:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">sudo </span>port <span class="nb">install </span>tsocks
+</code></pre></div>
+<p>Kurulum bitince asıl hayati mevzu başlıyor, hemen ilgili konfigürasyonu yapmak 
+lazım, aksi halde <code>tsocks</code> çalışmıyor; hemen <code>/opt/local/etc/</code> altında duran 
+<code>tsocks.conf.sample</code>’dan bir kopya alalım ve düzenleyelim:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">cd</span> /opt/local/etc/
+<span class="nb">sudo cp </span>tsocks.conf.sample tsocks.conf
+</code></pre></div>
+<p>Şimdi hangi text editör’ü kullanıyorsanız, o editör’le <code>tsocks.conf</code> 
+dosyasını açın ve aşağıdaki gibi yapın:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>local = 127.0.0.1/255.255.255.255  
+server = 127.0.0.1  
+server_port = 1234  
+server_type = 5  
+tordns_enable = false
+</code></pre></div>
+<p>Şimdi burada dikkat edilecek husular şunlar;</p>
+
+<ol>
+<li>proxy portumuz: <strong>1234</strong></li>
+<li>proxy tipi: <strong>SOCKS 5</strong></li>
+</ol>
+
+<p>Bu bilgiler ışığında hemen uzaktaki makineye bağlanıyoruz:</p>
+<div class="highlight"><pre class="highlight shell"><code>ssh <span class="nt">-N</span> UZAKLARDA <span class="nt">-D</span> 1234
+</code></pre></div>
+<p><strong>UZAKLARDA</strong>: hani demin config’de belirtmiştik, <strong>-D 1234</strong> ise <code>tsocks</code>’daki 
+server_port&hellip; Şimdi başka bir TAB açıp (<kbd>⌘</kbd> + <kbd>T</kbd>) deneme yapalım:</p>
+<div class="highlight"><pre class="highlight shell"><code>curl <span class="nt">--connect-timeout</span> 3 http://www.whatismyip.org/
+tsocks curl <span class="nt">--connect-timeout</span> 3 http://www.whatismyip.org/
+</code></pre></div>
+<p>İlk komut, sistemin default bağlantısı ile çalışıp, sizin gerçek IP’nizi 
+çözdü, ikincisi ise, <strong>ssh</strong> üzerinden tünel yaptı ve sanki uzaktaki 
+makinedeymişsiniz gibi çözdü IP adresinizi. <code>tsocks</code> ile işlem yapmak için 
+Terminal’de:</p>
+<div class="highlight"><pre class="highlight shell"><code>tsocks KOMUT  
+<span class="nb">sudo </span>tsocks KOMUT
+</code></pre></div>
+<p>şekillerinde kullanabilirsiniz. Eğer tüneli Terminal uygulamaları üzerinden 
+değilde, desktop uygulamaları için kullanmak isterseniz (<em>Safari, FireFox 
+vs&hellip;</em>) yine aynı şekilde önce ssh’i çalıştırın:</p>
+<div class="highlight"><pre class="highlight shell"><code>ssh <span class="nt">-N</span> UZAKLARDA <span class="nt">-D</span> 1234
+</code></pre></div>
+<p>sonra <a href="http://www.mozilla.org/tr/firefox" title="Firefox Web Browser">FireFox</a>’u açın ve aşağıdaki gibi yapın ayarlarınızı:</p>
+
+<div class="card blog-card mt-2 mb-4"><div class="card-image has-text-centered"><img class="mt-4" title="Ekran görüntüsü, Firefox’un ayarlar ekranı, Manual Proxy Configuration bölümü" src="/public/images/posts/2010-02-17-proxy-setup.png" alt="Ekran görüntüsü, Firefox’un ayarlar ekranı, Manual Proxy Configuration bölümü" /></div><div class="card-content"><div class="content has-text-centered is-size-5-desktop is-size-6-mobile"><p> SOCKS Host: <strong>localhost</strong>, Port: <strong>1234</strong> 
+</p></div></div></div>
+
+<p>yapmamız yetti. Eğer bu işlemi, ssh bağlantısını yapmadan önce yaparsanız 
+hiç bir sayfaya ulaşamazsınız! Çünkü yukarıda şunu söylüyorsunuz FireFox’a: </p>
+
+<blockquote>
+<p>Tüm bağlantılarımı <strong>localhost</strong> üzerinden <strong>1234</strong>’ücü port üzerinden yap.</p>
+</blockquote>
+
+<p>Eğer <strong>ssh</strong> yoksa bağlantı da yok!!! Hemen akıllara şu soru gelebilir: 
+<q>Bu benim ne işime yarayacak?</q></p>
+
+<p>Eğer Amerika ya da Avrupa üzerinden bir sunucu kiralarsanız o kadar çok 
+işinize yarar ki! Bazen bağlı olduğum servis sağlayıcının DNS’lerinde sorun 
+oluyor, ya da sebebsiz bir şekilde bazı sunuculara erişilemiyor.</p>
+
+<p>Geçenlerde <a href="http://php.net" title="Php">Php</a>’nin interaktif shell’inde bir işlem yapacaktım, <a href="http://macports.org" title="Macports">ports</a> 
+üzerinden kuramadım, neden? <code>libxml2</code>’nin sunulduğu sunucuya erişemedim ?
+işte bu durumlarda hemen kendi proxy’nizi kullanıp yolunuza devam 
+edebilirsiniz&hellip; </p>
+</div>
+                        </article>
+                        
+                            <nav class="mt-6 pagination is-centered" role="navigation" aria-label="pagination">
+                                <a href="/blog/tr/2009/12/12/15-dakikada-cig-kofte-yaptim/" class="pagination-previous has-text-link">&laquo; 15 dakikada çiğ köfte yaptım!</a>
+                                <a href="/blog/tr/2009/12/12/15-dakikada-cig-kofte-yaptim/" class="pagination-next has-text-link">Python kitabı &raquo;</a>
+                            </nav>
+                    </div>
+                </div>
+                <div class="column is-3-desktop is-full-tablet">
+                    <div class="content">
+                            <div class="blog-post-list sidebar">
+        <h1>Benzer Makaleler</h1>
+        <p>Konu ile ilgili toplam “2” adet benzer makale bulunuyor.</p>
+        <ul>
+            <li>
+                <a href="/blog/tr/2009/08/27/macports-ssh-otomatik-tamamlama-ve-genel-bilgiler/">Macports, ssh otomatik tamamlama ve genel bilgiler</a>
+                <time pubdate datetime="2009-08-27T15:41:00+03:00">
+                    27 Ağustos 2009, Perşembe
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2009/07/26/bash-completion-olayi/">Bash Completion olayı!</a>
+                <time pubdate datetime="2009-07-26T15:12:00+03:00">
+                    26 Temmuz 2009, Pazar
+                </time>
+            </li>
+        </ul>
+    </div>
+    
+
+                        
+                        <div class="blog-post-list sidebar">
+    <h1>Yıllara Göre</h1>
+    <p>Blog arşivinde toplam “77” kayıt bulunuyor.</p>
+<p><a href="/blog/tr/yil/2022/" class="">2022 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2021/" class="">2021 yılına ait 4 makale</a></p><p><a href="/blog/tr/yil/2016/" class="">2016 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2015/" class="">2015 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2014/" class="">2014 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2013/" class="">2013 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2012/" class="">2012 yılına ait 8 makale</a></p><p><a href="/blog/tr/yil/2011/" class="">2011 yılına ait 16 makale</a></p><p><a href="/blog/tr/yil/2010/" class="">2010 yılına ait 6 makale</a></p><p><a href="/blog/tr/yil/2009/" class="">2009 yılına ait 22 makale</a></p><p><a href="/blog/tr/yil/2008/" class="">2008 yılına ait 11 makale</a></p><p><a href="/blog/tr/yil/2006/" class="">2006 yılına ait 1 makale</a></p></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <footer class="footer">
+    <div class="container">
+        <div class="content">
+            <a href="/feed-tr.xml" title="RSS aboneliği">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-square-rss fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/sponsors/vigo" title="GitHub sponsorluk">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-heart fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://patreon.com/vigoo" title="Patreon destek">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-patreon fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://github.com/vigo" title="GitHub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-github fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://hub.docker.com/u/vigo/" title="Dockerhub profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-docker fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.linkedin.com/in/ugurozyilmazel" title="LinkedIn profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-linkedin fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://rubygems.org/profiles/vigo" title="Rubygems profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://pypi.org/user/vigo" title="Python Package Index profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://csdb.dk/scener/?id=8379" title="CSDB">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.pouet.net/user.php?who=4721" title="Pouet">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="http://janeway.exotica.org.uk/author.php?id=11962" title="Amiga Exotica">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://demozoo.org/sceners/6273" title="Demozoo">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.demoparty.net/users/vigo" title="Demoparty.net">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            
+            <script type="text/javascript">
+            document.write('<a href="mailto:');
+            document.write("hthebmlvyznmry\100tznvy\056pbz".replace(/[a-zA-Z]/g, function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
+            document.write('" title="E-Posta"');
+            document.write('<span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-at fa-stack-1x"></i></span>');
+            document.write('</a>');
+            </script>
+        </div>
+    </div>
+</footer>
+
+
+
+</body>
+</html>
