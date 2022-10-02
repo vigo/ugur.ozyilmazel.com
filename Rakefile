@@ -86,7 +86,7 @@ namespace :new do
 
     output = []
     output << '---'
-    output << "title: #{args.title}"
+    output << "title: \"#{args.title}\""
     output << "locale: #{args.language}"
     output << '# subtitle: ""'
     output << "date: #{args.publish_date}"

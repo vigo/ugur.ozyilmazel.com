@@ -1,0 +1,123 @@
+---
+title: "Store websites as pdf"
+locale: "en"
+tags: osx,ghostscript,pdf
+date: 2022-10-02 15:51:00 +0300
+cover: "thb.jpg"
+comments: false
+---
+
+I’ve been saving blog posts I like (to local disk) for a long time.
+READ_MORE
+
+I subscribe to many newsletters about programming. I have a git repository
+where I keep sample codes, small snippets from the articles I read.
+Sometimes I want to keep the entire article for later usage.
+
+I was keeping bookmarks... Tons of links that I’ll read one day... Bookmarking
+is easy but requires maintenance, synchronization between devices, backup
+etc... One day I realized that websites don’t live forever. Domain name can
+expire, the author can close/shutdown the site or site may fall into black
+hole somehow :)
+
+I should have found a different method. I realized that Safari (macOS) has a
+feature that I can save entire page as [webarchive][1] format. I made some
+small automation tools to save page as webarchive than create gzip’ped tar
+files and store them under classified folders in a git repo.
+
+First, I was using GitHub. One day, I’ve received an error while pushing the
+files to remote repository. I have reached the maximum storage limit. Turns
+out the maximum repository size limit was **1 Gigabyte**.
+
+I quickly transferred my repository to GitLab. I was only storing compressed
+webarchive files and sometimes `png` screenshot files. GitLab is like a
+bottomless pit, feels like no limits!
+
+| What? | Size |
+|:-----|-----:|
+| LFS Storage | 4.4 GB |
+| Repository | 2.0 GB |
+|  | **6.4 GB** |
+| # of files | **5178** |
+
+Normally, webarchive files are default/native macOS format and can be
+previewed via built-in QuickLook feature. Somehow webarchive support is broken
+by itself. QuickLook previews were working fine but opening files with Safari
+was total disaster.
+
+At least, It was still possible to open webarchive files with TextEdit that
+shipped with macOS. Most of the styles were broken but text and the code part
+was still readable.
+
+Few days ago, I realized that Safari has PDF export feature under 
+`File > Export as PDF...`. Feature was working fine and were saving the whole 
+website as a one single and large pdf file. 
+
+<%= card src: '2022-10-02-safari-export-pdf.png',
+         alt: 'Small clip from Safari screenshot',
+         cap: 'Safari > File > Export as PDF' %>
+
+There was one little issue: **the file size**. How can I reduce the pdf size?
+
+```bash
+brew install ghostscript
+
+gs -sDEVICE=pdfwrite \
+    -dNOPAUSE -dQUIET -dBATCH \
+    -dPDFSETTINGS=/screen \
+    -dCompatibilityLevel=1.4 \
+    -sOutputFile="out-reduced.pdf" "input-large.pdf"
+```
+
+You can read more about `-dPDFSETTINGS` [here][2]. `screen` is like; selects
+low-resolution output similar to the Acrobat Distiller (up to version X)
+"Screen Optimized" setting. I’ve tried every output options, `screen` seems
+the smallest one:
+
+| Format | Size |
+|:-----|-----:|
+| `webarchive` | 6.2 MB |
+| Export as PDF | 2.6 MB |
+| `/prepress` | 1 MB |
+| `/screen` | **383 KB** |
+| `/printer` | 821 KB |
+| `/ebook` | 611 KB |
+
+After compressing with tar+gz, 383 KB reduced to **291 KB**. File size is
+reduced by approximately **20 times** (6.2 MB -> 291 KB). Not that bad ha? I
+wish I knew these methods/techniques earlier. Thanks to [superuser][3] answer!
+
+I just modifed the [example function][3]:
+
+```bash
+compress_pdf() {
+    if [[ "${1}" == "-h" || "${1}" == "--help" ]]; then
+        echo "compress_pdf: [input file] [output file] [screen|ebook|printer|prepress]"
+        echo
+        echo "Requires: ghostscript (brew install ghostscript)"
+        echo
+        echo "Usage:"
+        echo -e "\tcompress_pdf large.pdf small.pdf  # default is: screen"
+        echo -e "\tcompress_pdf large.pdf small.pdf ebook"
+        echo
+        return
+    fi
+
+    if [[ -z "$(command -v gs)" ]]; then
+        echo "You need ghostscript: brew install ghostscript"
+        return
+    fi
+
+    echo "pdf comression started" &&
+    gs -sDEVICE=pdfwrite \
+        -dNOPAUSE -dQUIET -dBATCH \
+        -dPDFSETTINGS=/"${3:-screen}" \
+        -dCompatibilityLevel=1.4 \
+        -sOutputFile="${2}" "${1}" &&
+    echo "pdf comression completed"
+}
+```
+
+[1]: https://en.wikipedia.org/wiki/Webarchive
+[2]: https://ghostscript.com/docs/9.54.0/VectorDevices.htm#PSPDF_IN
+[3]: https://superuser.com/a/1217306/54029
