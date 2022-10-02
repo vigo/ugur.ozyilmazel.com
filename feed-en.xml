@@ -5,10 +5,164 @@
   <id>https://ugur.ozyilmazel.com/blog/en/</id>
   <link href="https://ugur.ozyilmazel.com/blog/en/"/>
   <link href="https://ugur.ozyilmazel.com/feed-en.xml" rel="self"/>
-  <updated>2022-08-13T22:40:00+03:00</updated>
+  <updated>2022-10-02T15:51:00+03:00</updated>
   <author>
     <name>Uğur “vigo” Özyılmazel</name>
   </author>
+  <entry>
+    <title>Store websites as pdf</title>
+    <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/en/2022/10/02/store-websites-as-pdf/"/>
+    <id>https://ugur.ozyilmazel.com/blog/en/2022/10/02/store-websites-as-pdf/</id>
+    <published>2022-10-02T15:51:00+03:00</published>
+    <updated>2022-10-02T19:15:21+03:00</updated>
+    <author>
+      <name>Uğur “vigo” Özyılmazel</name>
+    </author>
+    <content type="html">&lt;p&gt;I’ve been saving blog posts I like (to local disk) for a long time.
+&lt;/p&gt;
+
+&lt;p&gt;I subscribe to many newsletters about programming. I have a git repository
+where I keep sample codes, small snippets from the articles I read.
+Sometimes I want to keep the entire article for later usage.&lt;/p&gt;
+
+&lt;p&gt;I was keeping bookmarks&amp;hellip; Tons of links that I’ll read one day&amp;hellip; Bookmarking
+is easy but requires maintenance, synchronization between devices, backup
+etc&amp;hellip; One day I realized that websites don’t live forever. Domain name can
+expire, the author can close/shutdown the site or site may fall into black
+hole somehow :)&lt;/p&gt;
+
+&lt;p&gt;I should have found a different method. I realized that Safari (macOS) has a
+feature that I can save entire page as &lt;a href="https://en.wikipedia.org/wiki/Webarchive"&gt;webarchive&lt;/a&gt; format. I made some
+small automation tools to save page as webarchive than create gzip’ped tar
+files and store them under classified folders in a git repo.&lt;/p&gt;
+
+&lt;p&gt;First, I was using GitHub. One day, I’ve received an error while pushing the
+files to remote repository. I have reached the maximum storage limit. Turns
+out the maximum repository size limit was &lt;strong&gt;1 Gigabyte&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;I quickly transferred my repository to GitLab. I was only storing compressed
+webarchive files and sometimes &lt;code&gt;png&lt;/code&gt; screenshot files. GitLab is like a
+bottomless pit, feels like no limits!&lt;/p&gt;
+
+&lt;table&gt;&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style="text-align: left"&gt;What?&lt;/th&gt;
+&lt;th style="text-align: right"&gt;Size&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;LFS Storage&lt;/td&gt;
+&lt;td style="text-align: right"&gt;4.4 GB&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;Repository&lt;/td&gt;
+&lt;td style="text-align: right"&gt;2.0 GB&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;&lt;/td&gt;
+&lt;td style="text-align: right"&gt;&lt;strong&gt;6.4 GB&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;# of files&lt;/td&gt;
+&lt;td style="text-align: right"&gt;&lt;strong&gt;5178&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+
+&lt;p&gt;Normally, webarchive files are default/native macOS format and can be
+previewed via built-in QuickLook feature. Somehow webarchive support is broken
+by itself. QuickLook previews were working fine but opening files with Safari
+was total disaster.&lt;/p&gt;
+
+&lt;p&gt;At least, It was still possible to open webarchive files with TextEdit that
+shipped with macOS. Most of the styles were broken but text and the code part
+was still readable.&lt;/p&gt;
+
+&lt;p&gt;Few days ago, I realized that Safari has PDF export feature under 
+&lt;code&gt;File &amp;gt; Export as PDF...&lt;/code&gt;. Feature was working fine and were saving the whole 
+website as a one single and large pdf file. &lt;/p&gt;
+
+&lt;div class="card blog-card mt-2 mb-4"&gt;&lt;div class="card-image has-text-centered"&gt;&lt;img class="mt-4" title="Small clip from Safari screenshot" src="/public/images/posts/2022-10-02-safari-export-pdf.png" alt="Small clip from Safari screenshot" /&gt;&lt;/div&gt;&lt;div class="card-content"&gt;&lt;div class="content has-text-centered is-size-5-desktop is-size-6-mobile"&gt;&lt;p&gt; Safari &amp;gt; File &amp;gt; Export as PDF 
+&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;There was one little issue: &lt;strong&gt;the file size&lt;/strong&gt;. How can I reduce the pdf size?&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;brew &lt;span class="nb"&gt;install &lt;/span&gt;ghostscript
+
+gs &lt;span class="nt"&gt;-sDEVICE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;pdfwrite &lt;span class="se"&gt;\&lt;/span&gt;
+    &lt;span class="nt"&gt;-dNOPAUSE&lt;/span&gt; &lt;span class="nt"&gt;-dQUIET&lt;/span&gt; &lt;span class="nt"&gt;-dBATCH&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+    &lt;span class="nt"&gt;-dPDFSETTINGS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/screen &lt;span class="se"&gt;\&lt;/span&gt;
+    &lt;span class="nt"&gt;-dCompatibilityLevel&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;1.4 &lt;span class="se"&gt;\&lt;/span&gt;
+    &lt;span class="nt"&gt;-sOutputFile&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"out-reduced.pdf"&lt;/span&gt; &lt;span class="s2"&gt;"input-large.pdf"&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;You can read more about &lt;code&gt;-dPDFSETTINGS&lt;/code&gt; &lt;a href="https://ghostscript.com/docs/9.54.0/VectorDevices.htm#PSPDF_IN"&gt;here&lt;/a&gt;. &lt;code&gt;screen&lt;/code&gt; is like; selects
+low-resolution output similar to the Acrobat Distiller (up to version X)
+&lt;q&gt;Screen Optimized&lt;/q&gt; setting. I’ve tried every output options, &lt;code&gt;screen&lt;/code&gt; seems
+the smallest one:&lt;/p&gt;
+
+&lt;table&gt;&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style="text-align: left"&gt;Format&lt;/th&gt;
+&lt;th style="text-align: right"&gt;Size&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;&lt;code&gt;webarchive&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: right"&gt;6.2 MB&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;Export as PDF&lt;/td&gt;
+&lt;td style="text-align: right"&gt;2.6 MB&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;&lt;code&gt;/prepress&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: right"&gt;1 MB&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;&lt;code&gt;/screen&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: right"&gt;&lt;strong&gt;383 KB&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;&lt;code&gt;/printer&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: right"&gt;821 KB&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;&lt;code&gt;/ebook&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: right"&gt;611 KB&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+
+&lt;p&gt;After compressing with tar+gz, 383 KB reduced to &lt;strong&gt;291 KB&lt;/strong&gt;. File size is
+reduced by approximately &lt;strong&gt;20 times&lt;/strong&gt; (6.2 MB -&amp;gt; 291 KB). Not that bad ha? I
+wish I knew these methods/techniques earlier. Thanks to &lt;a href="https://superuser.com/a/1217306/54029"&gt;superuser&lt;/a&gt; answer!&lt;/p&gt;
+
+&lt;p&gt;I just modifed the &lt;a href="https://superuser.com/a/1217306/54029"&gt;example function&lt;/a&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;compress_pdf&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;1&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;"-h"&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;1&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;"--help"&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then
+        &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"compress_pdf: [input file] [output file] [screen|ebook|printer|prepress]"&lt;/span&gt;
+        &lt;span class="nb"&gt;echo
+        echo&lt;/span&gt; &lt;span class="s2"&gt;"Requires: ghostscript (brew install ghostscript)"&lt;/span&gt;
+        &lt;span class="nb"&gt;echo
+        echo&lt;/span&gt; &lt;span class="s2"&gt;"Usage:"&lt;/span&gt;
+        &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nt"&gt;-e&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="se"&gt;\t&lt;/span&gt;&lt;span class="s2"&gt;compress_pdf large.pdf small.pdf  # default is: screen"&lt;/span&gt;
+        &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nt"&gt;-e&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="se"&gt;\t&lt;/span&gt;&lt;span class="s2"&gt;compress_pdf large.pdf small.pdf ebook"&lt;/span&gt;
+        &lt;span class="nb"&gt;echo
+        &lt;/span&gt;&lt;span class="k"&gt;return
+    fi
+
+    if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nt"&gt;-z&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;command&lt;/span&gt; &lt;span class="nt"&gt;-v&lt;/span&gt; gs&lt;span class="si"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then
+        &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"You need ghostscript: brew install ghostscript"&lt;/span&gt;
+        &lt;span class="k"&gt;return
+    fi
+
+    &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"pdf comression started"&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;
+    gs &lt;span class="nt"&gt;-sDEVICE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;pdfwrite &lt;span class="se"&gt;\&lt;/span&gt;
+        &lt;span class="nt"&gt;-dNOPAUSE&lt;/span&gt; &lt;span class="nt"&gt;-dQUIET&lt;/span&gt; &lt;span class="nt"&gt;-dBATCH&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+        &lt;span class="nt"&gt;-dPDFSETTINGS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;3&lt;/span&gt;&lt;span class="k"&gt;:-&lt;/span&gt;&lt;span class="nv"&gt;screen&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+        &lt;span class="nt"&gt;-dCompatibilityLevel&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;1.4 &lt;span class="se"&gt;\&lt;/span&gt;
+        &lt;span class="nt"&gt;-sOutputFile&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;1&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"pdf comression completed"&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+  </entry>
   <entry>
     <title>Hello world...</title>
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/en/2022/08/13/hello-world/"/>
