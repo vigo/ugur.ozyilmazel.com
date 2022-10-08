@@ -24,3 +24,5 @@ en:
   we_have_similar_articles:
     one: We have one similar article about this subject.
     other: We have “%{count}” similar articles about this subject.
+  read_more: more...
+  read_more_of: Read “%{title}” article

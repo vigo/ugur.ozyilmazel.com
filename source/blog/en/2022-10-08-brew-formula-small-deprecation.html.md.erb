@@ -1,0 +1,81 @@
+---
+title: "Brew formula, small deprecation"
+locale: en
+date: 2022-10-08 11:51:00 +0300
+cover: "generic-homebrew.png"
+tags: brew
+comments: false
+---
+
+I was upgrading the go version of my [personal project][1] the other day.
+READ_MORE
+
+I moved from `go 1.16` to `go 1.19`. I had to come out with a new version. I
+upgraded my custom brew package as I always do; fix the `url` and `sha` fields
+in the Formula, fix the basic test under `test` area.
+
+I pushed my changes and started to wait github actions’ checks. Checks are
+failed, due to brew’s formula style guide:
+
+    ==> brew style vigo/statoo
+    ==> FAILED
+    Full style vigo/statoo output
+      Formula/statoo.rb:18:5: C: Use generate_completions_from_executable DSL instead of (bash_completion/"statoo").write #{bin}/statoo bash-completion.
+          (bash_completion/"statoo").write `#{bin}/statoo bash-completion`
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    
+      2 files inspected, 1 offense detected
+      Error: Use `generate_completions_from_executable` DSL instead of `(bash_completion/"statoo").write `#{bin}/statoo bash-completion``.
+
+In the `install` part of the formula; bash completion related setup was
+written as shown below:
+
+```ruby
+def install
+  system "go", "build", *std_go_args
+  (bash_completion/"statoo").write `#{bin}/statoo bash-completion`
+end
+```
+
+Checker was telling me that, I should use
+`generate_completions_from_executable` DSL instead of old one. Well, what was
+that? when was changed? Let’s fix this :) First, let’s [read the docs][2],
+then change the code to:
+
+```ruby
+def install
+  system "go", "build", *std_go_args
+  generate_completions_from_executable(bin/"statoo", "bash-completion", "completions", shells: [:bash])
+end
+```
+
+Break down of args:
+
+- `bin/"statoo"` is the executable path
+- `bash-completion` is an arg for `statoo` executable, generates bash related completion code.
+- `completions` is the `base_name`
+- Completion code is compatible with `bash` only, therefor I set the shel `:bash` only.
+
+I spent an hour to fix and understand the problem and solution. I couldn’t
+find any examples or documentation about this new formula style change... This
+is why I’m writing this blog post so that will be useful to other brewers :)
+
+Here is the function signature of `generate_completions_from_executable`:
+
+```ruby
+generate_completions_from_executable(
+  *commands, 
+  base_name: name, 
+  shells: [:bash, :zsh, :fish], 
+  shell_parameter_format: nil
+) ⇒ void
+```
+
+I hope this post will help, happy brew packaging! You can check project and
+custom brew package here:
+
+- https://github.com/vigo/statoo (*project*)
+- https://github.com/vigo/homebrew-statoo (*brew package*)
+
+[1]: https://github.com/vigo/homebrew-statoo
+[2]: https://rubydoc.brew.sh/Formula#generate_completions_from_executable-instance_method

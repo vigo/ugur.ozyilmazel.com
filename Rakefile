@@ -77,7 +77,7 @@ namespace :new do
   desc "new blog post"
   task :post, [:title, :language, :publish_date] do |_, args|
     now = Time.now
-    publish_date = Time.parse(args[:publish_date] || now.strftime('%b %d, %Y %H:%M'))
+    publish_date = Time.parse(args.publish_date || now.strftime('%b %d, %Y %H:%M'))
     file_date = now.strftime('%Y-%m-%d')
 
     args.with_defaults(language: 'tr', publish_date: publish_date)

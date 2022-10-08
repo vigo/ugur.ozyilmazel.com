@@ -29,7 +29,10 @@ post_amount = locals[:post_amount] || 5
                     <% end %>
                 <% end %>
 
-                <p class="summary"><%= custom_strip_tags(article.summary) %></p>
+                <p class="summary">
+                    <%= custom_strip_tags(article.summary) %>
+                    <%= link_to I18n.t('read_more'), article_url, title: I18n.t('read_more_of', title: article_title) %>
+                </p>
             </div>
         </li>
         <% 
