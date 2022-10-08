@@ -5,10 +5,84 @@
   <id>https://ugur.ozyilmazel.com/blog/en/</id>
   <link href="https://ugur.ozyilmazel.com/blog/en/"/>
   <link href="https://ugur.ozyilmazel.com/feed-en.xml" rel="self"/>
-  <updated>2022-10-02T15:51:00+03:00</updated>
+  <updated>2022-10-08T11:51:00+03:00</updated>
   <author>
     <name>Uğur “vigo” Özyılmazel</name>
   </author>
+  <entry>
+    <title>Brew formula, small deprecation</title>
+    <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/en/2022/10/08/brew-formula-small-deprecation/"/>
+    <id>https://ugur.ozyilmazel.com/blog/en/2022/10/08/brew-formula-small-deprecation/</id>
+    <published>2022-10-08T11:51:00+03:00</published>
+    <updated>2022-10-08T13:04:24+03:00</updated>
+    <author>
+      <name>Uğur “vigo” Özyılmazel</name>
+    </author>
+    <content type="html">&lt;p&gt;I was upgrading the go version of my &lt;a href="https://github.com/vigo/homebrew-statoo"&gt;personal project&lt;/a&gt; the other day.
+&lt;/p&gt;
+
+&lt;p&gt;I moved from &lt;code&gt;go 1.16&lt;/code&gt; to &lt;code&gt;go 1.19&lt;/code&gt;. I had to come out with a new version. I
+upgraded my custom brew package as I always do; fix the &lt;code&gt;url&lt;/code&gt; and &lt;code&gt;sha&lt;/code&gt; fields
+in the Formula, fix the basic test under &lt;code&gt;test&lt;/code&gt; area.&lt;/p&gt;
+
+&lt;p&gt;I pushed my changes and started to wait github actions’ checks. Checks are
+failed, due to brew’s formula style guide:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight plaintext"&gt;&lt;code&gt;==&amp;gt; brew style vigo/statoo
+==&amp;gt; FAILED
+Full style vigo/statoo output
+  Formula/statoo.rb:18:5: C: Use generate_completions_from_executable DSL instead of (bash_completion/"statoo").write #{bin}/statoo bash-completion.
+      (bash_completion/"statoo").write `#{bin}/statoo bash-completion`
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  2 files inspected, 1 offense detected
+  Error: Use `generate_completions_from_executable` DSL instead of `(bash_completion/"statoo").write `#{bin}/statoo bash-completion``.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;In the &lt;code&gt;install&lt;/code&gt; part of the formula; bash completion related setup was
+written as shown below:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;install&lt;/span&gt;
+  &lt;span class="nb"&gt;system&lt;/span&gt; &lt;span class="s2"&gt;"go"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;"build"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;std_go_args&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;bash_completion&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="s2"&gt;"statoo"&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nf"&gt;write&lt;/span&gt; &lt;span class="sb"&gt;`&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sb"&gt;/statoo bash-completion`&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Checker was telling me that, I should use
+&lt;code&gt;generate_completions_from_executable&lt;/code&gt; DSL instead of old one. Well, what was
+that? when was changed? Let’s fix this :) First, let’s &lt;a href="https://rubydoc.brew.sh/Formula#generate_completions_from_executable-instance_method"&gt;read the docs&lt;/a&gt;,
+then change the code to:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;install&lt;/span&gt;
+  &lt;span class="nb"&gt;system&lt;/span&gt; &lt;span class="s2"&gt;"go"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;"build"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;std_go_args&lt;/span&gt;
+  &lt;span class="n"&gt;generate_completions_from_executable&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="s2"&gt;"statoo"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;"bash-completion"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;"completions"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;shells: &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;:bash&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Break down of args:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;bin/&amp;quot;statoo&amp;quot;&lt;/code&gt; is the executable path&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bash-completion&lt;/code&gt; is an arg for &lt;code&gt;statoo&lt;/code&gt; executable, generates bash related completion code.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;completions&lt;/code&gt; is the &lt;code&gt;base_name&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Completion code is compatible with &lt;code&gt;bash&lt;/code&gt; only, therefor I set the shel &lt;code&gt;:bash&lt;/code&gt; only.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I spent an hour to fix and understand the problem and solution. I couldn’t
+find any examples or documentation about this new formula style change&amp;hellip; This
+is why I’m writing this blog post so that will be useful to other brewers :)&lt;/p&gt;
+
+&lt;p&gt;Here is the function signature of &lt;code&gt;generate_completions_from_executable&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="n"&gt;generate_completions_from_executable&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+  &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;commands&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+  &lt;span class="ss"&gt;base_name: &lt;/span&gt;&lt;span class="nb"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+  &lt;span class="ss"&gt;shells: &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;:bash&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:zsh&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:fish&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; 
+  &lt;span class="ss"&gt;shell_parameter_format: &lt;/span&gt;&lt;span class="kp"&gt;nil&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="err"&gt;⇒&lt;/span&gt; &lt;span class="n"&gt;void&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;I hope this post will help, happy brew packaging! You can check project and
+custom brew package here:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/vigo/statoo"&gt;https://github.com/vigo/statoo&lt;/a&gt; (&lt;em&gt;project&lt;/em&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/vigo/homebrew-statoo"&gt;https://github.com/vigo/homebrew-statoo&lt;/a&gt; (&lt;em&gt;brew package&lt;/em&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
   <entry>
     <title>Store websites as pdf</title>
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/en/2022/10/02/store-websites-as-pdf/"/>
