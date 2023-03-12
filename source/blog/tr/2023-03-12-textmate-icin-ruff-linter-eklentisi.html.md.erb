@@ -1,0 +1,83 @@
+---
+title: "TextMate için Ruff-Linter Eklentisi"
+locale: tr
+subtitle: "Rust ile yazılmış Python linter"
+date: 2023-03-12 21:29:00 +0300
+cover: generic-textmate.png
+og_image: generic-textmate.png
+tags: textmate
+comments: false
+---
+
+Yıl **2023**, ben halen tek dişi kalmış canavar olan
+[TextMate2](https://github.com/textmate/textmate)’i kullanmaya devam ediyorum.
+Yetmezmiş gibi küçük-tefek eklentiler yazıp kendimce ölüyü diri tutmaya gayret
+ediyorum. READ_MORE
+
+Geçtiğimiz günlerde [YouTube][01]’da [Charlie Marsh][02]’ı izledim. Kendisi
+Python için `rust` ile geliştirdiği (*evet, python değil, başka bir dil*)
+`ruff` adlı linter’ı anlatıyordu. Modern IDE’lerin neredeyse tümü bu eklentiyi
+sunuyordu.
+
+Bu eklendi, hızlıca python kodunuzu ya da projenizi tarayıp hataları
+gösteriyordu. Sadece göstermekle kalmıyor, bazılarını otomatik olarak da
+düzeltebiliyordu. İşin güzel yanı, pek çok bilinen aracın (`flake8`,
+`pydocstyle`, `isort` *ve çok dahası*) sağladığı özellikleri bire-bir sağlıyor
+ek olarak da sizi hem ek paket kurulumu/ayarlamalarından kurtarıyordu.
+
+Ve çok hızlı çalışıyordu. En çok hoşuma giden özelliği ise, size hatayı nasıl
+çözebileceğinizi izah ediyordu. Diyelim hata kodu `ANN001`, hemen detaya
+girebilirsiniz;
+
+```bash
+$ ruff rule ANN001
+```
+
+çıktı `markdown` şeklinde geliyor:
+
+    # missing-type-function-argument (ANN001)
+
+    Derived from the **flake8-annotations** linter.
+
+    ## What it does
+    Checks that function arguments have type annotations.
+
+    ## Why is this bad?
+    Type annotations are a good way to document the types of function arguments. They also
+    help catch bugs, when used alongside a type checker, by ensuring that the types of
+    any provided arguments match expectation.
+
+    ## Example
+    ```python
+    def foo(x):
+        ...
+    ```
+
+    Use instead:
+
+    ```python
+    def foo(x: int):
+        ...
+    ```
+
+Ben de bunları görüp gaza geldim :) Zaten uzunca zamandır kendi yazdığım başka
+bir [Python eklentisini][03] kullanıyordum. Hemen kollayı sıvadım ve yazdım
+hızla! Python scope’unda kod yazarken **save** yapınca linter devreye giriyor.
+
+<%= zoomable src: 'https://raw.githubusercontent.com/vigo/textmate2-ruff-linter/main/screens/markers.gif',
+             alt: 'Ruff-Linter çalışırken',
+             cap: 'TextMate2’den ekran görüntüsü' %>
+
+[Pylint][04] kadar süper olmasa da hız bakımından tercih sebebidir. Proje
+büyüdükçe, pytlint’in çalışıp sonuç dönmesi süper uzuyor. Bazen 5-10sn’lere
+çıktığımı biliyorum. Uzun zamandır python’la uğraşmayan biri olarak beni bile gaza
+getirdi `ruff`.
+
+Merak edenler ya da katkı yapmak isteyenler;
+https://github.com/vigo/textmate2-ruff-linter adresinden eklentiye
+ulaşabilir.
+
+[01]: https://www.youtube.com/watch?v=jeoL4qsSLbE
+[02]: https://github.com/charliermarsh/
+[03]: https://github.com/vigo/textmate2-python-fmt
+[04]: https://github.com/PyCQA/pylint
