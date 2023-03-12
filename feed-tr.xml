@@ -5,16 +5,89 @@
   <id>https://ugur.ozyilmazel.com/blog/tr/</id>
   <link href="https://ugur.ozyilmazel.com/blog/tr/"/>
   <link href="https://ugur.ozyilmazel.com/feed-tr.xml" rel="self"/>
-  <updated>2022-08-13T21:33:00+03:00</updated>
+  <updated>2023-03-12T21:29:00+03:00</updated>
   <author>
     <name>Uğur “vigo” Özyılmazel</name>
   </author>
+  <entry>
+    <title>TextMate için Ruff-Linter Eklentisi</title>
+    <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2023/03/12/textmate-icin-ruff-linter-eklentisi/"/>
+    <id>https://ugur.ozyilmazel.com/blog/tr/2023/03/12/textmate-icin-ruff-linter-eklentisi/</id>
+    <published>2023-03-12T21:29:00+03:00</published>
+    <updated>2023-03-12T22:05:07+03:00</updated>
+    <author>
+      <name>Uğur “vigo” Özyılmazel</name>
+    </author>
+    <content type="html">&lt;p&gt;Yıl &lt;strong&gt;2023&lt;/strong&gt;, ben halen tek dişi kalmış canavar olan
+&lt;a href="https://github.com/textmate/textmate"&gt;TextMate2&lt;/a&gt;’i kullanmaya devam ediyorum.
+Yetmezmiş gibi küçük-tefek eklentiler yazıp kendimce ölüyü diri tutmaya gayret
+ediyorum. &lt;/p&gt;
+
+&lt;p&gt;Geçtiğimiz günlerde &lt;a href="https://www.youtube.com/watch?v=jeoL4qsSLbE"&gt;YouTube&lt;/a&gt;’da &lt;a href="https://github.com/charliermarsh/"&gt;Charlie Marsh&lt;/a&gt;’ı izledim. Kendisi
+Python için &lt;code&gt;rust&lt;/code&gt; ile geliştirdiği (&lt;em&gt;evet, python değil, başka bir dil&lt;/em&gt;)
+&lt;code&gt;ruff&lt;/code&gt; adlı linter’ı anlatıyordu. Modern IDE’lerin neredeyse tümü bu eklentiyi
+sunuyordu.&lt;/p&gt;
+
+&lt;p&gt;Bu eklendi, hızlıca python kodunuzu ya da projenizi tarayıp hataları
+gösteriyordu. Sadece göstermekle kalmıyor, bazılarını otomatik olarak da
+düzeltebiliyordu. İşin güzel yanı, pek çok bilinen aracın (&lt;code&gt;flake8&lt;/code&gt;,
+&lt;code&gt;pydocstyle&lt;/code&gt;, &lt;code&gt;isort&lt;/code&gt; &lt;em&gt;ve çok dahası&lt;/em&gt;) sağladığı özellikleri bire-bir sağlıyor
+ek olarak da sizi hem ek paket kurulumu/ayarlamalarından kurtarıyordu.&lt;/p&gt;
+
+&lt;p&gt;Ve çok hızlı çalışıyordu. En çok hoşuma giden özelliği ise, size hatayı nasıl
+çözebileceğinizi izah ediyordu. Diyelim hata kodu &lt;code&gt;ANN001&lt;/code&gt;, hemen detaya
+girebilirsiniz;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;ruff rule ANN001
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;çıktı &lt;code&gt;markdown&lt;/code&gt; şeklinde geliyor:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight plaintext"&gt;&lt;code&gt;# missing-type-function-argument (ANN001)
+
+Derived from the **flake8-annotations** linter.
+
+## What it does
+Checks that function arguments have type annotations.
+
+## Why is this bad?
+Type annotations are a good way to document the types of function arguments. They also
+help catch bugs, when used alongside a type checker, by ensuring that the types of
+any provided arguments match expectation.
+
+## Example
+```python
+def foo(x):
+    ...
+```
+
+Use instead:
+
+```python
+def foo(x: int):
+    ...
+```
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Ben de bunları görüp gaza geldim :) Zaten uzunca zamandır kendi yazdığım başka
+bir &lt;a href="https://github.com/vigo/textmate2-python-fmt"&gt;Python eklentisini&lt;/a&gt; kullanıyordum. Hemen kollayı sıvadım ve yazdım
+hızla! Python scope’unda kod yazarken &lt;strong&gt;save&lt;/strong&gt; yapınca linter devreye giriyor.&lt;/p&gt;
+
+&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img title="Ruff-Linter çalışırken" src="https://raw.githubusercontent.com/vigo/textmate2-ruff-linter/main/screens/markers.gif" alt="Ruff-Linter çalışırken"&gt;&lt;/figure&gt;&lt;p&gt; TextMate2’den ekran görüntüsü 
+&lt;/p&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;a href="https://github.com/PyCQA/pylint"&gt;Pylint&lt;/a&gt; kadar süper olmasa da hız bakımından tercih sebebidir. Proje
+büyüdükçe, pytlint’in çalışıp sonuç dönmesi süper uzuyor. Bazen 5-10sn’lere
+çıktığımı biliyorum. Uzun zamandır python’la uğraşmayan biri olarak beni bile gaza
+getirdi &lt;code&gt;ruff&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Merak edenler ya da katkı yapmak isteyenler;
+&lt;a href="https://github.com/vigo/textmate2-ruff-linter"&gt;https://github.com/vigo/textmate2-ruff-linter&lt;/a&gt; adresinden eklentiye
+ulaşabilir.&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>Yeniden Merhaba Dünya V6</title>
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2022/08/13/merhaba-dunya/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2022/08/13/merhaba-dunya/</id>
     <published>2022-08-13T21:33:00+03:00</published>
-    <updated>2022-10-02T15:49:10+03:00</updated>
+    <updated>2022-08-20T13:19:50+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -53,7 +126,7 @@ bir gazla blog yazmaya heveslendim.&lt;/p&gt;
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2021/09/26/olmazsa-olmaz-golang-kutuphaneleri/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2021/09/26/olmazsa-olmaz-golang-kutuphaneleri/</id>
     <published>2021-09-26T13:45:00+03:00</published>
-    <updated>2022-10-02T15:49:10+03:00</updated>
+    <updated>2022-08-20T16:01:18+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -173,7 +246,7 @@ framework’leri gibi daha geniş yardımcılar da bulunmakta.&lt;/p&gt;
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2021/08/28/json-isleme-araci-jq/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2021/08/28/json-isleme-araci-jq/</id>
     <published>2021-08-28T11:38:00+03:00</published>
-    <updated>2022-10-02T15:49:10+03:00</updated>
+    <updated>2022-08-20T12:50:14+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -584,7 +657,7 @@ daha fazlası var. Umarım sizin de işinize yarar.&lt;/p&gt;
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2021/08/22/django-model-ipuclari/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2021/08/22/django-model-ipuclari/</id>
     <published>2021-08-22T09:43:00+03:00</published>
-    <updated>2022-10-02T15:49:10+03:00</updated>
+    <updated>2022-08-20T12:50:14+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -1024,7 +1097,7 @@ mutlaka planlayın&amp;hellip;&lt;/p&gt;
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2021/05/27/istediginiz-yerden-go-kodunu-calistirabilirsiniz/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2021/05/27/istediginiz-yerden-go-kodunu-calistirabilirsiniz/</id>
     <published>2021-05-27T18:35:00+03:00</published>
-    <updated>2022-10-02T15:49:10+03:00</updated>
+    <updated>2022-08-20T12:50:14+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -1084,7 +1157,7 @@ bunun bile olabileceğini göstermek istedim.&lt;/p&gt;
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2016/07/30/solid-prensibi/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2016/07/30/solid-prensibi/</id>
     <published>2016-07-30T18:30:00+03:00</published>
-    <updated>2022-10-02T15:49:10+03:00</updated>
+    <updated>2022-08-20T12:50:14+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -1368,7 +1441,7 @@ güzel bir sunum yapmıştı. Bu sunumu da &lt;a href="https://speakerdeck.com/s
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2015/04/13/textmate-ve-interaktif-giris/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2015/04/13/textmate-ve-interaktif-giris/</id>
     <published>2015-04-13T09:28:00+03:00</published>
-    <updated>2022-10-02T15:49:10+03:00</updated>
+    <updated>2023-03-12T22:04:50+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -1428,7 +1501,7 @@ işletim sistemindeki büyük değişiklikler yüzünden bu özellik kullanılam
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2014/11/25/yeniden-merhaba/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2014/11/25/yeniden-merhaba/</id>
     <published>2014-11-25T22:20:00+02:00</published>
-    <updated>2022-10-02T15:49:10+03:00</updated>
+    <updated>2022-08-20T12:50:14+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -1461,7 +1534,7 @@ bulabilirsiniz.&lt;/p&gt;
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2014/11/14/textmate-1-ve-yosemite/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2014/11/14/textmate-1-ve-yosemite/</id>
     <published>2014-11-14T13:29:00+02:00</published>
-    <updated>2022-10-02T15:49:10+03:00</updated>
+    <updated>2022-08-20T12:50:14+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -1521,7 +1594,7 @@ yazmayı unutmayın! Şunu başa ekleyeceğiz:&lt;/p&gt;
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2014/09/23/rubygem-hazirliyoruz/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2014/09/23/rubygem-hazirliyoruz/</id>
     <published>2014-09-23T12:45:00+03:00</published>
-    <updated>2022-10-02T15:49:10+03:00</updated>
+    <updated>2022-08-20T12:50:14+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -1911,41 +1984,6 @@ Pushed simple_calcu 0.0.1 to rubygems.org.
 &lt;p&gt;Artık sizin de kendinize ait bir &lt;code&gt;gem&lt;/code&gt;iniz oldu. Şimdi isterseniz &lt;code&gt;README.md&lt;/code&gt;
 dosyasını düzenleyip, &lt;code&gt;VERSION = &amp;quot;0.0.2&amp;quot;&lt;/code&gt; yapıp tekrar &lt;code&gt;bundle exec rake release&lt;/code&gt;
 yapabilirsiniz.&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>TextMate 1 ve Mavericks</title>
-    <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2013/10/24/textmate-1-ve-mavericks/"/>
-    <id>https://ugur.ozyilmazel.com/blog/tr/2013/10/24/textmate-1-ve-mavericks/</id>
-    <published>2013-10-24T14:00:00+03:00</published>
-    <updated>2022-10-02T15:49:10+03:00</updated>
-    <author>
-      <name>Uğur “vigo” Özyılmazel</name>
-    </author>
-    <content type="html">&lt;p&gt;Mac OS X’in yeni sürümü Mavericks’i eğer &lt;strong&gt;upgrade&lt;/strong&gt; yöntemiyle güncellediyseniz
-&lt;a href="http://macromates.com" title="TextMate: The Missing Editor"&gt;TextMate 1&lt;/a&gt; Bundle’larının büyük bir kısmı çalışmayacaktır!
-&lt;/p&gt;
-
-&lt;p&gt;Çözüm aslında çok kolay. Yapmamız gereken şey, eski Ruby’nin yerini &lt;code&gt;path&lt;/code&gt;e
-eklemek. OS X Mavericks yeni Ruby ile geliyor (&lt;em&gt;ruby 2.0.0p247&lt;/em&gt;).&lt;/p&gt;
-
-&lt;p&gt;TextMate 1 Bundle’larının büyük bir çoğunluğu eski Ruby kullandığı için bu
-sorun oluşuyor. Bu sabah Macromates tüm kullanıcılarına e-mail atmış, &lt;strong&gt;lütfen
-TextMate 2’ye geçin&lt;/strong&gt; diye.&lt;/p&gt;
-
-&lt;p&gt;Büyük bir TextMate fan’i olarak ne yazıkki halen 1 kullanıyorum ve 2’ye bir
-türlü geçemiyorum.&lt;/p&gt;
-
-&lt;p&gt;Lütfen şu konuyu atlamayın, eğer &lt;strong&gt;clean install&lt;/strong&gt; yani sıfırdan kurulum
-yaptıysanız bu anlatacağım yöntem işe yaramaz! Bunun için başka formüller
-gerekiyor. Eğer başta da belirttiğim gibi &lt;strong&gt;upgrade&lt;/strong&gt; yaptıysanız;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight plaintext"&gt;&lt;code&gt;/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;bilgisini &lt;strong&gt;TextMate &amp;gt; Preferences &amp;gt; Advanced &amp;gt; Shell Variables&lt;/strong&gt; kısmından
-&lt;code&gt;PATH&lt;/code&gt; yazan bölüme, en başa eklemeniz gerekiyor.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight plaintext"&gt;&lt;code&gt;/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;gibi olmalı.&lt;/p&gt;
 </content>
   </entry>
 </feed>
