@@ -14,7 +14,7 @@
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2023/03/12/textmate-icin-ruff-linter-eklentisi/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2023/03/12/textmate-icin-ruff-linter-eklentisi/</id>
     <published>2023-03-12T21:29:00+03:00</published>
-    <updated>2023-03-12T22:05:07+03:00</updated>
+    <updated>2023-03-13T06:39:27+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -28,18 +28,19 @@ Python için &lt;code&gt;rust&lt;/code&gt; ile geliştirdiği (&lt;em&gt;evet, p
 &lt;code&gt;ruff&lt;/code&gt; adlı linter’ı anlatıyordu. Modern IDE’lerin neredeyse tümü bu eklentiyi
 sunuyordu.&lt;/p&gt;
 
-&lt;p&gt;Bu eklendi, hızlıca python kodunuzu ya da projenizi tarayıp hataları
-gösteriyordu. Sadece göstermekle kalmıyor, bazılarını otomatik olarak da
+&lt;p&gt;Bu eklenti, hızlıca &lt;strong&gt;python&lt;/strong&gt; kodunuzu ya da projenizi tarayıp hataları
+gösteriyordu. Sadece göstermekle kalmıyor, bazılarını da otomatik olarak
 düzeltebiliyordu. İşin güzel yanı, pek çok bilinen aracın (&lt;code&gt;flake8&lt;/code&gt;,
 &lt;code&gt;pydocstyle&lt;/code&gt;, &lt;code&gt;isort&lt;/code&gt; &lt;em&gt;ve çok dahası&lt;/em&gt;) sağladığı özellikleri bire-bir sağlıyor
-ek olarak da sizi hem ek paket kurulumu/ayarlamalarından kurtarıyordu.&lt;/p&gt;
+ve ek olarak da sizi ilave paket kurulumu/ayarlamalarından kurtarıyordu.&lt;/p&gt;
 
-&lt;p&gt;Ve çok hızlı çalışıyordu. En çok hoşuma giden özelliği ise, size hatayı nasıl
-çözebileceğinizi izah ediyordu. Diyelim hata kodu &lt;code&gt;ANN001&lt;/code&gt;, hemen detaya
+&lt;p&gt;Esas güzel kısmı ise çok hızlı çalışması. Hızdan sonra en çok beğendiğim
+özelliği ise, size hatayı nasıl çözebileceğinizi anlatan döküman üretme
+seçeneği. Örneğin; hata kodu &lt;code&gt;ANN001&lt;/code&gt;, acaba nasıl çözülür? hemen detaya
 girebilirsiniz;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;ruff rule ANN001
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;çıktı &lt;code&gt;markdown&lt;/code&gt; şeklinde geliyor:&lt;/p&gt;
+&lt;p&gt;çıktısı &lt;code&gt;markdown&lt;/code&gt; formatında geliyor:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre class="highlight plaintext"&gt;&lt;code&gt;# missing-type-function-argument (ANN001)
 
 Derived from the **flake8-annotations** linter.
@@ -66,16 +67,16 @@ def foo(x: int):
 ```
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Ben de bunları görüp gaza geldim :) Zaten uzunca zamandır kendi yazdığım başka
-bir &lt;a href="https://github.com/vigo/textmate2-python-fmt"&gt;Python eklentisini&lt;/a&gt; kullanıyordum. Hemen kollayı sıvadım ve yazdım
+bir &lt;a href="https://github.com/vigo/textmate2-python-fmt"&gt;Python eklentisini&lt;/a&gt; kullanıyordum. Hemen kollayı sıvadım ve giriştim
 hızla! Python scope’unda kod yazarken &lt;strong&gt;save&lt;/strong&gt; yapınca linter devreye giriyor.&lt;/p&gt;
 
 &lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img title="Ruff-Linter çalışırken" src="https://raw.githubusercontent.com/vigo/textmate2-ruff-linter/main/screens/markers.gif" alt="Ruff-Linter çalışırken"&gt;&lt;/figure&gt;&lt;p&gt; TextMate2’den ekran görüntüsü 
 &lt;/p&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;a href="https://github.com/PyCQA/pylint"&gt;Pylint&lt;/a&gt; kadar süper olmasa da hız bakımından tercih sebebidir. Proje
-büyüdükçe, pytlint’in çalışıp sonuç dönmesi süper uzuyor. Bazen 5-10sn’lere
-çıktığımı biliyorum. Uzun zamandır python’la uğraşmayan biri olarak beni bile gaza
-getirdi &lt;code&gt;ruff&lt;/code&gt;.&lt;/p&gt;
+büyüdükçe, &lt;code&gt;pylint&lt;/code&gt;’in çalışıp sonuç dönmesi çok uzun sürebiliyor. Bazen
+5-10sn’lere çıktığımı biliyorum. Uzun zamandır python’la uğraşmayan biri
+olarak beni bile gaza getirdi &lt;code&gt;ruff&lt;/code&gt;&amp;hellip;&lt;/p&gt;
 
 &lt;p&gt;Merak edenler ya da katkı yapmak isteyenler;
 &lt;a href="https://github.com/vigo/textmate2-ruff-linter"&gt;https://github.com/vigo/textmate2-ruff-linter&lt;/a&gt; adresinden eklentiye

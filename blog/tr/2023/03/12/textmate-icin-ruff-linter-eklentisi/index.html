@@ -19,7 +19,7 @@
 
         <script src="/public/js/application.js"></script>
     
-        <meta name="date" content="2023-03-12T22:08:59+03:00" />
+        <meta name="date" content="2023-03-13T06:40:00+03:00" />
         <meta name="description" content="Yıl 2023, ben halen tek dişi kalmış canavar olan TextMate2’i kullanmaya devam ediyorum. Yetmezmiş gibi küçük-tefek eklentiler yazıp kendimce ölüyü diri tutmaya gayret ediyorum." />
         <meta name="author" content="Uğur “vigo” Özyılmazel"/>
         <meta name="copyright" content="(c) 2006 / 2023 - Uğur “vigo” Özyılmazel" />
@@ -68,7 +68,7 @@
                     <div class="content is-large">
                         <article>
                             <div class="meta">
-                                <span class="reading-time">OKUMA SÜRESİ 01:27</span>
+                                <span class="reading-time">OKUMA SÜRESİ 01:35</span>
                                 &mdash;
                                 <time pubdate datetime="2023-03-12T21:29:00+03:00" title="12 Mart 2023, Pazar 21:29">12 Mart 2023, Pazar 21:29</time>
 
@@ -94,18 +94,19 @@ Python için <code>rust</code> ile geliştirdiği (<em>evet, python değil, baş
 <code>ruff</code> adlı linter’ı anlatıyordu. Modern IDE’lerin neredeyse tümü bu eklentiyi
 sunuyordu.</p>
 
-<p>Bu eklendi, hızlıca python kodunuzu ya da projenizi tarayıp hataları
-gösteriyordu. Sadece göstermekle kalmıyor, bazılarını otomatik olarak da
+<p>Bu eklenti, hızlıca <strong>python</strong> kodunuzu ya da projenizi tarayıp hataları
+gösteriyordu. Sadece göstermekle kalmıyor, bazılarını da otomatik olarak
 düzeltebiliyordu. İşin güzel yanı, pek çok bilinen aracın (<code>flake8</code>,
 <code>pydocstyle</code>, <code>isort</code> <em>ve çok dahası</em>) sağladığı özellikleri bire-bir sağlıyor
-ek olarak da sizi hem ek paket kurulumu/ayarlamalarından kurtarıyordu.</p>
+ve ek olarak da sizi ilave paket kurulumu/ayarlamalarından kurtarıyordu.</p>
 
-<p>Ve çok hızlı çalışıyordu. En çok hoşuma giden özelliği ise, size hatayı nasıl
-çözebileceğinizi izah ediyordu. Diyelim hata kodu <code>ANN001</code>, hemen detaya
+<p>Esas güzel kısmı ise çok hızlı çalışması. Hızdan sonra en çok beğendiğim
+özelliği ise, size hatayı nasıl çözebileceğinizi anlatan döküman üretme
+seçeneği. Örneğin; hata kodu <code>ANN001</code>, acaba nasıl çözülür? hemen detaya
 girebilirsiniz;</p>
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>ruff rule ANN001
 </code></pre></div>
-<p>çıktı <code>markdown</code> şeklinde geliyor:</p>
+<p>çıktısı <code>markdown</code> formatında geliyor:</p>
 <div class="highlight"><pre class="highlight plaintext"><code># missing-type-function-argument (ANN001)
 
 Derived from the **flake8-annotations** linter.
@@ -132,16 +133,16 @@ def foo(x: int):
 ```
 </code></pre></div>
 <p>Ben de bunları görüp gaza geldim :) Zaten uzunca zamandır kendi yazdığım başka
-bir <a href="https://github.com/vigo/textmate2-python-fmt">Python eklentisini</a> kullanıyordum. Hemen kollayı sıvadım ve yazdım
+bir <a href="https://github.com/vigo/textmate2-python-fmt">Python eklentisini</a> kullanıyordum. Hemen kollayı sıvadım ve giriştim
 hızla! Python scope’unda kod yazarken <strong>save</strong> yapınca linter devreye giriyor.</p>
 
 <div class="full zoomable"><figure class="image"><img title="Ruff-Linter çalışırken" src="https://raw.githubusercontent.com/vigo/textmate2-ruff-linter/main/screens/markers.gif" alt="Ruff-Linter çalışırken"></figure><p> TextMate2’den ekran görüntüsü 
 </p></div>
 
 <p><a href="https://github.com/PyCQA/pylint">Pylint</a> kadar süper olmasa da hız bakımından tercih sebebidir. Proje
-büyüdükçe, pytlint’in çalışıp sonuç dönmesi süper uzuyor. Bazen 5-10sn’lere
-çıktığımı biliyorum. Uzun zamandır python’la uğraşmayan biri olarak beni bile gaza
-getirdi <code>ruff</code>.</p>
+büyüdükçe, <code>pylint</code>’in çalışıp sonuç dönmesi çok uzun sürebiliyor. Bazen
+5-10sn’lere çıktığımı biliyorum. Uzun zamandır python’la uğraşmayan biri
+olarak beni bile gaza getirdi <code>ruff</code>&hellip;</p>
 
 <p>Merak edenler ya da katkı yapmak isteyenler;
 <a href="https://github.com/vigo/textmate2-ruff-linter">https://github.com/vigo/textmate2-ruff-linter</a> adresinden eklentiye
