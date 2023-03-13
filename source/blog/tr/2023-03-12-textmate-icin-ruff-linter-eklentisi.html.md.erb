@@ -19,21 +19,22 @@ Python için `rust` ile geliştirdiği (*evet, python değil, başka bir dil*)
 `ruff` adlı linter’ı anlatıyordu. Modern IDE’lerin neredeyse tümü bu eklentiyi
 sunuyordu.
 
-Bu eklendi, hızlıca python kodunuzu ya da projenizi tarayıp hataları
-gösteriyordu. Sadece göstermekle kalmıyor, bazılarını otomatik olarak da
+Bu eklenti, hızlıca **python** kodunuzu ya da projenizi tarayıp hataları
+gösteriyordu. Sadece göstermekle kalmıyor, bazılarını da otomatik olarak
 düzeltebiliyordu. İşin güzel yanı, pek çok bilinen aracın (`flake8`,
 `pydocstyle`, `isort` *ve çok dahası*) sağladığı özellikleri bire-bir sağlıyor
-ek olarak da sizi hem ek paket kurulumu/ayarlamalarından kurtarıyordu.
+ve ek olarak da sizi ilave paket kurulumu/ayarlamalarından kurtarıyordu.
 
-Ve çok hızlı çalışıyordu. En çok hoşuma giden özelliği ise, size hatayı nasıl
-çözebileceğinizi izah ediyordu. Diyelim hata kodu `ANN001`, hemen detaya
+Esas güzel kısmı ise çok hızlı çalışması. Hızdan sonra en çok beğendiğim
+özelliği ise, size hatayı nasıl çözebileceğinizi anlatan döküman üretme
+seçeneği. Örneğin; hata kodu `ANN001`, acaba nasıl çözülür? hemen detaya
 girebilirsiniz;
 
 ```bash
 $ ruff rule ANN001
 ```
 
-çıktı `markdown` şeklinde geliyor:
+çıktısı `markdown` formatında geliyor:
 
     # missing-type-function-argument (ANN001)
 
@@ -61,7 +62,7 @@ $ ruff rule ANN001
     ```
 
 Ben de bunları görüp gaza geldim :) Zaten uzunca zamandır kendi yazdığım başka
-bir [Python eklentisini][03] kullanıyordum. Hemen kollayı sıvadım ve yazdım
+bir [Python eklentisini][03] kullanıyordum. Hemen kollayı sıvadım ve giriştim
 hızla! Python scope’unda kod yazarken **save** yapınca linter devreye giriyor.
 
 <%= zoomable src: 'https://raw.githubusercontent.com/vigo/textmate2-ruff-linter/main/screens/markers.gif',
@@ -69,9 +70,9 @@ hızla! Python scope’unda kod yazarken **save** yapınca linter devreye giriyo
              cap: 'TextMate2’den ekran görüntüsü' %>
 
 [Pylint][04] kadar süper olmasa da hız bakımından tercih sebebidir. Proje
-büyüdükçe, pytlint’in çalışıp sonuç dönmesi süper uzuyor. Bazen 5-10sn’lere
-çıktığımı biliyorum. Uzun zamandır python’la uğraşmayan biri olarak beni bile gaza
-getirdi `ruff`.
+büyüdükçe, `pylint`’in çalışıp sonuç dönmesi çok uzun sürebiliyor. Bazen
+5-10sn’lere çıktığımı biliyorum. Uzun zamandır python’la uğraşmayan biri
+olarak beni bile gaza getirdi `ruff`...
 
 Merak edenler ya da katkı yapmak isteyenler;
 https://github.com/vigo/textmate2-ruff-linter adresinden eklentiye
