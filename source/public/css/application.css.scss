@@ -110,8 +110,10 @@ a {
 
 .full {
     margin-bottom: 1em;
-    padding: 0;
+    padding: 1em 0;
     text-align: center;
+    background-color: #eee;
+    border: 1px solid #ddd;
 
     iframe {
       max-width: 100% !important;
@@ -136,7 +138,7 @@ a {
       p {
         margin-left: 2em;
         margin-right: 2em;
-        margin-bottom: 2em;
+//        margin-bottom: 2em;
         color: #777;
         strong { font-weight: 700; }
       }

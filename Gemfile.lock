@@ -148,4 +148,4 @@ DEPENDENCIES
   stringex (~> 2.8, >= 2.8.5)
 
 BUNDLED WITH
-   2.4.8
+   2.4.20
