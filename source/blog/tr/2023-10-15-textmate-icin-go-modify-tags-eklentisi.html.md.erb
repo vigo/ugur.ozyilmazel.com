@@ -1,0 +1,53 @@
+---
+title: "TextMate için Go Modify Tags Eklentisi"
+locale: tr
+subtitle: "Go struct’larını hızlı düzenlemek"
+date: 2023-10-15 22:45
+cover: generic-textmate.png
+og_image: generic-textmate.png
+tags: textmate
+comments: false
+---
+
+Bir gün yine açmışım [TextMate2](https://github.com/textmate/textmate)’i,
+acaba yeni ne ekleyebilirim diye bakarken kendimi Fatih’in [gomodifytags](https://github.com/fatih/gomodifytags)
+reposunda buldum. Işık hızıyla gaza geldim. READ_MORE
+
+https://github.com/vigo/textmate2-gomodifytags
+
+Önce ilgili go paketlerini kurmak gerekiyor;
+
+```bash
+go install github.com/fatih/gomodifytags@latest
+```
+
+Mutlaka TextMate’in PATH’inde kendi go path’iniz de eklenmiş olmalı;
+
+```bash
+go env GOPATH
+# buradaki değeri alın; TextMate > Settings > Variables’da PATH’e ekleyin
+# [x] PATH <ALDIĞINIZ-DEĞER>:<ÖNCEKİ-DEĞERİ>
+```
+
+Benim `go` ile ilgili kurulumlarım `~/.local/go` altında; dolayısıyla 
+`go install ...` şeklinde kurulum yapınca executable dosyalar da 
+`~/.local/go/bin` altında duruyor. Benim ayarım şu şekilde:
+
+|     | Variable Name | Value |
+|:---:|:-----|:-----|
+| [x] | `PATH` | `/Users/vigo/.local/go/bin:$PATH` |
+
+Şimdi bundle’ı kuralım:
+
+```bash
+$ cd ~/Library/Application\ Support/TextMate/Bundles/
+$ git clone https://github.com/vigo/textmate2-gomodifytags.git GoModifyTags.tmbundle
+```
+
+<%= zoomable src: 'https://raw.githubusercontent.com/vigo/textmate2-gomodifytags/main/screens/tm2-gomodifytags.gif',
+             alt: 'aaaaaaaaaa',
+             cap: 'TextMate2’den ekran görüntüsü' %>
+
+Kod içinde `struct` ile ilgili bir **selection** yapıp otomatik olarak
+**annotation** yapabiliyorsunuz. Otomatik olarak `json"..."` tag’leri
+ekle/çıkar gibi.

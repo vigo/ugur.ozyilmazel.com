@@ -84,12 +84,14 @@ namespace :new do
 
     abort "Please enter post title!..." unless args.title
 
+    frontmatter_date = publish_date.strftime("%Y-%m-%d %H:%M")
+
     output = []
     output << '---'
     output << "title: \"#{args.title}\""
     output << "locale: #{args.language}"
     output << '# subtitle: ""'
-    output << "date: #{args.publish_date}"
+    output << "date: #{frontmatter_date}"
     output << '# cover: ""'
     output << '# cover_title: ""'
     output << '# cover_subtitle: ""'
