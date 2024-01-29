@@ -134,7 +134,7 @@ module CustomHelpers
   end
   
   def video_vimeo(id, **options)
-    vimeo_src = "http://player.vimeo.com/video/#{id}?color=ffffff&amp;title=0&amp;byline=0&amp;portrait=0"
+    vimeo_src = "https://player.vimeo.com/video/#{id}?color=ffffff&amp;title=0&amp;byline=0&amp;portrait=0"
     video src: vimeo_src, title: options[:title] || nil, cap: options[:cap] || nil
   end
 
