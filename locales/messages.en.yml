@@ -26,3 +26,4 @@ en:
     other: We have “%{count}” similar articles about this subject.
   read_more: more...
   read_more_of: Read “%{title}” article
+  filter_by_tag: List posts by “%{tag}” tag

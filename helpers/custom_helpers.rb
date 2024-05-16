@@ -59,10 +59,20 @@ module CustomHelpers
     options[:dir] ||= "posts"
     options[:cap] ||= nil
     options[:alt] ||= options[:cap] || I18n.t('photo_or_screenshot')
+    options[:shadow] || false
+    options[:animate] || false
+
+    img_classes = []
+    img_classes << "shadow" if options[:shadow]
+    img_classes << "animate" if options[:animate]
+
+    img_class = img_classes.size > 0 ? ' class="' + img_classes.join(" ") +'" ': ""
+    img_data = options[:animate] ? ' data-play="' + site_image(options[:animate], options[:dir]) +'" ' : ""
 
     out << '<div class="full zoomable">'
     out << '<figure class="image">'
-    out << '<img title="' + options[:alt] + '" src="' + site_image(options[:src], options[:dir]) +'" alt="' + options[:alt] +'">'
+    out << '<span class="player-status">▶</span>' if options[:animate]
+    out << '<img' + img_class + img_data + 'title="' + options[:alt] + '" src="' + site_image(options[:src], options[:dir]) +'" alt="' + options[:alt] +'">'
     out << '</figure>'
     out << '<p>%s</p>' % markdownify_text_only(options[:cap]) if options[:cap]
     out << '</div>'
@@ -80,7 +90,7 @@ module CustomHelpers
     out << '</div>'
     unless options[:cap].nil?
       out << '<div class="card-content">'
-      out << '<div class="content has-text-centered is-size-5-desktop is-size-6-mobile">'
+      out << '<div class="content has-text-centered is-size-5-desktop is-size-6-mobile has-text-weight-semibold">'
       out << '<p>' + markdownify_text_only(options[:cap]) + '</p>'
       out << '</div>'
       out << '</div>'

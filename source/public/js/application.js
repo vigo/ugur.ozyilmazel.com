@@ -15,4 +15,19 @@ $(document).ready(function(){
         $("section.section.menu a.is-active")[0].href = `${url}${pageKey}/${qs_params.p}/`;
     }
 
+    $("span.player-status").on("click", function(){
+        $img = $(this).next('img.animate');
+        let source = $img.attr("src");
+        let target = $img.data("play");
+
+        if (source.split('.').pop().split(/\#|\?/)[0] === "png") {
+            $(this).text("⏸");
+        } else {
+            $(this).text("▶");
+        }
+        
+        $img.attr("src", target);
+        $img.data("play", source);
+    });
+
 });

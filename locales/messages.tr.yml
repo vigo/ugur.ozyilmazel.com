@@ -18,3 +18,4 @@ tr:
   we_have_similar_articles: Konu ile ilgili toplam “%{count}” adet benzer makale bulunuyor.
   read_more: devamı...
   read_more_of: “%{title}” makalesini oku
+  filter_by_tag: “%{tag}” etiketli makaleleri listele

@@ -18,6 +18,14 @@ rake now                                    # print now
 rake run_server                             # run server
 ```
 
+Yeni post için;
+
+```bash
+rake new:post["Python\, TextMate Ne Alakası Var?"]     # virgül escape edilmeli
+rake new:post["Hello World", "en"]                     # ingilizce
+rake new:post["Hello World", "en","2024-05-14 21:00"]  # ingilizce + tarih
+```
+
 ---
 
 ## Lisans

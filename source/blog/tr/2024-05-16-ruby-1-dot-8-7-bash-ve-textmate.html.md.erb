@@ -1,0 +1,564 @@
+---
+title: "Ruby 1.8.7, Bash ve TextMate"
+locale: tr
+subtitle: "macOS Sonoma 14.4.1"
+date: 2024-05-16 22:30
+cover: "2024-05-14-textmate-ruff.png"
+tags: textmate,ruby,python,bash
+comments: false
+---
+
+**2023**’te python dünyasına bomba gibi giriş yapan [Ruff Linter][ruff] için bir 
+[TextMate bundle][python-ruff]’ı geliştirmiştim. READ_MORE
+
+Tam olarak entegre olamadığım için halen [eski bundle][python-fmt]’ımı 
+kullanmaya devam ediyordum. Üzerinde çalıştığım projenin çok fazla python
+dosyasına sahip olması ve çok fazla düzeltilecek linter problemleri olmasından
+dolayı zamandan kazanmak için Ruff’ı kullanmaya karar verdim. Bir baktım,
+aradan geçen süre zarfında Ruff çok ilerlemiş ve benim bundle çalışmaz hale
+gelmiş. Komut çağırma şekli değişmiş, argümanlar farklılaşmış.
+
+O zaman dedim ki;
+
+> Madem öyle, şu bundle’ı baştan özene bezene tekrar yapayım!
+
+dedim ve bu noktada büyük bir maceranın içine gireceğimden haberim yoktu. Şu
+soru sorulabilir; 
+
+## Neden TextMate ?
+
+macOS’ta native çalışan tek dişi kalmış bir canavar kendisi. Ama asıl efsane
+kısmı şu, bu uygulamayı, bildiğiniz herhangi bir programlama dilini kullanarak
+(Python, Ruby, Bash, JavaScript, PHP, Perl, Swift, Lisp, AppleScript...)
+**extend** edebilirsiniz. Hiçbir özel dil, konfigürasyon öğrenmenize gerek yok!
+
+**Şöyle güzel bir markdown editörüm olsa ?** diyip oturup bunun için bundle
+yapabildim. Aynısını VS Code’a denedim, `vim`’de denedim beceremedim. Önce
+vim’in dilini öğrenmem lazım (kullanım kısmına girmiyorum bile...) Altı üstü
+bir metin editörünü kullanmak için kurs almak, bir sürü video izlemek bana
+biraz garip geliyor.
+
+Sonradan gelen pek çok editör TextMate’in `tmbundle` yaklaşımını aynen
+kopyalamış ama asıl yapması gereken kısmı yapamamıştır. Sadece **Grammar**
+(*Syntax Highlighting*), ve **Snippets** kavramlarını birebir kopyaladı pek
+çok meşhur editör/ide. Ama Orijinal bundle fonksiyonunu beceremediler.
+
+`rmate` ile `ssh` ile bağlandığım bir sunucudaki dosyayı local TextMate’imde
+kolayca açabiliyorum. Port forwarding yapıyor, TextMate default olarak `52698`
+porttan dinliyor sürekli.
+
+Bir şey lazım olunca, kimseye muhtaç olmadan hemen yapabilme özgürlüğü veriyor
+bana. Bu bakımdan son **15 yıldır** tek kullandığım editör. Bu ilkellik
+sayesinde `go` bilgimi inanılmaz pekiştirdim. Çünkü ne **autocompletion** var,
+ne nokta işaretine basınca otomatik tamamlama var, devamlı başka bir tab’de
+kullandığım kütüphanenin kaynak kodunu okumak zorunda kaldım. **Acaba x
+objesinin ne metodu var ?** sorusunun cevabı için devamlı kod okumak zorunda
+kaldım.
+
+Ne **GitHub Co-Pilot** var ne de başka bir şey. Mecburen bu linter/checker
+geliştirme işlerini de öğrenmek zorunda kaldım. İlkelliğin çok faydasını gördüm
+ama geliştirme hızı olarak yavaş kaldım ama sıfır hataya yakın kod yazmaya
+başladım (*linting bakımında*n).
+
+Yıllar içinde, her yeni çıkan editörü denedim ve hiçbirinde TextMate’in
+esnekliğini bulamadım. İçlerinde benim için en heyecan verici olan [zed][zed]
+oldu ama o da bir yere kadar...
+
+Bu yazıyı sizleri TextMate’e geçirmek için **yazmıyorum**, belki seneye artık
+böyle bir araç tarih olacağı için kendi çapımda 
+**bir zamanlar böyle güzel bir araç da vardı** denmesi için, 
+tarihe minik bir not düşsün diye yazıyorum.
+
+## TextMate Bundle Editor ve Command
+
+<%= zoomable src: '2024-05-14-textmate-bundle-command.png',
+             shadow: true,
+             alt: 'TextMate2 Bundle Editor ekran görüntüsü',
+             cap: 'TextMate2 Bundle Editor böyle bir şey, TextMate 1 daha güzeldi'
+%>
+
+Genel prensip şu; hangi dilde (*scope*) kod yazıyorsanız, belli event’leri
+tetikleyerek ekrandaki kodu (*document*) input olarak alıp bir şeyler
+yapabiliyoruz. Linter için yapmamız gereken şey, aynı command-line’ı taklit
+ederek `STDIN` (*standard input*)’i okuyup shell komutuna bir kısım argümanla
+beraber inputu göndermek/pas etmek:
+
+```bash
+echo "print('hello')" | ruff check --select T201 \
+    --stdin-filename main.py \
+    --output-format grouped -
+
+main.py:
+  1:1 T201 `print` found
+
+Found 1 error.
+No fixes available (1 hidden fix can be enabled with the `--unsafe-fixes` option).
+```
+
+Ne yaptık ? `flake8-print (T20)` kuralını uygulayarak, `STDIN`’den input’u
+komuta `pipe`’ladık, `ruff` input’ı aldı, fake dosya adı da verdik sanki
+fiziksel dosya varmış gibi, hata listesini de gruplayarak bize sonucu verdi.
+
+Kabaca, TextMate’in metin yazılan ekranını (*document*) okuyup aynı hareketi
+yapmaya çalışıp ilk zorlu kısmı atlatmayı planladım. Şimdi bu command ekranı
+basit bir `ruby` script çalıştırabileceğimiz bir `ruby` dosyası gibi
+düşünebiliriz. Bu alana satırlarca fonksiyon yazmayayım, şöyle güzelce bir
+ruby projesi şeklinde, `class` ya da `module` kullanarak **re-usable** bir
+yapı kursam, daha sonra da kullansam diye düşündüm.
+
+Uzun zamandır aktif olarak ruby geliştirmesi yapmadığım için, internet’te
+**ruby project structure** diye arama yaptım, kafama yatan bir şeyler bulurum
+diye. Bulabildiğim tek şey, yıllar önce benim de okuyup oradan öğrendiğim;
+
+https://guides.rubygems.org/make-your-own-gem/
+
+makalesi oldu. Ben zaten uzun zaman önce bu konu ile ilgili bir 
+[blog yazısı][blog-post] da yazmıştım. `python` ya da `go` olsa bir sürü repo, 
+blog var konuyla ilgili olarak ama ne yazık ki `ruby` için bir şey bulamadım.
+
+## Ruby 1.8.7
+
+Ruby, TextMate’in DNA’sında olan bir dil ama ne yazıkki uzunca bir süre 
+**Ruby 1.8.7** ve sonrasında yarım yamalak çalışan **Ruby 2.6.10** ile birlikte
+geldi. **Apple M** işlemcilerin çıkışıyla TextMate daha da büyük sorunlar 
+yaşamaya başladı. Builtin pek çok komut ruby kullandığı için an itibariyle 
+**Rosetta 2** sayesinde zar zor çalışmaya devam ediyor.
+
+Daha önce geliştirdiğim [GitHub Flavored Markdown Editor][textmate2-gfm]
+bundle’ında son versiyon ruby kullanmıştım ama bundle’ı kurarken bir ruby
+projesi kurar gibi paketler’i, ruby’i kurmak gibi şeylerle uğraşmak
+gerekiyordu. Birazcık zahmetli, ruby ile haşır neşir olanlar daha kolay
+anlar ve kurulumu yapabilir.
+
+Halen TextMate kullanan Python geliştirici kaldıysa, çok zahmet çekmeden,
+kolayca, varolanlara ek kurulum yapmadan, sadece `brew install ruff` ile
+**Ruff**’ı kurup hayatına devam etmesini istiyordum. Dedim ya, yeni bir 
+maceraya yolculuk yapmayı kafaya koymuştum :)
+
+<%= zoomable src: '2024-05-14-ruby-books.jpg',
+             shadow: true,
+             alt: 'Rafta duran Ruby kitapları',
+             cap: 'Emektar Ruby kitaplarım!'
+%>
+
+Ruby bilgilerimi tazelemek için kendi yazdığım, bitiremediğim 
+[ruby kitabıma][ruby101-book] baktım. Modül kısmına. Çok basit ve yüzeysel
+yazmışım. İşime pek yaramadı. `extend` mi? `include` mu? kim kimden nasıl
+türüyordu? Biri birinden türediği zaman metodlar erişilemez oluyordu, `public/private`
+durumları mı vardı? Bir sürü unuttuğum konular. Rafta duran eski kitaplara
+bir bakayım dedim. Kitaplar süper ama hiç birinde bir ruby projesi nasıl olur
+yazmıyordu.
+
+Ben de daha fazla zaman kaybetmeden kervan yolda düzülür, taktik maktik yok
+bam bam bam diye giriştim. İlk yapmam gereken şey bir tür **Logger**
+implemente etmekti.
+
+## Logger / Debugger
+
+TextMate bize iki tane **event** veriyor; buna da **Semantic Class** deniyor:
+
+- `callback.document.will-save`: fiziksel **SAVE** işleminden önce
+- `callback.document.did-save`: **SAVE** işleminden sonra
+
+Editör ekranında (*document*) **<kbd>⌘</kbd>** + <kbd>S</kbd> (*Command + S*) 
+tuşuna basıldığı an önce `will-save` sonra `did-save` çalışıyor. Birbirinden 
+bağımsız ve habersiz iki olay. `will-save` esnasında bir hata olursa, bunu 
+ekranda bir yerde görmek için iki seçeneğim var. Ya **tool tip** göstermek, 
+bir an belirip mouse üzerinde gidince kaybolan ya da yeni bir döküman açıp oraya 
+yazmak.
+
+<%= zoomable src: '2024-05-16-textmate-tooltip.png',
+             shadow: true,
+             animate: '2024-05-16-textmate-tooltip.gif',
+             alt: 'TextMate2 Editor ekran görüntüsü, tool tip',
+             cap: 'İşte tool tip. Mouse üzerinden gidince otomatik kayboluyor.'
+%>
+
+
+Event’ler arasında bir bağ olmadığı için, bunlar sanki bağımsız shell
+session’ı gibi her sefer sıfırdan **clean-slate** çalışıyorlar. Yani o an, ruby’den
+bir environment variable’ı set etsem (*will-save*) sonrasında çalışan (*did-save*)
+event bu variable’ı okuyamıyor çünkü o scope’da öyle bir environment variable’ı
+yok.
+
+Kodu formatlama anı `will-save` esnasında `STDIN`’i okuyup komuta verilip
+sonuç tekrar document’a yazılıyor yani `STDOUT`’a ve devamında fiziksel SAVE
+işlemi başlıyor ve dosyanın nihayi hali diske yazılıyor. Önden formatlı hali
+vermem lazım ki esas `check` işlemi SAVE esnasında yapılabilsin. Aksi taktirde
+sonsuz döngü gibi oluyor. Aynı `django`’nun `signals`’ı gibi. SAVE ederken
+write işi yaparsam tekrar **SAVE** tetikleniyor, sonsuz döngü...
+
+Shell komutlarını çağırmak için TextMate’in içinden `process.rb` çıkıyor ve
+bunu kendi kütüphanelerimizde;
+
+```ruby
+require ENV['TM_SUPPORT_PATH'] + '/lib/tm/process'
+
+out, err = TextMate::Process.run(cmd, args, TM_FILEPATH)      # fiziksel dosya
+out, err = TextMate::Process.run(cmd, args, :input => input)  # custom input 
+```
+
+şeklinde kullanıyoruz. İlk gol burada geliyor. Ruff, komut satırından
+çalışınca hataları `STDERR`’a, çıktıyı da `STDOUT`’a veriyor. Benim **shell
+exit code**’a ihtiyacım var. Ruff config yanlış olabilir, verilen input parse
+edilemiyebilir. Eğer hata varsa, `out` boş, `err` dolu. Eğer kod format işi
+başarışız biterse format edilmiş çıktı `out`’a, linter hataları da `err`’a
+gibi kaos return value’lar var. 
+
+Shell exit code’u alabilsem direk ona bakacağım, eğer `0` ise execution’da bir
+hata yok diyeceğim ama bunu alamıyorum. Ya kendim yeni bir `process`
+kütüphanesi yapacağım ya da olanı kullanacağım.
+
+Normalde;
+
+```bash
+$ ls NONEXISTINGDIR
+ls: NONEXISTINGDIR: No such file or directory
+
+$ echo $?
+1
+```
+
+olur. Exit code `0` değilse bir hata var demektir. `TextMate::Process.run`
+bana bunu vermiyor :) Bir formül bulmam lazım. Esas problem, ilk tetiklenen
+event sırasında bir hata olursa bir anlık bu durumu nerede görüntüleyebilirim?
+Hani bu bir web uygulaması olsa, konsol’a yazarız ya, bir tür konsolumsu bir
+şey icat etmem gerek.
+
+## Bash Completion
+
+Şimdi **ne alaka ?** diyebilirsiniz. Geçtiğimiz günlerde [fzf][fzf] ile
+uğraşırken işletim sisteminin default completion’arına bunu acaba nasıl
+entegre ederimi araştırırken şöyle bir durumla karşılaştım:
+
+```bash
+$ rake<TAB>
+```
+
+bastığım an bir kısım değişken set edilip geriye sonuçlar başka bir
+değişkenlere atanarak dönüyor. Ben araya girip ekrana bir şey yazdırdığım
+zaman `readline`’ı bozmuş oluyorum. Araya girip gelen/giden argümanları bir
+yere, bir **middleware** gibi (*aaah aah console.log*) yazmanın yolunu ararken
+birden `/tmp/log` diye bir dosyaya yazmak fikri geldi.
+
+```bash
+$ echo foo >> /tmp/log
+
+# pro-tip
+# birden fazla echo’yu tek pipe ile append etmek!
+{
+    echo "line 1"
+    echo "line 2"
+    echo "line 3"
+} >> /tmp/log
+```
+
+Ayrı bir Terminal tab’i açıp;
+
+```bash
+$ tail -f /tmp/log
+```
+
+yapınca **real-time** aynı browser’ın konsolu gibi patır patır her şeyi
+görebilir hale geldim. O zaman aynı taktiği kullanıp bundle içinden de `ruby`
+ile bunu yapayım?
+
+## Builtin Logger
+
+Ruby 1.8.7 builtin logger’a sahip:
+
+```ruby
+LOG_FILE = '/tmp/log'
+ROTATION_TIME = 1200 # saniye
+logger = Logger.new(LOG_FILE, 'daily', ROTATION_TIME)
+```
+
+Bir şekilde DDD (*Domain Driven Design*) kafasıyla bir yapı kurup, tüm
+kullanacağım `class` mı `module` mu ne ise onlara bu `logger`’u geçmeyi
+planladım. TextMate Command’ı bir scope’a bağlayabiliyoruz. Yani TextMate’te
+`python` kodu yazmak için Python, `ruby` için Ruby ya da `markdown` yazmak
+için Markdown scope’u seçmek gerekir. 
+
+Bu sayede, scope’a göre özellik yapmak mümkün. Yani **<kbd>⌥</kbd>** +
+<kbd>X</kbd> (*Option + X*) kombinasyonu, Python scope’unda bir iş yaparken,
+Ruby scope’unda bam başka bir iş yapabilir. Python için linter yaptığıma göre
+daha önceki bundle’da da yaptığım gibi `source.python` scope’unda bu
+işleri yapmaya karar verdim.
+
+Aynı scope’ta iki farklı şey olduğu için, birbirlerini ezmesinler diye
+environment’tan bir değişken okuyup aç/kapa şeklinde bundle’ı enable/disable
+yapıyordum. Yani Ruff Linter ile Python FMT çakışmasın diye;
+
+    TM_PYTHON_FMT_DISABLE=1     # Python FMT bundle’ı disable eder.
+    TM_PYRUFF_DISABLE=1         # Ruff bundle’ı disable eder.
+
+şeklinde bir yapı kurdum. Hatta bir kere mail grubunda sormuştum, farklı
+bundle’lar `will-save` ya da `did-save`’i kullanınca priority nasıl oluyor?
+kim kimi eziyor? Şu cevap verilmişti:
+
+- `callback.document.did-save.1`
+- `callback.document.did-save.2`
+- `callback.document.did-save.3`
+
+Sonuna `.1`, `.2` gibi numara vererek bu önceliklendirme işi yapılıyormuş. Bu
+bilgi aklımda, ufak ufak yaptıklarımı denemeye başladım.
+
+## Varan 2 : Race Condition
+
+Bir baktım, ruff linter’ı run ederken ekranda sanki python-fmt’u çalıştırmışım
+gibi hata mesajları gelmeye başladı. Hemen logger’ı diğer bundle’a da takınca
+gerçekleri gördüm. Her iki bundle’da `source.python` scope’unda olduğu için,
+benim execution’ı kesmemin bir anlamı yokmuş. Her seferinde `will-save` ve
+`did-save` çalışıyor :) O an anladım ki, her bundle için ayrı bir scope yapmak
+lazım. 
+
+Bunlar hiçbir yerde yazmadığı için ben de şans eseri farkına vardım.
+**2008**’den beri bu şekilde kullanıyordum :) Hemen `source.python.fmt` ve
+`source.python.ruff` diye iki yeni scope oluşturdum. 
+
+**DOT-NOTATION**’ın şöyle bir güzelliği var, bu uydurduğum yeni scope’lar
+aslında `source.python`’un child scope’u bir tür **sub-class**. Tüm özellikler
+inherit (*miras geçiyor*) ediyor. `source`’un tüm özellikleri, `python`’un
+tüm özellikleri artık bu benim scope’larda da var. Bu özellikler neler?
+
+- Command binding’er
+- Key press / Tab completion
+- Syntax ve Grammar
+
+Yani kullanıcının hayatı değişmeden devam ediyor.
+
+## Varan 3 : Shared Storage
+
+Logging işi tamam, scope’ları da çözdüm. Şimdi eventler arasında bir bağ
+kurmam lazımdı. Keza eventler ayrı ayrı çıktı veriyordu ve `will-save`’den
+dönen bazı şeyleri `did-save`’e aktarmam lazımdı. Bir **database** olsa ya da
+**REDIS** olsa oradan okusam yazsam. Acaba TextMate’in bu iş için bir API
+desteği var mıydı? Tabiiki yoktu :) Bir an için in-memory SQLITE bile düşündüm.
+
+O zaman tek şansım aynı logger’daki gibi yine `/tmp/` altında bir dosyaya
+yazıp okumak ve duruma göre silmek!
+
+Ekstradan bir **DISK I/O** operasyonu, minik bir yük... Makineler güçlü,
+diskler hızlı o kadar olsun diyerek bu fikre sımsıkı sarıldım. Peki dosyayı
+hangi isimle kaydetmem lazımdı? Örneğin kullanıcı `foo.py` diye bir dosyada
+çalışıyor, hata ya da başka bir iş için storage ne diye kaydedecekti kayıt
+edeceği şeyi?
+
+İki farklı proje, ikisinde de `foo.py` olsa, mesela kullanıcı Django
+projesinde çalışsa her iki projede de `manage.py` olacak :) Ne yapacağım
+FULL-PATH mi yazacağım `/tmp/` altına? O an bir şimşek çaktı!
+`TM_DOCUMENT_UUID`. Her açılan dosya / pencere için unique bir **ID** veriyor
+TextMate `UUID` formatında.
+
+O zaman `/tmp/textmate-fmt-88F0A351-BBF2-4F8B-90C0-61B4A729B903` şeklinde
+dinamik olarak dosyaların ne olduğuyla ya da adıyla cebelleşmeden işi
+çözebilirdim.
+
+## Python Kafasıyla Ruby Yazmak
+
+Dedim ya, uzun zamandır `ruby` ile uğraşmıyorum. `ruby`’de **mixin** yaklaşımı
+var, `python` gibi **multiple inheritance** yok. Mixin’leri `class`’a
+`include` edebilirim. `class` yerine `module` kullanmak istiyorum, `Logging`,
+`Storage`, `Helpers` gibi... Birbirlerine takarak istediğim yapıyı kurmak
+istiyorum.
+
+Önce saçma sapan bir şeyler yaparak istediğime yakın bir yapı kurdum ama
+modül içinde constant’ları yanlış ekledim;
+
+`lib/constants.rb`
+
+```ruby
+module Constants
+  TM_PYRUFF_DISABLE = !!ENV["TM_PYRUFF_DISABLE"]
+end
+```
+
+`ruff_linter.rb`
+
+```ruby
+require ENV["TM_BUNDLE_SUPPORT"] + "/lib/constants"
+
+module RuffLinter
+  def enabled?
+    !Constants::TM_PYRUFF_DISABLE
+  end
+end
+```
+
+Kendi kendime soruyorum; neden `Constants::TM_PYRUFF_DISABLE` çağırıyorum?
+neden `RuffLinter`’ın bir parçası gibi olmadı? Sonra yaptığım saçmalığı anlayıp
+düzelttim:
+
+`ruff_linter.rb`
+
+```ruby
+require ENV["TM_BUNDLE_SUPPORT"] + "/lib/constants"
+
+module RuffLinter
+  include Constants
+
+  def enabled?
+    !TM_PYRUFF_DISABLE
+  end
+end
+```
+
+Bunun yanı sıra; **Ruby** ve **Python** birbirine çok benziyor syntax olarak:
+
+```ruby
+a = []   # bu bir array (ruby)
+```
+
+ve bu;
+
+```python
+a = []   # bu bir list (python)
+```
+
+Python’da **Truthy** ve **Falsy** değerleri var. Boş `list` (*array*) Python
+için `Falsy` değer. Yani;
+
+```python
+a = []
+if a:
+    print('ok')
+```
+
+Sonuç; hiçbir şey print edilmez!. Benim kafa `python`’da olduğu için; `ruby`’de
+de o şekilde yazdım... ve büyük patladım:
+
+```ruby
+a = []
+puts "ok" if a # => ok
+```
+
+Bir sürü şeyi düzeltmek zorunda kaldım. Güncel Ruby’de (*v3+*) olan neredeyse
+hiçbir şey 1.8.7’de henüz implemente edilmemiş... Zamanda geri yolculuk gibi.
+
+## TextMate UI Elementleri
+
+Bazı builtin gelen bundle’larda ekranda UI elementleri çıkaran oradan seçim
+yaptıran şeyler görmüştüm. Hatta `AppleScript` ile entegre olup, bundle’ı
+run edip shell `osascript` ile çalıştırıp input alıp TextMate’e geri dönmek
+gibi imkanlar da vardı. Hemen builtin bundle support dizinine gidip ne var
+ne yok bir bakayım dedim:
+
+```bash
+$ cd ${HOME}/Application Support/TextMate/Managed/Bundles/Bundle Support.tmbundle/Support/shared/lib/
+```
+
+`ui.rb` diye bir kütüphane, bir daldım içinde, `autocompletion`’dan 
+(*bildiğimiz modern bir completion değil ama iş görür*) tutun da,
+kullanıcıdan secure input (*keychain entegreli*), renki tool tip’ler, içinde
+`html` metin gösterme widget’ları, modal dialog’lar, progress bar, web
+preview... Yıllarca **nasıl yaparım ?** diye düşündüğüm her şey elimin altındaymış
+ve benim bundan haberim yok :)
+
+Artık olayı kafayı taktığım için kendi screencast sitesine bakmaya karar verdim.
+Çok eskiden izlemiş hatta kaydetmiştim. Site halen yaşıyor mu diye bir bakayım
+dedim:
+
+https://macromates.com/screencasts
+
+Bazı linkler çalışmıyordu onları web archive’dan buldum. Direkt olarak
+macos’un `nib`’lerini kullanarak yani **Interface Builder** ile istediğin şeyi
+yapıp TextMate’in içinden çağırmamın mümkün olduğunu **12 YIL** gecikmeli
+olarak öğrendim.
+
+İçinden çıkanlar eski işlemci mimarisine göre derlendiği için M işlemcide
+çalışamıyordu. Mucizevi bir şekilde `CocoaDialog.app` çalışıyordu:
+
+```bash
+# bir kısım derlenmiş binary’ler çıktı.
+$ cd "${HOME}/Application Support/TextMate/Managed/Bundles/Bundle Support.tmbundle/Support/shared/bin/
+```
+
+İlk iş olarak içinden çıkan `simple_notification` ve `alert`’i kullandım.
+Hızla kaybolan `tool tip` yerine ekranda bir alert gösterip **OK** ya da
+**CANCEL** gibi kafama göre (*max 3 buton*) buton ekleyebildiğim bir şeyim
+olmuştu. Ne yazık ki bu heves de kursağımda kaldı çünkü random bir şekilde
+TextMate çakılmaya başladı bunları kullandıktan sonra. Çalışması bile benim
+için mucizeydi, en azından çakılana kadar istediğimi yapma şansım oldu.
+
+İşin tehlikeli tarafı, o çıkan alert TextMate’in hali hazırdaki default
+alert’i. Yani **pencereyi kapat** dediğimizde 
+**kaydetmeden çıkıyorsunuz emin misiniz?** sorusunu soran UI elementi ile aynı. 
+Tek farkı ben onu ruby’den çağırıyorum TextMate ise onu original olarak `C++` ya da 
+`Objective-C`’den çağırıyordu.
+
+Mecburen eldeki çalışan tool tip’e geri dönmek zorunda kaldım.
+
+## Go to Errors
+
+<%= zoomable src: '2024-05-16-textmate-guttter.png',
+             shadow: true,
+             animate: '2024-05-16-textmate-guttter.gif',
+             alt: 'TextMate2 Editor gutter ekran görüntüsü',
+             cap: 'Gutter’a tıklayarak hatayı görüntüleme'
+%>
+
+Linter’ı çalışıp kurala uymayan satırları tespit ettikten sonra, ilgili
+satırı **mark** edebiliyoruz. Satır sayısı az olunca yukarı aşağı hareket
+ederken göz ucuyla sol kısma bakıp, tıklayıp ne sorun olduğunu görüyoruz.
+
+Bahsettiğim gibi, **tool tip** mouse üzerinden gidince otomatik olarak
+kaybolduğu için, sürekli kod içinde hareket ederek sol taraftaki **gutter**’a
+bakmak gerekiyor. Arada mesafe olunca bu bazen işkenceye dönüşebiliyor.
+
+`TextMate::UI` elementleri kurcalarken bir baktım tam benlik bir element var:
+`TextMate::UI.menu`. Yapmam gereken hataları bir `Array`’de tutup bu elemente
+vermek ama sorun şu; her şey asenkron ve bağımsız çalışıyor. Linter işini
+bitirdikten sonra sonucu bir yere yazmam lazım ki bir tuş kombinasyonuna
+basıldığı zaman oradan sonucu okuyup `UI.menu`’ye verebileyim:
+
+<%= zoomable src: '2024-05-16-textmate-goto-error.png',
+             shadow: true,
+             animate: '2024-05-16-textmate-goto-error.gif',
+             alt: 'TextMate2 Editor ekran görüntüsü',
+             cap: '**<kbd>⌥</kbd>** + <kbd>G</kbd> (Option + G) ile "Go to Error"'
+%>
+
+## Bash Bilgilerimizi Tazeleyelim
+
+`ruff`’ın çıktısı `json` olarak alamadığım için (*1.8.7’de json yok*) bazı 
+şeyleri bolca `regex` kullanarak ve `bash` araçları kullanarak çözmek zorunda 
+kaldım. Bu esnada macOS - BSD kaynaklı `grep` farkları ile boğuşmak zorunda 
+kaldım. Tüm komutların **gnu** versiyonları var ama kullanıcının kendi
+tarafında `gnutools`, `gnuawk`, `gnused` gibi gnu tabanlı şeyleri kurması 
+gerecekti.
+
+Mecburen eldeki eski araçlarla çıktıları kes, biç, ayır, grep’le gibi olaylara
+girmek zorunda kaldım. `cut`, `awk`, `sed`, `grep`, `sort`, `jq` gibi araçları
+bolca kullandım.
+
+## Sonuç
+
+Belkide **2** ya da **3** kişinin (*ben dahil*) kullanma ihtimali olan, ve bir
+sonraki macOS sürümünde **%99** ihtimalle artık çalışamayacak bir program için
+geceleri geç saatlere kadar debelendim büyük bir zevkle. 
+
+Çok uğraştım ve unuttuğum konuları tekrar hatırladım, bildiklerimi pekiştirdim
+ve en güzeli de; günlük mesaimde çalıştığım projeyi süper hızlı bir şekilde,
+kimi zaman elle, kimi zaman otomatik (*autfix özelliği var!*) olarak
+tereyağından kıl çeker gibi refactor etmeyi başardım (*tam bitmedi ama*)...
+
+Tamamen **açık-kaynak**, herkes katkı sağlayabilir ve tepe tepe kullanabilir.
+Son olarak, ChatGPT’ye özel teşekkürlerimi sunuyorum. O olmasa Ruby 1.8.7
+tarafında çok sıkıntı çekerdim, işleri süper hızlandırdı. Çoğu zaman uydurma
+bilgiler verse bile bana ışık tuttu, bir ipucu sağladı. Bazen inanılmaz
+şekilde TextMate ile ilgili de doğru cevaplar verdi, nereden öğrendi nasıl
+bildi orasını çok merak ediyorum.
+
+Bir süredir blog post da yapmamıştım, bahaneyle sitemde minik güncellemeler de
+yaptım. Eğer denemek isterseniz;
+
+https://github.com/vigo/textmate2-ruff-linter
+
+[ruff]: https://docs.astral.sh/ruff/ "Ruff Linter"
+[python-ruff]: https://github.com/vigo/textmate2-ruff-linter "Python Ruff Linter for TextMate2"
+[python-fmt]: https://github.com/vigo/textmate2-python-fmt "Python FMT bundle for TextMate"
+[textmate2-gfm]: https://github.com/vigo/textmate2-gfm-preview "GitHub Flavored Markdown Editor and Preview for TextMate2"
+[zed]: https://zed.dev/ "Zed Editor"
+[blog-post]: https://ugur.ozyilmazel.com/blog/tr/2014/09/23/rubygem-hazirliyoruz/
+[ruby101-book]: https://vigo.github.io/ruby101-kitap/
+[fzf]: https://github.com/junegunn/fzf

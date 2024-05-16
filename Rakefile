@@ -36,13 +36,19 @@ task :deploy, [:bump] do |_, args|
   puts "Deployed..."
 end
 
+VALID_LANGUAGES = ["tr", "en"]
+BLOG_TIME_FORMAT = "%b %d, %Y %H:%M"
+BLOG_FRONTMATTER_DATE_FORMAT = "%Y-%m-%d %H:%M"
+BLOG_FILE_DATE_FORMAT = "%Y-%m-%d"
+
 namespace :new do
 
   desc "new page"
   task :page, [:title, :language] do |_, args|
-    args.with_defaults(language: 'tr')
+    args.with_defaults(language: "tr")
 
-    abort "Please enter page title!..." unless args.title
+    abort "please enter page title!..." unless args.title
+    abort "please set valid language: #{VALID_LANGUAGES.join(",")}. #{args.language} is not a valid" unless VALID_LANGUAGES.include?(args.language)
     
     blog_name = {en: "english", tr: "turkish"}
     page_val = {en: "page", tr: "sayfa"}
@@ -62,11 +68,12 @@ namespace :new do
     output << '# og_image_dir: ""'
     output << 'comments: false'
     output << '---'
+
     save_file = "source/pages/#{args.language}/#{args.title.to_url}.html.md.erb"
 
-    File.open(save_file, "w") do |f|
-      f.write output.join("\n")
-    end
+    # File.open(save_file, "w") do |f|
+    #   f.write output.join("\n")
+    # end
     puts "New page is ready at: #{save_file}"
     
     puts "now add this proxy to your config.rb:"
@@ -77,35 +84,39 @@ namespace :new do
   desc "new blog post"
   task :post, [:title, :language, :publish_date] do |_, args|
     now = Time.now
-    publish_date = Time.parse(args.publish_date || now.strftime('%b %d, %Y %H:%M'))
-    file_date = now.strftime('%Y-%m-%d')
 
-    args.with_defaults(language: 'tr', publish_date: publish_date)
+    publish_date = Time.parse(args.publish_date || now.strftime(BLOG_TIME_FORMAT))
+    file_date = publish_date.strftime(BLOG_FILE_DATE_FORMAT)
 
-    abort "Please enter post title!..." unless args.title
+    args.with_defaults(language: "tr", publish_date: publish_date)
+    abort "please enter post title!..." unless args.title
+    abort "please set valid language: #{VALID_LANGUAGES.join(",")}. #{args.language} is not a valid" unless VALID_LANGUAGES.include?(args.language)
 
-    frontmatter_date = publish_date.strftime("%Y-%m-%d %H:%M")
+    frontmatter_date = publish_date.strftime(BLOG_FRONTMATTER_DATE_FORMAT)
 
-    output = []
-    output << '---'
-    output << "title: \"#{args.title}\""
-    output << "locale: #{args.language}"
-    output << '# subtitle: ""'
-    output << "date: #{frontmatter_date}"
-    output << '# cover: ""'
-    output << '# cover_title: ""'
-    output << '# cover_subtitle: ""'
-    output << '# og_image: ""'
-    output << '# og_image_dir: ""'
-    output << '# tags: tag1,tag2'
-    output << 'comments: false'
-    output << '---'
+    output = <<-END
+---
+title: "#{args.title}"
+locale: #{args.language}
+# subtitle: ""
+date: #{frontmatter_date}
+# cover: ""
+# cover_title: ""
+# cover_subtitle: ""
+# og_image: ""
+# og_image_dir: ""
+# tags: tag1,tag2
+comments: false
+---
+END
+
     save_file = "source/blog/#{args.language}/#{file_date}-#{args.title.to_url}.html.md.erb"
-
+    
     File.open(save_file, "w") do |f|
-      f.write output.join("\n")
+      f.write output
     end
-    puts "New post is ready at: #{save_file}"
+
+    puts "new post is ready at: #{save_file}"
   end
   
 end

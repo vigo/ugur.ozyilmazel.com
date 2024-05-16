@@ -25,13 +25,13 @@ post_amount = locals[:post_amount] || 5
             <div class="is-size-4-desktop">
                 <% if article.tags %>
                     <% article.tags.each do |tag| %>
-                        <%= link_to tag, tag_path(tag, which_blog), class: 'tag is-info' %>
+                        <%= link_to tag, tag_path(tag, which_blog), class: 'tag is-info', title: I18n.t('filter_by_tag', tag: tag) %>
                     <% end %>
                 <% end %>
 
                 <p class="summary">
                     <%= custom_strip_tags(article.summary) %>
-                    <%= link_to I18n.t('read_more'), article_url, title: I18n.t('read_more_of', title: article_title) %>
+                    <%= link_to '&raquo;', article_url, title: I18n.t('read_more_of', title: article_title) %>
                 </p>
             </div>
         </li>
