@@ -5,16 +5,512 @@
   <id>https://ugur.ozyilmazel.com/blog/tr/</id>
   <link href="https://ugur.ozyilmazel.com/blog/tr/"/>
   <link href="https://ugur.ozyilmazel.com/feed-tr.xml" rel="self"/>
-  <updated>2023-10-15T22:45:00+03:00</updated>
+  <updated>2024-05-16T22:30:00+03:00</updated>
   <author>
     <name>Uğur “vigo” Özyılmazel</name>
   </author>
+  <entry>
+    <title>Ruby 1.8.7, Bash ve TextMate</title>
+    <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2024/05/16/ruby-1-dot-8-7-bash-ve-textmate/"/>
+    <id>https://ugur.ozyilmazel.com/blog/tr/2024/05/16/ruby-1-dot-8-7-bash-ve-textmate/</id>
+    <published>2024-05-16T22:30:00+03:00</published>
+    <updated>2024-05-16T22:31:46+03:00</updated>
+    <author>
+      <name>Uğur “vigo” Özyılmazel</name>
+    </author>
+    <content type="html">&lt;p&gt;&lt;strong&gt;2023&lt;/strong&gt;’te python dünyasına bomba gibi giriş yapan &lt;a href="https://docs.astral.sh/ruff/" title="Ruff Linter"&gt;Ruff Linter&lt;/a&gt; için bir 
+&lt;a href="https://github.com/vigo/textmate2-ruff-linter" title="Python Ruff Linter for TextMate2"&gt;TextMate bundle&lt;/a&gt;’ı geliştirmiştim. &lt;/p&gt;
+
+&lt;p&gt;Tam olarak entegre olamadığım için halen &lt;a href="https://github.com/vigo/textmate2-python-fmt" title="Python FMT bundle for TextMate"&gt;eski bundle&lt;/a&gt;’ımı 
+kullanmaya devam ediyordum. Üzerinde çalıştığım projenin çok fazla python
+dosyasına sahip olması ve çok fazla düzeltilecek linter problemleri olmasından
+dolayı zamandan kazanmak için Ruff’ı kullanmaya karar verdim. Bir baktım,
+aradan geçen süre zarfında Ruff çok ilerlemiş ve benim bundle çalışmaz hale
+gelmiş. Komut çağırma şekli değişmiş, argümanlar farklılaşmış.&lt;/p&gt;
+
+&lt;p&gt;O zaman dedim ki;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Madem öyle, şu bundle’ı baştan özene bezene tekrar yapayım!&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;dedim ve bu noktada büyük bir maceranın içine gireceğimden haberim yoktu. Şu
+soru sorulabilir; &lt;/p&gt;
+
+&lt;h2&gt;Neden TextMate ?&lt;/h2&gt;
+
+&lt;p&gt;macOS’ta native çalışan tek dişi kalmış bir canavar kendisi. Ama asıl efsane
+kısmı şu, bu uygulamayı, bildiğiniz herhangi bir programlama dilini kullanarak
+(Python, Ruby, Bash, JavaScript, PHP, Perl, Swift, Lisp, AppleScript&amp;hellip;)
+&lt;strong&gt;extend&lt;/strong&gt; edebilirsiniz. Hiçbir özel dil, konfigürasyon öğrenmenize gerek yok!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Şöyle güzel bir markdown editörüm olsa ?&lt;/strong&gt; diyip oturup bunun için bundle
+yapabildim. Aynısını VS Code’a denedim, &lt;code&gt;vim&lt;/code&gt;’de denedim beceremedim. Önce
+vim’in dilini öğrenmem lazım (kullanım kısmına girmiyorum bile&amp;hellip;) Altı üstü
+bir metin editörünü kullanmak için kurs almak, bir sürü video izlemek bana
+biraz garip geliyor.&lt;/p&gt;
+
+&lt;p&gt;Sonradan gelen pek çok editör TextMate’in &lt;code&gt;tmbundle&lt;/code&gt; yaklaşımını aynen
+kopyalamış ama asıl yapması gereken kısmı yapamamıştır. Sadece &lt;strong&gt;Grammar&lt;/strong&gt;
+(&lt;em&gt;Syntax Highlighting&lt;/em&gt;), ve &lt;strong&gt;Snippets&lt;/strong&gt; kavramlarını birebir kopyaladı pek
+çok meşhur editör/ide. Ama Orijinal bundle fonksiyonunu beceremediler.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;rmate&lt;/code&gt; ile &lt;code&gt;ssh&lt;/code&gt; ile bağlandığım bir sunucudaki dosyayı local TextMate’imde
+kolayca açabiliyorum. Port forwarding yapıyor, TextMate default olarak &lt;code&gt;52698&lt;/code&gt;
+porttan dinliyor sürekli.&lt;/p&gt;
+
+&lt;p&gt;Bir şey lazım olunca, kimseye muhtaç olmadan hemen yapabilme özgürlüğü veriyor
+bana. Bu bakımdan son &lt;strong&gt;15 yıldır&lt;/strong&gt; tek kullandığım editör. Bu ilkellik
+sayesinde &lt;code&gt;go&lt;/code&gt; bilgimi inanılmaz pekiştirdim. Çünkü ne &lt;strong&gt;autocompletion&lt;/strong&gt; var,
+ne nokta işaretine basınca otomatik tamamlama var, devamlı başka bir tab’de
+kullandığım kütüphanenin kaynak kodunu okumak zorunda kaldım. &lt;strong&gt;Acaba x
+objesinin ne metodu var ?&lt;/strong&gt; sorusunun cevabı için devamlı kod okumak zorunda
+kaldım.&lt;/p&gt;
+
+&lt;p&gt;Ne &lt;strong&gt;GitHub Co-Pilot&lt;/strong&gt; var ne de başka bir şey. Mecburen bu linter/checker
+geliştirme işlerini de öğrenmek zorunda kaldım. İlkelliğin çok faydasını gördüm
+ama geliştirme hızı olarak yavaş kaldım ama sıfır hataya yakın kod yazmaya
+başladım (&lt;em&gt;linting bakımında&lt;/em&gt;n).&lt;/p&gt;
+
+&lt;p&gt;Yıllar içinde, her yeni çıkan editörü denedim ve hiçbirinde TextMate’in
+esnekliğini bulamadım. İçlerinde benim için en heyecan verici olan &lt;a href="https://zed.dev/" title="Zed Editor"&gt;zed&lt;/a&gt;
+oldu ama o da bir yere kadar&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;Bu yazıyı sizleri TextMate’e geçirmek için &lt;strong&gt;yazmıyorum&lt;/strong&gt;, belki seneye artık
+böyle bir araç tarih olacağı için kendi çapımda 
+&lt;strong&gt;bir zamanlar böyle güzel bir araç da vardı&lt;/strong&gt; denmesi için, 
+tarihe minik bir not düşsün diye yazıyorum.&lt;/p&gt;
+
+&lt;h2&gt;TextMate Bundle Editor ve Command&lt;/h2&gt;
+
+&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img class="shadow" title="TextMate2 Bundle Editor ekran görüntüsü" src="/public/images/posts/2024-05-14-textmate-bundle-command.png" alt="TextMate2 Bundle Editor ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; TextMate2 Bundle Editor böyle bir şey, TextMate 1 daha güzeldi 
+&lt;/p&gt;&lt;/div&gt;
+
+&lt;p&gt;Genel prensip şu; hangi dilde (&lt;em&gt;scope&lt;/em&gt;) kod yazıyorsanız, belli event’leri
+tetikleyerek ekrandaki kodu (&lt;em&gt;document&lt;/em&gt;) input olarak alıp bir şeyler
+yapabiliyoruz. Linter için yapmamız gereken şey, aynı command-line’ı taklit
+ederek &lt;code&gt;STDIN&lt;/code&gt; (&lt;em&gt;standard input&lt;/em&gt;)’i okuyup shell komutuna bir kısım argümanla
+beraber inputu göndermek/pas etmek:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"print('hello')"&lt;/span&gt; | ruff check &lt;span class="nt"&gt;--select&lt;/span&gt; T201 &lt;span class="se"&gt;\&lt;/span&gt;
+    &lt;span class="nt"&gt;--stdin-filename&lt;/span&gt; main.py &lt;span class="se"&gt;\&lt;/span&gt;
+    &lt;span class="nt"&gt;--output-format&lt;/span&gt; grouped -
+
+main.py:
+  1:1 T201 &lt;span class="sb"&gt;`&lt;/span&gt;print&lt;span class="sb"&gt;`&lt;/span&gt; found
+
+Found 1 error.
+No fixes available &lt;span class="o"&gt;(&lt;/span&gt;1 hidden fix can be enabled with the &lt;span class="sb"&gt;`&lt;/span&gt;&lt;span class="nt"&gt;--unsafe-fixes&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt; option&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="nb"&gt;.&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Ne yaptık ? &lt;code&gt;flake8-print (T20)&lt;/code&gt; kuralını uygulayarak, &lt;code&gt;STDIN&lt;/code&gt;’den input’u
+komuta &lt;code&gt;pipe&lt;/code&gt;’ladık, &lt;code&gt;ruff&lt;/code&gt; input’ı aldı, fake dosya adı da verdik sanki
+fiziksel dosya varmış gibi, hata listesini de gruplayarak bize sonucu verdi.&lt;/p&gt;
+
+&lt;p&gt;Kabaca, TextMate’in metin yazılan ekranını (&lt;em&gt;document&lt;/em&gt;) okuyup aynı hareketi
+yapmaya çalışıp ilk zorlu kısmı atlatmayı planladım. Şimdi bu command ekranı
+basit bir &lt;code&gt;ruby&lt;/code&gt; script çalıştırabileceğimiz bir &lt;code&gt;ruby&lt;/code&gt; dosyası gibi
+düşünebiliriz. Bu alana satırlarca fonksiyon yazmayayım, şöyle güzelce bir
+ruby projesi şeklinde, &lt;code&gt;class&lt;/code&gt; ya da &lt;code&gt;module&lt;/code&gt; kullanarak &lt;strong&gt;re-usable&lt;/strong&gt; bir
+yapı kursam, daha sonra da kullansam diye düşündüm.&lt;/p&gt;
+
+&lt;p&gt;Uzun zamandır aktif olarak ruby geliştirmesi yapmadığım için, internet’te
+&lt;strong&gt;ruby project structure&lt;/strong&gt; diye arama yaptım, kafama yatan bir şeyler bulurum
+diye. Bulabildiğim tek şey, yıllar önce benim de okuyup oradan öğrendiğim;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="https://guides.rubygems.org/make-your-own-gem/"&gt;https://guides.rubygems.org/make-your-own-gem/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;makalesi oldu. Ben zaten uzun zaman önce bu konu ile ilgili bir 
+&lt;a href="https://ugur.ozyilmazel.com/blog/tr/2014/09/23/rubygem-hazirliyoruz/"&gt;blog yazısı&lt;/a&gt; da yazmıştım. &lt;code&gt;python&lt;/code&gt; ya da &lt;code&gt;go&lt;/code&gt; olsa bir sürü repo, 
+blog var konuyla ilgili olarak ama ne yazık ki &lt;code&gt;ruby&lt;/code&gt; için bir şey bulamadım.&lt;/p&gt;
+
+&lt;h2&gt;Ruby 1.8.7&lt;/h2&gt;
+
+&lt;p&gt;Ruby, TextMate’in DNA’sında olan bir dil ama ne yazıkki uzunca bir süre 
+&lt;strong&gt;Ruby 1.8.7&lt;/strong&gt; ve sonrasında yarım yamalak çalışan &lt;strong&gt;Ruby 2.6.10&lt;/strong&gt; ile birlikte
+geldi. &lt;strong&gt;Apple M&lt;/strong&gt; işlemcilerin çıkışıyla TextMate daha da büyük sorunlar 
+yaşamaya başladı. Builtin pek çok komut ruby kullandığı için an itibariyle 
+&lt;strong&gt;Rosetta 2&lt;/strong&gt; sayesinde zar zor çalışmaya devam ediyor.&lt;/p&gt;
+
+&lt;p&gt;Daha önce geliştirdiğim &lt;a href="https://github.com/vigo/textmate2-gfm-preview" title="GitHub Flavored Markdown Editor and Preview for TextMate2"&gt;GitHub Flavored Markdown Editor&lt;/a&gt;
+bundle’ında son versiyon ruby kullanmıştım ama bundle’ı kurarken bir ruby
+projesi kurar gibi paketler’i, ruby’i kurmak gibi şeylerle uğraşmak
+gerekiyordu. Birazcık zahmetli, ruby ile haşır neşir olanlar daha kolay
+anlar ve kurulumu yapabilir.&lt;/p&gt;
+
+&lt;p&gt;Halen TextMate kullanan Python geliştirici kaldıysa, çok zahmet çekmeden,
+kolayca, varolanlara ek kurulum yapmadan, sadece &lt;code&gt;brew install ruff&lt;/code&gt; ile
+&lt;strong&gt;Ruff&lt;/strong&gt;’ı kurup hayatına devam etmesini istiyordum. Dedim ya, yeni bir 
+maceraya yolculuk yapmayı kafaya koymuştum :)&lt;/p&gt;
+
+&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img class="shadow" title="Rafta duran Ruby kitapları" src="/public/images/posts/2024-05-14-ruby-books.jpg" alt="Rafta duran Ruby kitapları"&gt;&lt;/figure&gt;&lt;p&gt; Emektar Ruby kitaplarım! 
+&lt;/p&gt;&lt;/div&gt;
+
+&lt;p&gt;Ruby bilgilerimi tazelemek için kendi yazdığım, bitiremediğim 
+&lt;a href="https://vigo.github.io/ruby101-kitap/"&gt;ruby kitabıma&lt;/a&gt; baktım. Modül kısmına. Çok basit ve yüzeysel
+yazmışım. İşime pek yaramadı. &lt;code&gt;extend&lt;/code&gt; mi? &lt;code&gt;include&lt;/code&gt; mu? kim kimden nasıl
+türüyordu? Biri birinden türediği zaman metodlar erişilemez oluyordu, &lt;code&gt;public/private&lt;/code&gt;
+durumları mı vardı? Bir sürü unuttuğum konular. Rafta duran eski kitaplara
+bir bakayım dedim. Kitaplar süper ama hiç birinde bir ruby projesi nasıl olur
+yazmıyordu.&lt;/p&gt;
+
+&lt;p&gt;Ben de daha fazla zaman kaybetmeden kervan yolda düzülür, taktik maktik yok
+bam bam bam diye giriştim. İlk yapmam gereken şey bir tür &lt;strong&gt;Logger&lt;/strong&gt;
+implemente etmekti.&lt;/p&gt;
+
+&lt;h2&gt;Logger / Debugger&lt;/h2&gt;
+
+&lt;p&gt;TextMate bize iki tane &lt;strong&gt;event&lt;/strong&gt; veriyor; buna da &lt;strong&gt;Semantic Class&lt;/strong&gt; deniyor:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;callback.document.will-save&lt;/code&gt;: fiziksel &lt;strong&gt;SAVE&lt;/strong&gt; işleminden önce&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;callback.document.did-save&lt;/code&gt;: &lt;strong&gt;SAVE&lt;/strong&gt; işleminden sonra&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Editör ekranında (&lt;em&gt;document&lt;/em&gt;) &lt;strong&gt;&lt;kbd&gt;⌘&lt;/kbd&gt;&lt;/strong&gt; + &lt;kbd&gt;S&lt;/kbd&gt; (&lt;em&gt;Command + S&lt;/em&gt;) 
+tuşuna basıldığı an önce &lt;code&gt;will-save&lt;/code&gt; sonra &lt;code&gt;did-save&lt;/code&gt; çalışıyor. Birbirinden 
+bağımsız ve habersiz iki olay. &lt;code&gt;will-save&lt;/code&gt; esnasında bir hata olursa, bunu 
+ekranda bir yerde görmek için iki seçeneğim var. Ya &lt;strong&gt;tool tip&lt;/strong&gt; göstermek, 
+bir an belirip mouse üzerinde gidince kaybolan ya da yeni bir döküman açıp oraya 
+yazmak.&lt;/p&gt;
+
+&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;span class="player-status"&gt;▶&lt;/span&gt;&lt;img class="shadow animate"  data-play="/public/images/posts/2024-05-16-textmate-tooltip.gif" title="TextMate2 Editor ekran görüntüsü, tool tip" src="/public/images/posts/2024-05-16-textmate-tooltip.png" alt="TextMate2 Editor ekran görüntüsü, tool tip"&gt;&lt;/figure&gt;&lt;p&gt; İşte tool tip. Mouse üzerinden gidince otomatik kayboluyor. 
+&lt;/p&gt;&lt;/div&gt;
+
+&lt;p&gt;Event’ler arasında bir bağ olmadığı için, bunlar sanki bağımsız shell
+session’ı gibi her sefer sıfırdan &lt;strong&gt;clean-slate&lt;/strong&gt; çalışıyorlar. Yani o an, ruby’den
+bir environment variable’ı set etsem (&lt;em&gt;will-save&lt;/em&gt;) sonrasında çalışan (&lt;em&gt;did-save&lt;/em&gt;)
+event bu variable’ı okuyamıyor çünkü o scope’da öyle bir environment variable’ı
+yok.&lt;/p&gt;
+
+&lt;p&gt;Kodu formatlama anı &lt;code&gt;will-save&lt;/code&gt; esnasında &lt;code&gt;STDIN&lt;/code&gt;’i okuyup komuta verilip
+sonuç tekrar document’a yazılıyor yani &lt;code&gt;STDOUT&lt;/code&gt;’a ve devamında fiziksel SAVE
+işlemi başlıyor ve dosyanın nihayi hali diske yazılıyor. Önden formatlı hali
+vermem lazım ki esas &lt;code&gt;check&lt;/code&gt; işlemi SAVE esnasında yapılabilsin. Aksi taktirde
+sonsuz döngü gibi oluyor. Aynı &lt;code&gt;django&lt;/code&gt;’nun &lt;code&gt;signals&lt;/code&gt;’ı gibi. SAVE ederken
+write işi yaparsam tekrar &lt;strong&gt;SAVE&lt;/strong&gt; tetikleniyor, sonsuz döngü&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;Shell komutlarını çağırmak için TextMate’in içinden &lt;code&gt;process.rb&lt;/code&gt; çıkıyor ve
+bunu kendi kütüphanelerimizde;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="no"&gt;ENV&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'TM_SUPPORT_PATH'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;'/lib/tm/process'&lt;/span&gt;
+
+&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;err&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;TextMate&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Process&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;run&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cmd&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="no"&gt;TM_FILEPATH&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;      &lt;span class="c1"&gt;# fiziksel dosya&lt;/span&gt;
+&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;err&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;TextMate&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Process&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;run&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cmd&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:input&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;input&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# custom input &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;şeklinde kullanıyoruz. İlk gol burada geliyor. Ruff, komut satırından
+çalışınca hataları &lt;code&gt;STDERR&lt;/code&gt;’a, çıktıyı da &lt;code&gt;STDOUT&lt;/code&gt;’a veriyor. Benim &lt;strong&gt;shell
+exit code&lt;/strong&gt;’a ihtiyacım var. Ruff config yanlış olabilir, verilen input parse
+edilemiyebilir. Eğer hata varsa, &lt;code&gt;out&lt;/code&gt; boş, &lt;code&gt;err&lt;/code&gt; dolu. Eğer kod format işi
+başarışız biterse format edilmiş çıktı &lt;code&gt;out&lt;/code&gt;’a, linter hataları da &lt;code&gt;err&lt;/code&gt;’a
+gibi kaos return value’lar var. &lt;/p&gt;
+
+&lt;p&gt;Shell exit code’u alabilsem direk ona bakacağım, eğer &lt;code&gt;0&lt;/code&gt; ise execution’da bir
+hata yok diyeceğim ama bunu alamıyorum. Ya kendim yeni bir &lt;code&gt;process&lt;/code&gt;
+kütüphanesi yapacağım ya da olanı kullanacağım.&lt;/p&gt;
+
+&lt;p&gt;Normalde;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;ls &lt;/span&gt;NONEXISTINGDIR
+&lt;span class="nb"&gt;ls&lt;/span&gt;: NONEXISTINGDIR: No such file or directory
+
+&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$?&lt;/span&gt;
+1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;olur. Exit code &lt;code&gt;0&lt;/code&gt; değilse bir hata var demektir. &lt;code&gt;TextMate::Process.run&lt;/code&gt;
+bana bunu vermiyor :) Bir formül bulmam lazım. Esas problem, ilk tetiklenen
+event sırasında bir hata olursa bir anlık bu durumu nerede görüntüleyebilirim?
+Hani bu bir web uygulaması olsa, konsol’a yazarız ya, bir tür konsolumsu bir
+şey icat etmem gerek.&lt;/p&gt;
+
+&lt;h2&gt;Bash Completion&lt;/h2&gt;
+
+&lt;p&gt;Şimdi &lt;strong&gt;ne alaka ?&lt;/strong&gt; diyebilirsiniz. Geçtiğimiz günlerde &lt;a href="https://github.com/junegunn/fzf"&gt;fzf&lt;/a&gt; ile
+uğraşırken işletim sisteminin default completion’arına bunu acaba nasıl
+entegre ederimi araştırırken şöyle bir durumla karşılaştım:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;rake&amp;lt;TAB&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;bastığım an bir kısım değişken set edilip geriye sonuçlar başka bir
+değişkenlere atanarak dönüyor. Ben araya girip ekrana bir şey yazdırdığım
+zaman &lt;code&gt;readline&lt;/code&gt;’ı bozmuş oluyorum. Araya girip gelen/giden argümanları bir
+yere, bir &lt;strong&gt;middleware&lt;/strong&gt; gibi (&lt;em&gt;aaah aah console.log&lt;/em&gt;) yazmanın yolunu ararken
+birden &lt;code&gt;/tmp/log&lt;/code&gt; diye bir dosyaya yazmak fikri geldi.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;echo &lt;/span&gt;foo &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; /tmp/log
+
+&lt;span class="c"&gt;# pro-tip&lt;/span&gt;
+&lt;span class="c"&gt;# birden fazla echo’yu tek pipe ile append etmek!&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"line 1"&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"line 2"&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"line 3"&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; /tmp/log
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Ayrı bir Terminal tab’i açıp;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;tail&lt;/span&gt; &lt;span class="nt"&gt;-f&lt;/span&gt; /tmp/log
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;yapınca &lt;strong&gt;real-time&lt;/strong&gt; aynı browser’ın konsolu gibi patır patır her şeyi
+görebilir hale geldim. O zaman aynı taktiği kullanıp bundle içinden de &lt;code&gt;ruby&lt;/code&gt;
+ile bunu yapayım?&lt;/p&gt;
+
+&lt;h2&gt;Builtin Logger&lt;/h2&gt;
+
+&lt;p&gt;Ruby 1.8.7 builtin logger’a sahip:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="no"&gt;LOG_FILE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;'/tmp/log'&lt;/span&gt;
+&lt;span class="no"&gt;ROTATION_TIME&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1200&lt;/span&gt; &lt;span class="c1"&gt;# saniye&lt;/span&gt;
+&lt;span class="n"&gt;logger&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;Logger&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="no"&gt;LOG_FILE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'daily'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="no"&gt;ROTATION_TIME&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Bir şekilde DDD (&lt;em&gt;Domain Driven Design&lt;/em&gt;) kafasıyla bir yapı kurup, tüm
+kullanacağım &lt;code&gt;class&lt;/code&gt; mı &lt;code&gt;module&lt;/code&gt; mu ne ise onlara bu &lt;code&gt;logger&lt;/code&gt;’u geçmeyi
+planladım. TextMate Command’ı bir scope’a bağlayabiliyoruz. Yani TextMate’te
+&lt;code&gt;python&lt;/code&gt; kodu yazmak için Python, &lt;code&gt;ruby&lt;/code&gt; için Ruby ya da &lt;code&gt;markdown&lt;/code&gt; yazmak
+için Markdown scope’u seçmek gerekir. &lt;/p&gt;
+
+&lt;p&gt;Bu sayede, scope’a göre özellik yapmak mümkün. Yani &lt;strong&gt;&lt;kbd&gt;⌥&lt;/kbd&gt;&lt;/strong&gt; +
+&lt;kbd&gt;X&lt;/kbd&gt; (&lt;em&gt;Option + X&lt;/em&gt;) kombinasyonu, Python scope’unda bir iş yaparken,
+Ruby scope’unda bam başka bir iş yapabilir. Python için linter yaptığıma göre
+daha önceki bundle’da da yaptığım gibi &lt;code&gt;source.python&lt;/code&gt; scope’unda bu
+işleri yapmaya karar verdim.&lt;/p&gt;
+
+&lt;p&gt;Aynı scope’ta iki farklı şey olduğu için, birbirlerini ezmesinler diye
+environment’tan bir değişken okuyup aç/kapa şeklinde bundle’ı enable/disable
+yapıyordum. Yani Ruff Linter ile Python FMT çakışmasın diye;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight plaintext"&gt;&lt;code&gt;TM_PYTHON_FMT_DISABLE=1     # Python FMT bundle’ı disable eder.
+TM_PYRUFF_DISABLE=1         # Ruff bundle’ı disable eder.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;şeklinde bir yapı kurdum. Hatta bir kere mail grubunda sormuştum, farklı
+bundle’lar &lt;code&gt;will-save&lt;/code&gt; ya da &lt;code&gt;did-save&lt;/code&gt;’i kullanınca priority nasıl oluyor?
+kim kimi eziyor? Şu cevap verilmişti:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;callback.document.did-save.1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;callback.document.did-save.2&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;callback.document.did-save.3&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Sonuna &lt;code&gt;.1&lt;/code&gt;, &lt;code&gt;.2&lt;/code&gt; gibi numara vererek bu önceliklendirme işi yapılıyormuş. Bu
+bilgi aklımda, ufak ufak yaptıklarımı denemeye başladım.&lt;/p&gt;
+
+&lt;h2&gt;Varan 2 : Race Condition&lt;/h2&gt;
+
+&lt;p&gt;Bir baktım, ruff linter’ı run ederken ekranda sanki python-fmt’u çalıştırmışım
+gibi hata mesajları gelmeye başladı. Hemen logger’ı diğer bundle’a da takınca
+gerçekleri gördüm. Her iki bundle’da &lt;code&gt;source.python&lt;/code&gt; scope’unda olduğu için,
+benim execution’ı kesmemin bir anlamı yokmuş. Her seferinde &lt;code&gt;will-save&lt;/code&gt; ve
+&lt;code&gt;did-save&lt;/code&gt; çalışıyor :) O an anladım ki, her bundle için ayrı bir scope yapmak
+lazım. &lt;/p&gt;
+
+&lt;p&gt;Bunlar hiçbir yerde yazmadığı için ben de şans eseri farkına vardım.
+&lt;strong&gt;2008&lt;/strong&gt;’den beri bu şekilde kullanıyordum :) Hemen &lt;code&gt;source.python.fmt&lt;/code&gt; ve
+&lt;code&gt;source.python.ruff&lt;/code&gt; diye iki yeni scope oluşturdum. &lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;DOT-NOTATION&lt;/strong&gt;’ın şöyle bir güzelliği var, bu uydurduğum yeni scope’lar
+aslında &lt;code&gt;source.python&lt;/code&gt;’un child scope’u bir tür &lt;strong&gt;sub-class&lt;/strong&gt;. Tüm özellikler
+inherit (&lt;em&gt;miras geçiyor&lt;/em&gt;) ediyor. &lt;code&gt;source&lt;/code&gt;’un tüm özellikleri, &lt;code&gt;python&lt;/code&gt;’un
+tüm özellikleri artık bu benim scope’larda da var. Bu özellikler neler?&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Command binding’er&lt;/li&gt;
+&lt;li&gt;Key press / Tab completion&lt;/li&gt;
+&lt;li&gt;Syntax ve Grammar&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Yani kullanıcının hayatı değişmeden devam ediyor.&lt;/p&gt;
+
+&lt;h2&gt;Varan 3 : Shared Storage&lt;/h2&gt;
+
+&lt;p&gt;Logging işi tamam, scope’ları da çözdüm. Şimdi eventler arasında bir bağ
+kurmam lazımdı. Keza eventler ayrı ayrı çıktı veriyordu ve &lt;code&gt;will-save&lt;/code&gt;’den
+dönen bazı şeyleri &lt;code&gt;did-save&lt;/code&gt;’e aktarmam lazımdı. Bir &lt;strong&gt;database&lt;/strong&gt; olsa ya da
+&lt;strong&gt;REDIS&lt;/strong&gt; olsa oradan okusam yazsam. Acaba TextMate’in bu iş için bir API
+desteği var mıydı? Tabiiki yoktu :) Bir an için in-memory SQLITE bile düşündüm.&lt;/p&gt;
+
+&lt;p&gt;O zaman tek şansım aynı logger’daki gibi yine &lt;code&gt;/tmp/&lt;/code&gt; altında bir dosyaya
+yazıp okumak ve duruma göre silmek!&lt;/p&gt;
+
+&lt;p&gt;Ekstradan bir &lt;strong&gt;DISK I/O&lt;/strong&gt; operasyonu, minik bir yük&amp;hellip; Makineler güçlü,
+diskler hızlı o kadar olsun diyerek bu fikre sımsıkı sarıldım. Peki dosyayı
+hangi isimle kaydetmem lazımdı? Örneğin kullanıcı &lt;code&gt;foo.py&lt;/code&gt; diye bir dosyada
+çalışıyor, hata ya da başka bir iş için storage ne diye kaydedecekti kayıt
+edeceği şeyi?&lt;/p&gt;
+
+&lt;p&gt;İki farklı proje, ikisinde de &lt;code&gt;foo.py&lt;/code&gt; olsa, mesela kullanıcı Django
+projesinde çalışsa her iki projede de &lt;code&gt;manage.py&lt;/code&gt; olacak :) Ne yapacağım
+FULL-PATH mi yazacağım &lt;code&gt;/tmp/&lt;/code&gt; altına? O an bir şimşek çaktı!
+&lt;code&gt;TM_DOCUMENT_UUID&lt;/code&gt;. Her açılan dosya / pencere için unique bir &lt;strong&gt;ID&lt;/strong&gt; veriyor
+TextMate &lt;code&gt;UUID&lt;/code&gt; formatında.&lt;/p&gt;
+
+&lt;p&gt;O zaman &lt;code&gt;/tmp/textmate-fmt-88F0A351-BBF2-4F8B-90C0-61B4A729B903&lt;/code&gt; şeklinde
+dinamik olarak dosyaların ne olduğuyla ya da adıyla cebelleşmeden işi
+çözebilirdim.&lt;/p&gt;
+
+&lt;h2&gt;Python Kafasıyla Ruby Yazmak&lt;/h2&gt;
+
+&lt;p&gt;Dedim ya, uzun zamandır &lt;code&gt;ruby&lt;/code&gt; ile uğraşmıyorum. &lt;code&gt;ruby&lt;/code&gt;’de &lt;strong&gt;mixin&lt;/strong&gt; yaklaşımı
+var, &lt;code&gt;python&lt;/code&gt; gibi &lt;strong&gt;multiple inheritance&lt;/strong&gt; yok. Mixin’leri &lt;code&gt;class&lt;/code&gt;’a
+&lt;code&gt;include&lt;/code&gt; edebilirim. &lt;code&gt;class&lt;/code&gt; yerine &lt;code&gt;module&lt;/code&gt; kullanmak istiyorum, &lt;code&gt;Logging&lt;/code&gt;,
+&lt;code&gt;Storage&lt;/code&gt;, &lt;code&gt;Helpers&lt;/code&gt; gibi&amp;hellip; Birbirlerine takarak istediğim yapıyı kurmak
+istiyorum.&lt;/p&gt;
+
+&lt;p&gt;Önce saçma sapan bir şeyler yaparak istediğime yakın bir yapı kurdum ama
+modül içinde constant’ları yanlış ekledim;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;lib/constants.rb&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="k"&gt;module&lt;/span&gt; &lt;span class="nn"&gt;Constants&lt;/span&gt;
+  &lt;span class="no"&gt;TM_PYRUFF_DISABLE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;!!&lt;/span&gt;&lt;span class="no"&gt;ENV&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"TM_PYRUFF_DISABLE"&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code&gt;ruff_linter.rb&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="no"&gt;ENV&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"TM_BUNDLE_SUPPORT"&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s2"&gt;"/lib/constants"&lt;/span&gt;
+
+&lt;span class="k"&gt;module&lt;/span&gt; &lt;span class="nn"&gt;RuffLinter&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;enabled?&lt;/span&gt;
+    &lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="no"&gt;Constants&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;TM_PYRUFF_DISABLE&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Kendi kendime soruyorum; neden &lt;code&gt;Constants::TM_PYRUFF_DISABLE&lt;/code&gt; çağırıyorum?
+neden &lt;code&gt;RuffLinter&lt;/code&gt;’ın bir parçası gibi olmadı? Sonra yaptığım saçmalığı anlayıp
+düzelttim:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;ruff_linter.rb&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="no"&gt;ENV&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"TM_BUNDLE_SUPPORT"&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s2"&gt;"/lib/constants"&lt;/span&gt;
+
+&lt;span class="k"&gt;module&lt;/span&gt; &lt;span class="nn"&gt;RuffLinter&lt;/span&gt;
+  &lt;span class="kp"&gt;include&lt;/span&gt; &lt;span class="no"&gt;Constants&lt;/span&gt;
+
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;enabled?&lt;/span&gt;
+    &lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="no"&gt;TM_PYRUFF_DISABLE&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Bunun yanı sıra; &lt;strong&gt;Ruby&lt;/strong&gt; ve &lt;strong&gt;Python&lt;/strong&gt; birbirine çok benziyor syntax olarak:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;   &lt;span class="c1"&gt;# bu bir array (ruby)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;ve bu;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight python"&gt;&lt;code&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;   &lt;span class="c1"&gt;# bu bir list (python)
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Python’da &lt;strong&gt;Truthy&lt;/strong&gt; ve &lt;strong&gt;Falsy&lt;/strong&gt; değerleri var. Boş &lt;code&gt;list&lt;/code&gt; (&lt;em&gt;array&lt;/em&gt;) Python
+için &lt;code&gt;Falsy&lt;/code&gt; değer. Yani;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight python"&gt;&lt;code&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'ok'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Sonuç; hiçbir şey print edilmez!. Benim kafa &lt;code&gt;python&lt;/code&gt;’da olduğu için; &lt;code&gt;ruby&lt;/code&gt;’de
+de o şekilde yazdım&amp;hellip; ve büyük patladım:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+&lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="s2"&gt;"ok"&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="c1"&gt;# =&amp;gt; ok&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Bir sürü şeyi düzeltmek zorunda kaldım. Güncel Ruby’de (&lt;em&gt;v3+&lt;/em&gt;) olan neredeyse
+hiçbir şey 1.8.7’de henüz implemente edilmemiş&amp;hellip; Zamanda geri yolculuk gibi.&lt;/p&gt;
+
+&lt;h2&gt;TextMate UI Elementleri&lt;/h2&gt;
+
+&lt;p&gt;Bazı builtin gelen bundle’larda ekranda UI elementleri çıkaran oradan seçim
+yaptıran şeyler görmüştüm. Hatta &lt;code&gt;AppleScript&lt;/code&gt; ile entegre olup, bundle’ı
+run edip shell &lt;code&gt;osascript&lt;/code&gt; ile çalıştırıp input alıp TextMate’e geri dönmek
+gibi imkanlar da vardı. Hemen builtin bundle support dizinine gidip ne var
+ne yok bir bakayım dedim:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; &lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;HOME&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;/Application Support/TextMate/Managed/Bundles/Bundle Support.tmbundle/Support/shared/lib/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code&gt;ui.rb&lt;/code&gt; diye bir kütüphane, bir daldım içinde, &lt;code&gt;autocompletion&lt;/code&gt;’dan 
+(&lt;em&gt;bildiğimiz modern bir completion değil ama iş görür&lt;/em&gt;) tutun da,
+kullanıcıdan secure input (&lt;em&gt;keychain entegreli&lt;/em&gt;), renki tool tip’ler, içinde
+&lt;code&gt;html&lt;/code&gt; metin gösterme widget’ları, modal dialog’lar, progress bar, web
+preview&amp;hellip; Yıllarca &lt;strong&gt;nasıl yaparım ?&lt;/strong&gt; diye düşündüğüm her şey elimin altındaymış
+ve benim bundan haberim yok :)&lt;/p&gt;
+
+&lt;p&gt;Artık olayı kafayı taktığım için kendi screencast sitesine bakmaya karar verdim.
+Çok eskiden izlemiş hatta kaydetmiştim. Site halen yaşıyor mu diye bir bakayım
+dedim:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="https://macromates.com/screencasts"&gt;https://macromates.com/screencasts&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Bazı linkler çalışmıyordu onları web archive’dan buldum. Direkt olarak
+macos’un &lt;code&gt;nib&lt;/code&gt;’lerini kullanarak yani &lt;strong&gt;Interface Builder&lt;/strong&gt; ile istediğin şeyi
+yapıp TextMate’in içinden çağırmamın mümkün olduğunu &lt;strong&gt;12 YIL&lt;/strong&gt; gecikmeli
+olarak öğrendim.&lt;/p&gt;
+
+&lt;p&gt;İçinden çıkanlar eski işlemci mimarisine göre derlendiği için M işlemcide
+çalışamıyordu. Mucizevi bir şekilde &lt;code&gt;CocoaDialog.app&lt;/code&gt; çalışıyordu:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="c"&gt;# bir kısım derlenmiş binary’ler çıktı.&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;HOME&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;/Application Support/TextMate/Managed/Bundles/Bundle Support.tmbundle/Support/shared/bin/
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;İlk iş olarak içinden çıkan &lt;code&gt;simple_notification&lt;/code&gt; ve &lt;code&gt;alert&lt;/code&gt;’i kullandım.
+Hızla kaybolan &lt;code&gt;tool tip&lt;/code&gt; yerine ekranda bir alert gösterip &lt;strong&gt;OK&lt;/strong&gt; ya da
+&lt;strong&gt;CANCEL&lt;/strong&gt; gibi kafama göre (&lt;em&gt;max 3 buton&lt;/em&gt;) buton ekleyebildiğim bir şeyim
+olmuştu. Ne yazık ki bu heves de kursağımda kaldı çünkü random bir şekilde
+TextMate çakılmaya başladı bunları kullandıktan sonra. Çalışması bile benim
+için mucizeydi, en azından çakılana kadar istediğimi yapma şansım oldu.&lt;/p&gt;
+
+&lt;p&gt;İşin tehlikeli tarafı, o çıkan alert TextMate’in hali hazırdaki default
+alert’i. Yani &lt;strong&gt;pencereyi kapat&lt;/strong&gt; dediğimizde 
+&lt;strong&gt;kaydetmeden çıkıyorsunuz emin misiniz?&lt;/strong&gt; sorusunu soran UI elementi ile aynı. 
+Tek farkı ben onu ruby’den çağırıyorum TextMate ise onu original olarak &lt;code&gt;C++&lt;/code&gt; ya da 
+&lt;code&gt;Objective-C&lt;/code&gt;’den çağırıyordu.&lt;/p&gt;
+
+&lt;p&gt;Mecburen eldeki çalışan tool tip’e geri dönmek zorunda kaldım.&lt;/p&gt;
+
+&lt;h2&gt;Go to Errors&lt;/h2&gt;
+
+&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;span class="player-status"&gt;▶&lt;/span&gt;&lt;img class="shadow animate"  data-play="/public/images/posts/2024-05-16-textmate-guttter.gif" title="TextMate2 Editor gutter ekran görüntüsü" src="/public/images/posts/2024-05-16-textmate-guttter.png" alt="TextMate2 Editor gutter ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; Gutter’a tıklayarak hatayı görüntüleme 
+&lt;/p&gt;&lt;/div&gt;
+
+&lt;p&gt;Linter’ı çalışıp kurala uymayan satırları tespit ettikten sonra, ilgili
+satırı &lt;strong&gt;mark&lt;/strong&gt; edebiliyoruz. Satır sayısı az olunca yukarı aşağı hareket
+ederken göz ucuyla sol kısma bakıp, tıklayıp ne sorun olduğunu görüyoruz.&lt;/p&gt;
+
+&lt;p&gt;Bahsettiğim gibi, &lt;strong&gt;tool tip&lt;/strong&gt; mouse üzerinden gidince otomatik olarak
+kaybolduğu için, sürekli kod içinde hareket ederek sol taraftaki &lt;strong&gt;gutter&lt;/strong&gt;’a
+bakmak gerekiyor. Arada mesafe olunca bu bazen işkenceye dönüşebiliyor.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;TextMate::UI&lt;/code&gt; elementleri kurcalarken bir baktım tam benlik bir element var:
+&lt;code&gt;TextMate::UI.menu&lt;/code&gt;. Yapmam gereken hataları bir &lt;code&gt;Array&lt;/code&gt;’de tutup bu elemente
+vermek ama sorun şu; her şey asenkron ve bağımsız çalışıyor. Linter işini
+bitirdikten sonra sonucu bir yere yazmam lazım ki bir tuş kombinasyonuna
+basıldığı zaman oradan sonucu okuyup &lt;code&gt;UI.menu&lt;/code&gt;’ye verebileyim:&lt;/p&gt;
+
+&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;span class="player-status"&gt;▶&lt;/span&gt;&lt;img class="shadow animate"  data-play="/public/images/posts/2024-05-16-textmate-goto-error.gif" title="TextMate2 Editor ekran görüntüsü" src="/public/images/posts/2024-05-16-textmate-goto-error.png" alt="TextMate2 Editor ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; &lt;strong&gt;&lt;kbd&gt;⌥&lt;/kbd&gt;&lt;/strong&gt; + &lt;kbd&gt;G&lt;/kbd&gt; (Option + G) ile Go to Error 
+&lt;/p&gt;&lt;/div&gt;
+
+&lt;h2&gt;Bash Bilgilerimizi Tazeleyelim&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;ruff&lt;/code&gt;’ın çıktısı &lt;code&gt;json&lt;/code&gt; olarak alamadığım için (&lt;em&gt;1.8.7’de json yok&lt;/em&gt;) bazı 
+şeyleri bolca &lt;code&gt;regex&lt;/code&gt; kullanarak ve &lt;code&gt;bash&lt;/code&gt; araçları kullanarak çözmek zorunda 
+kaldım. Bu esnada macOS - BSD kaynaklı &lt;code&gt;grep&lt;/code&gt; farkları ile boğuşmak zorunda 
+kaldım. Tüm komutların &lt;strong&gt;gnu&lt;/strong&gt; versiyonları var ama kullanıcının kendi
+tarafında &lt;code&gt;gnutools&lt;/code&gt;, &lt;code&gt;gnuawk&lt;/code&gt;, &lt;code&gt;gnused&lt;/code&gt; gibi gnu tabanlı şeyleri kurması 
+gerecekti.&lt;/p&gt;
+
+&lt;p&gt;Mecburen eldeki eski araçlarla çıktıları kes, biç, ayır, grep’le gibi olaylara
+girmek zorunda kaldım. &lt;code&gt;cut&lt;/code&gt;, &lt;code&gt;awk&lt;/code&gt;, &lt;code&gt;sed&lt;/code&gt;, &lt;code&gt;grep&lt;/code&gt;, &lt;code&gt;sort&lt;/code&gt;, &lt;code&gt;jq&lt;/code&gt; gibi araçları
+bolca kullandım.&lt;/p&gt;
+
+&lt;h2&gt;Sonuç&lt;/h2&gt;
+
+&lt;p&gt;Belkide &lt;strong&gt;2&lt;/strong&gt; ya da &lt;strong&gt;3&lt;/strong&gt; kişinin (&lt;em&gt;ben dahil&lt;/em&gt;) kullanma ihtimali olan, ve bir
+sonraki macOS sürümünde &lt;strong&gt;%99&lt;/strong&gt; ihtimalle artık çalışamayacak bir program için
+geceleri geç saatlere kadar debelendim büyük bir zevkle. &lt;/p&gt;
+
+&lt;p&gt;Çok uğraştım ve unuttuğum konuları tekrar hatırladım, bildiklerimi pekiştirdim
+ve en güzeli de; günlük mesaimde çalıştığım projeyi süper hızlı bir şekilde,
+kimi zaman elle, kimi zaman otomatik (&lt;em&gt;autfix özelliği var!&lt;/em&gt;) olarak
+tereyağından kıl çeker gibi refactor etmeyi başardım (&lt;em&gt;tam bitmedi ama&lt;/em&gt;)&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;Tamamen &lt;strong&gt;açık-kaynak&lt;/strong&gt;, herkes katkı sağlayabilir ve tepe tepe kullanabilir.
+Son olarak, ChatGPT’ye özel teşekkürlerimi sunuyorum. O olmasa Ruby 1.8.7
+tarafında çok sıkıntı çekerdim, işleri süper hızlandırdı. Çoğu zaman uydurma
+bilgiler verse bile bana ışık tuttu, bir ipucu sağladı. Bazen inanılmaz
+şekilde TextMate ile ilgili de doğru cevaplar verdi, nereden öğrendi nasıl
+bildi orasını çok merak ediyorum.&lt;/p&gt;
+
+&lt;p&gt;Bir süredir blog post da yapmamıştım, bahaneyle sitemde minik güncellemeler de
+yaptım. Eğer denemek isterseniz;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="https://github.com/vigo/textmate2-ruff-linter"&gt;https://github.com/vigo/textmate2-ruff-linter&lt;/a&gt;&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>TextMate için Go Modify Tags Eklentisi</title>
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2023/10/15/textmate-icin-go-modify-tags-eklentisi/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2023/10/15/textmate-icin-go-modify-tags-eklentisi/</id>
     <published>2023-10-15T22:45:00+03:00</published>
-    <updated>2023-10-19T19:02:23+03:00</updated>
+    <updated>2024-05-15T21:53:33+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -54,7 +550,7 @@ reposunda buldum. Işık hızıyla gaza geldim. &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; ~/Library/Application&lt;span class="se"&gt;\ &lt;/span&gt;Support/TextMate/Bundles/
 &lt;span class="nv"&gt;$ &lt;/span&gt;git clone https://github.com/vigo/textmate2-gomodifytags.git GoModifyTags.tmbundle
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img title="aaaaaaaaaa" src="https://raw.githubusercontent.com/vigo/textmate2-gomodifytags/main/screens/tm2-gomodifytags.gif" alt="aaaaaaaaaa"&gt;&lt;/figure&gt;&lt;p&gt; TextMate2’den ekran görüntüsü 
+&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img class="shadow" title="TextMate2 için gomodifytags bundle animasyon gif" src="https://raw.githubusercontent.com/vigo/textmate2-gomodifytags/main/screens/tm2-gomodifytags.gif" alt="TextMate2 için gomodifytags bundle animasyon gif"&gt;&lt;/figure&gt;&lt;p&gt; TextMate2’den ekran görüntüsü 
 &lt;/p&gt;&lt;/div&gt;
 
 &lt;p&gt;Kod içinde &lt;code&gt;struct&lt;/code&gt; ile ilgili bir &lt;strong&gt;selection&lt;/strong&gt; yapıp otomatik olarak
@@ -67,7 +563,7 @@ ekle/çıkar gibi.&lt;/p&gt;
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2023/03/12/textmate-icin-ruff-linter-eklentisi/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2023/03/12/textmate-icin-ruff-linter-eklentisi/</id>
     <published>2023-03-12T21:29:00+03:00</published>
-    <updated>2023-10-19T19:02:23+03:00</updated>
+    <updated>2024-05-15T21:47:06+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -123,7 +619,7 @@ def foo(x: int):
 bir &lt;a href="https://github.com/vigo/textmate2-python-fmt"&gt;Python eklentisini&lt;/a&gt; kullanıyordum. Hemen kollayı sıvadım ve giriştim
 hızla! Python scope’unda kod yazarken &lt;strong&gt;save&lt;/strong&gt; yapınca linter devreye giriyor.&lt;/p&gt;
 
-&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img title="Ruff-Linter çalışırken" src="https://raw.githubusercontent.com/vigo/textmate2-ruff-linter/main/screens/markers.gif" alt="Ruff-Linter çalışırken"&gt;&lt;/figure&gt;&lt;p&gt; TextMate2’den ekran görüntüsü 
+&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img class="shadow" title="Ruff-Linter çalışırken" src="/public/images/posts/2023-02-24-ruff-markers.gif" alt="Ruff-Linter çalışırken"&gt;&lt;/figure&gt;&lt;p&gt; TextMate2’den ekran görüntüsü 
 &lt;/p&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;a href="https://github.com/PyCQA/pylint"&gt;Pylint&lt;/a&gt; kadar süper olmasa da hız bakımından tercih sebebidir. Proje
@@ -1495,7 +1991,7 @@ güzel bir sunum yapmıştı. Bu sunumu da &lt;a href="https://speakerdeck.com/s
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2015/04/13/textmate-ve-interaktif-giris/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2015/04/13/textmate-ve-interaktif-giris/</id>
     <published>2015-04-13T09:28:00+03:00</published>
-    <updated>2023-03-12T22:04:50+03:00</updated>
+    <updated>2024-05-15T21:17:05+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -1506,13 +2002,13 @@ TextMate’de. &lt;/p&gt;
 &lt;p&gt;Örneğin &lt;strong&gt;Ruby&lt;/strong&gt; çalıştırmak için; aşağıdaki gibi boş bir döküman açıp,
 kayıt bile etmeden;&lt;/p&gt;
 
-&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img title="TextMate ekran görüntüsü" src="/public/images/posts/2015-04-13-textmate/2015-04-13-textmate-ruby.png" alt="TextMate ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; Yeni pencerede &lt;kbd&gt;⌘&lt;/kbd&gt; + &lt;kbd&gt;N&lt;/kbd&gt; 
+&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img class="shadow" title="TextMate ekran görüntüsü" src="/public/images/posts/2015-04-13-textmate/2015-04-13-textmate-ruby.png" alt="TextMate ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; Yeni pencerede &lt;kbd&gt;⌘&lt;/kbd&gt; + &lt;kbd&gt;N&lt;/kbd&gt; 
 &lt;/p&gt;&lt;/div&gt;
 
 &lt;p&gt;Yazmak istediğinizi yazıp &lt;kbd&gt;⌘&lt;/kbd&gt; + &lt;kbd&gt;R&lt;/kbd&gt; yaparak (&lt;em&gt;bazı dillerde bu tuş kombinasyonu
 farklı olabiliyor ama geneli hep bu&amp;hellip;&lt;/em&gt;) hemen çalıştırabilirsiniz.&lt;/p&gt;
 
-&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img title="TextMate ekran görüntüsü" src="/public/images/posts/2015-04-13-textmate/2015-04-13-textmate-ruby-2.png" alt="TextMate ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; Çıktı ekranı 
+&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img class="shadow" title="TextMate ekran görüntüsü" src="/public/images/posts/2015-04-13-textmate/2015-04-13-textmate-ruby-2.png" alt="TextMate ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; Çıktı ekranı 
 &lt;/p&gt;&lt;/div&gt;
 
 &lt;p&gt;Fakat bazı durumlarda kullanıcıdan &lt;strong&gt;input&lt;/strong&gt; almanız gerekebilir. &lt;code&gt;STDIN&lt;/code&gt; yani
@@ -1535,13 +2031,13 @@ deneyin: &lt;kbd&gt;⌘&lt;/kbd&gt; + &lt;kbd&gt;R&lt;/kbd&gt;;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;gets&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;chomp&lt;/span&gt;        &lt;span class="c1"&gt;# Kullanıcıdan input alır&lt;/span&gt;
 &lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="s2"&gt;"input: &lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;div class="card blog-card mt-2 mb-4"&gt;&lt;div class="card-image has-text-centered"&gt;&lt;img class="mt-4" title="INPUT istemcisi!" src="/public/images/posts/2015-04-13-textmate/2015-04-13-textmate-ruby-3.png" alt="INPUT istemcisi!" /&gt;&lt;/div&gt;&lt;div class="card-content"&gt;&lt;div class="content has-text-centered is-size-5-desktop is-size-6-mobile"&gt;&lt;p&gt; INPUT istemcisi! 
+&lt;div class="card blog-card mt-2 mb-4"&gt;&lt;div class="card-image has-text-centered"&gt;&lt;img class="mt-4" title="INPUT istemcisi!" src="/public/images/posts/2015-04-13-textmate/2015-04-13-textmate-ruby-3.png" alt="INPUT istemcisi!" /&gt;&lt;/div&gt;&lt;div class="card-content"&gt;&lt;div class="content has-text-centered is-size-5-desktop is-size-6-mobile has-text-weight-semibold"&gt;&lt;p&gt; INPUT istemcisi! 
 &lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;An itibariyle OS X Yosemite 10.10.3’te sıkıntısız çalışıyor ama nereye
 kadar çalışır bilemiyorum. En azından şimdilik işimizi görüyor!&lt;/p&gt;
 
-&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img title="TextMate ekran görüntüsü" src="/public/images/posts/2015-04-13-textmate/2015-04-13-textmate-ruby-4.png" alt="TextMate ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; Sonuç: input geldi&amp;hellip; 
+&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;imgtitle="TextMate ekran görüntüsü" src="/public/images/posts/2015-04-13-textmate/2015-04-13-textmate-ruby-4.png" alt="TextMate ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; Sonuç: input geldi&amp;hellip; 
 &lt;/p&gt;&lt;/div&gt;
 
 &lt;h3&gt;Güncelleme: 16 Ağustos 2022&lt;/h3&gt;
@@ -1582,65 +2078,5 @@ diye birşey kullanıyoruz, anında görüntü şıp diye kuruluyor hiç yormada
 blogunu kolayca yapsın diye. Gereken açıklamaları &lt;a href="https://github.com/vigo/ugur.ozyilmazel.com/blob/master/readme.md"&gt;README.md&lt;/a&gt; dosyasında
 bulabilirsiniz.&lt;/p&gt;
 </content>
-  </entry>
-  <entry>
-    <title>TextMate 1 ve Yosemite</title>
-    <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2014/11/14/textmate-1-ve-yosemite/"/>
-    <id>https://ugur.ozyilmazel.com/blog/tr/2014/11/14/textmate-1-ve-yosemite/</id>
-    <published>2014-11-14T13:29:00+02:00</published>
-    <updated>2022-08-20T12:50:14+03:00</updated>
-    <author>
-      <name>Uğur “vigo” Özyılmazel</name>
-    </author>
-    <content type="html">&lt;p&gt;Eğer siz de benim gibi dinozorsanız ve halen en eski &lt;a href="http://macromates.com" title="TextMate: The Missing Editor"&gt;TextMate&lt;/a&gt;’i
-Version &lt;strong&gt;1.5.11&lt;/strong&gt; (1635)’i kullanıyorsanız bu yazıyı okumanız iyi olur :)
-&lt;/p&gt;
-
-&lt;p&gt;Yıl geçmiyor ki OS X’in yeni sürümü çıkmaya görsün. Her yeni versiyon
-demek, yeni bir install demek benim adıma! Neden? Herzaman &lt;strong&gt;Clean Install&lt;/strong&gt;
-yaptığım için, sıfırdan herşeyi kurmak durumunda kalıyorum.&lt;/p&gt;
-
-&lt;p&gt;Pek çok kullanıcı &lt;strong&gt;Upgrade&lt;/strong&gt; yapıyor, hatta taa OS X Tiger’dan Yosemite’ye
-kadar gelenleri bile tanıyorum.&lt;/p&gt;
-
-&lt;p&gt;TextMate 1, eski bir tool olduğu için, ne yazıkki iç işlemlerinde Ruby’nin
-en eski versiyonlarından birine ihtiyaç duyuyor. Ruby versiyon 1.8.7. Apple,
-son bir kaç sürümdür, Ruby 2.0+ ile birlikte geliyor. Eğer eski sisteminizden
-upgrade yaparak ilerliyorsanız, halen en eski Ruby 1.8.7 sistemde kaldığı
-için hiçbir sıkıntı yaşamadan hayatınıza devam edebilirsiniz.&lt;/p&gt;
-
-&lt;p&gt;Eğer sıfırdan kurulum yaparsanız işte o an sorunlar başlıyor.&lt;/p&gt;
-
-&lt;p&gt;Yapılacak ilk iş, Ruby 1.8.7 kurmak. Ama öncesinde &lt;a href="http://mxcl.github.com/homebrew/" title="The missing package manager for OS X"&gt;Homebrew&lt;/a&gt;
-kurmanız gerekiyor. Sağolsun Homebrew, size XCode Commandline Tools’u da
-kuruyor otomatik olarak. Homebrew kurulduktan sonra bazı minik paketlere de
-ihtiyacımız oluyor:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;brew &lt;span class="nb"&gt;install &lt;/span&gt;readline homebrew/dupes/apple-gcc42 openssl
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Bu paketleri kurduktan sonra Ruby versiyon yöneticisi de kurmamız lazım.
-Ben &lt;a href="https://github.com/sstephenson/rbenv"&gt;Rbenv&lt;/a&gt;’ci olduğum için hemen kuruyorum:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;cd
-&lt;/span&gt;git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
-git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Bu işlem ardından, &lt;code&gt;~/.bashrc&lt;/code&gt; ya da &lt;code&gt;~/.profile&lt;/code&gt; dosyanıza ek yapmanız lazım:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;PATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;&lt;span class="s2"&gt;/.rbenv/bin:&lt;/span&gt;&lt;span class="nv"&gt;$PATH&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
-&lt;span class="nb"&gt;eval&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;$(&lt;/span&gt;rbenv init -&lt;span class="si"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Ya Terminal’i restart edin ya da &lt;code&gt;exec $SHELL&lt;/code&gt; yapın. Şimdi eski Ruby’yi
-kuralım:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nv"&gt;CONFIGURE_OPTS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"--with-readline-dir=&lt;/span&gt;&lt;span class="si"&gt;$(&lt;/span&gt;brew &lt;span class="nt"&gt;--prefix&lt;/span&gt; readline&lt;span class="si"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; rbenv &lt;span class="nb"&gt;install &lt;/span&gt;1.8.7-p358
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Kurulum bittikten sonra, TextMate’i açıp, Preferences’dan Shell Variables’da
-&lt;code&gt;PATH&lt;/code&gt;’e ön ek yapacağız, &lt;strong&gt;KULLANICI_ADINIZ&lt;/strong&gt; kısmına kendi kullanıcı adınızı
-yazmayı unutmayın! Şunu başa ekleyeceğiz:&lt;/p&gt;
-
-&lt;div class="card blog-card mt-2 mb-4"&gt;&lt;div class="card-image has-text-centered"&gt;&lt;img class="mt-4" title="TextMate configürasyon ekranı" src="/public/images/posts/2014-11-14-tm-prefs.png" alt="TextMate configürasyon ekranı" /&gt;&lt;/div&gt;&lt;div class="card-content"&gt;&lt;div class="content has-text-centered is-size-5-desktop is-size-6-mobile"&gt;&lt;p&gt; TextMate configürasyon ekranı 
-&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight plaintext"&gt;&lt;code&gt;/Users/KULLANICI_ADINIZ/.rbenv/versions/1.8.7-p358/bin:
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Son durumda aşağıdaki gibi bir şey görmeniz gerekiyor:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight plaintext"&gt;&lt;code&gt;/Users/KULLANICI_ADINIZ/.rbenv/versions/1.8.7-p358/bin:/usr/bin:/bin:/usr/sbin:/sbin
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
   </entry>
 </feed>

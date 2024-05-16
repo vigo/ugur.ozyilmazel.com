@@ -13,13 +13,18 @@
         <script src="https://kit.fontawesome.com/ebc2456445.js" crossorigin="anonymous"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
         <link href="/public/css/syntax.css" rel="stylesheet" />
         <link href="/public/css/application.css" rel="stylesheet" />
     
 
         <script src="/public/js/application.js"></script>
     
-        <meta name="date" content="2024-01-29T17:55:28+03:00" />
+        <meta name="date" content="2024-05-16T22:32:50+03:00" />
         <meta name="description" content="Süper bir başlık oldu değil mi? Bir süredir büyük bir keyifle iTunes’daki radyoları dinliyorum. Benim gibi 80’ler aşığı iseniz harika kanallar mevcut. Biran aklıma: “Keşke dinlediğim şarkıların adını Twitter’a post edebilsem?” diye bir fikir geldi!" />
         <meta name="author" content="Uğur “vigo” Özyılmazel"/>
         <meta name="copyright" content="(c) 2006 / 2024 - Uğur “vigo” Özyılmazel" />
@@ -113,7 +118,7 @@ bir deneme account’u açmanız. Ben ne yazıkki bunu yapmadan yaptım
 <p>Sürekli tweet eden biri gibi saçma sapan test mesajları atmak karşı tarafı 
 biraz sinir ediyormuş onu öğrendim. Haklılarda (:</p>
 
-<div class="card blog-card mt-2 mb-4"><div class="card-image has-text-centered"><img class="mt-4" title="Ekran görüntüsü, AppleScript Editor’den Library kısmı" src="/public/images/posts/2008-12-26-itunes/2008-12-26-itunes-ff-01.png" alt="Ekran görüntüsü, AppleScript Editor’den Library kısmı" /></div><div class="card-content"><div class="content has-text-centered is-size-5-desktop is-size-6-mobile"><p> Ekran görüntüsü, AppleScript Editor’den Library kısmı 
+<div class="card blog-card mt-2 mb-4"><div class="card-image has-text-centered"><img class="mt-4" title="Ekran görüntüsü, AppleScript Editor’den Library kısmı" src="/public/images/posts/2008-12-26-itunes/2008-12-26-itunes-ff-01.png" alt="Ekran görüntüsü, AppleScript Editor’den Library kısmı" /></div><div class="card-content"><div class="content has-text-centered is-size-5-desktop is-size-6-mobile has-text-weight-semibold"><p> Ekran görüntüsü, AppleScript Editor’den Library kısmı 
 </p></div></div></div>
 
 <p>Hemen <strong>AppleScipt Editorü</strong> açtım. Window menüsünde <strong>Library</strong> diye bir
@@ -129,7 +134,7 @@ süper! Tamam dedim bu iş olur. İlk testim şu şekilde oldu, çalan müziğin
 vesaire alıp Twitterrific’e yollamak </p>
 <div class="highlight"><pre class="highlight shell"><code>osascript <span class="nt">-e</span> <span class="s1">'tell application "iTunes" to name of current track as string'</span>
 </code></pre></div>
-<div class="card blog-card mt-2 mb-4"><div class="card-image has-text-centered"><img class="mt-4" title="Ekran görüntüsü, AppleScript Editor’den Twitterrific kısmı" src="/public/images/posts/2008-12-26-itunes/2008-12-26-itunes-ff-02.png" alt="Ekran görüntüsü, AppleScript Editor’den Twitterrific kısmı" /></div><div class="card-content"><div class="content has-text-centered is-size-5-desktop is-size-6-mobile"><p> Ekran görüntüsü, AppleScript Editor’den Twitterrific kısmı 
+<div class="card blog-card mt-2 mb-4"><div class="card-image has-text-centered"><img class="mt-4" title="Ekran görüntüsü, AppleScript Editor’den Twitterrific kısmı" src="/public/images/posts/2008-12-26-itunes/2008-12-26-itunes-ff-02.png" alt="Ekran görüntüsü, AppleScript Editor’den Twitterrific kısmı" /></div><div class="card-content"><div class="content has-text-centered is-size-5-desktop is-size-6-mobile has-text-weight-semibold"><p> Ekran görüntüsü, AppleScript Editor’den Twitterrific kısmı 
 </p></div></div></div>
 
 <p>Dediğim anda bana çalan parçanın adı döndü. Bir şekilde bu gelen text’i shell
@@ -166,7 +171,7 @@ nano <span class="nt">-w</span> sendToTwiterrefic.sh
 görüntü olacak; kaydedip çıkmak için <kbd>⌃</kbd> (kntrl) + <kbd>x</kbd> yapıp 
 <kbd>y</kbd> tuşuna basın.</p>
 
-<div class="card blog-card mt-2 mb-4"><div class="card-image has-text-centered"><img class="mt-4" title="Ekran görüntüsü, Terminal" src="/public/images/posts/2008-12-26-itunes/2008-12-26-itunes-ff-03.png" alt="Ekran görüntüsü, Terminal" /></div><div class="card-content"><div class="content has-text-centered is-size-5-desktop is-size-6-mobile"><p> Ekran görüntüsü, Terminal 
+<div class="card blog-card mt-2 mb-4"><div class="card-image has-text-centered"><img class="mt-4" title="Ekran görüntüsü, Terminal" src="/public/images/posts/2008-12-26-itunes/2008-12-26-itunes-ff-03.png" alt="Ekran görüntüsü, Terminal" /></div><div class="card-content"><div class="content has-text-centered is-size-5-desktop is-size-6-mobile has-text-weight-semibold"><p> Ekran görüntüsü, Terminal 
 </p></div></div></div>
 
 <p>daha sonra bu script’i çalıştırabilmek için <strong>execute</strong> yetkisi vereceğiz;</p>
@@ -204,7 +209,7 @@ edelim? Yine denemek için kendinize bir hesap açın.</p>
 Aşağda kırmızı okun işaret ettiği yerde yazan şey <strong>api key</strong> ya da 
 <strong>remote key</strong>. Bunu <code>curl</code> için kullancağız.</p>
 
-<div class="card blog-card mt-2 mb-4"><div class="card-image has-text-centered"><img class="mt-4" title="Ekran görüntüsü, FriendFeed Remote Key" src="/public/images/posts/2008-12-26-itunes/2008-12-26-itunes-ff-04.png" alt="Ekran görüntüsü, FriendFeed Remote Key" /></div><div class="card-content"><div class="content has-text-centered is-size-5-desktop is-size-6-mobile"><p> Ekran görüntüsü, FriendFeed Remote Key 
+<div class="card blog-card mt-2 mb-4"><div class="card-image has-text-centered"><img class="mt-4" title="Ekran görüntüsü, FriendFeed Remote Key" src="/public/images/posts/2008-12-26-itunes/2008-12-26-itunes-ff-04.png" alt="Ekran görüntüsü, FriendFeed Remote Key" /></div><div class="card-content"><div class="content has-text-centered is-size-5-desktop is-size-6-mobile has-text-weight-semibold"><p> Ekran görüntüsü, FriendFeed Remote Key 
 </p></div></div></div>
 
 <p>Şimdi aynı şekilde deminki script’i açarak, test yapalım. Son satırı, yani
@@ -215,13 +220,13 @@ satırı ekleyelim. Tabi <strong>kullanıcı_adı</strong> yerine kendi kullanı
 </code></pre></div>
 <p>nano ekranında gördünen aşağıdaki gibi olmalı. Kaydedip çıkın;</p>
 
-<div class="card blog-card mt-2 mb-4"><div class="card-image has-text-centered"><img class="mt-4" title="Ekran görüntüsü, Terminal, Nano editör" src="/public/images/posts/2008-12-26-itunes/2008-12-26-itunes-ff-05.png" alt="Ekran görüntüsü, Terminal, Nano editör" /></div><div class="card-content"><div class="content has-text-centered is-size-5-desktop is-size-6-mobile"><p> Ekran görüntüsü, Terminal, Nano editör 
+<div class="card blog-card mt-2 mb-4"><div class="card-image has-text-centered"><img class="mt-4" title="Ekran görüntüsü, Terminal, Nano editör" src="/public/images/posts/2008-12-26-itunes/2008-12-26-itunes-ff-05.png" alt="Ekran görüntüsü, Terminal, Nano editör" /></div><div class="card-content"><div class="content has-text-centered is-size-5-desktop is-size-6-mobile has-text-weight-semibold"><p> Ekran görüntüsü, Terminal, Nano editör 
 </p></div></div></div>
 
 <p>Böylece FriendFeed’e de dinlediğiniz Albüm ve Şarkı adını yolladınız; Biraz
 daha güzel bir görüntü sağlamak için bir iki text ekleyebiliriz yani;</p>
 
-<div class="card blog-card mt-2 mb-4"><div class="card-image has-text-centered"><img class="mt-4" title="Ekran görüntüsü, FriendFeed" src="/public/images/posts/2008-12-26-itunes/2008-12-26-itunes-ff-06.png" alt="Ekran görüntüsü, FriendFeed" /></div><div class="card-content"><div class="content has-text-centered is-size-5-desktop is-size-6-mobile"><p> Ekran görüntüsü, FriendFeed 
+<div class="card blog-card mt-2 mb-4"><div class="card-image has-text-centered"><img class="mt-4" title="Ekran görüntüsü, FriendFeed" src="/public/images/posts/2008-12-26-itunes/2008-12-26-itunes-ff-06.png" alt="Ekran görüntüsü, FriendFeed" /></div><div class="card-content"><div class="content has-text-centered is-size-5-desktop is-size-6-mobile has-text-weight-semibold"><p> Ekran görüntüsü, FriendFeed 
 </p></div></div></div>
 
 <p>gibi yapmak için sadece <strong>title</strong> kısmını aşağıdaki gibi değiştirebilirsiniz;</p>
@@ -269,7 +274,7 @@ daha sonra;</p>
 hareketle run etmek için; önce normal bir <strong>save</strong> edin, sonra tekrar
 <strong>save as</strong> diyip aşağıdaki gibi seçenekleri ayarlayın.</p>
 
-<div class="card blog-card mt-2 mb-4"><div class="card-image has-text-centered"><img class="mt-4" title="Ekran görüntüsü, AppleScript Editor’den Save kısmı" src="/public/images/posts/2008-12-26-itunes/2008-12-26-itunes-ff-07.png" alt="Ekran görüntüsü, AppleScript Editor’den Save kısmı" /></div><div class="card-content"><div class="content has-text-centered is-size-5-desktop is-size-6-mobile"><p> Ekran görüntüsü, AppleScript Editor’den Save kısmı 
+<div class="card blog-card mt-2 mb-4"><div class="card-image has-text-centered"><img class="mt-4" title="Ekran görüntüsü, AppleScript Editor’den Save kısmı" src="/public/images/posts/2008-12-26-itunes/2008-12-26-itunes-ff-07.png" alt="Ekran görüntüsü, AppleScript Editor’den Save kısmı" /></div><div class="card-content"><div class="content has-text-centered is-size-5-desktop is-size-6-mobile has-text-weight-semibold"><p> Ekran görüntüsü, AppleScript Editor’den Save kısmı 
 </p></div></div></div>
 
 <p>Eğer işlemin yapılıp yapılmadığı ile ilgili bir <strong>debug</strong> bir işaret
@@ -278,7 +283,7 @@ isterseniz, <code>do shell script</code> satırının altına;</p>
 </code></pre></div>
 <p>Satırını ekleyin bakalım ne olacak?</p>
 
-<div class="card blog-card mt-2 mb-4"><div class="card-image has-text-centered"><img class="mt-4" title="Ekran görüntüsü, FriendFeed’den son durum" src="/public/images/posts/2008-12-26-itunes/2008-12-26-itunes-ff-08.png" alt="Ekran görüntüsü, FriendFeed’den son durum" /></div><div class="card-content"><div class="content has-text-centered is-size-5-desktop is-size-6-mobile"><p> Ekran görüntüsü, FriendFeed’den son durum 
+<div class="card blog-card mt-2 mb-4"><div class="card-image has-text-centered"><img class="mt-4" title="Ekran görüntüsü, FriendFeed’den son durum" src="/public/images/posts/2008-12-26-itunes/2008-12-26-itunes-ff-08.png" alt="Ekran görüntüsü, FriendFeed’den son durum" /></div><div class="card-content"><div class="content has-text-centered is-size-5-desktop is-size-6-mobile has-text-weight-semibold"><p> Ekran görüntüsü, FriendFeed’den son durum 
 </p></div></div></div>
 
 <p>Offf en sonunda sanırım bitti. Eğer konu ile ilgili merak ettikleriniz varsa,
@@ -334,8 +339,8 @@ bir hata ya da sizin eklemek istediğiniz birşey olursa da bana bildirin!</p>
                         
                         <div class="blog-post-list sidebar">
     <h1>Yıllara Göre</h1>
-    <p>Blog arşivinde toplam “79” kayıt bulunuyor.</p>
-<p><a href="/blog/tr/yil/2023/" class="">2023 yılına ait 2 makale</a></p><p><a href="/blog/tr/yil/2022/" class="">2022 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2021/" class="">2021 yılına ait 4 makale</a></p><p><a href="/blog/tr/yil/2016/" class="">2016 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2015/" class="">2015 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2014/" class="">2014 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2013/" class="">2013 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2012/" class="">2012 yılına ait 8 makale</a></p><p><a href="/blog/tr/yil/2011/" class="">2011 yılına ait 16 makale</a></p><p><a href="/blog/tr/yil/2010/" class="">2010 yılına ait 6 makale</a></p><p><a href="/blog/tr/yil/2009/" class="">2009 yılına ait 22 makale</a></p><p><a href="/blog/tr/yil/2008/" class="">2008 yılına ait 11 makale</a></p><p><a href="/blog/tr/yil/2006/" class="">2006 yılına ait 1 makale</a></p></div>
+    <p>Blog arşivinde toplam “80” kayıt bulunuyor.</p>
+<p><a href="/blog/tr/yil/2024/" class="">2024 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2023/" class="">2023 yılına ait 2 makale</a></p><p><a href="/blog/tr/yil/2022/" class="">2022 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2021/" class="">2021 yılına ait 4 makale</a></p><p><a href="/blog/tr/yil/2016/" class="">2016 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2015/" class="">2015 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2014/" class="">2014 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2013/" class="">2013 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2012/" class="">2012 yılına ait 8 makale</a></p><p><a href="/blog/tr/yil/2011/" class="">2011 yılına ait 16 makale</a></p><p><a href="/blog/tr/yil/2010/" class="">2010 yılına ait 6 makale</a></p><p><a href="/blog/tr/yil/2009/" class="">2009 yılına ait 22 makale</a></p><p><a href="/blog/tr/yil/2008/" class="">2008 yılına ait 11 makale</a></p><p><a href="/blog/tr/yil/2006/" class="">2006 yılına ait 1 makale</a></p></div>
                     </div>
                 </div>
             </div>

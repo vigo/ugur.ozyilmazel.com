@@ -1,0 +1,873 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Ruby 1.8.7, Bash ve TextMate - Uğur “vigo” Özyılmazel</title>
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (Türkçe)" href="/feed-tr.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (English)" href="/feed-en.xml" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <script src="https://kit.fontawesome.com/ebc2456445.js" crossorigin="anonymous"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+        <link href="/public/css/syntax.css" rel="stylesheet" />
+        <link href="/public/css/application.css" rel="stylesheet" />
+    
+
+        <script src="/public/js/application.js"></script>
+    
+        <meta name="date" content="2024-05-16T22:32:48+03:00" />
+        <meta name="description" content="2023’te python dünyasına bomba gibi giriş yapan Ruff Linter için bir  TextMate bundle’ı geliştirmiştim." />
+        <meta name="author" content="Uğur “vigo” Özyılmazel"/>
+        <meta name="copyright" content="(c) 2006 / 2024 - Uğur “vigo” Özyılmazel" />
+        <meta property="og:url" content="https://ugur.ozyilmazel.com/blog/tr/2024/05/16/ruby-1-dot-8-7-bash-ve-textmate/" />
+        <meta property="og:title" content="Ruby 1.8.7, Bash ve TextMate" />
+        <meta property="og:site_name" content="vigo" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="2023’te python dünyasına bomba gibi giriş yapan Ruff Linter için bir  TextMate bundle’ı geliştirmiştim." />
+        <meta property="og:image" content="https://ugur.ozyilmazel.com/public/images/og/ugur-vigo-ozyilmazel-500x500.jpg" />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:width" content="500" />
+        <meta property="og:image:height" content="500" />
+
+    <link href="/public/images/favicon.png" rel="shortcut icon" type="image/png" />
+    </head>
+<body>
+    
+    
+    <section class="section menu">
+    <div class="container">
+        <nav class="level is-mobile">
+            <div class="level-left">
+<div class="level-item"><a href="/">Anasayfa</a></div><div class="level-item"><a href="/blog/tr/" class="is-active">Blog Arşiv</a></div><div class="level-item"><a href="/sayfa/tr/sunumlar/">Sunumlar</a></div>            </div>
+            <div class="level-right">
+<div class="level-item"><a href="https://vbyazilim.com" target="_blank">VB</a></div><div class="level-item"><a href="/en/">EN</a></div>            </div>
+        </nav>
+    </div>
+</section>
+
+    
+        <section class="hero is-medium cover is-hidden-touch" style="background-image: url(/public/images/covers/2024-05-14-textmate-ruff.png);">
+        <div class="hero-body">
+            <div class="container has-text-left">
+                
+                
+            </div>
+        </div>
+    </section>
+  
+    
+        <section class="section main">
+        <div class="container">
+        
+            <div class="columns is-multiline is-variable is-8">
+                <div class="column is-9-desktop is-full-tablet">
+                    <div class="content is-large">
+                        <article>
+                            <div class="meta">
+                                <span class="reading-time">OKUMA SÜRESİ 17:04</span>
+                                &mdash;
+                                <time pubdate datetime="2024-05-16T22:30:00+03:00" title="16 Mayıs 2024, Perşembe 22:30">16 Mayıs 2024, Perşembe 22:30</time>
+
+
+                                <div class="tags mt-3">
+                                        <a href="/blog/tr/etiket/textmate/" class="tag is-info">textmate</a>
+                                        <a href="/blog/tr/etiket/ruby/" class="tag is-info">ruby</a>
+                                        <a href="/blog/tr/etiket/python/" class="tag is-info">python</a>
+                                        <a href="/blog/tr/etiket/bash/" class="tag is-info">bash</a>
+                                </div>
+                                
+                            </div>
+                            
+                            <h1 class="title">Ruby 1.8.7, Bash ve TextMate</h1>
+                                <h2 class="subtitle is-size-4-desktop">
+                                    macOS Sonoma 14.4.1
+                                </h2>
+                            
+                            <div class="yield"><p><strong>2023</strong>’te python dünyasına bomba gibi giriş yapan <a href="https://docs.astral.sh/ruff/" title="Ruff Linter">Ruff Linter</a> için bir 
+<a href="https://github.com/vigo/textmate2-ruff-linter" title="Python Ruff Linter for TextMate2">TextMate bundle</a>’ı geliştirmiştim. </p>
+
+<p>Tam olarak entegre olamadığım için halen <a href="https://github.com/vigo/textmate2-python-fmt" title="Python FMT bundle for TextMate">eski bundle</a>’ımı 
+kullanmaya devam ediyordum. Üzerinde çalıştığım projenin çok fazla python
+dosyasına sahip olması ve çok fazla düzeltilecek linter problemleri olmasından
+dolayı zamandan kazanmak için Ruff’ı kullanmaya karar verdim. Bir baktım,
+aradan geçen süre zarfında Ruff çok ilerlemiş ve benim bundle çalışmaz hale
+gelmiş. Komut çağırma şekli değişmiş, argümanlar farklılaşmış.</p>
+
+<p>O zaman dedim ki;</p>
+
+<blockquote>
+<p>Madem öyle, şu bundle’ı baştan özene bezene tekrar yapayım!</p>
+</blockquote>
+
+<p>dedim ve bu noktada büyük bir maceranın içine gireceğimden haberim yoktu. Şu
+soru sorulabilir; </p>
+
+<h2>Neden TextMate ?</h2>
+
+<p>macOS’ta native çalışan tek dişi kalmış bir canavar kendisi. Ama asıl efsane
+kısmı şu, bu uygulamayı, bildiğiniz herhangi bir programlama dilini kullanarak
+(Python, Ruby, Bash, JavaScript, PHP, Perl, Swift, Lisp, AppleScript&hellip;)
+<strong>extend</strong> edebilirsiniz. Hiçbir özel dil, konfigürasyon öğrenmenize gerek yok!</p>
+
+<p><strong>Şöyle güzel bir markdown editörüm olsa ?</strong> diyip oturup bunun için bundle
+yapabildim. Aynısını VS Code’a denedim, <code>vim</code>’de denedim beceremedim. Önce
+vim’in dilini öğrenmem lazım (kullanım kısmına girmiyorum bile&hellip;) Altı üstü
+bir metin editörünü kullanmak için kurs almak, bir sürü video izlemek bana
+biraz garip geliyor.</p>
+
+<p>Sonradan gelen pek çok editör TextMate’in <code>tmbundle</code> yaklaşımını aynen
+kopyalamış ama asıl yapması gereken kısmı yapamamıştır. Sadece <strong>Grammar</strong>
+(<em>Syntax Highlighting</em>), ve <strong>Snippets</strong> kavramlarını birebir kopyaladı pek
+çok meşhur editör/ide. Ama Orijinal bundle fonksiyonunu beceremediler.</p>
+
+<p><code>rmate</code> ile <code>ssh</code> ile bağlandığım bir sunucudaki dosyayı local TextMate’imde
+kolayca açabiliyorum. Port forwarding yapıyor, TextMate default olarak <code>52698</code>
+porttan dinliyor sürekli.</p>
+
+<p>Bir şey lazım olunca, kimseye muhtaç olmadan hemen yapabilme özgürlüğü veriyor
+bana. Bu bakımdan son <strong>15 yıldır</strong> tek kullandığım editör. Bu ilkellik
+sayesinde <code>go</code> bilgimi inanılmaz pekiştirdim. Çünkü ne <strong>autocompletion</strong> var,
+ne nokta işaretine basınca otomatik tamamlama var, devamlı başka bir tab’de
+kullandığım kütüphanenin kaynak kodunu okumak zorunda kaldım. <strong>Acaba x
+objesinin ne metodu var ?</strong> sorusunun cevabı için devamlı kod okumak zorunda
+kaldım.</p>
+
+<p>Ne <strong>GitHub Co-Pilot</strong> var ne de başka bir şey. Mecburen bu linter/checker
+geliştirme işlerini de öğrenmek zorunda kaldım. İlkelliğin çok faydasını gördüm
+ama geliştirme hızı olarak yavaş kaldım ama sıfır hataya yakın kod yazmaya
+başladım (<em>linting bakımında</em>n).</p>
+
+<p>Yıllar içinde, her yeni çıkan editörü denedim ve hiçbirinde TextMate’in
+esnekliğini bulamadım. İçlerinde benim için en heyecan verici olan <a href="https://zed.dev/" title="Zed Editor">zed</a>
+oldu ama o da bir yere kadar&hellip;</p>
+
+<p>Bu yazıyı sizleri TextMate’e geçirmek için <strong>yazmıyorum</strong>, belki seneye artık
+böyle bir araç tarih olacağı için kendi çapımda 
+<strong>bir zamanlar böyle güzel bir araç da vardı</strong> denmesi için, 
+tarihe minik bir not düşsün diye yazıyorum.</p>
+
+<h2>TextMate Bundle Editor ve Command</h2>
+
+<div class="full zoomable"><figure class="image"><img class="shadow" title="TextMate2 Bundle Editor ekran görüntüsü" src="/public/images/posts/2024-05-14-textmate-bundle-command.png" alt="TextMate2 Bundle Editor ekran görüntüsü"></figure><p> TextMate2 Bundle Editor böyle bir şey, TextMate 1 daha güzeldi 
+</p></div>
+
+<p>Genel prensip şu; hangi dilde (<em>scope</em>) kod yazıyorsanız, belli event’leri
+tetikleyerek ekrandaki kodu (<em>document</em>) input olarak alıp bir şeyler
+yapabiliyoruz. Linter için yapmamız gereken şey, aynı command-line’ı taklit
+ederek <code>STDIN</code> (<em>standard input</em>)’i okuyup shell komutuna bir kısım argümanla
+beraber inputu göndermek/pas etmek:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">echo</span> <span class="s2">"print('hello')"</span> | ruff check <span class="nt">--select</span> T201 <span class="se">\</span>
+    <span class="nt">--stdin-filename</span> main.py <span class="se">\</span>
+    <span class="nt">--output-format</span> grouped -
+
+main.py:
+  1:1 T201 <span class="sb">`</span>print<span class="sb">`</span> found
+
+Found 1 error.
+No fixes available <span class="o">(</span>1 hidden fix can be enabled with the <span class="sb">`</span><span class="nt">--unsafe-fixes</span><span class="sb">`</span> option<span class="o">)</span><span class="nb">.</span>
+</code></pre></div>
+<p>Ne yaptık ? <code>flake8-print (T20)</code> kuralını uygulayarak, <code>STDIN</code>’den input’u
+komuta <code>pipe</code>’ladık, <code>ruff</code> input’ı aldı, fake dosya adı da verdik sanki
+fiziksel dosya varmış gibi, hata listesini de gruplayarak bize sonucu verdi.</p>
+
+<p>Kabaca, TextMate’in metin yazılan ekranını (<em>document</em>) okuyup aynı hareketi
+yapmaya çalışıp ilk zorlu kısmı atlatmayı planladım. Şimdi bu command ekranı
+basit bir <code>ruby</code> script çalıştırabileceğimiz bir <code>ruby</code> dosyası gibi
+düşünebiliriz. Bu alana satırlarca fonksiyon yazmayayım, şöyle güzelce bir
+ruby projesi şeklinde, <code>class</code> ya da <code>module</code> kullanarak <strong>re-usable</strong> bir
+yapı kursam, daha sonra da kullansam diye düşündüm.</p>
+
+<p>Uzun zamandır aktif olarak ruby geliştirmesi yapmadığım için, internet’te
+<strong>ruby project structure</strong> diye arama yaptım, kafama yatan bir şeyler bulurum
+diye. Bulabildiğim tek şey, yıllar önce benim de okuyup oradan öğrendiğim;</p>
+
+<p><a href="https://guides.rubygems.org/make-your-own-gem/">https://guides.rubygems.org/make-your-own-gem/</a></p>
+
+<p>makalesi oldu. Ben zaten uzun zaman önce bu konu ile ilgili bir 
+<a href="https://ugur.ozyilmazel.com/blog/tr/2014/09/23/rubygem-hazirliyoruz/">blog yazısı</a> da yazmıştım. <code>python</code> ya da <code>go</code> olsa bir sürü repo, 
+blog var konuyla ilgili olarak ama ne yazık ki <code>ruby</code> için bir şey bulamadım.</p>
+
+<h2>Ruby 1.8.7</h2>
+
+<p>Ruby, TextMate’in DNA’sında olan bir dil ama ne yazıkki uzunca bir süre 
+<strong>Ruby 1.8.7</strong> ve sonrasında yarım yamalak çalışan <strong>Ruby 2.6.10</strong> ile birlikte
+geldi. <strong>Apple M</strong> işlemcilerin çıkışıyla TextMate daha da büyük sorunlar 
+yaşamaya başladı. Builtin pek çok komut ruby kullandığı için an itibariyle 
+<strong>Rosetta 2</strong> sayesinde zar zor çalışmaya devam ediyor.</p>
+
+<p>Daha önce geliştirdiğim <a href="https://github.com/vigo/textmate2-gfm-preview" title="GitHub Flavored Markdown Editor and Preview for TextMate2">GitHub Flavored Markdown Editor</a>
+bundle’ında son versiyon ruby kullanmıştım ama bundle’ı kurarken bir ruby
+projesi kurar gibi paketler’i, ruby’i kurmak gibi şeylerle uğraşmak
+gerekiyordu. Birazcık zahmetli, ruby ile haşır neşir olanlar daha kolay
+anlar ve kurulumu yapabilir.</p>
+
+<p>Halen TextMate kullanan Python geliştirici kaldıysa, çok zahmet çekmeden,
+kolayca, varolanlara ek kurulum yapmadan, sadece <code>brew install ruff</code> ile
+<strong>Ruff</strong>’ı kurup hayatına devam etmesini istiyordum. Dedim ya, yeni bir 
+maceraya yolculuk yapmayı kafaya koymuştum :)</p>
+
+<div class="full zoomable"><figure class="image"><img class="shadow" title="Rafta duran Ruby kitapları" src="/public/images/posts/2024-05-14-ruby-books.jpg" alt="Rafta duran Ruby kitapları"></figure><p> Emektar Ruby kitaplarım! 
+</p></div>
+
+<p>Ruby bilgilerimi tazelemek için kendi yazdığım, bitiremediğim 
+<a href="https://vigo.github.io/ruby101-kitap/">ruby kitabıma</a> baktım. Modül kısmına. Çok basit ve yüzeysel
+yazmışım. İşime pek yaramadı. <code>extend</code> mi? <code>include</code> mu? kim kimden nasıl
+türüyordu? Biri birinden türediği zaman metodlar erişilemez oluyordu, <code>public/private</code>
+durumları mı vardı? Bir sürü unuttuğum konular. Rafta duran eski kitaplara
+bir bakayım dedim. Kitaplar süper ama hiç birinde bir ruby projesi nasıl olur
+yazmıyordu.</p>
+
+<p>Ben de daha fazla zaman kaybetmeden kervan yolda düzülür, taktik maktik yok
+bam bam bam diye giriştim. İlk yapmam gereken şey bir tür <strong>Logger</strong>
+implemente etmekti.</p>
+
+<h2>Logger / Debugger</h2>
+
+<p>TextMate bize iki tane <strong>event</strong> veriyor; buna da <strong>Semantic Class</strong> deniyor:</p>
+
+<ul>
+<li><code>callback.document.will-save</code>: fiziksel <strong>SAVE</strong> işleminden önce</li>
+<li><code>callback.document.did-save</code>: <strong>SAVE</strong> işleminden sonra</li>
+</ul>
+
+<p>Editör ekranında (<em>document</em>) <strong><kbd>⌘</kbd></strong> + <kbd>S</kbd> (<em>Command + S</em>) 
+tuşuna basıldığı an önce <code>will-save</code> sonra <code>did-save</code> çalışıyor. Birbirinden 
+bağımsız ve habersiz iki olay. <code>will-save</code> esnasında bir hata olursa, bunu 
+ekranda bir yerde görmek için iki seçeneğim var. Ya <strong>tool tip</strong> göstermek, 
+bir an belirip mouse üzerinde gidince kaybolan ya da yeni bir döküman açıp oraya 
+yazmak.</p>
+
+<div class="full zoomable"><figure class="image"><span class="player-status">▶</span><img class="shadow animate"  data-play="/public/images/posts/2024-05-16-textmate-tooltip.gif" title="TextMate2 Editor ekran görüntüsü, tool tip" src="/public/images/posts/2024-05-16-textmate-tooltip.png" alt="TextMate2 Editor ekran görüntüsü, tool tip"></figure><p> İşte tool tip. Mouse üzerinden gidince otomatik kayboluyor. 
+</p></div>
+
+<p>Event’ler arasında bir bağ olmadığı için, bunlar sanki bağımsız shell
+session’ı gibi her sefer sıfırdan <strong>clean-slate</strong> çalışıyorlar. Yani o an, ruby’den
+bir environment variable’ı set etsem (<em>will-save</em>) sonrasında çalışan (<em>did-save</em>)
+event bu variable’ı okuyamıyor çünkü o scope’da öyle bir environment variable’ı
+yok.</p>
+
+<p>Kodu formatlama anı <code>will-save</code> esnasında <code>STDIN</code>’i okuyup komuta verilip
+sonuç tekrar document’a yazılıyor yani <code>STDOUT</code>’a ve devamında fiziksel SAVE
+işlemi başlıyor ve dosyanın nihayi hali diske yazılıyor. Önden formatlı hali
+vermem lazım ki esas <code>check</code> işlemi SAVE esnasında yapılabilsin. Aksi taktirde
+sonsuz döngü gibi oluyor. Aynı <code>django</code>’nun <code>signals</code>’ı gibi. SAVE ederken
+write işi yaparsam tekrar <strong>SAVE</strong> tetikleniyor, sonsuz döngü&hellip;</p>
+
+<p>Shell komutlarını çağırmak için TextMate’in içinden <code>process.rb</code> çıkıyor ve
+bunu kendi kütüphanelerimizde;</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="nb">require</span> <span class="no">ENV</span><span class="p">[</span><span class="s1">'TM_SUPPORT_PATH'</span><span class="p">]</span> <span class="o">+</span> <span class="s1">'/lib/tm/process'</span>
+
+<span class="n">out</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="no">TextMate</span><span class="o">::</span><span class="no">Process</span><span class="p">.</span><span class="nf">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="no">TM_FILEPATH</span><span class="p">)</span>      <span class="c1"># fiziksel dosya</span>
+<span class="n">out</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="no">TextMate</span><span class="o">::</span><span class="no">Process</span><span class="p">.</span><span class="nf">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="ss">:input</span> <span class="o">=&gt;</span> <span class="n">input</span><span class="p">)</span>  <span class="c1"># custom input </span>
+</code></pre></div>
+<p>şeklinde kullanıyoruz. İlk gol burada geliyor. Ruff, komut satırından
+çalışınca hataları <code>STDERR</code>’a, çıktıyı da <code>STDOUT</code>’a veriyor. Benim <strong>shell
+exit code</strong>’a ihtiyacım var. Ruff config yanlış olabilir, verilen input parse
+edilemiyebilir. Eğer hata varsa, <code>out</code> boş, <code>err</code> dolu. Eğer kod format işi
+başarışız biterse format edilmiş çıktı <code>out</code>’a, linter hataları da <code>err</code>’a
+gibi kaos return value’lar var. </p>
+
+<p>Shell exit code’u alabilsem direk ona bakacağım, eğer <code>0</code> ise execution’da bir
+hata yok diyeceğim ama bunu alamıyorum. Ya kendim yeni bir <code>process</code>
+kütüphanesi yapacağım ya da olanı kullanacağım.</p>
+
+<p>Normalde;</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">ls </span>NONEXISTINGDIR
+<span class="nb">ls</span>: NONEXISTINGDIR: No such file or directory
+
+<span class="nv">$ </span><span class="nb">echo</span> <span class="nv">$?</span>
+1
+</code></pre></div>
+<p>olur. Exit code <code>0</code> değilse bir hata var demektir. <code>TextMate::Process.run</code>
+bana bunu vermiyor :) Bir formül bulmam lazım. Esas problem, ilk tetiklenen
+event sırasında bir hata olursa bir anlık bu durumu nerede görüntüleyebilirim?
+Hani bu bir web uygulaması olsa, konsol’a yazarız ya, bir tür konsolumsu bir
+şey icat etmem gerek.</p>
+
+<h2>Bash Completion</h2>
+
+<p>Şimdi <strong>ne alaka ?</strong> diyebilirsiniz. Geçtiğimiz günlerde <a href="https://github.com/junegunn/fzf">fzf</a> ile
+uğraşırken işletim sisteminin default completion’arına bunu acaba nasıl
+entegre ederimi araştırırken şöyle bir durumla karşılaştım:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>rake&lt;TAB&gt;
+</code></pre></div>
+<p>bastığım an bir kısım değişken set edilip geriye sonuçlar başka bir
+değişkenlere atanarak dönüyor. Ben araya girip ekrana bir şey yazdırdığım
+zaman <code>readline</code>’ı bozmuş oluyorum. Araya girip gelen/giden argümanları bir
+yere, bir <strong>middleware</strong> gibi (<em>aaah aah console.log</em>) yazmanın yolunu ararken
+birden <code>/tmp/log</code> diye bir dosyaya yazmak fikri geldi.</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">echo </span>foo <span class="o">&gt;&gt;</span> /tmp/log
+
+<span class="c"># pro-tip</span>
+<span class="c"># birden fazla echo’yu tek pipe ile append etmek!</span>
+<span class="o">{</span>
+    <span class="nb">echo</span> <span class="s2">"line 1"</span>
+    <span class="nb">echo</span> <span class="s2">"line 2"</span>
+    <span class="nb">echo</span> <span class="s2">"line 3"</span>
+<span class="o">}</span> <span class="o">&gt;&gt;</span> /tmp/log
+</code></pre></div>
+<p>Ayrı bir Terminal tab’i açıp;</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">tail</span> <span class="nt">-f</span> /tmp/log
+</code></pre></div>
+<p>yapınca <strong>real-time</strong> aynı browser’ın konsolu gibi patır patır her şeyi
+görebilir hale geldim. O zaman aynı taktiği kullanıp bundle içinden de <code>ruby</code>
+ile bunu yapayım?</p>
+
+<h2>Builtin Logger</h2>
+
+<p>Ruby 1.8.7 builtin logger’a sahip:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="no">LOG_FILE</span> <span class="o">=</span> <span class="s1">'/tmp/log'</span>
+<span class="no">ROTATION_TIME</span> <span class="o">=</span> <span class="mi">1200</span> <span class="c1"># saniye</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="no">Logger</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">LOG_FILE</span><span class="p">,</span> <span class="s1">'daily'</span><span class="p">,</span> <span class="no">ROTATION_TIME</span><span class="p">)</span>
+</code></pre></div>
+<p>Bir şekilde DDD (<em>Domain Driven Design</em>) kafasıyla bir yapı kurup, tüm
+kullanacağım <code>class</code> mı <code>module</code> mu ne ise onlara bu <code>logger</code>’u geçmeyi
+planladım. TextMate Command’ı bir scope’a bağlayabiliyoruz. Yani TextMate’te
+<code>python</code> kodu yazmak için Python, <code>ruby</code> için Ruby ya da <code>markdown</code> yazmak
+için Markdown scope’u seçmek gerekir. </p>
+
+<p>Bu sayede, scope’a göre özellik yapmak mümkün. Yani <strong><kbd>⌥</kbd></strong> +
+<kbd>X</kbd> (<em>Option + X</em>) kombinasyonu, Python scope’unda bir iş yaparken,
+Ruby scope’unda bam başka bir iş yapabilir. Python için linter yaptığıma göre
+daha önceki bundle’da da yaptığım gibi <code>source.python</code> scope’unda bu
+işleri yapmaya karar verdim.</p>
+
+<p>Aynı scope’ta iki farklı şey olduğu için, birbirlerini ezmesinler diye
+environment’tan bir değişken okuyup aç/kapa şeklinde bundle’ı enable/disable
+yapıyordum. Yani Ruff Linter ile Python FMT çakışmasın diye;</p>
+<div class="highlight"><pre class="highlight plaintext"><code>TM_PYTHON_FMT_DISABLE=1     # Python FMT bundle’ı disable eder.
+TM_PYRUFF_DISABLE=1         # Ruff bundle’ı disable eder.
+</code></pre></div>
+<p>şeklinde bir yapı kurdum. Hatta bir kere mail grubunda sormuştum, farklı
+bundle’lar <code>will-save</code> ya da <code>did-save</code>’i kullanınca priority nasıl oluyor?
+kim kimi eziyor? Şu cevap verilmişti:</p>
+
+<ul>
+<li><code>callback.document.did-save.1</code></li>
+<li><code>callback.document.did-save.2</code></li>
+<li><code>callback.document.did-save.3</code></li>
+</ul>
+
+<p>Sonuna <code>.1</code>, <code>.2</code> gibi numara vererek bu önceliklendirme işi yapılıyormuş. Bu
+bilgi aklımda, ufak ufak yaptıklarımı denemeye başladım.</p>
+
+<h2>Varan 2 : Race Condition</h2>
+
+<p>Bir baktım, ruff linter’ı run ederken ekranda sanki python-fmt’u çalıştırmışım
+gibi hata mesajları gelmeye başladı. Hemen logger’ı diğer bundle’a da takınca
+gerçekleri gördüm. Her iki bundle’da <code>source.python</code> scope’unda olduğu için,
+benim execution’ı kesmemin bir anlamı yokmuş. Her seferinde <code>will-save</code> ve
+<code>did-save</code> çalışıyor :) O an anladım ki, her bundle için ayrı bir scope yapmak
+lazım. </p>
+
+<p>Bunlar hiçbir yerde yazmadığı için ben de şans eseri farkına vardım.
+<strong>2008</strong>’den beri bu şekilde kullanıyordum :) Hemen <code>source.python.fmt</code> ve
+<code>source.python.ruff</code> diye iki yeni scope oluşturdum. </p>
+
+<p><strong>DOT-NOTATION</strong>’ın şöyle bir güzelliği var, bu uydurduğum yeni scope’lar
+aslında <code>source.python</code>’un child scope’u bir tür <strong>sub-class</strong>. Tüm özellikler
+inherit (<em>miras geçiyor</em>) ediyor. <code>source</code>’un tüm özellikleri, <code>python</code>’un
+tüm özellikleri artık bu benim scope’larda da var. Bu özellikler neler?</p>
+
+<ul>
+<li>Command binding’er</li>
+<li>Key press / Tab completion</li>
+<li>Syntax ve Grammar</li>
+</ul>
+
+<p>Yani kullanıcının hayatı değişmeden devam ediyor.</p>
+
+<h2>Varan 3 : Shared Storage</h2>
+
+<p>Logging işi tamam, scope’ları da çözdüm. Şimdi eventler arasında bir bağ
+kurmam lazımdı. Keza eventler ayrı ayrı çıktı veriyordu ve <code>will-save</code>’den
+dönen bazı şeyleri <code>did-save</code>’e aktarmam lazımdı. Bir <strong>database</strong> olsa ya da
+<strong>REDIS</strong> olsa oradan okusam yazsam. Acaba TextMate’in bu iş için bir API
+desteği var mıydı? Tabiiki yoktu :) Bir an için in-memory SQLITE bile düşündüm.</p>
+
+<p>O zaman tek şansım aynı logger’daki gibi yine <code>/tmp/</code> altında bir dosyaya
+yazıp okumak ve duruma göre silmek!</p>
+
+<p>Ekstradan bir <strong>DISK I/O</strong> operasyonu, minik bir yük&hellip; Makineler güçlü,
+diskler hızlı o kadar olsun diyerek bu fikre sımsıkı sarıldım. Peki dosyayı
+hangi isimle kaydetmem lazımdı? Örneğin kullanıcı <code>foo.py</code> diye bir dosyada
+çalışıyor, hata ya da başka bir iş için storage ne diye kaydedecekti kayıt
+edeceği şeyi?</p>
+
+<p>İki farklı proje, ikisinde de <code>foo.py</code> olsa, mesela kullanıcı Django
+projesinde çalışsa her iki projede de <code>manage.py</code> olacak :) Ne yapacağım
+FULL-PATH mi yazacağım <code>/tmp/</code> altına? O an bir şimşek çaktı!
+<code>TM_DOCUMENT_UUID</code>. Her açılan dosya / pencere için unique bir <strong>ID</strong> veriyor
+TextMate <code>UUID</code> formatında.</p>
+
+<p>O zaman <code>/tmp/textmate-fmt-88F0A351-BBF2-4F8B-90C0-61B4A729B903</code> şeklinde
+dinamik olarak dosyaların ne olduğuyla ya da adıyla cebelleşmeden işi
+çözebilirdim.</p>
+
+<h2>Python Kafasıyla Ruby Yazmak</h2>
+
+<p>Dedim ya, uzun zamandır <code>ruby</code> ile uğraşmıyorum. <code>ruby</code>’de <strong>mixin</strong> yaklaşımı
+var, <code>python</code> gibi <strong>multiple inheritance</strong> yok. Mixin’leri <code>class</code>’a
+<code>include</code> edebilirim. <code>class</code> yerine <code>module</code> kullanmak istiyorum, <code>Logging</code>,
+<code>Storage</code>, <code>Helpers</code> gibi&hellip; Birbirlerine takarak istediğim yapıyı kurmak
+istiyorum.</p>
+
+<p>Önce saçma sapan bir şeyler yaparak istediğime yakın bir yapı kurdum ama
+modül içinde constant’ları yanlış ekledim;</p>
+
+<p><code>lib/constants.rb</code></p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="k">module</span> <span class="nn">Constants</span>
+  <span class="no">TM_PYRUFF_DISABLE</span> <span class="o">=</span> <span class="o">!!</span><span class="no">ENV</span><span class="p">[</span><span class="s2">"TM_PYRUFF_DISABLE"</span><span class="p">]</span>
+<span class="k">end</span>
+</code></pre></div>
+<p><code>ruff_linter.rb</code></p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="nb">require</span> <span class="no">ENV</span><span class="p">[</span><span class="s2">"TM_BUNDLE_SUPPORT"</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"/lib/constants"</span>
+
+<span class="k">module</span> <span class="nn">RuffLinter</span>
+  <span class="k">def</span> <span class="nf">enabled?</span>
+    <span class="o">!</span><span class="no">Constants</span><span class="o">::</span><span class="no">TM_PYRUFF_DISABLE</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>Kendi kendime soruyorum; neden <code>Constants::TM_PYRUFF_DISABLE</code> çağırıyorum?
+neden <code>RuffLinter</code>’ın bir parçası gibi olmadı? Sonra yaptığım saçmalığı anlayıp
+düzelttim:</p>
+
+<p><code>ruff_linter.rb</code></p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="nb">require</span> <span class="no">ENV</span><span class="p">[</span><span class="s2">"TM_BUNDLE_SUPPORT"</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"/lib/constants"</span>
+
+<span class="k">module</span> <span class="nn">RuffLinter</span>
+  <span class="kp">include</span> <span class="no">Constants</span>
+
+  <span class="k">def</span> <span class="nf">enabled?</span>
+    <span class="o">!</span><span class="no">TM_PYRUFF_DISABLE</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>Bunun yanı sıra; <strong>Ruby</strong> ve <strong>Python</strong> birbirine çok benziyor syntax olarak:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">a</span> <span class="o">=</span> <span class="p">[]</span>   <span class="c1"># bu bir array (ruby)</span>
+</code></pre></div>
+<p>ve bu;</p>
+<div class="highlight"><pre class="highlight python"><code><span class="n">a</span> <span class="o">=</span> <span class="p">[]</span>   <span class="c1"># bu bir list (python)
+</span></code></pre></div>
+<p>Python’da <strong>Truthy</strong> ve <strong>Falsy</strong> değerleri var. Boş <code>list</code> (<em>array</em>) Python
+için <code>Falsy</code> değer. Yani;</p>
+<div class="highlight"><pre class="highlight python"><code><span class="n">a</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">if</span> <span class="n">a</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'ok'</span><span class="p">)</span>
+</code></pre></div>
+<p>Sonuç; hiçbir şey print edilmez!. Benim kafa <code>python</code>’da olduğu için; <code>ruby</code>’de
+de o şekilde yazdım&hellip; ve büyük patladım:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">a</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="nb">puts</span> <span class="s2">"ok"</span> <span class="k">if</span> <span class="n">a</span> <span class="c1"># =&gt; ok</span>
+</code></pre></div>
+<p>Bir sürü şeyi düzeltmek zorunda kaldım. Güncel Ruby’de (<em>v3+</em>) olan neredeyse
+hiçbir şey 1.8.7’de henüz implemente edilmemiş&hellip; Zamanda geri yolculuk gibi.</p>
+
+<h2>TextMate UI Elementleri</h2>
+
+<p>Bazı builtin gelen bundle’larda ekranda UI elementleri çıkaran oradan seçim
+yaptıran şeyler görmüştüm. Hatta <code>AppleScript</code> ile entegre olup, bundle’ı
+run edip shell <code>osascript</code> ile çalıştırıp input alıp TextMate’e geri dönmek
+gibi imkanlar da vardı. Hemen builtin bundle support dizinine gidip ne var
+ne yok bir bakayım dedim:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">cd</span> <span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/Application Support/TextMate/Managed/Bundles/Bundle Support.tmbundle/Support/shared/lib/
+</code></pre></div>
+<p><code>ui.rb</code> diye bir kütüphane, bir daldım içinde, <code>autocompletion</code>’dan 
+(<em>bildiğimiz modern bir completion değil ama iş görür</em>) tutun da,
+kullanıcıdan secure input (<em>keychain entegreli</em>), renki tool tip’ler, içinde
+<code>html</code> metin gösterme widget’ları, modal dialog’lar, progress bar, web
+preview&hellip; Yıllarca <strong>nasıl yaparım ?</strong> diye düşündüğüm her şey elimin altındaymış
+ve benim bundan haberim yok :)</p>
+
+<p>Artık olayı kafayı taktığım için kendi screencast sitesine bakmaya karar verdim.
+Çok eskiden izlemiş hatta kaydetmiştim. Site halen yaşıyor mu diye bir bakayım
+dedim:</p>
+
+<p><a href="https://macromates.com/screencasts">https://macromates.com/screencasts</a></p>
+
+<p>Bazı linkler çalışmıyordu onları web archive’dan buldum. Direkt olarak
+macos’un <code>nib</code>’lerini kullanarak yani <strong>Interface Builder</strong> ile istediğin şeyi
+yapıp TextMate’in içinden çağırmamın mümkün olduğunu <strong>12 YIL</strong> gecikmeli
+olarak öğrendim.</p>
+
+<p>İçinden çıkanlar eski işlemci mimarisine göre derlendiği için M işlemcide
+çalışamıyordu. Mucizevi bir şekilde <code>CocoaDialog.app</code> çalışıyordu:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="c"># bir kısım derlenmiş binary’ler çıktı.</span>
+<span class="nv">$ </span><span class="nb">cd</span> <span class="s2">"</span><span class="k">${</span><span class="nv">HOME</span><span class="k">}</span><span class="s2">/Application Support/TextMate/Managed/Bundles/Bundle Support.tmbundle/Support/shared/bin/
+</span></code></pre></div>
+<p>İlk iş olarak içinden çıkan <code>simple_notification</code> ve <code>alert</code>’i kullandım.
+Hızla kaybolan <code>tool tip</code> yerine ekranda bir alert gösterip <strong>OK</strong> ya da
+<strong>CANCEL</strong> gibi kafama göre (<em>max 3 buton</em>) buton ekleyebildiğim bir şeyim
+olmuştu. Ne yazık ki bu heves de kursağımda kaldı çünkü random bir şekilde
+TextMate çakılmaya başladı bunları kullandıktan sonra. Çalışması bile benim
+için mucizeydi, en azından çakılana kadar istediğimi yapma şansım oldu.</p>
+
+<p>İşin tehlikeli tarafı, o çıkan alert TextMate’in hali hazırdaki default
+alert’i. Yani <strong>pencereyi kapat</strong> dediğimizde 
+<strong>kaydetmeden çıkıyorsunuz emin misiniz?</strong> sorusunu soran UI elementi ile aynı. 
+Tek farkı ben onu ruby’den çağırıyorum TextMate ise onu original olarak <code>C++</code> ya da 
+<code>Objective-C</code>’den çağırıyordu.</p>
+
+<p>Mecburen eldeki çalışan tool tip’e geri dönmek zorunda kaldım.</p>
+
+<h2>Go to Errors</h2>
+
+<div class="full zoomable"><figure class="image"><span class="player-status">▶</span><img class="shadow animate"  data-play="/public/images/posts/2024-05-16-textmate-guttter.gif" title="TextMate2 Editor gutter ekran görüntüsü" src="/public/images/posts/2024-05-16-textmate-guttter.png" alt="TextMate2 Editor gutter ekran görüntüsü"></figure><p> Gutter’a tıklayarak hatayı görüntüleme 
+</p></div>
+
+<p>Linter’ı çalışıp kurala uymayan satırları tespit ettikten sonra, ilgili
+satırı <strong>mark</strong> edebiliyoruz. Satır sayısı az olunca yukarı aşağı hareket
+ederken göz ucuyla sol kısma bakıp, tıklayıp ne sorun olduğunu görüyoruz.</p>
+
+<p>Bahsettiğim gibi, <strong>tool tip</strong> mouse üzerinden gidince otomatik olarak
+kaybolduğu için, sürekli kod içinde hareket ederek sol taraftaki <strong>gutter</strong>’a
+bakmak gerekiyor. Arada mesafe olunca bu bazen işkenceye dönüşebiliyor.</p>
+
+<p><code>TextMate::UI</code> elementleri kurcalarken bir baktım tam benlik bir element var:
+<code>TextMate::UI.menu</code>. Yapmam gereken hataları bir <code>Array</code>’de tutup bu elemente
+vermek ama sorun şu; her şey asenkron ve bağımsız çalışıyor. Linter işini
+bitirdikten sonra sonucu bir yere yazmam lazım ki bir tuş kombinasyonuna
+basıldığı zaman oradan sonucu okuyup <code>UI.menu</code>’ye verebileyim:</p>
+
+<div class="full zoomable"><figure class="image"><span class="player-status">▶</span><img class="shadow animate"  data-play="/public/images/posts/2024-05-16-textmate-goto-error.gif" title="TextMate2 Editor ekran görüntüsü" src="/public/images/posts/2024-05-16-textmate-goto-error.png" alt="TextMate2 Editor ekran görüntüsü"></figure><p> <strong><kbd>⌥</kbd></strong> + <kbd>G</kbd> (Option + G) ile Go to Error 
+</p></div>
+
+<h2>Bash Bilgilerimizi Tazeleyelim</h2>
+
+<p><code>ruff</code>’ın çıktısı <code>json</code> olarak alamadığım için (<em>1.8.7’de json yok</em>) bazı 
+şeyleri bolca <code>regex</code> kullanarak ve <code>bash</code> araçları kullanarak çözmek zorunda 
+kaldım. Bu esnada macOS - BSD kaynaklı <code>grep</code> farkları ile boğuşmak zorunda 
+kaldım. Tüm komutların <strong>gnu</strong> versiyonları var ama kullanıcının kendi
+tarafında <code>gnutools</code>, <code>gnuawk</code>, <code>gnused</code> gibi gnu tabanlı şeyleri kurması 
+gerecekti.</p>
+
+<p>Mecburen eldeki eski araçlarla çıktıları kes, biç, ayır, grep’le gibi olaylara
+girmek zorunda kaldım. <code>cut</code>, <code>awk</code>, <code>sed</code>, <code>grep</code>, <code>sort</code>, <code>jq</code> gibi araçları
+bolca kullandım.</p>
+
+<h2>Sonuç</h2>
+
+<p>Belkide <strong>2</strong> ya da <strong>3</strong> kişinin (<em>ben dahil</em>) kullanma ihtimali olan, ve bir
+sonraki macOS sürümünde <strong>%99</strong> ihtimalle artık çalışamayacak bir program için
+geceleri geç saatlere kadar debelendim büyük bir zevkle. </p>
+
+<p>Çok uğraştım ve unuttuğum konuları tekrar hatırladım, bildiklerimi pekiştirdim
+ve en güzeli de; günlük mesaimde çalıştığım projeyi süper hızlı bir şekilde,
+kimi zaman elle, kimi zaman otomatik (<em>autfix özelliği var!</em>) olarak
+tereyağından kıl çeker gibi refactor etmeyi başardım (<em>tam bitmedi ama</em>)&hellip;</p>
+
+<p>Tamamen <strong>açık-kaynak</strong>, herkes katkı sağlayabilir ve tepe tepe kullanabilir.
+Son olarak, ChatGPT’ye özel teşekkürlerimi sunuyorum. O olmasa Ruby 1.8.7
+tarafında çok sıkıntı çekerdim, işleri süper hızlandırdı. Çoğu zaman uydurma
+bilgiler verse bile bana ışık tuttu, bir ipucu sağladı. Bazen inanılmaz
+şekilde TextMate ile ilgili de doğru cevaplar verdi, nereden öğrendi nasıl
+bildi orasını çok merak ediyorum.</p>
+
+<p>Bir süredir blog post da yapmamıştım, bahaneyle sitemde minik güncellemeler de
+yaptım. Eğer denemek isterseniz;</p>
+
+<p><a href="https://github.com/vigo/textmate2-ruff-linter">https://github.com/vigo/textmate2-ruff-linter</a></p>
+</div>
+                        </article>
+                        
+                            <nav class="mt-6 pagination is-centered" role="navigation" aria-label="pagination">
+                                <a href="/blog/tr/2023/10/15/textmate-icin-go-modify-tags-eklentisi/" class="pagination-previous has-text-link">&laquo; TextMate için Go Modify Tags Eklentisi</a>
+                                
+                            </nav>
+                    </div>
+                </div>
+                <div class="column is-3-desktop is-full-tablet">
+                    <div class="content">
+                            <div class="blog-post-list sidebar">
+        <h1>Benzer Makaleler</h1>
+        <p>Konu ile ilgili toplam “28” adet benzer makale bulunuyor.</p>
+        <ul>
+            <li>
+                <a href="/blog/tr/2023/10/15/textmate-icin-go-modify-tags-eklentisi/">TextMate için Go Modify Tags Eklentisi</a>
+                <time pubdate datetime="2023-10-15T22:45:00+03:00">
+                    15 Ekim 2023, Pazar
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2023/03/12/textmate-icin-ruff-linter-eklentisi/">TextMate için Ruff-Linter Eklentisi</a>
+                <time pubdate datetime="2023-03-12T21:29:00+03:00">
+                    12 Mart 2023, Pazar
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2021/08/28/json-isleme-araci-jq/">JSON İşleme Aracı: jq</a>
+                <time pubdate datetime="2021-08-28T11:38:00+03:00">
+                    28 Ağustos 2021, Cumartesi
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2016/07/30/solid-prensibi/">SOLID Prensibi</a>
+                <time pubdate datetime="2016-07-30T18:30:00+03:00">
+                    30 Temmuz 2016, Cumartesi
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2015/04/13/textmate-ve-interaktif-giris/">TextMate ve İnteraktif Giriş</a>
+                <time pubdate datetime="2015-04-13T09:28:00+03:00">
+                    13 Nisan 2015, Pazartesi
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2014/11/14/textmate-1-ve-yosemite/">TextMate 1 ve Yosemite</a>
+                <time pubdate datetime="2014-11-14T13:29:00+02:00">
+                    14 Kasım 2014, Cuma
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2013/10/24/textmate-1-ve-mavericks/">TextMate 1 ve Mavericks</a>
+                <time pubdate datetime="2013-10-24T14:00:00+03:00">
+                    24 Ekim 2013, Perşembe
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2013/02/20/bash-completion-anotomisi/">Bash Completion Anotomisi</a>
+                <time pubdate datetime="2013-02-20T23:37:00+02:00">
+                    20 Şubat 2013, Çarşamba
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2013/02/04/derlenmis-python-dosyalari-bazen-sizi-yaniltabilir/">Derlenmiş Python Dosyaları Bazen Sizi Yanıltabilir</a>
+                <time pubdate datetime="2013-02-04T12:15:00+02:00">
+                    04 Şubat 2013, Pazartesi
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2012/10/26/python-fonksiyonu-nasil-yazilmali/">Python fonksiyonu nasıl yazılmalı?</a>
+                <time pubdate datetime="2012-10-26T00:03:00+03:00">
+                    26 Ekim 2012, Cuma
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2012/10/25/ozgur-web-gunleri-2012/">Özgür Web Günleri 2012</a>
+                <time pubdate datetime="2012-10-25T15:50:00+03:00">
+                    25 Ekim 2012, Perşembe
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2012/05/02/irb-icin-yardimci-gem-ori/">IRB için yardımcı gem: ORI</a>
+                <time pubdate datetime="2012-05-02T13:51:00+03:00">
+                    02 Mayıs 2012, Çarşamba
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2012/02/02/rake-icin-bash-completion/">Rake için bash-completion</a>
+                <time pubdate datetime="2012-02-02T15:30:00+02:00">
+                    02 Şubat 2012, Perşembe
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2011/11/26/webkit2png-ile-ekran-goruntusu-almak/">webkit2png ile ekran görüntüsü almak</a>
+                <time pubdate datetime="2011-11-26T23:56:00+02:00">
+                    26 Kasım 2011, Cumartesi
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2011/03/30/pythonpathe-ilave/">PYTHONPATH’e ilave</a>
+                <time pubdate datetime="2011-03-30T15:40:00+03:00">
+                    30 Mart 2011, Çarşamba
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2011/03/30/textmate-ve-path-sorunsali/">TextMate ve Path sorunsalı</a>
+                <time pubdate datetime="2011-03-30T14:40:00+03:00">
+                    30 Mart 2011, Çarşamba
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2011/03/29/kendi-rubyini-gemini-kendin-kur/">Kendi Ruby’ini Gem’ini kendin kur</a>
+                <time pubdate datetime="2011-03-29T00:39:00+03:00">
+                    29 Mart 2011, Salı
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2011/03/23/bu-defa-son/">Bu defa son</a>
+                <time pubdate datetime="2011-03-23T15:30:00+02:00">
+                    23 Mart 2011, Çarşamba
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2011/03/22/kendi-pythonunu-kendin-kur-yazimda-eksik-yerler-buldum/">Kendi Python’unu kendin kur yazımda eksik yerler buldum</a>
+                <time pubdate datetime="2011-03-22T15:45:00+02:00">
+                    22 Mart 2011, Salı
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2011/02/10/kendi-pythonunu-djangonu-paketlerini-kendin-kur/">Kendi Python’unu Django’nu paketlerini kendin kur</a>
+                <time pubdate datetime="2011-02-10T12:58:00+02:00">
+                    10 Şubat 2011, Perşembe
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2010/11/29/textmate-icin-yaptigim-kucuk-bir-applescript/">TextMate için yaptığım küçük bir AppleScript</a>
+                <time pubdate datetime="2010-11-29T21:20:00+02:00">
+                    29 Kasım 2010, Pazartesi
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2010/02/28/python-kitabi/">Python kitabı</a>
+                <time pubdate datetime="2010-02-28T11:44:00+02:00">
+                    28 Şubat 2010, Pazar
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2009/08/08/textmate-ve-bundle-olaylari/">TextMate ve Bundle olayları</a>
+                <time pubdate datetime="2009-08-08T15:48:00+03:00">
+                    08 Ağustos 2009, Cumartesi
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2009/08/08/textmate-ve-xhtml-tag-tamamlama-olayi/">TextMate ve XHTML tag tamamlama olayı</a>
+                <time pubdate datetime="2009-08-08T14:57:00+03:00">
+                    08 Ağustos 2009, Cumartesi
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2009/07/26/bash-completion-olayi/">Bash Completion olayı!</a>
+                <time pubdate datetime="2009-07-26T15:12:00+03:00">
+                    26 Temmuz 2009, Pazar
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2009/06/04/hosts-dosyasi-icin-textmate-bundle/">`/etc/hosts` dosyası için TextMate Bundle</a>
+                <time pubdate datetime="2009-06-04T11:56:00+03:00">
+                    04 Haziran 2009, Perşembe
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2009/01/12/textmate-ve-bundle-repositoryleri/">TextMate ve Bundle Repository’leri</a>
+                <time pubdate datetime="2009-01-12T15:30:00+02:00">
+                    12 Ocak 2009, Pazartesi
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2008/11/21/textmate-ve-php-ini/">Textmate ve php.ini</a>
+                <time pubdate datetime="2008-11-21T21:45:00+02:00">
+                    21 Kasım 2008, Cuma
+                </time>
+            </li>
+        </ul>
+    </div>
+    
+
+                        
+                        <div class="blog-post-list sidebar">
+    <h1>Yıllara Göre</h1>
+    <p>Blog arşivinde toplam “80” kayıt bulunuyor.</p>
+<p><a href="/blog/tr/yil/2024/" class="">2024 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2023/" class="">2023 yılına ait 2 makale</a></p><p><a href="/blog/tr/yil/2022/" class="">2022 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2021/" class="">2021 yılına ait 4 makale</a></p><p><a href="/blog/tr/yil/2016/" class="">2016 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2015/" class="">2015 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2014/" class="">2014 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2013/" class="">2013 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2012/" class="">2012 yılına ait 8 makale</a></p><p><a href="/blog/tr/yil/2011/" class="">2011 yılına ait 16 makale</a></p><p><a href="/blog/tr/yil/2010/" class="">2010 yılına ait 6 makale</a></p><p><a href="/blog/tr/yil/2009/" class="">2009 yılına ait 22 makale</a></p><p><a href="/blog/tr/yil/2008/" class="">2008 yılına ait 11 makale</a></p><p><a href="/blog/tr/yil/2006/" class="">2006 yılına ait 1 makale</a></p></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <footer class="footer">
+    <div class="container">
+        <div class="content">
+            <a href="/feed-tr.xml" title="RSS Aboneliği">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-square-rss fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://github.com/sponsors/vigo" title="GitHub Sponsorluk">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-heart fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://patreon.com/vigoo" title="Patreon Destek">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-patreon fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://github.com/vigo" title="GitHub Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-github fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://github.com/vbyazilim" title="VB YAZILIM GitHub Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-github fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://hub.docker.com/u/vigo/" title="Dockerhub Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-docker fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://www.linkedin.com/in/ugurozyilmazel" title="LinkedIn Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-linkedin fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://www.linkedin.com/company/vbyazilim/" title="VB YAZILIM LinkedIn Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-linkedin fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://rubygems.org/profiles/vigo" title="Rubygems Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://pypi.org/user/vigo" title="Python Package Index Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://vigos.hashnode.dev/" title="Hashnode Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-hashnode fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://opensource-heroes.com/u/vigo" title="Open Source Heroes Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-osi fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://dev.to/vigo" title="Dev Community Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-dev fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://csdb.dk/scener/?id=8379" title="CSDB">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.pouet.net/user.php?who=4721" title="Pouet">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="http://janeway.exotica.org.uk/author.php?id=11962" title="Amiga Exotica">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://demozoo.org/sceners/6273" title="Demozoo">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://www.demoparty.net/users/vigo" title="Demoparty.net">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            
+            <script type="text/javascript">
+            document.write('<a href="mailto:');
+            document.write("hthebmlvyznmry\100tznvy\056pbz".replace(/[a-zA-Z]/g, function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
+            document.write('" title="E-Posta"');
+            document.write('<span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-at fa-stack-1x"></i></span>');
+            document.write('</a>');
+            </script>
+
+            <a target="_blank" href="https://vbyazilim.com/" title="Şirketim: VB YAZILIM">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fas fa-building fa-stack-1x"></i></span>
+            </a>
+
+        </div>
+    </div>
+</footer>
+
+
+
+</body>
+</html>
