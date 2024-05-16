@@ -170,3 +170,12 @@
   attachments:
     slide: https://l.vigo.io/makefile-degil-rakefile
     video: https://l.vigo.io/makefile-degil-rakefile-video
+
+- date: 2024-02-17 17:15
+  title: "Idiomatic Go: Conventions over Configurations"
+  event:
+    name: "GoKonf 2024"
+    url: https://gokonf.com/
+  attachments:
+    slide: https://l.vigo.io/gokonf2024-slides
+    video: https://l.vigo.io/gokonf2024-video
