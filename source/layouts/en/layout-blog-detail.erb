@@ -13,7 +13,8 @@ article_date_display = I18n.l current_page.date, :format => config.date_format_l
         
             <div class="columns is-multiline is-variable is-8">
                 <div class="column is-9-desktop is-full-tablet">
-                    <div class="content is-medium">
+                    <div class="content is-large">
+
                         <article>
                             <div class="meta">
                                 <span class="reading-time">READING TIME <%= get_reading_time(current_page.body, :basic) %></span>
@@ -61,6 +62,7 @@ article_date_display = I18n.l current_page.date, :format => config.date_format_l
 
                     </div>
                 </div>
+
                 <div class="column is-3-desktop is-full-tablet">
                     <div class="content">
                         <%= partial 'partials/related_posts', locals: {

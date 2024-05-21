@@ -1,0 +1,524 @@
+---
+title: "Django Natural Key"
+locale: en
+# subtitle: ""
+date: 2024-05-21 20:44
+cover: django.png
+# cover_title: ""
+# cover_subtitle: ""
+# og_image: ""
+# og_image_dir: ""
+tags: django,model manager
+comments: false
+---
+
+I have found that many Django developers I have talked to are either unaware 
+of the `natural_key` method that comes with Django models, and the 
+`get_by_natural_key` method in model managers, or they do not know 
+how to use them. READ_MORE
+
+I think one of the most amazing aspects of Django is the ability to
+automatically create the database right after defining the model and quickly
+enter data through the Django admin interface. During development, we add
+additional fields to the model, and as the model grows, the number of fields
+we enter through the admin panel also increases.
+
+In certain situations, we use realistic data to decide on the HTML design of
+the page. For example, while creating a blog application, we enter a few blog
+entries. These entries have a title and a body, with the body possibly
+consisting of 4-5 paragraphs.
+
+Sometimes, to avoid creating additional migrations, and since the project
+hasn’t been deployed yet, we can delete/drop the local development database
+and migration files and create the migrations from scratch.
+
+In the end, it becomes necessary to repeatedly fill and empty the database.
+For these situations, we use Django’s [fixture^1][01] [feature^2][02].
+
+For example, let’s say we have a model named `Category`:
+
+```python
+import uuid
+
+from django.db import models
+
+
+class Category(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
+    title = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.title
+```
+
+Let’s say we have entered some data and we want to create a fixture for this
+model:
+
+```bash
+python manage.py dumpdata coders.category  # coders is the name of app
+                                           # category is the name of model
+```
+
+Django outputs the dump result as `json` to console:
+
+```json
+[
+    {
+        "model": "coders.category",
+        "pk": "0d40f3ad-a500-4717-a0c4-cbaf880306df",
+        "fields": {
+            "title": "C++"
+        }
+    },
+    {
+        "model": "coders.category",
+        "pk": "1999fd35-7513-4b5d-add1-11db4d073cf3",
+        "fields": {
+            "title": "PHP"
+        }
+    },
+    {
+        "model": "coders.category",
+        "pk": "24786be1-7c4e-4923-baf6-54f61fe70976",
+        "fields": {
+            "title": "Bash"
+        }
+    }
+]
+```
+
+Let’s say we have a `Post` model and a `category` field that is linked to the
+`Category` model with a **ForeignKey**:
+
+```python
+import uuid
+
+from django.db import models
+
+
+class Post(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
+    category = models.ForeignKey(
+        to='Category',
+        on_delete=models.CASCADE,
+        related_name='posts',
+    )
+    title = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.title
+```
+
+Similarly, let’s serialize it to `JSON` using `dumpdata`:
+
+```bash
+python manage.py dumpdata coders.post
+```
+
+Output:
+
+```json
+[
+    {
+        "model": "coders.post",
+        "pk": "19b20f6b-b352-4152-8889-ec6c9118e28c",
+        "fields": {
+            "category": "1999fd35-7513-4b5d-add1-11db4d073cf3",
+            "title": "Modern PHP Frameworks"
+        }
+    },
+    {
+        "model": "coders.post",
+        "pk": "40cfc47f-bae2-4dff-a812-9fafea349799",
+        "fields": {
+            "category": "24786be1-7c4e-4923-baf6-54f61fe70976",
+            "title": "Bash Scripting Essentials"
+        }
+    },
+    {
+        "model": "coders.post",
+        "pk": "4cb31890-3c7b-461d-b87e-98131d0ee150",
+        "fields": {
+            "category": "0d40f3ad-a500-4717-a0c4-cbaf880306df",
+            "title": "Templates and Generic Programming in C++"
+        }
+    }
+]
+```
+
+When we look at the output, we see that the `pk` as primary key for `Post`
+model and the `category` field in the foreign key relationship contain the
+`pk` value as `Category` model’s `pk`.
+
+The question is; when restoring this dump data, **what order should we follow?**
+Should we load the dump of the `Category` model first and then the dump of the
+`Post` model? Or is it the other way around?
+
+What if the `Post` model has other **Foreign Keys** or even **Many to Many**
+relationships? In what order will we restore them? And will these restore
+operations be **idempotent**?
+
+## Natural Keys to the Rescue!
+
+In fact, the [natural key strategy][03] has been part of Django since the
+beginning. If you have used Django’s built-in `User` model and serialized with
+`dumpdata` using the `--natural-primary` and `--natural-foreign` arguments,
+you might have noticed an interesting field in the output:
+
+```json
+[
+    {
+        "model": "auth.user",
+        "fields": {
+            "password": "pbkdf2_sha256$720000$VrtuqbddGBXZxssR5dszGV$JgsU4a8sQnTGQ8RlND36CeXuTlZHugN3nID5wxNF+Nw=",
+            "last_login": "2024-05-19T18:08:04.481Z",
+            "is_superuser": true,
+            "username": "vigo",
+            "first_name": "Uğur",
+            "last_name": "Özyılmazel",
+            "email": "vigo@******",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2024-05-18T20:44:02.729Z",
+            "groups": [
+
+            ],
+            "user_permissions": [
+
+            ]
+        }
+    },
+    {
+        "model": "auth.user",
+        "fields": {
+            "password": "pbkdf2_sha256$720000$VrtuqbddGBXZxssR5dszGV$JgsU4a8sQnTGQ8RlND36CeXuTlZHugN3nID5wxNF+Nw=",
+            "last_login": "2024-05-18T20:45:04.615Z",
+            "is_superuser": true,
+            "username": "turbo",
+            "first_name": "Tunç",
+            "last_name": "Dindaş",
+            "email": "turbo@******"",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2024-05-18T20:44:02.729Z",
+            "groups": [
+
+            ],
+            "user_permissions": [
+
+            ]
+        }
+    }
+]
+```
+
+Did you see a field named `pk` ? No. Now, let’s add an `author` field to the
+`Post` model and take another dump:
+
+```python
+import uuid
+
+from django.conf import settings
+
+
+class Post(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
+    category = models.ForeignKey(
+        to='Category',
+        on_delete=models.CASCADE,
+        related_name='posts',
+    )
+    title = models.CharField(max_length=255)
+    author = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='posts',
+    )
+
+    def __str__(self):
+        return self.title
+```
+
+A snippet from the data we dumped:
+
+```json
+[
+    {
+        "model": "coders.post",
+        "pk": "19b20f6b-b352-4152-8889-ec6c9118e28c",
+        "fields": {
+            "category": "1999fd35-7513-4b5d-add1-11db4d073cf3",
+            "title": "Modern PHP Frameworks",
+            "author": 5
+        }
+    },
+    {
+        "model": "coders.post",
+        "pk": "1090da3a-af48-47dc-8041-c282b84b3d04",
+        "fields": {
+            "category": "f7d1ff24-c436-4ef5-bfb5-c1e8bcb64942",
+            "title": "Text Processing with Perl",
+            "author": 6
+        }
+    },
+    {
+        "model": "coders.post",
+        "pk": "17b0eea1-0ce5-4bc2-b4c2-13e1fd073516",
+        "fields": {
+            "category": "ea006dc9-7267-4d03-9541-37d42cdbefc1",
+            "title": "Introduction to JavaScript ES6",
+            "author": 4
+        }
+    }
+]
+```
+
+Now, the question is: when restoring the `author` and `category` fields
+related to this model with **loaddata**, what order should we follow? The
+record with user ID `4` (`author`) should be inserted into the user table with
+**ID 4** during the restore process. Who guarantees this?
+
+Let’s find out the unique fields of `User` model:
+
+```python
+[
+    f.name
+    for f in User._meta.get_fields()
+        if getattr(f, 'unique', None) and f.get_internal_type() != 'AutoField'
+]
+['username']
+```
+
+Now let’s find out the `username` for user ids `4,5,6`:
+
+```python
+User.objects.values_list('id', 'username').filter(id__in=[4,5,6])
+<QuerySet [(4, 'flatliners'), (5, 'ezelozy'), (6, 'yesimfo')]>
+```
+
+Why not use `username` instead of `id` in fixture? There can be only one
+`flatliners` or `ezelozy` or `yesimfo` right? How do we accomplish that? To
+avoid such primary key confusions, Django provides us with an excellent model
+instance method: `natural_key`. If [we look at][04]
+`django/contrib/auth/base_user.py`:
+
+```python
+class AbstractBaseUser(models.Model):
+    # fields, properties
+    #
+    def natural_key(self):
+        return (self.get_username(),)
+```
+
+So, if we ask, what is the natural key for user `ID 4`?
+
+```python
+User.objects.get(id=4).natural_key()
+('flatliners',)
+```
+
+In the [same file][05]:
+
+```python
+class BaseUserManager(models.Manager):
+    # methods, etc...
+    #
+    def get_by_natural_key(self, username):
+        return self.get(**{self.model.USERNAME_FIELD: username})
+```
+
+In the help text of `dumpdata` there are two options:
+
+```bash
+python manage.py dumpdata --help
+
+  --natural-foreign     Use natural foreign keys if they are available.
+  --natural-primary     Use natural primary keys if they are available.
+```
+
+If the model manager has `get_by_natural_key` method use it and generate
+serialization with using natural keys instead of `id` values. So, if we
+update our models:
+
+```python
+class CategoryManager(models.Manager):
+    def get_by_natural_key(self, title):
+        return self.get(title=title)
+
+class Category(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
+    title = models.CharField(max_length=255, unique=True)
+
+    objects = CategoryManager()
+
+    def __str__(self):
+        return self.title
+
+    def natural_key(self):
+        return (self.title,)
+
+
+class PostManager(models.Manager):
+    def get_by_natural_key(self, title, category_nk):
+        category = Category.objects.get_by_natural_key(*category_nk)
+        return self.get(title=title, category=category)
+
+class Post(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
+    category = models.ForeignKey(
+        to='Category',
+        on_delete=models.CASCADE,
+        related_name='posts',
+    )
+    title = models.CharField(max_length=255)
+    author = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='posts',
+    )
+
+    objects = PostManager()
+
+    def __str__(self):
+        return self.title
+
+    def natural_key(self):
+        return (self.title, self.category.natural_key())
+```
+
+## Serialization / Deserialization
+
+`natural_key` is used to define a key (more humane) instead of `ID`
+presentation. This method should return a **tuple** that **uniquely**
+identifies an **instance of your model** using fields other than the primary
+key. It is used in serialization process.
+
+`get_by_natural_key` is used to retrieve an instance of your model using the
+natural key fields which should be implemented in model’s manager. It is used
+in deserialization process.
+
+In our example, `author` field is a foreign key to `User` model and `User`
+model is already shipped with this strategy. So, if we call the `dumpdata`:
+
+```bash
+python manage.py dumpdata coders.post --indent 4 --natural-foreign --natural-primary
+```
+
+The result looks like this:
+
+```json
+[
+    {
+        "model": "coders.post",
+        "fields": {
+            "category": [
+                "JavaScript"
+            ],
+            "title": "Asynchronous JavaScript",
+            "author": [
+                "flatliners"
+            ]
+        }
+    },
+    {
+        "model": "coders.post",
+        "fields": {
+            "category": [
+                "Perl"
+            ],
+            "title": "Text Processing with Perl",
+            "author": [
+                "yesimfo"
+            ]
+        }
+    },
+    {
+        "model": "coders.post",
+        "fields": {
+            "category": [
+                "PHP"
+            ],
+            "title": "Modern PHP Frameworks",
+            "author": [
+                "ezelozy"
+            ]
+        }
+    }
+]
+```
+
+Now, when Django loads the fixture with `loaddata`, it uses **natural keys**
+instead of **ID** values to find the `category` and `author`. Pretty amazing,
+right?
+
+We can also arrange dependencies during serialization. If we look at 
+[Django’s documentation][06]:
+
+```python
+class Book(models.Model):
+    name = models.CharField(max_length=100)
+    author = models.ForeignKey(Person, on_delete=models.CASCADE)
+
+    def natural_key(self):
+        return (self.name,) + self.author.natural_key()
+```
+
+`Book`’s natural key is dependent on `Person`’s natural key. Therefore `Person`
+model should be serialized before the `Book` model. All we need is to add
+`natural_key.dependencies` declaration to `Book` model:
+
+```python
+class Book(models.Model):
+    name = models.CharField(max_length=100)
+    author = models.ForeignKey(Person, on_delete=models.CASCADE)
+
+    def natural_key(self):
+        return (self.name,) + self.author.natural_key()
+
+    natural_key.dependencies = ['example_app.person']
+```
+
+The serialization order will be as follows: first, the `Person` model, then the
+`Book` model will be serialized. Thanks to `natural_key.dependencies`
+
+Finally, if you frequently need fixtures and perform load/dump operations like
+I do, you can confidently transfer data from one place to another without
+struggling with **integrity errors**. You can prepare fresh **initial data**
+for your project, and you can even quickly write and load these fixtures
+manually.
+
+---
+
+### Resources
+
+- https://docs.djangoproject.com/en/5.0/topics/db/fixtures/
+- https://docs.djangoproject.com/en/5.0/howto/initial-data/
+- https://docs.djangoproject.com/en/5.0/topics/serialization/#natural-keys
+- https://docs.djangoproject.com/en/5.0/topics/serialization/#dependencies-during-serialization
+
+[01]: https://docs.djangoproject.com/en/5.0/topics/db/fixtures/
+[02]: https://docs.djangoproject.com/en/5.0/howto/initial-data/
+[03]: https://docs.djangoproject.com/en/5.0/topics/serialization/#natural-keys
+[04]: https://github.com/django/django/blob/6c48eed2383eb50191b59a64036b75cb46ae178e/django/contrib/auth/base_user.py#L74
+[05]: https://github.com/django/django/blob/6c48eed2383eb50191b59a64036b75cb46ae178e/django/contrib/auth/base_user.py#L36
+[06]: https://docs.djangoproject.com/en/5.0/topics/serialization/#dependencies-during-serialization
