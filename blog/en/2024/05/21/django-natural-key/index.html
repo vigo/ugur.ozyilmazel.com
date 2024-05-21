@@ -1,0 +1,658 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Django Natural Key - Uğur “vigo” Özyılmazel</title>
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (Türkçe)" href="/feed-tr.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (English)" href="/feed-en.xml" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <script src="https://kit.fontawesome.com/ebc2456445.js" crossorigin="anonymous"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+        <link href="/public/css/syntax.css" rel="stylesheet" />
+        <link href="/public/css/application.css" rel="stylesheet" />
+    
+
+        <script src="/public/js/application.js"></script>
+    
+        <meta name="date" content="2024-05-21T20:47:00+03:00" />
+        <meta name="description" content="I have found that many Django developers I have talked to are either unaware  of the natural_key method that comes with Django models, and the  get_by_natural_key method in model managers, or they do not know  how to use them." />
+        <meta name="author" content="Uğur “vigo” Özyılmazel"/>
+        <meta name="copyright" content="(c) 2006 / 2024 - Uğur “vigo” Özyılmazel" />
+        <meta property="og:url" content="https://ugur.ozyilmazel.com/blog/en/2024/05/21/django-natural-key/" />
+        <meta property="og:title" content="Django Natural Key" />
+        <meta property="og:site_name" content="vigo" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="I have found that many Django developers I have talked to are either unaware  of the natural_key method that comes with Django models, and the  get_by_natural_key method in model managers, or they do not know  how to use them." />
+        <meta property="og:image" content="https://ugur.ozyilmazel.com/public/images/og/ugur-vigo-ozyilmazel-500x500.jpg" />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:width" content="500" />
+        <meta property="og:image:height" content="500" />
+
+    <link href="/public/images/favicon.png" rel="shortcut icon" type="image/png" />
+    </head>
+<body>
+    
+    
+    <section class="section menu">
+    <div class="container">
+        <nav class="level is-mobile">
+            <div class="level-left">
+<div class="level-item"><a href="/en/">Home</a></div><div class="level-item"><a href="/blog/en/" class="is-active">Blog Archive</a></div><div class="level-item"><a href="/page/en/about/">About</a></div>            </div>
+            <div class="level-right">
+<div class="level-item"><a href="https://vbyazilim.com" target="_blank">VB</a></div><div class="level-item"><a href="/">TR</a></div>            </div>
+        </nav>
+    </div>
+</section>
+
+    
+        <section class="hero is-medium cover is-hidden-touch" style="background-image: url(/public/images/covers/django.png);">
+        <div class="hero-body">
+            <div class="container has-text-left">
+                
+                
+            </div>
+        </div>
+    </section>
+  
+    
+    
+    <section class="section main">
+        <div class="container">
+        
+            <div class="columns is-multiline is-variable is-8">
+                <div class="column is-9-desktop is-full-tablet">
+                    <div class="content is-large">
+
+                        <article>
+                            <div class="meta">
+                                <span class="reading-time">READING TIME 04:34</span>
+                                &mdash;
+                                <time pubdate datetime="2024-05-21T20:44:00+03:00" title="Tuesday, May 21, 2024, 8:44 PM">Tuesday, May 21, 2024, 8:44 PM</time>
+
+
+                                <div class="tags mt-3">
+                                        <a href="/blog/en/tag/django/" class="tag is-info">django</a>
+                                        <a href="/blog/en/tag/model-manager/" class="tag is-info">model manager</a>
+                                </div>
+
+                            </div>
+                            
+                            <h1 class="title">Django Natural Key</h1>
+                            
+                            <div class="yield"><p>I have found that many Django developers I have talked to are either unaware 
+of the <code>natural_key</code> method that comes with Django models, and the 
+<code>get_by_natural_key</code> method in model managers, or they do not know 
+how to use them. </p>
+
+<p>I think one of the most amazing aspects of Django is the ability to
+automatically create the database right after defining the model and quickly
+enter data through the Django admin interface. During development, we add
+additional fields to the model, and as the model grows, the number of fields
+we enter through the admin panel also increases.</p>
+
+<p>In certain situations, we use realistic data to decide on the HTML design of
+the page. For example, while creating a blog application, we enter a few blog
+entries. These entries have a title and a body, with the body possibly
+consisting of 4-5 paragraphs.</p>
+
+<p>Sometimes, to avoid creating additional migrations, and since the project
+hasn’t been deployed yet, we can delete/drop the local development database
+and migration files and create the migrations from scratch.</p>
+
+<p>In the end, it becomes necessary to repeatedly fill and empty the database.
+For these situations, we use Django’s <a href="https://docs.djangoproject.com/en/5.0/topics/db/fixtures/">fixture<sup>1</sup></a> <a href="https://docs.djangoproject.com/en/5.0/howto/initial-data/">feature<sup>2</sup></a>.</p>
+
+<p>For example, let’s say we have a model named <code>Category</code>:</p>
+<div class="highlight"><pre class="highlight python"><code><span class="kn">import</span> <span class="nn">uuid</span>
+
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+
+<span class="k">class</span> <span class="nc">Category</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">UUIDField</span><span class="p">(</span>
+        <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">uuid</span><span class="p">.</span><span class="n">uuid4</span><span class="p">,</span>
+        <span class="n">editable</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">title</span>
+</code></pre></div>
+<p>Let’s say we have entered some data and we want to create a fixture for this
+model:</p>
+<div class="highlight"><pre class="highlight shell"><code>python manage.py dumpdata coders.category  <span class="c"># coders is the name of app</span>
+                                           <span class="c"># category is the name of model</span>
+</code></pre></div>
+<p>Django outputs the dump result as <code>json</code> to console:</p>
+<div class="highlight"><pre class="highlight json"><code><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"coders.category"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"pk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0d40f3ad-a500-4717-a0c4-cbaf880306df"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"C++"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"coders.category"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"pk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1999fd35-7513-4b5d-add1-11db4d073cf3"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PHP"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"coders.category"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"pk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"24786be1-7c4e-4923-baf6-54f61fe70976"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bash"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<p>Let’s say we have a <code>Post</code> model and a <code>category</code> field that is linked to the
+<code>Category</code> model with a <strong>ForeignKey</strong>:</p>
+<div class="highlight"><pre class="highlight python"><code><span class="kn">import</span> <span class="nn">uuid</span>
+
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+
+<span class="k">class</span> <span class="nc">Post</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">UUIDField</span><span class="p">(</span>
+        <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">uuid</span><span class="p">.</span><span class="n">uuid4</span><span class="p">,</span>
+        <span class="n">editable</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="n">to</span><span class="o">=</span><span class="s">'Category'</span><span class="p">,</span>
+        <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="p">.</span><span class="n">CASCADE</span><span class="p">,</span>
+        <span class="n">related_name</span><span class="o">=</span><span class="s">'posts'</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">title</span>
+</code></pre></div>
+<p>Similarly, let’s serialize it to <code>JSON</code> using <code>dumpdata</code>:</p>
+<div class="highlight"><pre class="highlight shell"><code>python manage.py dumpdata coders.post
+</code></pre></div>
+<p>Output:</p>
+<div class="highlight"><pre class="highlight json"><code><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"coders.post"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"pk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19b20f6b-b352-4152-8889-ec6c9118e28c"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1999fd35-7513-4b5d-add1-11db4d073cf3"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Modern PHP Frameworks"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"coders.post"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"pk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"40cfc47f-bae2-4dff-a812-9fafea349799"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"24786be1-7c4e-4923-baf6-54f61fe70976"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bash Scripting Essentials"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"coders.post"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"pk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4cb31890-3c7b-461d-b87e-98131d0ee150"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0d40f3ad-a500-4717-a0c4-cbaf880306df"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Templates and Generic Programming in C++"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<p>When we look at the output, we see that the <code>pk</code> as primary key for <code>Post</code>
+model and the <code>category</code> field in the foreign key relationship contain the
+<code>pk</code> value as <code>Category</code> model’s <code>pk</code>.</p>
+
+<p>The question is; when restoring this dump data, <strong>what order should we follow?</strong>
+Should we load the dump of the <code>Category</code> model first and then the dump of the
+<code>Post</code> model? Or is it the other way around?</p>
+
+<p>What if the <code>Post</code> model has other <strong>Foreign Keys</strong> or even <strong>Many to Many</strong>
+relationships? In what order will we restore them? And will these restore
+operations be <strong>idempotent</strong>?</p>
+
+<h2>Natural Keys to the Rescue!</h2>
+
+<p>In fact, the <a href="https://docs.djangoproject.com/en/5.0/topics/serialization/#natural-keys">natural key strategy</a> has been part of Django since the
+beginning. If you have used Django’s built-in <code>User</code> model and serialized with
+<code>dumpdata</code> using the <code>--natural-primary</code> and <code>--natural-foreign</code> arguments,
+you might have noticed an interesting field in the output:</p>
+<div class="highlight"><pre class="highlight json"><code><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"auth.user"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pbkdf2_sha256$720000$VrtuqbddGBXZxssR5dszGV$JgsU4a8sQnTGQ8RlND36CeXuTlZHugN3nID5wxNF+Nw="</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"last_login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-05-19T18:08:04.481Z"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"is_superuser"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vigo"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Uğur"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Özyılmazel"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vigo@******"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"is_staff"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"is_active"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"date_joined"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-05-18T20:44:02.729Z"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"groups"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+
+            </span><span class="p">],</span><span class="w">
+            </span><span class="nl">"user_permissions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+
+            </span><span class="p">]</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"auth.user"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pbkdf2_sha256$720000$VrtuqbddGBXZxssR5dszGV$JgsU4a8sQnTGQ8RlND36CeXuTlZHugN3nID5wxNF+Nw="</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"last_login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-05-18T20:45:04.615Z"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"is_superuser"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"turbo"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tunç"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dindaş"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"turbo@******"",
+            "</span><span class="err">is_staff</span><span class="s2">": false,
+            "</span><span class="err">is_active</span><span class="s2">": true,
+            "</span><span class="err">date_joined</span><span class="s2">": "</span><span class="mi">2024-05-18</span><span class="err">T</span><span class="mi">20</span><span class="err">:</span><span class="mi">44</span><span class="err">:</span><span class="mi">0</span><span class="mf">2.729</span><span class="err">Z</span><span class="s2">",
+            "</span><span class="err">groups</span><span class="s2">": [
+
+            ],
+            "</span><span class="err">user_permissions</span><span class="s2">": [
+
+            ]
+        }
+    }
+]
+</span></code></pre></div>
+<p>Did you see a field named <code>pk</code> ? No. Now, let’s add an <code>author</code> field to the
+<code>Post</code> model and take another dump:</p>
+<div class="highlight"><pre class="highlight python"><code><span class="kn">import</span> <span class="nn">uuid</span>
+
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+
+
+<span class="k">class</span> <span class="nc">Post</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">UUIDField</span><span class="p">(</span>
+        <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">uuid</span><span class="p">.</span><span class="n">uuid4</span><span class="p">,</span>
+        <span class="n">editable</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="n">to</span><span class="o">=</span><span class="s">'Category'</span><span class="p">,</span>
+        <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="p">.</span><span class="n">CASCADE</span><span class="p">,</span>
+        <span class="n">related_name</span><span class="o">=</span><span class="s">'posts'</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="n">author</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">settings</span><span class="p">.</span><span class="n">AUTH_USER_MODEL</span><span class="p">,</span>
+        <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="p">.</span><span class="n">CASCADE</span><span class="p">,</span>
+        <span class="n">related_name</span><span class="o">=</span><span class="s">'posts'</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">title</span>
+</code></pre></div>
+<p>A snippet from the data we dumped:</p>
+<div class="highlight"><pre class="highlight json"><code><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"coders.post"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"pk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"19b20f6b-b352-4152-8889-ec6c9118e28c"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1999fd35-7513-4b5d-add1-11db4d073cf3"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Modern PHP Frameworks"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"author"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"coders.post"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"pk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1090da3a-af48-47dc-8041-c282b84b3d04"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"f7d1ff24-c436-4ef5-bfb5-c1e8bcb64942"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Text Processing with Perl"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"author"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"coders.post"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"pk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"17b0eea1-0ce5-4bc2-b4c2-13e1fd073516"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ea006dc9-7267-4d03-9541-37d42cdbefc1"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Introduction to JavaScript ES6"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"author"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<p>Now, the question is: when restoring the <code>author</code> and <code>category</code> fields
+related to this model with <strong>loaddata</strong>, what order should we follow? The
+record with user ID <code>4</code> (<code>author</code>) should be inserted into the user table with
+<strong>ID 4</strong> during the restore process. Who guarantees this?</p>
+
+<p>Let’s find out the unique fields of <code>User</code> model:</p>
+<div class="highlight"><pre class="highlight python"><code><span class="p">[</span>
+    <span class="n">f</span><span class="p">.</span><span class="n">name</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">User</span><span class="p">.</span><span class="n">_meta</span><span class="p">.</span><span class="n">get_fields</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s">'unique'</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">and</span> <span class="n">f</span><span class="p">.</span><span class="n">get_internal_type</span><span class="p">()</span> <span class="o">!=</span> <span class="s">'AutoField'</span>
+<span class="p">]</span>
+<span class="p">[</span><span class="s">'username'</span><span class="p">]</span>
+</code></pre></div>
+<p>Now let’s find out the <code>username</code> for user ids <code>4,5,6</code>:</p>
+<div class="highlight"><pre class="highlight python"><code><span class="n">User</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">values_list</span><span class="p">(</span><span class="s">'id'</span><span class="p">,</span> <span class="s">'username'</span><span class="p">).</span><span class="nb">filter</span><span class="p">(</span><span class="n">id__in</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">])</span>
+<span class="o">&lt;</span><span class="n">QuerySet</span> <span class="p">[(</span><span class="mi">4</span><span class="p">,</span> <span class="s">'flatliners'</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s">'ezelozy'</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="s">'yesimfo'</span><span class="p">)]</span><span class="o">&gt;</span>
+</code></pre></div>
+<p>Why not use <code>username</code> instead of <code>id</code> in fixture? There can be only one
+<code>flatliners</code> or <code>ezelozy</code> or <code>yesimfo</code> right? How do we accomplish that? To
+avoid such primary key confusions, Django provides us with an excellent model
+instance method: <code>natural_key</code>. If <a href="https://github.com/django/django/blob/6c48eed2383eb50191b59a64036b75cb46ae178e/django/contrib/auth/base_user.py#L74">we look at</a>
+<code>django/contrib/auth/base_user.py</code>:</p>
+<div class="highlight"><pre class="highlight python"><code><span class="k">class</span> <span class="nc">AbstractBaseUser</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="c1"># fields, properties
+</span>    <span class="c1">#
+</span>    <span class="k">def</span> <span class="nf">natural_key</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">get_username</span><span class="p">(),)</span>
+</code></pre></div>
+<p>So, if we ask, what is the natural key for user <code>ID 4</code>?</p>
+<div class="highlight"><pre class="highlight python"><code><span class="n">User</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">4</span><span class="p">).</span><span class="n">natural_key</span><span class="p">()</span>
+<span class="p">(</span><span class="s">'flatliners'</span><span class="p">,)</span>
+</code></pre></div>
+<p>In the <a href="https://github.com/django/django/blob/6c48eed2383eb50191b59a64036b75cb46ae178e/django/contrib/auth/base_user.py#L36">same file</a>:</p>
+<div class="highlight"><pre class="highlight python"><code><span class="k">class</span> <span class="nc">BaseUserManager</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Manager</span><span class="p">):</span>
+    <span class="c1"># methods, etc...
+</span>    <span class="c1">#
+</span>    <span class="k">def</span> <span class="nf">get_by_natural_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="bp">self</span><span class="p">.</span><span class="n">model</span><span class="p">.</span><span class="n">USERNAME_FIELD</span><span class="p">:</span> <span class="n">username</span><span class="p">})</span>
+</code></pre></div>
+<p>In the help text of <code>dumpdata</code> there are two options:</p>
+<div class="highlight"><pre class="highlight shell"><code>python manage.py dumpdata <span class="nt">--help</span>
+
+  <span class="nt">--natural-foreign</span>     Use natural foreign keys <span class="k">if </span>they are available.
+  <span class="nt">--natural-primary</span>     Use natural primary keys <span class="k">if </span>they are available.
+</code></pre></div>
+<p>If the model manager has <code>get_by_natural_key</code> method use it and generate
+serialization with using natural keys instead of <code>id</code> values. So, if we
+update our models:</p>
+<div class="highlight"><pre class="highlight python"><code><span class="k">class</span> <span class="nc">CategoryManager</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Manager</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get_by_natural_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Category</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">UUIDField</span><span class="p">(</span>
+        <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">uuid</span><span class="p">.</span><span class="n">uuid4</span><span class="p">,</span>
+        <span class="n">editable</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">CategoryManager</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">title</span>
+
+    <span class="k">def</span> <span class="nf">natural_key</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">title</span><span class="p">,)</span>
+
+
+<span class="k">class</span> <span class="nc">PostManager</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Manager</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get_by_natural_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">category_nk</span><span class="p">):</span>
+        <span class="n">category</span> <span class="o">=</span> <span class="n">Category</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">get_by_natural_key</span><span class="p">(</span><span class="o">*</span><span class="n">category_nk</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">category</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Post</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">UUIDField</span><span class="p">(</span>
+        <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">uuid</span><span class="p">.</span><span class="n">uuid4</span><span class="p">,</span>
+        <span class="n">editable</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="n">to</span><span class="o">=</span><span class="s">'Category'</span><span class="p">,</span>
+        <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="p">.</span><span class="n">CASCADE</span><span class="p">,</span>
+        <span class="n">related_name</span><span class="o">=</span><span class="s">'posts'</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="n">author</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">settings</span><span class="p">.</span><span class="n">AUTH_USER_MODEL</span><span class="p">,</span>
+        <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="p">.</span><span class="n">CASCADE</span><span class="p">,</span>
+        <span class="n">related_name</span><span class="o">=</span><span class="s">'posts'</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">PostManager</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">title</span>
+
+    <span class="k">def</span> <span class="nf">natural_key</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">category</span><span class="p">.</span><span class="n">natural_key</span><span class="p">())</span>
+</code></pre></div>
+<h2>Serialization / Deserialization</h2>
+
+<p><code>natural_key</code> is used to define a key (more humane) instead of <code>ID</code>
+presentation. This method should return a <strong>tuple</strong> that <strong>uniquely</strong>
+identifies an <strong>instance of your model</strong> using fields other than the primary
+key. It is used in serialization process.</p>
+
+<p><code>get_by_natural_key</code> is used to retrieve an instance of your model using the
+natural key fields which should be implemented in model’s manager. It is used
+in deserialization process.</p>
+
+<p>In our example, <code>author</code> field is a foreign key to <code>User</code> model and <code>User</code>
+model is already shipped with this strategy. So, if we call the <code>dumpdata</code>:</p>
+<div class="highlight"><pre class="highlight shell"><code>python manage.py dumpdata coders.post <span class="nt">--indent</span> 4 <span class="nt">--natural-foreign</span> <span class="nt">--natural-primary</span>
+</code></pre></div>
+<p>The result looks like this:</p>
+<div class="highlight"><pre class="highlight json"><code><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"coders.post"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"category"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="s2">"JavaScript"</span><span class="w">
+            </span><span class="p">],</span><span class="w">
+            </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Asynchronous JavaScript"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="s2">"flatliners"</span><span class="w">
+            </span><span class="p">]</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"coders.post"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"category"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="s2">"Perl"</span><span class="w">
+            </span><span class="p">],</span><span class="w">
+            </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Text Processing with Perl"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="s2">"yesimfo"</span><span class="w">
+            </span><span class="p">]</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"coders.post"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"category"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="s2">"PHP"</span><span class="w">
+            </span><span class="p">],</span><span class="w">
+            </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Modern PHP Frameworks"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="s2">"ezelozy"</span><span class="w">
+            </span><span class="p">]</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<p>Now, when Django loads the fixture with <code>loaddata</code>, it uses <strong>natural keys</strong>
+instead of <strong>ID</strong> values to find the <code>category</code> and <code>author</code>. Pretty amazing,
+right?</p>
+
+<p>We can also arrange dependencies during serialization. If we look at 
+<a href="https://docs.djangoproject.com/en/5.0/topics/serialization/#dependencies-during-serialization">Django’s documentation</a>:</p>
+<div class="highlight"><pre class="highlight python"><code><span class="k">class</span> <span class="nc">Book</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">author</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Person</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="p">.</span><span class="n">CASCADE</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">natural_key</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">name</span><span class="p">,)</span> <span class="o">+</span> <span class="bp">self</span><span class="p">.</span><span class="n">author</span><span class="p">.</span><span class="n">natural_key</span><span class="p">()</span>
+</code></pre></div>
+<p><code>Book</code>’s natural key is dependent on <code>Person</code>’s natural key. Therefore <code>Person</code>
+model should be serialized before the <code>Book</code> model. All we need is to add
+<code>natural_key.dependencies</code> declaration to <code>Book</code> model:</p>
+<div class="highlight"><pre class="highlight python"><code><span class="k">class</span> <span class="nc">Book</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">author</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Person</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="p">.</span><span class="n">CASCADE</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">natural_key</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">name</span><span class="p">,)</span> <span class="o">+</span> <span class="bp">self</span><span class="p">.</span><span class="n">author</span><span class="p">.</span><span class="n">natural_key</span><span class="p">()</span>
+
+    <span class="n">natural_key</span><span class="p">.</span><span class="n">dependencies</span> <span class="o">=</span> <span class="p">[</span><span class="s">'example_app.person'</span><span class="p">]</span>
+</code></pre></div>
+<p>The serialization order will be as follows: first, the <code>Person</code> model, then the
+<code>Book</code> model will be serialized. Thanks to <code>natural_key.dependencies</code></p>
+
+<p>Finally, if you frequently need fixtures and perform load/dump operations like
+I do, you can confidently transfer data from one place to another without
+struggling with <strong>integrity errors</strong>. You can prepare fresh <strong>initial data</strong>
+for your project, and you can even quickly write and load these fixtures
+manually.</p>
+
+<hr>
+
+<h3>Resources</h3>
+
+<ul>
+<li><a href="https://docs.djangoproject.com/en/5.0/topics/db/fixtures/">https://docs.djangoproject.com/en/5.0/topics/db/fixtures/</a></li>
+<li><a href="https://docs.djangoproject.com/en/5.0/howto/initial-data/">https://docs.djangoproject.com/en/5.0/howto/initial-data/</a></li>
+<li><a href="https://docs.djangoproject.com/en/5.0/topics/serialization/#natural-keys">https://docs.djangoproject.com/en/5.0/topics/serialization/#natural-keys</a></li>
+<li><a href="https://docs.djangoproject.com/en/5.0/topics/serialization/#dependencies-during-serialization">https://docs.djangoproject.com/en/5.0/topics/serialization/#dependencies-during-serialization</a></li>
+</ul>
+</div>
+                        </article>
+                        
+                            <nav class="mt-6 pagination is-centered" role="navigation" aria-label="pagination">
+                                <a href="/blog/en/2022/10/08/brew-formula-small-deprecation/" class="pagination-previous has-text-link">&laquo; Brew formula, small deprecation</a>
+                                
+                            </nav>
+
+                    </div>
+                </div>
+
+                <div class="column is-3-desktop is-full-tablet">
+                    <div class="content">
+                        
+
+                        <div class="blog-post-list sidebar">
+    <h1>By Year</h1>
+    <p>There are “6” posts in blog archive.</p>
+<p><a href="/blog/en/year/2024/" class="">2024 has 1 post</a></p><p><a href="/blog/en/year/2022/" class="">2022 has 3 posts</a></p><p><a href="/blog/en/year/2019/" class="">2019 has 1 post</a></p><p><a href="/blog/en/year/2016/" class="">2016 has 1 post</a></p></div>
+                        
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <footer class="footer">
+    <div class="container">
+        <div class="content">
+            <a href="/feed-en.xml" title="RSS Subscription">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-square-rss fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://github.com/sponsors/vigo" title="GitHub Sponsorship">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-heart fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://patreon.com/vigoo" title="Patreon Sponsorship">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-patreon fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://github.com/vigo" title="GitHub Profile">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-github fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://github.com/vbyazilim" title="VB YAZILIM GitHub Profile">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-github fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://hub.docker.com/u/vigo/" title="Dockerhub Profile">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-docker fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://www.linkedin.com/in/ugurozyilmazel" title="LinkedIn Profile">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-linkedin fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://www.linkedin.com/company/vbyazilim/" title="VB YAZILIM LinkedIn Profile">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-linkedin fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://rubygems.org/profiles/vigo" title="Rubygems Profile">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://pypi.org/user/vigo" title="Python Package Index Profile">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://vigos.hashnode.dev/" title="Hashnode Profile">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-hashnode fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://opensource-heroes.com/u/vigo" title="Open Source Heroes Profile">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-osi fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://dev.to/vigo" title="Dev Community Profile">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-dev fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://csdb.dk/scener/?id=8379" title="CSDB">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.pouet.net/user.php?who=4721" title="Pouet">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="http://janeway.exotica.org.uk/author.php?id=11962" title="Amiga Exotica">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://demozoo.org/sceners/6273" title="Demozoo">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://www.demoparty.net/users/vigo" title="Demoparty.net">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            
+            <script type="text/javascript">
+            document.write('<a href="mailto:');
+            document.write("hthebmlvyznmry\100tznvy\056pbz".replace(/[a-zA-Z]/g, function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
+            document.write('" title="E-Mail"');
+            document.write('<span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-at fa-stack-1x"></i></span>');
+            document.write('</a>');
+            </script>
+
+            <a target="_blank" href="https://vbyazilim.com/" title="My Company: VB YAZILIM">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fas fa-building fa-stack-1x"></i></span>
+            </a>
+
+        </div>
+    </div>
+</footer>
+
+
+
+</body>
+</html>
