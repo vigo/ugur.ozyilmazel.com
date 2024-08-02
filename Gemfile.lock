@@ -114,8 +114,8 @@ GEM
       ffi (~> 1.0)
     readingtime (0.4.0)
     redcarpet (3.6.0)
-    rexml (3.2.8)
-      strscan (>= 3.0.9)
+    rexml (3.3.3)
+      strscan
     rouge (3.30.0)
     sanitize (6.1.0)
       crass (~> 1.0.2)
