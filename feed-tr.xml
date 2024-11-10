@@ -14,7 +14,7 @@
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2024/05/16/ruby-1-dot-8-7-bash-ve-textmate/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2024/05/16/ruby-1-dot-8-7-bash-ve-textmate/</id>
     <published>2024-05-16T22:30:00+03:00</published>
-    <updated>2024-05-16T22:31:46+03:00</updated>
+    <updated>2024-06-24T13:32:21+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -83,7 +83,7 @@ tarihe minik bir not düşsün diye yazıyorum.&lt;/p&gt;
 
 &lt;h2&gt;TextMate Bundle Editor ve Command&lt;/h2&gt;
 
-&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img class="shadow" title="TextMate2 Bundle Editor ekran görüntüsü" src="/public/images/posts/2024-05-14-textmate-bundle-command.png" alt="TextMate2 Bundle Editor ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; TextMate2 Bundle Editor böyle bir şey, TextMate 1 daha güzeldi 
+&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img class="shadow"  title="TextMate2 Bundle Editor ekran görüntüsü" src="/public/images/posts/2024-05-14-textmate-bundle-command.png" alt="TextMate2 Bundle Editor ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; TextMate2 Bundle Editor böyle bir şey, TextMate 1 daha güzeldi 
 &lt;/p&gt;&lt;/div&gt;
 
 &lt;p&gt;Genel prensip şu; hangi dilde (&lt;em&gt;scope&lt;/em&gt;) kod yazıyorsanız, belli event’leri
@@ -141,7 +141,7 @@ kolayca, varolanlara ek kurulum yapmadan, sadece &lt;code&gt;brew install ruff&l
 &lt;strong&gt;Ruff&lt;/strong&gt;’ı kurup hayatına devam etmesini istiyordum. Dedim ya, yeni bir 
 maceraya yolculuk yapmayı kafaya koymuştum :)&lt;/p&gt;
 
-&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img class="shadow" title="Rafta duran Ruby kitapları" src="/public/images/posts/2024-05-14-ruby-books.jpg" alt="Rafta duran Ruby kitapları"&gt;&lt;/figure&gt;&lt;p&gt; Emektar Ruby kitaplarım! 
+&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img class="shadow"  title="Rafta duran Ruby kitapları" src="/public/images/posts/2024-05-14-ruby-books.jpg" alt="Rafta duran Ruby kitapları"&gt;&lt;/figure&gt;&lt;p&gt; Emektar Ruby kitaplarım! 
 &lt;/p&gt;&lt;/div&gt;
 
 &lt;p&gt;Ruby bilgilerimi tazelemek için kendi yazdığım, bitiremediğim 
@@ -172,7 +172,7 @@ ekranda bir yerde görmek için iki seçeneğim var. Ya &lt;strong&gt;tool tip&l
 bir an belirip mouse üzerinde gidince kaybolan ya da yeni bir döküman açıp oraya 
 yazmak.&lt;/p&gt;
 
-&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;span class="player-status"&gt;▶&lt;/span&gt;&lt;img class="shadow animate"  data-play="/public/images/posts/2024-05-16-textmate-tooltip.gif" title="TextMate2 Editor ekran görüntüsü, tool tip" src="/public/images/posts/2024-05-16-textmate-tooltip.png" alt="TextMate2 Editor ekran görüntüsü, tool tip"&gt;&lt;/figure&gt;&lt;p&gt; İşte tool tip. Mouse üzerinden gidince otomatik kayboluyor. 
+&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;span class="player-status"&gt;▶&lt;/span&gt;&lt;img class="shadow animate"  data-play="/public/images/posts/2024-05-16-textmate-tooltip.gif"  title="TextMate2 Editor ekran görüntüsü, tool tip" src="/public/images/posts/2024-05-16-textmate-tooltip.png" alt="TextMate2 Editor ekran görüntüsü, tool tip"&gt;&lt;/figure&gt;&lt;p&gt; İşte tool tip. Mouse üzerinden gidince otomatik kayboluyor. 
 &lt;/p&gt;&lt;/div&gt;
 
 &lt;p&gt;Event’ler arasında bir bağ olmadığı için, bunlar sanki bağımsız shell
@@ -448,7 +448,7 @@ Tek farkı ben onu ruby’den çağırıyorum TextMate ise onu original olarak &
 
 &lt;h2&gt;Go to Errors&lt;/h2&gt;
 
-&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;span class="player-status"&gt;▶&lt;/span&gt;&lt;img class="shadow animate"  data-play="/public/images/posts/2024-05-16-textmate-guttter.gif" title="TextMate2 Editor gutter ekran görüntüsü" src="/public/images/posts/2024-05-16-textmate-guttter.png" alt="TextMate2 Editor gutter ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; Gutter’a tıklayarak hatayı görüntüleme 
+&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;span class="player-status"&gt;▶&lt;/span&gt;&lt;img class="shadow animate"  data-play="/public/images/posts/2024-05-16-textmate-guttter.gif"  title="TextMate2 Editor gutter ekran görüntüsü" src="/public/images/posts/2024-05-16-textmate-guttter.png" alt="TextMate2 Editor gutter ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; Gutter’a tıklayarak hatayı görüntüleme 
 &lt;/p&gt;&lt;/div&gt;
 
 &lt;p&gt;Linter’ı çalışıp kurala uymayan satırları tespit ettikten sonra, ilgili
@@ -465,7 +465,7 @@ vermek ama sorun şu; her şey asenkron ve bağımsız çalışıyor. Linter iş
 bitirdikten sonra sonucu bir yere yazmam lazım ki bir tuş kombinasyonuna
 basıldığı zaman oradan sonucu okuyup &lt;code&gt;UI.menu&lt;/code&gt;’ye verebileyim:&lt;/p&gt;
 
-&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;span class="player-status"&gt;▶&lt;/span&gt;&lt;img class="shadow animate"  data-play="/public/images/posts/2024-05-16-textmate-goto-error.gif" title="TextMate2 Editor ekran görüntüsü" src="/public/images/posts/2024-05-16-textmate-goto-error.png" alt="TextMate2 Editor ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; &lt;strong&gt;&lt;kbd&gt;⌥&lt;/kbd&gt;&lt;/strong&gt; + &lt;kbd&gt;G&lt;/kbd&gt; (Option + G) ile Go to Error 
+&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;span class="player-status"&gt;▶&lt;/span&gt;&lt;img class="shadow animate"  data-play="/public/images/posts/2024-05-16-textmate-goto-error.gif"  title="TextMate2 Editor ekran görüntüsü" src="/public/images/posts/2024-05-16-textmate-goto-error.png" alt="TextMate2 Editor ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; &lt;strong&gt;&lt;kbd&gt;⌥&lt;/kbd&gt;&lt;/strong&gt; + &lt;kbd&gt;G&lt;/kbd&gt; (Option + G) ile Go to Error 
 &lt;/p&gt;&lt;/div&gt;
 
 &lt;h2&gt;Bash Bilgilerimizi Tazeleyelim&lt;/h2&gt;
@@ -510,7 +510,7 @@ yaptım. Eğer denemek isterseniz;&lt;/p&gt;
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2023/10/15/textmate-icin-go-modify-tags-eklentisi/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2023/10/15/textmate-icin-go-modify-tags-eklentisi/</id>
     <published>2023-10-15T22:45:00+03:00</published>
-    <updated>2024-05-15T21:53:33+03:00</updated>
+    <updated>2024-06-24T13:32:21+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -550,7 +550,7 @@ reposunda buldum. Işık hızıyla gaza geldim. &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; ~/Library/Application&lt;span class="se"&gt;\ &lt;/span&gt;Support/TextMate/Bundles/
 &lt;span class="nv"&gt;$ &lt;/span&gt;git clone https://github.com/vigo/textmate2-gomodifytags.git GoModifyTags.tmbundle
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img class="shadow" title="TextMate2 için gomodifytags bundle animasyon gif" src="https://raw.githubusercontent.com/vigo/textmate2-gomodifytags/main/screens/tm2-gomodifytags.gif" alt="TextMate2 için gomodifytags bundle animasyon gif"&gt;&lt;/figure&gt;&lt;p&gt; TextMate2’den ekran görüntüsü 
+&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img class="shadow"  title="TextMate2 için gomodifytags bundle animasyon gif" src="https://raw.githubusercontent.com/vigo/textmate2-gomodifytags/main/screens/tm2-gomodifytags.gif" alt="TextMate2 için gomodifytags bundle animasyon gif"&gt;&lt;/figure&gt;&lt;p&gt; TextMate2’den ekran görüntüsü 
 &lt;/p&gt;&lt;/div&gt;
 
 &lt;p&gt;Kod içinde &lt;code&gt;struct&lt;/code&gt; ile ilgili bir &lt;strong&gt;selection&lt;/strong&gt; yapıp otomatik olarak
@@ -563,7 +563,7 @@ ekle/çıkar gibi.&lt;/p&gt;
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2023/03/12/textmate-icin-ruff-linter-eklentisi/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2023/03/12/textmate-icin-ruff-linter-eklentisi/</id>
     <published>2023-03-12T21:29:00+03:00</published>
-    <updated>2024-05-15T21:47:06+03:00</updated>
+    <updated>2024-06-24T13:32:21+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -619,7 +619,7 @@ def foo(x: int):
 bir &lt;a href="https://github.com/vigo/textmate2-python-fmt"&gt;Python eklentisini&lt;/a&gt; kullanıyordum. Hemen kollayı sıvadım ve giriştim
 hızla! Python scope’unda kod yazarken &lt;strong&gt;save&lt;/strong&gt; yapınca linter devreye giriyor.&lt;/p&gt;
 
-&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img class="shadow" title="Ruff-Linter çalışırken" src="/public/images/posts/2023-02-24-ruff-markers.gif" alt="Ruff-Linter çalışırken"&gt;&lt;/figure&gt;&lt;p&gt; TextMate2’den ekran görüntüsü 
+&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img class="shadow"  title="Ruff-Linter çalışırken" src="/public/images/posts/2023-02-24-ruff-markers.gif" alt="Ruff-Linter çalışırken"&gt;&lt;/figure&gt;&lt;p&gt; TextMate2’den ekran görüntüsü 
 &lt;/p&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;a href="https://github.com/PyCQA/pylint"&gt;Pylint&lt;/a&gt; kadar süper olmasa da hız bakımından tercih sebebidir. Proje
@@ -1991,7 +1991,7 @@ güzel bir sunum yapmıştı. Bu sunumu da &lt;a href="https://speakerdeck.com/s
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2015/04/13/textmate-ve-interaktif-giris/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2015/04/13/textmate-ve-interaktif-giris/</id>
     <published>2015-04-13T09:28:00+03:00</published>
-    <updated>2024-05-15T21:17:05+03:00</updated>
+    <updated>2024-06-24T13:32:21+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -2002,13 +2002,13 @@ TextMate’de. &lt;/p&gt;
 &lt;p&gt;Örneğin &lt;strong&gt;Ruby&lt;/strong&gt; çalıştırmak için; aşağıdaki gibi boş bir döküman açıp,
 kayıt bile etmeden;&lt;/p&gt;
 
-&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img class="shadow" title="TextMate ekran görüntüsü" src="/public/images/posts/2015-04-13-textmate/2015-04-13-textmate-ruby.png" alt="TextMate ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; Yeni pencerede &lt;kbd&gt;⌘&lt;/kbd&gt; + &lt;kbd&gt;N&lt;/kbd&gt; 
+&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img class="shadow"  title="TextMate ekran görüntüsü" src="/public/images/posts/2015-04-13-textmate/2015-04-13-textmate-ruby.png" alt="TextMate ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; Yeni pencerede &lt;kbd&gt;⌘&lt;/kbd&gt; + &lt;kbd&gt;N&lt;/kbd&gt; 
 &lt;/p&gt;&lt;/div&gt;
 
 &lt;p&gt;Yazmak istediğinizi yazıp &lt;kbd&gt;⌘&lt;/kbd&gt; + &lt;kbd&gt;R&lt;/kbd&gt; yaparak (&lt;em&gt;bazı dillerde bu tuş kombinasyonu
 farklı olabiliyor ama geneli hep bu&amp;hellip;&lt;/em&gt;) hemen çalıştırabilirsiniz.&lt;/p&gt;
 
-&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img class="shadow" title="TextMate ekran görüntüsü" src="/public/images/posts/2015-04-13-textmate/2015-04-13-textmate-ruby-2.png" alt="TextMate ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; Çıktı ekranı 
+&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img class="shadow"  title="TextMate ekran görüntüsü" src="/public/images/posts/2015-04-13-textmate/2015-04-13-textmate-ruby-2.png" alt="TextMate ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; Çıktı ekranı 
 &lt;/p&gt;&lt;/div&gt;
 
 &lt;p&gt;Fakat bazı durumlarda kullanıcıdan &lt;strong&gt;input&lt;/strong&gt; almanız gerekebilir. &lt;code&gt;STDIN&lt;/code&gt; yani
@@ -2037,7 +2037,7 @@ deneyin: &lt;kbd&gt;⌘&lt;/kbd&gt; + &lt;kbd&gt;R&lt;/kbd&gt;;&lt;/p&gt;
 &lt;p&gt;An itibariyle OS X Yosemite 10.10.3’te sıkıntısız çalışıyor ama nereye
 kadar çalışır bilemiyorum. En azından şimdilik işimizi görüyor!&lt;/p&gt;
 
-&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;imgtitle="TextMate ekran görüntüsü" src="/public/images/posts/2015-04-13-textmate/2015-04-13-textmate-ruby-4.png" alt="TextMate ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; Sonuç: input geldi&amp;hellip; 
+&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img title="TextMate ekran görüntüsü" src="/public/images/posts/2015-04-13-textmate/2015-04-13-textmate-ruby-4.png" alt="TextMate ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; Sonuç: input geldi&amp;hellip; 
 &lt;/p&gt;&lt;/div&gt;
 
 &lt;h3&gt;Güncelleme: 16 Ağustos 2022&lt;/h3&gt;
