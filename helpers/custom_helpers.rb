@@ -65,14 +65,14 @@ module CustomHelpers
     img_classes = []
     img_classes << "shadow" if options[:shadow]
     img_classes << "animate" if options[:animate]
-
+    
     img_class = img_classes.size > 0 ? ' class="' + img_classes.join(" ") +'" ': ""
     img_data = options[:animate] ? ' data-play="' + site_image(options[:animate], options[:dir]) +'" ' : ""
 
     out << '<div class="full zoomable">'
     out << '<figure class="image">'
     out << '<span class="player-status">▶</span>' if options[:animate]
-    out << '<img' + img_class + img_data + 'title="' + options[:alt] + '" src="' + site_image(options[:src], options[:dir]) +'" alt="' + options[:alt] +'">'
+    out << '<img' + img_class + img_data + ' title="' + options[:alt] + '" src="' + site_image(options[:src], options[:dir]) +'" alt="' + options[:alt] +'">'
     out << '</figure>'
     out << '<p>%s</p>' % markdownify_text_only(options[:cap]) if options[:cap]
     out << '</div>'
