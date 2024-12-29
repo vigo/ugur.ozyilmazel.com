@@ -14,7 +14,7 @@
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2024/12/29/2024-te-ogrendigim-yeni-seyler/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2024/12/29/2024-te-ogrendigim-yeni-seyler/</id>
     <published>2024-12-29T11:51:00+03:00</published>
-    <updated>2024-12-29T14:50:24+03:00</updated>
+    <updated>2024-12-29T14:53:57+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -207,7 +207,7 @@ diye bir ücretsiz servise denk geldim, çok işime yaradı.&lt;/p&gt;
 artık elim ayağım oldu, &lt;a href="https://direnv.net/"&gt;direnv&lt;/a&gt;. Environment Variable’lar la uğraşanların
 çok işine yarar diye düşünüyorum.&lt;/p&gt;
 
-&lt;p&gt;GitHub’da hızlıca repo oluşturmak için minik bir &lt;a href="https://github.com/vigo/homebrew-git-init-githubrepo"&gt;tool&lt;/a&gt; yaptım, Go’nun
+&lt;p&gt;GitHub’da hızlıca repo oluşturmak için minik bir &lt;a href="https://github.com/vigo/git-init-githubrepo"&gt;tool&lt;/a&gt; yaptım, Go’nun
 yeni &lt;code&gt;embed&lt;/code&gt; özelliklerini de bu sayede öğrendim.&lt;/p&gt;
 
 &lt;p&gt;Bu sene kitap açısından da (&lt;em&gt;fiziksel kitap, ebook değil&lt;/em&gt;) verimli geçti; şu
@@ -260,6 +260,9 @@ geçecek!&lt;/p&gt;
 &lt;li&gt;&lt;a href="https://github.com/vigo/django-admin-list-filter"&gt;Django Admin List Filter&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://callowayproject.github.io/bump-my-version/"&gt;Bump My Version&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://github.com/vigo/textmate2-tailwind-css"&gt;TextMate2 Tailwind CSS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/vigo/git-init-githubrepo"&gt;GitHub Friendly Repo Creator/Initializer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/vigo/textmate2-python-fmt"&gt;TextMate2 Python Linter&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/vigo/textmate2-ruff-linter"&gt;TextMate2 Ruff Linter&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
   </entry>
