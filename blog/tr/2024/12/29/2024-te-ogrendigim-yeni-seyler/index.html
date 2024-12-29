@@ -24,7 +24,7 @@
 
         <script src="/public/js/application.js"></script>
     
-        <meta name="date" content="2024-12-29T13:52:48+03:00" />
+        <meta name="date" content="2024-12-29T14:51:00+03:00" />
         <meta name="description" content="Sabah Elliott’ın YouTube videosunu izlerken düşündüm. Acaba ben neler öğrendim diye." />
         <meta name="author" content="Uğur “vigo” Özyılmazel"/>
         <meta name="copyright" content="(c) 2006 / 2024 - Uğur “vigo” Özyılmazel" />
@@ -65,7 +65,7 @@
                     <div class="content is-large">
                         <article>
                             <div class="meta">
-                                <span class="reading-time">OKUMA SÜRESİ 07:43</span>
+                                <span class="reading-time">OKUMA SÜRESİ 08:04</span>
                                 &mdash;
                                 <time pubdate datetime="2024-12-29T11:51:00+03:00" title="29 Aralık 2024, Pazar 11:51">29 Aralık 2024, Pazar 11:51</time>
 
@@ -91,9 +91,13 @@ kapalı yaml’ları yazmaya başladım.</p>
 <p>Bir süredir tüm fokusum <strong>Go</strong> ile geliştirme yapmak olduğu için, ilk gözağrım <strong>Django</strong>’yu
 da unutmamak, melekelerimi kaybetmemek için geliştirmeler yapmaya devam ettim.
 Madem yeni şeyler öğreniyorum, haydi o zaman bu projede <strong>Tailwind CSS</strong>
-öğreneyim diyerek, önce bir <strong>TextMate</strong> bundle’ı yaptım. Projemde kullanırken
+öğreneyim diyerek, önce bir <a href="https://github.com/vigo/textmate2-tailwind-css">TextMate bundle</a>’ı yaptım. Projemde kullanırken
 gördüm ki standalone compiler’ı buggy. Mecburen Django projesi içinde sanki bir
 <strong>node</strong> projesi gibi Tailwind’i entegre etmeyi de öğrendim.</p>
+
+<p>TextMate’ten kopamayan adam olarak <a href="https://github.com/vigo/textmate2-ruff-linter">Ruff Linter</a> ve <a href="https://github.com/vigo/textmate2-python-fmt">Python Linter</a> bundle’ları
+yaptım, bu esnada <strong>Ruby 1.9</strong> (<em>Tedavülden kalkalı en az 10 yıl oldu</em>) ile
+mecburen uğraşmak zorunda kaldım :)</p>
 
 <p>Django’dan kopamadığım için daha önce çalıştığım şirket’in organizasyonundan
 release ettiğim, ayrıldıktan sonra erişim sıkıntısı çektiğim bir <strong>Django Admin</strong>
@@ -136,7 +140,7 @@ diye harika bir orkestrasyon aracı ile tanıştım, hastası oldum.</p>
 
 <p>İmkanlar kısıtlı olunca kaynağı da doğru ve efektif kullanabilmek için hesap
 kitap yapmam da gerekti. Hangi servis, ne kadar memory, cpu tüketmeli, kaç
-replica ila işi çözerim, zero-down-time deployment’ı nasıl çözerim, custom
+replica ile işi çözerim, zero-down-time deployment’ı nasıl çözerim, custom
 servislerin metrikleri <strong>Grafana</strong>’ya nasıl akıtırım gibi gibi bir sürü branşım
 dışı şeyi de kurcalaya kurcalaya öğrendim.</p>
 
@@ -224,7 +228,7 @@ kadar az.</p>
 </tr>
 </tbody></table>
 
-<p>İnanılmaz düşüm memory tüketimiyle <code>C</code> açık ara ezdi geçti. En düşük container
+<p>İnanılmaz düşük memory tüketimiyle <code>C</code> açık ara <strong>ezdi</strong> geçti. En düşük container
 image size olarak <code>Go</code> affetmedi. Hepsi multi-stage build, kendi bilgilerim
 dahilinde olabilecek en küçük image’lar&hellip;</p>
 
@@ -262,6 +266,9 @@ diye bir ücretsiz servise denk geldim, çok işime yaradı.</p>
 <p>En çok işime yarayan yeni öğrendiğim, daha doğrusu biliyordum ama kullanmamıştım,
 artık elim ayağım oldu, <a href="https://direnv.net/">direnv</a>. Environment Variable’lar la uğraşanların
 çok işine yarar diye düşünüyorum.</p>
+
+<p>GitHub’da hızlıca repo oluşturmak için minik bir <a href="https://github.com/vigo/homebrew-git-init-githubrepo">tool</a> yaptım, Go’nun
+yeni <code>embed</code> özelliklerini de bu sayede öğrendim.</p>
 
 <p>Bu sene kitap açısından da (<em>fiziksel kitap, ebook değil</em>) verimli geçti; şu
 kitaplara başladım:</p>
@@ -312,6 +319,7 @@ geçecek!</p>
 <li><a href="https://direnv.net/">direnv</a></li>
 <li><a href="https://github.com/vigo/django-admin-list-filter">Django Admin List Filter</a></li>
 <li><a href="https://callowayproject.github.io/bump-my-version/">Bump My Version</a></li>
+<li><a href="https://github.com/vigo/textmate2-tailwind-css">TextMate2 Tailwind CSS</a></li>
 </ul>
 </div>
                         </article>

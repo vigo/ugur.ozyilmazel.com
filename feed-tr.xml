@@ -14,7 +14,7 @@
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2024/12/29/2024-te-ogrendigim-yeni-seyler/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2024/12/29/2024-te-ogrendigim-yeni-seyler/</id>
     <published>2024-12-29T11:51:00+03:00</published>
-    <updated>2024-12-29T13:51:03+03:00</updated>
+    <updated>2024-12-29T14:50:24+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -31,9 +31,13 @@ kapalı yaml’ları yazmaya başladım.&lt;/p&gt;
 &lt;p&gt;Bir süredir tüm fokusum &lt;strong&gt;Go&lt;/strong&gt; ile geliştirme yapmak olduğu için, ilk gözağrım &lt;strong&gt;Django&lt;/strong&gt;’yu
 da unutmamak, melekelerimi kaybetmemek için geliştirmeler yapmaya devam ettim.
 Madem yeni şeyler öğreniyorum, haydi o zaman bu projede &lt;strong&gt;Tailwind CSS&lt;/strong&gt;
-öğreneyim diyerek, önce bir &lt;strong&gt;TextMate&lt;/strong&gt; bundle’ı yaptım. Projemde kullanırken
+öğreneyim diyerek, önce bir &lt;a href="https://github.com/vigo/textmate2-tailwind-css"&gt;TextMate bundle&lt;/a&gt;’ı yaptım. Projemde kullanırken
 gördüm ki standalone compiler’ı buggy. Mecburen Django projesi içinde sanki bir
 &lt;strong&gt;node&lt;/strong&gt; projesi gibi Tailwind’i entegre etmeyi de öğrendim.&lt;/p&gt;
+
+&lt;p&gt;TextMate’ten kopamayan adam olarak &lt;a href="https://github.com/vigo/textmate2-ruff-linter"&gt;Ruff Linter&lt;/a&gt; ve &lt;a href="https://github.com/vigo/textmate2-python-fmt"&gt;Python Linter&lt;/a&gt; bundle’ları
+yaptım, bu esnada &lt;strong&gt;Ruby 1.9&lt;/strong&gt; (&lt;em&gt;Tedavülden kalkalı en az 10 yıl oldu&lt;/em&gt;) ile
+mecburen uğraşmak zorunda kaldım :)&lt;/p&gt;
 
 &lt;p&gt;Django’dan kopamadığım için daha önce çalıştığım şirket’in organizasyonundan
 release ettiğim, ayrıldıktan sonra erişim sıkıntısı çektiğim bir &lt;strong&gt;Django Admin&lt;/strong&gt;
@@ -76,7 +80,7 @@ diye harika bir orkestrasyon aracı ile tanıştım, hastası oldum.&lt;/p&gt;
 
 &lt;p&gt;İmkanlar kısıtlı olunca kaynağı da doğru ve efektif kullanabilmek için hesap
 kitap yapmam da gerekti. Hangi servis, ne kadar memory, cpu tüketmeli, kaç
-replica ila işi çözerim, zero-down-time deployment’ı nasıl çözerim, custom
+replica ile işi çözerim, zero-down-time deployment’ı nasıl çözerim, custom
 servislerin metrikleri &lt;strong&gt;Grafana&lt;/strong&gt;’ya nasıl akıtırım gibi gibi bir sürü branşım
 dışı şeyi de kurcalaya kurcalaya öğrendim.&lt;/p&gt;
 
@@ -164,7 +168,7 @@ kadar az.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;&lt;/table&gt;
 
-&lt;p&gt;İnanılmaz düşüm memory tüketimiyle &lt;code&gt;C&lt;/code&gt; açık ara ezdi geçti. En düşük container
+&lt;p&gt;İnanılmaz düşük memory tüketimiyle &lt;code&gt;C&lt;/code&gt; açık ara &lt;strong&gt;ezdi&lt;/strong&gt; geçti. En düşük container
 image size olarak &lt;code&gt;Go&lt;/code&gt; affetmedi. Hepsi multi-stage build, kendi bilgilerim
 dahilinde olabilecek en küçük image’lar&amp;hellip;&lt;/p&gt;
 
@@ -202,6 +206,9 @@ diye bir ücretsiz servise denk geldim, çok işime yaradı.&lt;/p&gt;
 &lt;p&gt;En çok işime yarayan yeni öğrendiğim, daha doğrusu biliyordum ama kullanmamıştım,
 artık elim ayağım oldu, &lt;a href="https://direnv.net/"&gt;direnv&lt;/a&gt;. Environment Variable’lar la uğraşanların
 çok işine yarar diye düşünüyorum.&lt;/p&gt;
+
+&lt;p&gt;GitHub’da hızlıca repo oluşturmak için minik bir &lt;a href="https://github.com/vigo/homebrew-git-init-githubrepo"&gt;tool&lt;/a&gt; yaptım, Go’nun
+yeni &lt;code&gt;embed&lt;/code&gt; özelliklerini de bu sayede öğrendim.&lt;/p&gt;
 
 &lt;p&gt;Bu sene kitap açısından da (&lt;em&gt;fiziksel kitap, ebook değil&lt;/em&gt;) verimli geçti; şu
 kitaplara başladım:&lt;/p&gt;
@@ -252,6 +259,7 @@ geçecek!&lt;/p&gt;
 &lt;li&gt;&lt;a href="https://direnv.net/"&gt;direnv&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://github.com/vigo/django-admin-list-filter"&gt;Django Admin List Filter&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://callowayproject.github.io/bump-my-version/"&gt;Bump My Version&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/vigo/textmate2-tailwind-css"&gt;TextMate2 Tailwind CSS&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
   </entry>
