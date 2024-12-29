@@ -15,82 +15,89 @@ comments: false
 Sabah [Elliott][link1]’ın [YouTube][link2] videosunu izlerken düşündüm. Acaba
 ben neler öğrendim diye. READ_MORE
 
-Yılın ilk aylarında, devraldığım Python/**Flask** projesi için api dokümantasyonu
-hazırlamam gerekti. Uygulama otomatik dokümantasyon yapamaya müsait olmadığı
-için tüm enpodint’leri elle, manual olarak dökümante etmek zorunda kaldım.
+Yılın ilk aylarında, devraldığım [Python][python]/[Flask][flask] projesi için api
+dokümantasyonu hazırlamam gerekti. Uygulama otomatik dokümantasyon yapamaya
+müsait olmadığı için tüm enpodint’leri elle, manuel olarak dokümante etmek
+zorunda kaldım. Bu zorlu süreç sayesinde [OpenAPI Spec 2.0][openapiv2]’ı sular seller
+gibi öğrendim. Gözüm kapalı [swagger][swagger] `yaml`’ları yazmaya başladım.
 
-Bu zorlu süreç sayesinde **OpenAPI Spec 2.0**’ı sular seller gibi öğrendim. Gözüm
-kapalı yaml’ları yazmaya başladım.
+Bir süredir tüm yoğunluğum **Go** ile geliştirme yapmak olduğu için, ilk
+gözağrım [Django][django]’yu da unutmamak, melekelerimi kaybetmemek için
+geliştirmeler yapmaya devam ettim. Madem yeni şeyler öğreniyorum, haydi o
+zaman bu projede [Tailwind CSS][tailwindcss] öğreneyim diyerek, önce bir
+[TextMate bundle][tm2-tailwind]’ı yaptım. Projemde kullanırken gördüm ki
+standalone compiler’ı buggy. Mecburen Django projesi içinde sanki bir [Node.js][node]
+projesi gibi Tailwind’i entegre etmeyi de öğrendim.
 
-Bir süredir tüm fokusum **Go** ile geliştirme yapmak olduğu için, ilk gözağrım **Django**’yu
-da unutmamak, melekelerimi kaybetmemek için geliştirmeler yapmaya devam ettim.
-Madem yeni şeyler öğreniyorum, haydi o zaman bu projede **Tailwind CSS**
-öğreneyim diyerek, önce bir [TextMate bundle][r16]’ı yaptım. Projemde kullanırken
-gördüm ki standalone compiler’ı buggy. Mecburen Django projesi içinde sanki bir
-**node** projesi gibi Tailwind’i entegre etmeyi de öğrendim.
+TextMate’ten kopamayan adam olarak [Ruff Linter][tm2-ruff-linter] ve 
+[Python Linter][tm2-python-linter] bundle’ları yaptım, bu esnada [Ruby 1.8.6][ruby-186] 
+(*Tedavülden kalkalı en az 10 yıl oldu*) ile mecburen uğraşmak zorunda kaldım :)
 
-TextMate’ten kopamayan adam olarak [Ruff Linter][r19] ve [Python Linter][r18] bundle’ları
-yaptım, bu esnada **Ruby 1.9** (*Tedavülden kalkalı en az 10 yıl oldu*) ile
-mecburen uğraşmak zorunda kaldım :)
+Django’dan kopamadığım için daha önce çalıştığım şirketin organizasyonundan
+yayınladığım ettiğim, ayrıldıktan sonra erişim sıkıntısı çektiğim bir 
+[Django Admin][django-admin] filtresi projem vardı, onu başlatan [yazdım][dalf], 
+bu esnada python paket reposunun manifestlerinin değiştiğini görüp yeni stili 
+öğrenmek zorunda kaldım. Hatta ilk olarak eksik yayınlamışım, sağolsun 
+[Bahattin][bahattin] ikaz etti de düzelttim.
 
-Django’dan kopamadığım için daha önce çalıştığım şirket’in organizasyonundan
-release ettiğim, ayrıldıktan sonra erişim sıkıntısı çektiğim bir **Django Admin**
-filtersi projem vardı, onu başlatan [yazdım][r14], bu esnada python paket
-reposunun manifestlerinin değiştiğini görüp yeni stil’i öğrenmek zorunda kaldım.
-Hatta ilk olarak eksik publish ettim, sağolsun [Bahattin][bahattin] ikaz etti de
-düzelttim.
+Her projemde, command-line otomasyonları için [Rakefile][rakefile] kullanan
+biri olarak, aynı zamanda Ruby melekelerimi de korumamı sağlıyor, hep aklımda
+olan [Rubocop][rubocop] ruby linter entegrasyonunu da hayatıma sokayım dedim,
+demez olaydım :)
 
-Her projemde, command-line otomasyonları için **Rakefile** kullanan biri olarak,
-aynı zamanda Ruby melekelerimi de korumamı sağlıyor, hep aklımda olan **Rubocop**
-Ruby linter entegrasyonunu da hayatıma sokayım dedim, demez olaydım :)
-
-Python için linter olarak **Ruff**’ı kullanıyorum, hızlı olduğu için. Ne yazık ki
-static check’leri yapamıyor. Yani olmayan bir paket import ettiğinizde **Pylint**
-gibi sizi doğal olarak uyaramıyor, *böyle bir paket yok* diye.
+Python için linter olarak [Ruff][ruff]’ı kullanıyorum, hızlı olduğu için. Ne
+yazık ki static check’leri yapamıyor. Yani olmayan bir paket import
+ettiğinizde [Pylint][pylint] gibi sizi doğal olarak uyaramıyor, *böyle bir
+paket yok* diye.
 
 Mecburen Python/Django projeleri için Ruff ile birlikte çalışabilecek pylint
 entegrasyonu yapmayı da öğrenmem gerekti. Bu da yetmedi, bu işleri
-**Pre-Commit** ve **GitHub Action**’a da bağlamam gerekti. Keza Rubocop’u da.
-Dolayısıyla kendimi iyi kötü bildiğimi düşündüğüm ama çok eksiğim olduğunu
-farkettiğim GitHub Action’ları bir tur daha pekiştirirken buldum.
+[Pre-Commit][pre-commit] ve [GitHub Action][github-actions]’a da bağlamam
+gerekti. Keza [rubocop][rubocop]’u da. Dolayısıyla kendimi iyi kötü bildiğimi
+düşündüğüm ama çok eksiğim olduğunu farkettiğim GitHub Action’ları bir tur
+daha pekiştirirken buldum.
 
-Çok kullandığım `bumpversion` artık expire olduğu için yenisine geçeyim dedim;
-`bump-my-version`. Bir sürü şeyi öğrenmek, anlamak ve düzletme yapmam gerekti.
+Çok kullandığım [bumpversion][bumpversion] artık geliştirilmediği için
+yenisine geçeyim dedim; [bump-my-version][bump-my-version]. Bir sürü şeyi 
+öğrenmek, anlamak ve düzletme yapmam gerekti.
 
-GitHub Action’lar da hızla güncelleniyor, tekrar depandabot entegrasyonu, action’ların
-güncel halleri, depricated olan direktiflerin düzeltilmesi vs derken yeni
-bilgilerle öğrenmeye devam ettim.
+GitHub Action’lar da hızla güncelleniyor, tekrar [depandabot][depandabot]
+entegrasyonu, action’ların güncel halleri, depricated olan direktiflerin 
+düzeltilmesi vs derken yeni bilgilerle öğrenmeye devam ettim.
 
 Yine [Elliott][link1]’ın başka bir [videosu][link3] beni acayip gaza getirdi
-ve bildiğimi sandığım **Docker**’da yeni level’lar açıldı. Neler mi geldi?
-Docker Swarm node, sanal makineye cluster kurdum, kendi çapımda bir AWS, GCP
-ultra minimal versiyonunu kurdum. **Traefik** proxy/load balancer, **Docker
-Networking**, **Docker Secrets**, Secure container images, **Docker Stack**
-gibi gibi bir sürü şeyi öğrendim ve production ortamı oluşturdum. Portainer
-diye harika bir orkestrasyon aracı ile tanıştım, hastası oldum.
+ve bildiğimi sandığım [Docker][docker]’da yeni level’lar açıldı. Neler mi
+geldi? [Docker Swarm][docker-swarm], sanal makineye cluster kurdum, kendi
+çapımda bir AWS, GCP ultra minimal versiyonunu kurdum. [Traefik][traefik] 
+proxy/load balancer, [Docker Networking][docker-network], 
+[Docker Secrets][docker-secret], secure container images,
+[Docker Stack][docker-stack] gibi gibi bir sürü şeyi öğrendim ve 
+production ortamı oluşturdum. [Portainer][portainer] diye harika bir 
+orkestrasyon aracı ile tanıştım, hastası oldum.
 
-Her şeyi minimum giderle yapmak için, GitHub’ın container registry’sini
+Her şeyi minimum giderle yapmak için, GitHub’ın [container registry][github-cr]’sini
 (*GHCR*) daha iyi kullanmayı öğrendim.
 
 İmkanlar kısıtlı olunca kaynağı da doğru ve efektif kullanabilmek için hesap
-kitap yapmam da gerekti. Hangi servis, ne kadar memory, cpu tüketmeli, kaç
-replica ile işi çözerim, zero-down-time deployment’ı nasıl çözerim, custom
-servislerin metrikleri **Grafana**’ya nasıl akıtırım gibi gibi bir sürü branşım
-dışı şeyi de kurcalaya kurcalaya öğrendim.
+kitap yapmam da gerekti. Hangi servis, ne kadar **memory**, **cpu** tüketmeli,
+kaç **replica** ile işi çözerim, zero-down-time deployment’ı nasıl çözerim,
+custom servislerin metrikleri [Grafana][grafana]’ya nasıl akıtırım gibi gibi
+bir sürü branşım dışı şeyi de kurcalaya kurcalaya öğrendim.
 
-Eski çalıştığım işlerde genelde devops konularını birileri çözerdi ve ben
+Eski çalıştığım işlerde genelde **devops** konularını birileri çözerdi ve ben
 sadece tüketici olarak dashboard’lara bakar takip ederdim, şimdi hepsini
 kendim yapmak durumunda kalınca mecburen bunları da öğrenmek zorunda kaldım.
 
 İş başa düşünce mecburen öğrenmek gerekiyor, zevkli de oluyor, kendi adıma
-acayip keyif aldım. Custom bir alert yapıp bunu Slack’e göndertmek bu kadar
-zor olmamalı, korkunç bir kullanıcı deneyimi olan **Grafana** işini süper
-yapmasa gerçekten kullanması çok zor :) Belkide benim beceriksizliğim de
-olabilir ama sonuç olarak eliniz ayağınız oluyor Grafana!
+acayip keyif aldım. [Prometheus][prometheus] entegrasyonu, özel bir alarm
+yapıp bunu [Slack][slack]’e göndertmek bu kadar zor olmamalı, korkunç bir kullanıcı
+deneyimi olan Grafana işini süper yapmasa gerçekten kullanması çok zor :)
+Belkide benim beceriksizliğim de olabilir ama sonuç olarak eliniz ayağınız
+oluyor Grafana!
 
 Hazırladığım eğitimler bildiklerime cila çekmeyi de sağlıyor, hem unuttuklarımı
 hatırlıyorum hem de yeni şeyler ekliyorum. Bu doğrultuda, hazırladığım Docker
-eğitimi için basit bir endpoint’ı olan http servisini her platformda yazıp
+eğitimi için basit bir endpoint’i olan http servisini her platformda yazıp
 dockerize ettim;
 
 - Django
@@ -125,20 +132,20 @@ kadar az.
 | FastAPI | 38.8MB | 122MB |
 | Django | 53.12MB | 203MB |
 
-İnanılmaz düşük memory tüketimiyle `C` açık ara **ezdi** geçti. En düşük container
+İnanılmaz düşük **memory** tüketimiyle `C` açık ara **ezdi** geçti. En düşük container
 image size olarak `Go` affetmedi. Hepsi multi-stage build, kendi bilgilerim
 dahilinde olabilecek en küçük image’lar...
 
-macOS kullanıyorum, bu bakımdan Docker’la ilişkim çok arttığı için **Orbstack**’i
+**macOS** kullanıyorum, bu bakımdan Docker’la ilişkim çok arttığı için [Orbstack][orbstack]’i
 de derinlemesine kullanmayı öğrendim.
 
 Bu yıl, http katmanıyla çok ilgilendim, dolayısıyla yeni şeyler de öğrendim.
 Sene başında ilk commit’i yaptığım, geçtiğimiz günler cila çekip refactor
 ettiğim basit bir http request debugger’la uğraşırken yine **RAW HTTP**, isteklerin
-replike edilmesi gibi konularla uğraşıp basit bir [tool][r9] yaptım.
+replike edilmesi gibi konularla uğraşıp basit bir [araç][vigo-basichttpdebugger] yaptım.
 
 HTTP Request ile uğraşınca, `Accept` header’ının da derinlerine indim, lazım
-olur diye hem öğrendim hem de mimik bir [go kütüphanesi][r11] yaptım.
+olur diye hem öğrendim hem de mimik bir [go kütüphanesi][vigo-accept] yaptım.
 
 `ngrok` süper bir tool ama her ay `$9` ödememek için bunun **free** ve
 **open-source** versiyonuna başladım, tcp katmanında beni bekleyen yeni
@@ -149,32 +156,33 @@ Mobile client ile sunucu arasında güvenli iletişimi sağlamak için **SSL
 REVERSE PINNING** konularına girdim, dolayısıyla sertifika türleri, üretimi,
 verify etmek vs gibi konularda bu yıl boğuştuğum şeyler arasındaydı.
 
-Mobil uygulama geliştiricilerinin çok sevdiğini düşündüğüm **Supabase**’i de bu
-yıl kurcalamak ve öğrenmek durumunda kaldım. Gerçekten bir çok problemi
-ücretsiz olarak çözmeyi sağlıyor.
+Mobil uygulama geliştiricilerinin çok sevdiğini düşündüğüm
+[Supabase][supabase]’i de bu yıl kurcalamak ve öğrenmek durumunda kaldım.
+Gerçekten bir çok problemi ücretsiz olarak çözmeyi sağlıyor.
 
-**Vercel** hep bildiğim bir platform ama hiç kullanmamıştım, denemek için basit
-python app’leri deploy ettim, eskiden bu tür işlerde Heroku kullanırdım,
-Vercel iyi bir alternatif oldu.
+[Vercel][vercel] hep bildiğim bir platform ama hiç kullanmamıştım, denemek
+için basit bir python app’i deploy ettim, eskiden bu tür işlerde [Heroku][heroku]
+kullanırdım, Vercel iyi bir alternatif oldu.
 
 Webhook’larla uğraşırken tesadüfen [requestcatcher.com](https://requestcatcher.com)
 diye bir ücretsiz servise denk geldim, çok işime yaradı.
 
 En çok işime yarayan yeni öğrendiğim, daha doğrusu biliyordum ama kullanmamıştım,
-artık elim ayağım oldu, [direnv][r13]. Environment Variable’lar la uğraşanların
+artık elim ayağım oldu, [direnv][direnv]. Environment Variable’larla uğraşanların
 çok işine yarar diye düşünüyorum.
 
-GitHub’da hızlıca repo oluşturmak için minik bir [tool][r17] yaptım, Go’nun
-yeni `embed` özelliklerini de bu sayede öğrendim.
+GitHub’da hızlıca repo oluşturmak için minik bir [tool][vigo-git-init-githubrepo] 
+yaptım, Go’nun yeni `embed` özelliklerini de bu sayede öğrendim.
 
 Bu sene kitap açısından da (*fiziksel kitap, ebook değil*) verimli geçti; şu
 kitaplara başladım:
 
-- **Clean Code**: Benim dünyamla pek örtüşmese de genel kültür açısından okuyorum.
-- **Test Driven Development With Python**: Bu sene original kitabına sahip oldum, harika bir kitap. 
-- **System Design Interviews I & II**: Ufuk açıcı, harika şeyler var.
-- **Efective Go Recepies**: Fena değil ama beklentimin altında çıktı.
-- **100 Go Mistakes**: Efsane bir kitap, başucu kitabı, şiddetle tavsiye ediyorum.
+- [Clean Code][book1]: Benim dünyamla pek örtüşmese de genel kültür açısından okuyorum.
+- [Test Driven Development With Python][book2]: Bu sene original kitabına sahip oldum, harika bir kitap. 
+- [System Design Interviews I][book3]: Ufuk açıcı, harika şeyler var.
+- [System Design Interviews II][book4]: Serinin ikinci kitabı.
+- [Efective Go Recepies][book5]: Fena değil ama beklentimin altında çıktı.
+- [100 Go Mistakes][book6]: Efsane bir kitap, başucu kitabı, şiddetle tavsiye ediyorum.
 
 Dedim ya, asıl stack’im **Go**. Bir kısım yanlışlarımı da bu yıl öğrendim. Hatta biraz
 kendime de kızdım, bu hataları benim yapmamam lazımdı. Olsun, en azından artık
@@ -195,52 +203,85 @@ geçecek!
 
 ### Linkler
 
-Yazıda bahsi geçen konuların linkleri aşağıda:
+Yazıda bahsi geçen kendi geliştirdiğim projelerin linkleri aşağıda:
 
-- [Open API Spec 2.0][r0]
-- [Tailwind CSS][r1]
-- [Rubocop][r2]
-- [Docker Swarm][r3]
-- [Traefik][r4]
-- [Portainer][r5]
-- [Prometheus][r6]
-- [Grafana][r7]
-- [Orbstack][r8]
-- [Basic HTTP Debugger][r9]
-- [Reserve SSL Pinning Demo][r10]
-- [accept][r11]
-- [Supabase][r12]
-- [direnv][r13]
-- [Django Admin List Filter][r14]
-- [Bump My Version][r15]
-- [TextMate2 Tailwind CSS][r16]
-- [GitHub Friendly Repo Creator/Initializer][r17]
-- [TextMate2 Python Linter][r18]
-- [TextMate2 Ruff Linter][r19]
+- [Basic HTTP Debugger][vigo-basichttpdebugger]
+- [Reserve SSL Pinning Demo][bilus-reverse-ssl-pinning]
+- [accept][vigo-accept]
+- [Django Admin List Filter][dalf]
+- [GitHub Friendly Repo Creator/Initializer][vigo-git-init-githubrepo]
+- [TextMate2 Tailwind CSS][tm2-tailwind]
+- [TextMate2 Python Linter][tm2-python-linter]
+- [TextMate2 Ruff Linter][tm2-ruff-linter]
 
-[r0]: https://swagger.io/docs/specification/v2_0/basic-structure/
-[r1]: https://tailwindcss.com/docs/installation
-[r2]: https://github.com/rubocop/rubocop
-[r3]: https://docs.docker.com/engine/swarm/
-[r4]: https://traefik.io/
-[r5]: https://www.portainer.io/
-[r6]: https://prometheus.io/
-[r7]: https://grafana.com/
-[r8]: https://orbstack.dev/
-[r9]: https://github.com/vbyazilim/basichttpdebugger
-[r10]: https://github.com/bilusteknoloji/reverse-ssl-pinning-demo
-[r11]: https://github.com/vigo/accept
-[r12]: https://supabase.com/
-[r13]: https://direnv.net/
-[r14]: https://github.com/vigo/django-admin-list-filter
-[r15]: https://callowayproject.github.io/bump-my-version/
-[r16]: https://github.com/vigo/textmate2-tailwind-css
-[r17]: https://github.com/vigo/git-init-githubrepo
-[r18]: https://github.com/vigo/textmate2-python-fmt
-[r19]: https://github.com/vigo/textmate2-ruff-linter
 
 [link1]: https://dreamsofcode.io/mentoring
 [link2]: https://www.youtube.com/watch?v=A_3MP_V-kB4
 [link3]: https://www.youtube.com/watch?v=F-9KWQByeU0
 
 [bahattin]: https://github.com/bahattincinic
+[flask]: https://flask.palletsprojects.com/en/stable/
+[swagger]: https://swagger.io
+[tailwindcss]: https://tailwindcss.com/
+[openapiv2]: https://swagger.io/docs/specification/v2_0/basic-structure/
+[rubocop]: https://github.com/rubocop/rubocop
+[python]: https://www.python.org/
+
+[ruby-186]: https://ruby-doc.org/stdlib-1.8.6/
+[rakefile]: https://ruby.github.io/rake/doc/rakefile_rdoc.html
+
+[django]: https://www.djangoproject.com/
+[django-admin]: https://docs.djangoproject.com/en/5.1/ref/contrib/admin/
+
+[ruff]: https://docs.astral.sh/ruff/
+[pylint]: https://github.com/pylint-dev/pylint
+[node]: https://nodejs.org/docs/latest/api/
+
+[pre-commit]: https://pre-commit.com/
+[github-actions]: https://github.com/features/actions
+
+[bumpversion]: https://github.com/peritus/bumpversion
+[bump-my-version]: https://callowayproject.github.io/bump-my-version/
+
+[depandabot]: https://github.com/dependabot
+
+[docker]: https://www.docker.com/
+[docker-swarm]: https://docs.docker.com/engine/swarm/
+[docker-network]: https://docs.docker.com/reference/cli/docker/network/
+[docker-secret]: https://docs.docker.com/reference/cli/docker/secret/
+[docker-stack]: https://docs.docker.com/reference/cli/docker/stack/
+[traefik]: https://traefik.io/
+
+[portainer]: https://www.portainer.io/
+
+[github-cr]: https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry
+
+[grafana]: https://grafana.com/
+[prometheus]: https://prometheus.io/
+[slack]: https://slack.com/
+
+[orbstack]: https://orbstack.dev/
+
+[supabase]: https://supabase.com/
+[direnv]: https://direnv.net/
+
+[vercel]: https://vercel.com/
+[heroku]: https://www.heroku.com/
+
+[tm2-ruff-linter]: https://github.com/vigo/textmate2-ruff-linter
+[tm2-python-linter]: https://github.com/vigo/textmate2-python-fmt
+[tm2-tailwind]: https://github.com/vigo/textmate2-tailwind-css
+[dalf]: https://github.com/vigo/django-admin-list-filter
+[vigo-basichttpdebugger]: https://github.com/vbyazilim/basichttpdebugger
+[vigo-accept]: https://github.com/vigo/accept
+[vigo-git-init-githubrepo]: https://github.com/vigo/git-init-githubrepo
+
+[bilus-reverse-ssl-pinning]: https://github.com/bilusteknoloji/reverse-ssl-pinning-demo
+
+[book1]: https://www.amazon.com.tr/dp/0132350882
+[book2]: https://www.amazon.co.uk/Test-Driven-Development-Python-Harry-Percival/dp/1491958707
+[book3]: https://www.amazon.co.uk/dp/B08CMF2CQF
+[book4]: https://www.amazon.co.uk/dp/1736049119
+[book5]: https://www.amazon.com.tr/dp/1680508466
+[book6]: https://www.amazon.com.tr/dp/1617299596
+
