@@ -14,89 +14,96 @@
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2024/12/29/2024-te-ogrendigim-yeni-seyler/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2024/12/29/2024-te-ogrendigim-yeni-seyler/</id>
     <published>2024-12-29T11:51:00+03:00</published>
-    <updated>2024-12-29T14:53:57+03:00</updated>
+    <updated>2024-12-29T15:57:17+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
     <content type="html">&lt;p&gt;Sabah &lt;a href="https://dreamsofcode.io/mentoring"&gt;Elliott&lt;/a&gt;’ın &lt;a href="https://www.youtube.com/watch?v=A_3MP_V-kB4"&gt;YouTube&lt;/a&gt; videosunu izlerken düşündüm. Acaba
 ben neler öğrendim diye. &lt;/p&gt;
 
-&lt;p&gt;Yılın ilk aylarında, devraldığım Python/&lt;strong&gt;Flask&lt;/strong&gt; projesi için api dokümantasyonu
-hazırlamam gerekti. Uygulama otomatik dokümantasyon yapamaya müsait olmadığı
-için tüm enpodint’leri elle, manual olarak dökümante etmek zorunda kaldım.&lt;/p&gt;
+&lt;p&gt;Yılın ilk aylarında, devraldığım &lt;a href="https://www.python.org/"&gt;Python&lt;/a&gt;/&lt;a href="https://flask.palletsprojects.com/en/stable/"&gt;Flask&lt;/a&gt; projesi için api
+dokümantasyonu hazırlamam gerekti. Uygulama otomatik dokümantasyon yapamaya
+müsait olmadığı için tüm enpodint’leri elle, manuel olarak dokümante etmek
+zorunda kaldım. Bu zorlu süreç sayesinde &lt;a href="https://swagger.io/docs/specification/v2_0/basic-structure/"&gt;OpenAPI Spec 2.0&lt;/a&gt;’ı sular seller
+gibi öğrendim. Gözüm kapalı &lt;a href="https://swagger.io"&gt;swagger&lt;/a&gt; &lt;code&gt;yaml&lt;/code&gt;’ları yazmaya başladım.&lt;/p&gt;
 
-&lt;p&gt;Bu zorlu süreç sayesinde &lt;strong&gt;OpenAPI Spec 2.0&lt;/strong&gt;’ı sular seller gibi öğrendim. Gözüm
-kapalı yaml’ları yazmaya başladım.&lt;/p&gt;
+&lt;p&gt;Bir süredir tüm yoğunluğum &lt;strong&gt;Go&lt;/strong&gt; ile geliştirme yapmak olduğu için, ilk
+gözağrım &lt;a href="https://www.djangoproject.com/"&gt;Django&lt;/a&gt;’yu da unutmamak, melekelerimi kaybetmemek için
+geliştirmeler yapmaya devam ettim. Madem yeni şeyler öğreniyorum, haydi o
+zaman bu projede &lt;a href="https://tailwindcss.com/"&gt;Tailwind CSS&lt;/a&gt; öğreneyim diyerek, önce bir
+&lt;a href="https://github.com/vigo/textmate2-tailwind-css"&gt;TextMate bundle&lt;/a&gt;’ı yaptım. Projemde kullanırken gördüm ki
+standalone compiler’ı buggy. Mecburen Django projesi içinde sanki bir &lt;a href="https://nodejs.org/docs/latest/api/"&gt;Node.js&lt;/a&gt;
+projesi gibi Tailwind’i entegre etmeyi de öğrendim.&lt;/p&gt;
 
-&lt;p&gt;Bir süredir tüm fokusum &lt;strong&gt;Go&lt;/strong&gt; ile geliştirme yapmak olduğu için, ilk gözağrım &lt;strong&gt;Django&lt;/strong&gt;’yu
-da unutmamak, melekelerimi kaybetmemek için geliştirmeler yapmaya devam ettim.
-Madem yeni şeyler öğreniyorum, haydi o zaman bu projede &lt;strong&gt;Tailwind CSS&lt;/strong&gt;
-öğreneyim diyerek, önce bir &lt;a href="https://github.com/vigo/textmate2-tailwind-css"&gt;TextMate bundle&lt;/a&gt;’ı yaptım. Projemde kullanırken
-gördüm ki standalone compiler’ı buggy. Mecburen Django projesi içinde sanki bir
-&lt;strong&gt;node&lt;/strong&gt; projesi gibi Tailwind’i entegre etmeyi de öğrendim.&lt;/p&gt;
+&lt;p&gt;TextMate’ten kopamayan adam olarak &lt;a href="https://github.com/vigo/textmate2-ruff-linter"&gt;Ruff Linter&lt;/a&gt; ve 
+&lt;a href="https://github.com/vigo/textmate2-python-fmt"&gt;Python Linter&lt;/a&gt; bundle’ları yaptım, bu esnada &lt;a href="https://ruby-doc.org/stdlib-1.8.6/"&gt;Ruby 1.8.6&lt;/a&gt; 
+(&lt;em&gt;Tedavülden kalkalı en az 10 yıl oldu&lt;/em&gt;) ile mecburen uğraşmak zorunda kaldım :)&lt;/p&gt;
 
-&lt;p&gt;TextMate’ten kopamayan adam olarak &lt;a href="https://github.com/vigo/textmate2-ruff-linter"&gt;Ruff Linter&lt;/a&gt; ve &lt;a href="https://github.com/vigo/textmate2-python-fmt"&gt;Python Linter&lt;/a&gt; bundle’ları
-yaptım, bu esnada &lt;strong&gt;Ruby 1.9&lt;/strong&gt; (&lt;em&gt;Tedavülden kalkalı en az 10 yıl oldu&lt;/em&gt;) ile
-mecburen uğraşmak zorunda kaldım :)&lt;/p&gt;
+&lt;p&gt;Django’dan kopamadığım için daha önce çalıştığım şirketin organizasyonundan
+yayınladığım ettiğim, ayrıldıktan sonra erişim sıkıntısı çektiğim bir 
+&lt;a href="https://docs.djangoproject.com/en/5.1/ref/contrib/admin/"&gt;Django Admin&lt;/a&gt; filtresi projem vardı, onu başlatan &lt;a href="https://github.com/vigo/django-admin-list-filter"&gt;yazdım&lt;/a&gt;, 
+bu esnada python paket reposunun manifestlerinin değiştiğini görüp yeni stili 
+öğrenmek zorunda kaldım. Hatta ilk olarak eksik yayınlamışım, sağolsun 
+&lt;a href="https://github.com/bahattincinic"&gt;Bahattin&lt;/a&gt; ikaz etti de düzelttim.&lt;/p&gt;
 
-&lt;p&gt;Django’dan kopamadığım için daha önce çalıştığım şirket’in organizasyonundan
-release ettiğim, ayrıldıktan sonra erişim sıkıntısı çektiğim bir &lt;strong&gt;Django Admin&lt;/strong&gt;
-filtersi projem vardı, onu başlatan &lt;a href="https://github.com/vigo/django-admin-list-filter"&gt;yazdım&lt;/a&gt;, bu esnada python paket
-reposunun manifestlerinin değiştiğini görüp yeni stil’i öğrenmek zorunda kaldım.
-Hatta ilk olarak eksik publish ettim, sağolsun &lt;a href="https://github.com/bahattincinic"&gt;Bahattin&lt;/a&gt; ikaz etti de
-düzelttim.&lt;/p&gt;
+&lt;p&gt;Her projemde, command-line otomasyonları için &lt;a href="https://ruby.github.io/rake/doc/rakefile_rdoc.html"&gt;Rakefile&lt;/a&gt; kullanan
+biri olarak, aynı zamanda Ruby melekelerimi de korumamı sağlıyor, hep aklımda
+olan &lt;a href="https://github.com/rubocop/rubocop"&gt;Rubocop&lt;/a&gt; ruby linter entegrasyonunu da hayatıma sokayım dedim,
+demez olaydım :)&lt;/p&gt;
 
-&lt;p&gt;Her projemde, command-line otomasyonları için &lt;strong&gt;Rakefile&lt;/strong&gt; kullanan biri olarak,
-aynı zamanda Ruby melekelerimi de korumamı sağlıyor, hep aklımda olan &lt;strong&gt;Rubocop&lt;/strong&gt;
-Ruby linter entegrasyonunu da hayatıma sokayım dedim, demez olaydım :)&lt;/p&gt;
-
-&lt;p&gt;Python için linter olarak &lt;strong&gt;Ruff&lt;/strong&gt;’ı kullanıyorum, hızlı olduğu için. Ne yazık ki
-static check’leri yapamıyor. Yani olmayan bir paket import ettiğinizde &lt;strong&gt;Pylint&lt;/strong&gt;
-gibi sizi doğal olarak uyaramıyor, &lt;em&gt;böyle bir paket yok&lt;/em&gt; diye.&lt;/p&gt;
+&lt;p&gt;Python için linter olarak &lt;a href="https://docs.astral.sh/ruff/"&gt;Ruff&lt;/a&gt;’ı kullanıyorum, hızlı olduğu için. Ne
+yazık ki static check’leri yapamıyor. Yani olmayan bir paket import
+ettiğinizde &lt;a href="https://github.com/pylint-dev/pylint"&gt;Pylint&lt;/a&gt; gibi sizi doğal olarak uyaramıyor, &lt;em&gt;böyle bir
+paket yok&lt;/em&gt; diye.&lt;/p&gt;
 
 &lt;p&gt;Mecburen Python/Django projeleri için Ruff ile birlikte çalışabilecek pylint
 entegrasyonu yapmayı da öğrenmem gerekti. Bu da yetmedi, bu işleri
-&lt;strong&gt;Pre-Commit&lt;/strong&gt; ve &lt;strong&gt;GitHub Action&lt;/strong&gt;’a da bağlamam gerekti. Keza Rubocop’u da.
-Dolayısıyla kendimi iyi kötü bildiğimi düşündüğüm ama çok eksiğim olduğunu
-farkettiğim GitHub Action’ları bir tur daha pekiştirirken buldum.&lt;/p&gt;
+&lt;a href="https://pre-commit.com/"&gt;Pre-Commit&lt;/a&gt; ve &lt;a href="https://github.com/features/actions"&gt;GitHub Action&lt;/a&gt;’a da bağlamam
+gerekti. Keza &lt;a href="https://github.com/rubocop/rubocop"&gt;rubocop&lt;/a&gt;’u da. Dolayısıyla kendimi iyi kötü bildiğimi
+düşündüğüm ama çok eksiğim olduğunu farkettiğim GitHub Action’ları bir tur
+daha pekiştirirken buldum.&lt;/p&gt;
 
-&lt;p&gt;Çok kullandığım &lt;code&gt;bumpversion&lt;/code&gt; artık expire olduğu için yenisine geçeyim dedim;
-&lt;code&gt;bump-my-version&lt;/code&gt;. Bir sürü şeyi öğrenmek, anlamak ve düzletme yapmam gerekti.&lt;/p&gt;
+&lt;p&gt;Çok kullandığım &lt;a href="https://github.com/peritus/bumpversion"&gt;bumpversion&lt;/a&gt; artık geliştirilmediği için
+yenisine geçeyim dedim; &lt;a href="https://callowayproject.github.io/bump-my-version/"&gt;bump-my-version&lt;/a&gt;. Bir sürü şeyi 
+öğrenmek, anlamak ve düzletme yapmam gerekti.&lt;/p&gt;
 
-&lt;p&gt;GitHub Action’lar da hızla güncelleniyor, tekrar depandabot entegrasyonu, action’ların
-güncel halleri, depricated olan direktiflerin düzeltilmesi vs derken yeni
-bilgilerle öğrenmeye devam ettim.&lt;/p&gt;
+&lt;p&gt;GitHub Action’lar da hızla güncelleniyor, tekrar &lt;a href="https://github.com/dependabot"&gt;depandabot&lt;/a&gt;
+entegrasyonu, action’ların güncel halleri, depricated olan direktiflerin 
+düzeltilmesi vs derken yeni bilgilerle öğrenmeye devam ettim.&lt;/p&gt;
 
 &lt;p&gt;Yine &lt;a href="https://dreamsofcode.io/mentoring"&gt;Elliott&lt;/a&gt;’ın başka bir &lt;a href="https://www.youtube.com/watch?v=F-9KWQByeU0"&gt;videosu&lt;/a&gt; beni acayip gaza getirdi
-ve bildiğimi sandığım &lt;strong&gt;Docker&lt;/strong&gt;’da yeni level’lar açıldı. Neler mi geldi?
-Docker Swarm node, sanal makineye cluster kurdum, kendi çapımda bir AWS, GCP
-ultra minimal versiyonunu kurdum. &lt;strong&gt;Traefik&lt;/strong&gt; proxy/load balancer, &lt;strong&gt;Docker
-Networking&lt;/strong&gt;, &lt;strong&gt;Docker Secrets&lt;/strong&gt;, Secure container images, &lt;strong&gt;Docker Stack&lt;/strong&gt;
-gibi gibi bir sürü şeyi öğrendim ve production ortamı oluşturdum. Portainer
-diye harika bir orkestrasyon aracı ile tanıştım, hastası oldum.&lt;/p&gt;
+ve bildiğimi sandığım &lt;a href="https://www.docker.com/"&gt;Docker&lt;/a&gt;’da yeni level’lar açıldı. Neler mi
+geldi? &lt;a href="https://docs.docker.com/engine/swarm/"&gt;Docker Swarm&lt;/a&gt;, sanal makineye cluster kurdum, kendi
+çapımda bir AWS, GCP ultra minimal versiyonunu kurdum. &lt;a href="https://traefik.io/"&gt;Traefik&lt;/a&gt; 
+proxy/load balancer, &lt;a href="https://docs.docker.com/reference/cli/docker/network/"&gt;Docker Networking&lt;/a&gt;, 
+&lt;a href="https://docs.docker.com/reference/cli/docker/secret/"&gt;Docker Secrets&lt;/a&gt;, secure container images,
+&lt;a href="https://docs.docker.com/reference/cli/docker/stack/"&gt;Docker Stack&lt;/a&gt; gibi gibi bir sürü şeyi öğrendim ve 
+production ortamı oluşturdum. &lt;a href="https://www.portainer.io/"&gt;Portainer&lt;/a&gt; diye harika bir 
+orkestrasyon aracı ile tanıştım, hastası oldum.&lt;/p&gt;
 
-&lt;p&gt;Her şeyi minimum giderle yapmak için, GitHub’ın container registry’sini
+&lt;p&gt;Her şeyi minimum giderle yapmak için, GitHub’ın &lt;a href="https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry"&gt;container registry&lt;/a&gt;’sini
 (&lt;em&gt;GHCR&lt;/em&gt;) daha iyi kullanmayı öğrendim.&lt;/p&gt;
 
 &lt;p&gt;İmkanlar kısıtlı olunca kaynağı da doğru ve efektif kullanabilmek için hesap
-kitap yapmam da gerekti. Hangi servis, ne kadar memory, cpu tüketmeli, kaç
-replica ile işi çözerim, zero-down-time deployment’ı nasıl çözerim, custom
-servislerin metrikleri &lt;strong&gt;Grafana&lt;/strong&gt;’ya nasıl akıtırım gibi gibi bir sürü branşım
-dışı şeyi de kurcalaya kurcalaya öğrendim.&lt;/p&gt;
+kitap yapmam da gerekti. Hangi servis, ne kadar &lt;strong&gt;memory&lt;/strong&gt;, &lt;strong&gt;cpu&lt;/strong&gt; tüketmeli,
+kaç &lt;strong&gt;replica&lt;/strong&gt; ile işi çözerim, zero-down-time deployment’ı nasıl çözerim,
+custom servislerin metrikleri &lt;a href="https://grafana.com/"&gt;Grafana&lt;/a&gt;’ya nasıl akıtırım gibi gibi
+bir sürü branşım dışı şeyi de kurcalaya kurcalaya öğrendim.&lt;/p&gt;
 
-&lt;p&gt;Eski çalıştığım işlerde genelde devops konularını birileri çözerdi ve ben
+&lt;p&gt;Eski çalıştığım işlerde genelde &lt;strong&gt;devops&lt;/strong&gt; konularını birileri çözerdi ve ben
 sadece tüketici olarak dashboard’lara bakar takip ederdim, şimdi hepsini
 kendim yapmak durumunda kalınca mecburen bunları da öğrenmek zorunda kaldım.&lt;/p&gt;
 
 &lt;p&gt;İş başa düşünce mecburen öğrenmek gerekiyor, zevkli de oluyor, kendi adıma
-acayip keyif aldım. Custom bir alert yapıp bunu Slack’e göndertmek bu kadar
-zor olmamalı, korkunç bir kullanıcı deneyimi olan &lt;strong&gt;Grafana&lt;/strong&gt; işini süper
-yapmasa gerçekten kullanması çok zor :) Belkide benim beceriksizliğim de
-olabilir ama sonuç olarak eliniz ayağınız oluyor Grafana!&lt;/p&gt;
+acayip keyif aldım. &lt;a href="https://prometheus.io/"&gt;Prometheus&lt;/a&gt; entegrasyonu, özel bir alarm
+yapıp bunu &lt;a href="https://slack.com/"&gt;Slack&lt;/a&gt;’e göndertmek bu kadar zor olmamalı, korkunç bir kullanıcı
+deneyimi olan Grafana işini süper yapmasa gerçekten kullanması çok zor :)
+Belkide benim beceriksizliğim de olabilir ama sonuç olarak eliniz ayağınız
+oluyor Grafana!&lt;/p&gt;
 
 &lt;p&gt;Hazırladığım eğitimler bildiklerime cila çekmeyi de sağlıyor, hem unuttuklarımı
 hatırlıyorum hem de yeni şeyler ekliyorum. Bu doğrultuda, hazırladığım Docker
-eğitimi için basit bir endpoint’ı olan http servisini her platformda yazıp
+eğitimi için basit bir endpoint’i olan http servisini her platformda yazıp
 dockerize ettim;&lt;/p&gt;
 
 &lt;ul&gt;
@@ -168,17 +175,17 @@ kadar az.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;&lt;/table&gt;
 
-&lt;p&gt;İnanılmaz düşük memory tüketimiyle &lt;code&gt;C&lt;/code&gt; açık ara &lt;strong&gt;ezdi&lt;/strong&gt; geçti. En düşük container
+&lt;p&gt;İnanılmaz düşük &lt;strong&gt;memory&lt;/strong&gt; tüketimiyle &lt;code&gt;C&lt;/code&gt; açık ara &lt;strong&gt;ezdi&lt;/strong&gt; geçti. En düşük container
 image size olarak &lt;code&gt;Go&lt;/code&gt; affetmedi. Hepsi multi-stage build, kendi bilgilerim
 dahilinde olabilecek en küçük image’lar&amp;hellip;&lt;/p&gt;
 
-&lt;p&gt;macOS kullanıyorum, bu bakımdan Docker’la ilişkim çok arttığı için &lt;strong&gt;Orbstack&lt;/strong&gt;’i
+&lt;p&gt;&lt;strong&gt;macOS&lt;/strong&gt; kullanıyorum, bu bakımdan Docker’la ilişkim çok arttığı için &lt;a href="https://orbstack.dev/"&gt;Orbstack&lt;/a&gt;’i
 de derinlemesine kullanmayı öğrendim.&lt;/p&gt;
 
 &lt;p&gt;Bu yıl, http katmanıyla çok ilgilendim, dolayısıyla yeni şeyler de öğrendim.
 Sene başında ilk commit’i yaptığım, geçtiğimiz günler cila çekip refactor
 ettiğim basit bir http request debugger’la uğraşırken yine &lt;strong&gt;RAW HTTP&lt;/strong&gt;, isteklerin
-replike edilmesi gibi konularla uğraşıp basit bir &lt;a href="https://github.com/vbyazilim/basichttpdebugger"&gt;tool&lt;/a&gt; yaptım.&lt;/p&gt;
+replike edilmesi gibi konularla uğraşıp basit bir &lt;a href="https://github.com/vbyazilim/basichttpdebugger"&gt;araç&lt;/a&gt; yaptım.&lt;/p&gt;
 
 &lt;p&gt;HTTP Request ile uğraşınca, &lt;code&gt;Accept&lt;/code&gt; header’ının da derinlerine indim, lazım
 olur diye hem öğrendim hem de mimik bir &lt;a href="https://github.com/vigo/accept"&gt;go kütüphanesi&lt;/a&gt; yaptım.&lt;/p&gt;
@@ -192,33 +199,34 @@ olarak, her developer’ın ihtiyacı bir tool olarak dağıtacağım.&lt;/p&gt;
 REVERSE PINNING&lt;/strong&gt; konularına girdim, dolayısıyla sertifika türleri, üretimi,
 verify etmek vs gibi konularda bu yıl boğuştuğum şeyler arasındaydı.&lt;/p&gt;
 
-&lt;p&gt;Mobil uygulama geliştiricilerinin çok sevdiğini düşündüğüm &lt;strong&gt;Supabase&lt;/strong&gt;’i de bu
-yıl kurcalamak ve öğrenmek durumunda kaldım. Gerçekten bir çok problemi
-ücretsiz olarak çözmeyi sağlıyor.&lt;/p&gt;
+&lt;p&gt;Mobil uygulama geliştiricilerinin çok sevdiğini düşündüğüm
+&lt;a href="https://supabase.com/"&gt;Supabase&lt;/a&gt;’i de bu yıl kurcalamak ve öğrenmek durumunda kaldım.
+Gerçekten bir çok problemi ücretsiz olarak çözmeyi sağlıyor.&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;Vercel&lt;/strong&gt; hep bildiğim bir platform ama hiç kullanmamıştım, denemek için basit
-python app’leri deploy ettim, eskiden bu tür işlerde Heroku kullanırdım,
-Vercel iyi bir alternatif oldu.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://vercel.com/"&gt;Vercel&lt;/a&gt; hep bildiğim bir platform ama hiç kullanmamıştım, denemek
+için basit bir python app’i deploy ettim, eskiden bu tür işlerde &lt;a href="https://www.heroku.com/"&gt;Heroku&lt;/a&gt;
+kullanırdım, Vercel iyi bir alternatif oldu.&lt;/p&gt;
 
 &lt;p&gt;Webhook’larla uğraşırken tesadüfen &lt;a href="https://requestcatcher.com"&gt;requestcatcher.com&lt;/a&gt;
 diye bir ücretsiz servise denk geldim, çok işime yaradı.&lt;/p&gt;
 
 &lt;p&gt;En çok işime yarayan yeni öğrendiğim, daha doğrusu biliyordum ama kullanmamıştım,
-artık elim ayağım oldu, &lt;a href="https://direnv.net/"&gt;direnv&lt;/a&gt;. Environment Variable’lar la uğraşanların
+artık elim ayağım oldu, &lt;a href="https://direnv.net/"&gt;direnv&lt;/a&gt;. Environment Variable’larla uğraşanların
 çok işine yarar diye düşünüyorum.&lt;/p&gt;
 
-&lt;p&gt;GitHub’da hızlıca repo oluşturmak için minik bir &lt;a href="https://github.com/vigo/git-init-githubrepo"&gt;tool&lt;/a&gt; yaptım, Go’nun
-yeni &lt;code&gt;embed&lt;/code&gt; özelliklerini de bu sayede öğrendim.&lt;/p&gt;
+&lt;p&gt;GitHub’da hızlıca repo oluşturmak için minik bir &lt;a href="https://github.com/vigo/git-init-githubrepo"&gt;tool&lt;/a&gt; 
+yaptım, Go’nun yeni &lt;code&gt;embed&lt;/code&gt; özelliklerini de bu sayede öğrendim.&lt;/p&gt;
 
 &lt;p&gt;Bu sene kitap açısından da (&lt;em&gt;fiziksel kitap, ebook değil&lt;/em&gt;) verimli geçti; şu
 kitaplara başladım:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Clean Code&lt;/strong&gt;: Benim dünyamla pek örtüşmese de genel kültür açısından okuyorum.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Test Driven Development With Python&lt;/strong&gt;: Bu sene original kitabına sahip oldum, harika bir kitap. &lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;System Design Interviews I &amp;amp; II&lt;/strong&gt;: Ufuk açıcı, harika şeyler var.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Efective Go Recepies&lt;/strong&gt;: Fena değil ama beklentimin altında çıktı.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;100 Go Mistakes&lt;/strong&gt;: Efsane bir kitap, başucu kitabı, şiddetle tavsiye ediyorum.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.amazon.com.tr/dp/0132350882"&gt;Clean Code&lt;/a&gt;: Benim dünyamla pek örtüşmese de genel kültür açısından okuyorum.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.amazon.co.uk/Test-Driven-Development-Python-Harry-Percival/dp/1491958707"&gt;Test Driven Development With Python&lt;/a&gt;: Bu sene original kitabına sahip oldum, harika bir kitap. &lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.amazon.co.uk/dp/B08CMF2CQF"&gt;System Design Interviews I&lt;/a&gt;: Ufuk açıcı, harika şeyler var.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.amazon.co.uk/dp/1736049119"&gt;System Design Interviews II&lt;/a&gt;: Serinin ikinci kitabı.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.amazon.com.tr/dp/1680508466"&gt;Efective Go Recepies&lt;/a&gt;: Fena değil ama beklentimin altında çıktı.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.amazon.com.tr/dp/1617299596"&gt;100 Go Mistakes&lt;/a&gt;: Efsane bir kitap, başucu kitabı, şiddetle tavsiye ediyorum.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Dedim ya, asıl stack’im &lt;strong&gt;Go&lt;/strong&gt;. Bir kısım yanlışlarımı da bu yıl öğrendim. Hatta biraz
@@ -240,27 +248,15 @@ geçecek!&lt;/p&gt;
 
 &lt;h3&gt;Linkler&lt;/h3&gt;
 
-&lt;p&gt;Yazıda bahsi geçen konuların linkleri aşağıda:&lt;/p&gt;
+&lt;p&gt;Yazıda bahsi geçen kendi geliştirdiğim projelerin linkleri aşağıda:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="https://swagger.io/docs/specification/v2_0/basic-structure/"&gt;Open API Spec 2.0&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://tailwindcss.com/docs/installation"&gt;Tailwind CSS&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://github.com/rubocop/rubocop"&gt;Rubocop&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://docs.docker.com/engine/swarm/"&gt;Docker Swarm&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://traefik.io/"&gt;Traefik&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://www.portainer.io/"&gt;Portainer&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://prometheus.io/"&gt;Prometheus&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://grafana.com/"&gt;Grafana&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://orbstack.dev/"&gt;Orbstack&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://github.com/vbyazilim/basichttpdebugger"&gt;Basic HTTP Debugger&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://github.com/bilusteknoloji/reverse-ssl-pinning-demo"&gt;Reserve SSL Pinning Demo&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://github.com/vigo/accept"&gt;accept&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://supabase.com/"&gt;Supabase&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://direnv.net/"&gt;direnv&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://github.com/vigo/django-admin-list-filter"&gt;Django Admin List Filter&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://callowayproject.github.io/bump-my-version/"&gt;Bump My Version&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://github.com/vigo/textmate2-tailwind-css"&gt;TextMate2 Tailwind CSS&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://github.com/vigo/git-init-githubrepo"&gt;GitHub Friendly Repo Creator/Initializer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/vigo/textmate2-tailwind-css"&gt;TextMate2 Tailwind CSS&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://github.com/vigo/textmate2-python-fmt"&gt;TextMate2 Python Linter&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://github.com/vigo/textmate2-ruff-linter"&gt;TextMate2 Ruff Linter&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
