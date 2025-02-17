@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-0.1.8-orange.svg)
+![Version](https://img.shields.io/badge/version-0.1.9-orange.svg)
 [![pages-build-deployment](https://github.com/vigo/ugur.ozyilmazel.com/actions/workflows/pages/pages-build-deployment/badge.svg?branch=gh-pages)](https://github.com/vigo/ugur.ozyilmazel.com/actions/workflows/pages/pages-build-deployment)
 
 # ugur.ozyilmazel.com - V6
