@@ -36,11 +36,27 @@
                 $.each(non_forks, function(index, repo){
                     if(index < 10){
                         let t = moment(repo.pushed_at);
+                        
+                        htmlData.push('<li class="gh-repo-info">');
+                        htmlData.push(`<a target="_blank" href="${repo.html_url}">${repo.full_name}</a>`);
+                        htmlData.push(`<time pubdate datetime="${repo.pushed_at}">${t.fromNow()}</time>`);
 
-                        htmlData.push('<li>');
-                        htmlData.push('<a href="' + repo.html_url + '">' + repo.full_name + '</a>');
-                        htmlData.push('<time pubdate datetime="' + repo.pushed_at + '">' + t.fromNow() + '</time>');
-                        htmlData.push('<p class="mt-2">[ ★ ' + String(repo.stargazers_count).padStart(3, '0') + ' ]</span> <span class="repo-desc">' + repo.description + '</p>');
+                        htmlData.push('<div class="mt-2 mb-1">');
+                        htmlData.push(`[ ★ <a title="${repo.html_url}/stargazers" target="_blank" href="${repo.html_url}/stargazers">${String(repo.stargazers_count).padStart(3, '0')}</a> ]`);
+
+                        if (repo.license !== null) {
+                            htmlData.push(`&nbsp;[ &copy; ${repo.license.name} ]`);
+                        }
+                        if (repo.open_issues_count > 0) {
+                            htmlData.push(`&nbsp;( <a target="_blank" title="${repo.html_url}/issues" href="${repo.html_url}/issues">${repo.open_issues_count}</a> )`);
+                        }
+
+                        if (repo.topics && repo.topics.length > 0) {
+                            htmlData.push(`<div><small>${repo.topics.join(" , ")}</small></div>`)
+                        }
+
+                        htmlData.push('</div>');
+                        htmlData.push(`<p>${repo.description}</p>`);
                         htmlData.push('</li>');
                     }
                 });
@@ -82,7 +98,7 @@
             });
         </script>
 
-        <meta name="date" content="2025-02-17T19:08:07+03:00" />
+        <meta name="date" content="2025-02-20T23:47:38+03:00" />
         <meta name="description" content="" />
         <meta name="author" content="Uğur “vigo” Özyılmazel"/>
         <meta name="copyright" content="(c) 2006 / 2025 - Uğur “vigo” Özyılmazel" />
@@ -391,7 +407,12 @@ document.write("</p>");
     <p>There are “6” posts in blog archive.</p>
 <p><a href="/blog/en/year/2024/" class="">2024 has 1 post</a></p><p><a href="/blog/en/year/2022/" class="">2022 has 3 posts</a></p><p><a href="/blog/en/year/2019/" class="">2019 has 1 post</a></p><p><a href="/blog/en/year/2016/" class="">2016 has 1 post</a></p></div>
                     
-                    <div class="github-repos blog-post-list content">
+                    <style>
+    .gh-repo-info:hover {
+        background-color: #fafafa;
+    }
+</style>
+<div class="github-repos blog-post-list content">
     <h3>Latest GitHub Repos</h3>
     <div id="github-latests">Loading...</div>
 </div>

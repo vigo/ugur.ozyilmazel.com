@@ -1,0 +1,436 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>`direnv` nedir? Ne işe yarar? - Uğur “vigo” Özyılmazel</title>
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (Türkçe)" href="/feed-tr.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (English)" href="/feed-en.xml" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <script src="https://kit.fontawesome.com/ebc2456445.js" crossorigin="anonymous"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+        <link href="/public/css/syntax.css" rel="stylesheet" />
+        <link href="/public/css/application.css" rel="stylesheet" />
+    
+
+        <script src="/public/js/application.js"></script>
+    
+        <meta name="date" content="2025-02-20T23:47:38+03:00" />
+        <meta name="description" content="Projelerinizde environment variable’ları otomatik olarak yüklemek ve kullanmak için go ile ile geliştirilmiş harika bir shell extention’ından bahsetmek istiyorum." />
+        <meta name="author" content="Uğur “vigo” Özyılmazel"/>
+        <meta name="copyright" content="(c) 2006 / 2025 - Uğur “vigo” Özyılmazel" />
+        <meta property="og:url" content="https://ugur.ozyilmazel.com/blog/tr/2025/02/20/direnv-nedir-ne-ise-yarar/" />
+        <meta property="og:title" content="`direnv` nedir? Ne işe yarar?" />
+        <meta property="og:site_name" content="vigo" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="Projelerinizde environment variable’ları otomatik olarak yüklemek ve kullanmak için go ile ile geliştirilmiş harika bir shell extention’ından bahsetmek istiyorum." />
+        <meta property="og:image" content="https://ugur.ozyilmazel.com/public/images/og/ugur-vigo-ozyilmazel-500x500.jpg" />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:width" content="500" />
+        <meta property="og:image:height" content="500" />
+
+    <link href="/public/images/favicon.png" rel="shortcut icon" type="image/png" />
+    </head>
+<body>
+    
+    
+    <section class="section menu">
+    <div class="container">
+        <nav class="level is-mobile">
+            <div class="level-left">
+<div class="level-item"><a href="/">Anasayfa</a></div><div class="level-item"><a href="/blog/tr/" class="is-active">Blog Arşiv</a></div><div class="level-item"><a href="/sayfa/tr/sunumlar/">Sunumlar</a></div>            </div>
+            <div class="level-right">
+<div class="level-item"><a href="https://vbyazilim.com" target="_blank">VB</a></div><div class="level-item"><a href="/en/">EN</a></div>            </div>
+        </nav>
+    </div>
+</section>
+
+    
+        <section class="hero is-medium cover is-hidden-touch" style="background-image: url(/public/images/covers/2025-02-20-direnv-screen.png);">
+        <div class="hero-body">
+            <div class="container has-text-left">
+                
+                
+            </div>
+        </div>
+    </section>
+  
+    
+        <section class="section main">
+        <div class="container">
+        
+            <div class="columns is-multiline is-variable is-8">
+                <div class="column is-9-desktop is-full-tablet">
+                    <div class="content is-large">
+                        <article>
+                            <div class="meta">
+                                <span class="reading-time">OKUMA SÜRESİ 04:51</span>
+                                &mdash;
+                                <time pubdate datetime="2025-02-20T22:06:00+03:00" title="20 Şubat 2025, Perşembe 22:06">20 Şubat 2025, Perşembe 22:06</time>
+
+
+                                <div class="tags mt-3">
+                                        <a href="/blog/tr/etiket/bash/" class="tag is-info">bash</a>
+                                </div>
+                                
+                            </div>
+                            
+                            <h1 class="title">`direnv` nedir? Ne işe yarar?</h1>
+                                <h2 class="subtitle is-size-4-desktop">
+                                    Environment Variable Yöneticisi
+                                </h2>
+                            
+                            <div class="yield"><p>Projelerinizde environment variable’ları otomatik olarak yüklemek ve kullanmak
+için <code>go</code> ile ile geliştirilmiş harika bir shell extention’ından bahsetmek
+istiyorum. </p>
+
+<p>Geliştirme yaparken çok sık environment variable’ları kullanırız. Kimi zaman
+secret’ları (<em>api token, aws credentials gibi</em>) kimi zaman dinamik parametre
+amaçlı hep shell environment variable’larına ihtiyacımız olur.</p>
+
+<p>Tüm yazılım dillerinin, environment variable’ları otomatik olarak
+yükleyebileceği bir kütüphanesi ya da paketi bulunur. Python dünyasında 
+<a href="https://github.com/theskumar/python-dotenv">python-dotenv</a>, Ruby dünyasında <a href="https://github.com/bkeepers/dotenv">dotenv</a>, Go dünyasında <a href="https://github.com/joho/godotenv">GoDotEnv</a> 
+gibi popüler paketler sıklıkla kullanılanlar arasındadır ve çok sayıda da 
+alternatifleri bulunur.</p>
+
+<p>Genelde bu paketler kodun içine monte edilir. Bu kütüphaneler çoğunlukla proje
+dizininin altında <code>.env</code> dosyalarını ararlar ve bulurlarsa otomatik olarak olarak 
+bu dosyayı okurlar, parse ederler ve değişkenlerin atamasını yaparlar. Günün 
+sonunda bu <code>.env</code>  dosyası bir <strong>text</strong> dosyasıdır ve bu kütüphaneler <code>key=value</code> 
+yaklaşımıyla ilgili değişkene okuduğu değeri atarlar.</p>
+
+<p>Gerçek bir <code>shell</code> ya da <code>bash</code> environment yoktur aslında. Yani kendi shell
+environment’ınızda bir bash dosyasını <code>source</code> etmek gibi değildir. Örneğin
+sizin <code>~/.profile</code> dosyanızda:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">source </span>variables.bash
+</code></pre></div>
+<p>gibi bir deklarasyon yapsanız, shell’iniz ayağa kalkarken, bu dosyada yazan 
+her şeyi okur ve <strong>execute</strong> eder. Sizin bu environment variable’ları için
+yüklediğiniz (<em>source</em>) dosya aslında <strong>öz-be-öz</strong> shell script’lerinin de 
+çalışabileceği bir <strong>source code</strong> dosyasıdır.</p>
+
+<p>Ama <code>.env</code> dosyalarını kullanan environment loader paketleri için durum böyle
+değildir. Genelde doğru yazılmış environment variable ataması</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">export </span><span class="nv">VARIABLE_NAME</span><span class="o">=</span><span class="s2">"VALUE"</span>
+</code></pre></div>
+<p>şeklinde olmalıdır. Genelde dotenv paketlerinde <code>export</code> kullanılmaz çünkü
+bu dosya shell execution için değildir. Bu bakımdan da sıkıntı şudur, eğer
+size projeniz içinde farklı farklı dillerle bir şeyler yapıyorsanız ve
+ortak environment variable’ları kullanıyorsanız işler biraz karışır.</p>
+
+<p>Örneğin ben sıklıkla projelerimda <code>Rakefile</code> kullanıyorum, otomasyon için.
+Dolayısıyla hem <code>ruby</code> hem de <code>go</code>’da aynı environment variable’ları kullanmak
+durumunda kalıyorum. <code>Rakefile</code> için ayrı paket, <code>go</code> için ayrı paket
+kullanmak gibi can sıkıcı, duplike bir durum oluşuyor.</p>
+
+<p>Şu da bir çözümdür, eğer bahsi geçen değişkenler, sizin bilgisayarınızdaki
+tüm projelerde de kullanılıyorsa gidip bu değerleri <code>~/.profile</code> ya da <code>~/.bashrc</code>
+gibi global shell sisteminize ekleyebilirsiniz ama bence bu kötü bir yöntem. Her
+proje kendine has değişkenler ve değerler kullanabilir, boşu boşuna shell
+ortamınızı şişirmeye gerek yok.</p>
+
+<p>Peki çözüm ne?</p>
+
+<h2><code>direnv</code></h2>
+
+<p><a href="https://direnv.net/">direnv</a> dizinlerin altında <code>.envrc</code> dosyasına bakar ve otomatik olarak bu
+dosyada yazanları <code>source</code> eder. Projenize hiç bir ek paket kurmanıza da gerek
+kalmaz. Neredeyse tüm işletim sistemleri için paketi bulunur. Ben macOS kullandığım
+için:</p>
+<div class="highlight"><pre class="highlight shell"><code>brew <span class="nb">install </span>direnv
+</code></pre></div>
+<p>yapmam yeterli. Kurulum sonrasında tek yapmam gereken <code>bash</code> environment’ıma
+eklemek;</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">eval</span> <span class="s2">"</span><span class="si">$(</span>direnv hook bash<span class="si">)</span><span class="s2">"</span>
+</code></pre></div>
+<p>Sadece bash ile değil, <code>zsh</code>, <code>fish</code>, <code>tcsh</code>, <code>elvish</code>, <code>nushell</code>, <code>powershell</code>
+gibi neredeyse tüm shell’lere desteği mevcut. İşin güzel yanı, <code>.envrc</code> bildiğimiz
+shell scripti. Yani bu dosya <code>source .envrc</code> şeklinde de kullanılabilecek
+şekilde bir dosya. Script derken, bu dosya içinde <code>alias</code> ya da <code>function</code> tanımı
+yapamazsınız! <u>Sadece environment variable deklarasyonu</u> için kullanabilirsiniz.</p>
+
+<p>Kurulum yaptıktan sonra, ilgili proje dizininize gidip <code>.envrc</code> dosyasını
+oluşturmanız yeterli. Ne zaman o dizine <code>cd</code> yaparsanız, <code>direnv</code> otomatik olarak
+environment variable’ları yükler. Dizinden çıkınca da <strong>unload</strong> eder yani
+<strong>directory</strong> seviyesinde çalışan environment variable’larınız var artık!</p>
+
+<p>İşin güzel yanı, alt dizinlere de etki ediyor. Şimdi bir demo yapalım;</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">cd</span> /tmp/
+<span class="nb">mkdir </span>demo
+<span class="nb">cd </span>demo/
+<span class="nb">touch</span> .envrc
+</code></pre></div>
+<p><code>touch</code> dediğimiz anda bir hata mesajı alırız:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>direnv: error /private/tmp/demo/.envrc is blocked. Run `direnv allow` to approve its content
+</code></pre></div>
+<p>çünkü <code>.envrc</code>’nin otomatik yüklenmesi için izin vermemiz gerekir:</p>
+<div class="highlight"><pre class="highlight shell"><code>direnv allow
+direnv: loading /private/tmp/demo/.envrc
+</code></pre></div>
+<p>Şimdi bir değişken tanımlayalım: <code>nano .envrc</code></p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">export </span><span class="nv">DEMO</span><span class="o">=</span><span class="s2">"amiga"</span>
+</code></pre></div>
+<p>Yine hata mesajı aldık:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>direnv: error /private/tmp/demo/.envrc is blocked. Run `direnv allow` to approve its content
+</code></pre></div>
+<p>Çünkü direnv korumalı çalışır, yani dosya değiştiği zaman mutlaka <code>direnv allow</code>
+dememiz gerekir:</p>
+<div class="highlight"><pre class="highlight shell"><code>direnv allow
+direnv: loading /private/tmp/demo/.envrc
+direnv: <span class="nb">export</span> +DEMO
+</code></pre></div>
+<p><code>+DEMO</code> yani <code>DEMO</code> adında bir değişkeni otomatik yükledim der bize. Şimdi bir
+üst dizine geçelim:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">cd</span> /tmp/
+direnv: unloading   <span class="c"># &lt;- artık DEMO diye bir değişken yok!</span>
+
+<span class="nb">echo</span> <span class="s2">"</span><span class="k">${</span><span class="nv">DEMO</span><span class="k">}</span><span class="s2">"</span>
+
+<span class="c"># boş...</span>
+</code></pre></div>
+<p>Tekrar içeri girelim:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">cd</span> /tmp/demo/
+direnv: loading /private/tmp/demo/.envrc
+direnv: <span class="nb">export</span> +DEMO
+
+<span class="nb">echo</span> <span class="s2">"</span><span class="k">${</span><span class="nv">DEMO</span><span class="k">}</span><span class="s2">"</span>
+amiga
+
+<span class="nb">mkdir</span> <span class="nt">-p</span> sub1/sub2
+<span class="nv">$ </span>tree <span class="nb">.</span> <span class="nt">-al</span>
+<span class="nb">.</span>
+├── .envrc
+└── sub1
+    └── sub2
+
+<span class="nb">cd </span>sub1/sub2/
+
+</code></pre></div>
+<p>Şimdi <code>sub1/sub2</code> altında <code>nano test.bash</code> bir script oluşturalım:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="c">#!/usr/bin/env bash</span>
+
+<span class="nb">set</span> <span class="nt">-e</span>
+<span class="nb">set</span> <span class="nt">-o</span> pipefail
+<span class="nb">set</span> <span class="nt">-o</span> errexit
+<span class="nb">set</span> <span class="nt">-o</span> nounset
+
+<span class="nb">echo</span> <span class="s2">"DEMO? </span><span class="k">${</span><span class="nv">DEMO</span><span class="k">}</span><span class="s2">"</span>
+</code></pre></div>
+<p>Çalıştıralım:</p>
+<div class="highlight"><pre class="highlight shell"><code>bash test.bash 
+DEMO? amiga
+</code></pre></div>
+<p>Şimdi aynı yerde başka bir <code>.envrc</code> dosyası yapalım ve <code>DEMO</code> değişkenini
+ezelim: <code>nano .envrc</code></p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">export </span><span class="nv">DEMO</span><span class="o">=</span><span class="s2">"commodore"</span>
+</code></pre></div>
+<p>Yine uyarı aldık:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>direnv: error /private/tmp/demo/sub1/sub2/.envrc is blocked. Run `direnv allow` to approve its content
+</code></pre></div><div class="highlight"><pre class="highlight shell"><code>direnv allow
+direnv: loading /private/tmp/demo/sub1/sub2/.envrc
+direnv: <span class="nb">export</span> +DEMO
+</code></pre></div>
+<p>Şimdi bakalım:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">echo</span> <span class="s2">"</span><span class="k">${</span><span class="nv">DEMO</span><span class="k">}</span><span class="s2">"</span>
+commodore
+
+<span class="nb">cd</span> ../
+direnv: loading /private/tmp/demo/.envrc <span class="c"># &lt;- hemen bir üstteki</span>
+direnv: <span class="nb">export</span> +DEMO                     <span class="c">#    .envrc devreye girdi.</span>
+
+<span class="nb">echo</span> <span class="s2">"</span><span class="k">${</span><span class="nv">DEMO</span><span class="k">}</span><span class="s2">"</span>
+amiga        <span class="c"># &lt;- eski değer</span>
+</code></pre></div>
+<p>Mesela <code>.envrc</code>’yi kendi <code>${HOME}/.envrc</code> şeklinde yapıp, en dipteki
+dizine kadar etki edebilirsiniz. Eğer her seferince <code>direnv allow</code> ile
+uğraşmak istemiyorsanız, <strong>whitelist</strong>’e ekleyebilirsiniz. Önce konfigürasyon
+dosyası oluşturmak lazım. Genelde <code>*nix</code> ortamlarında <code>${XDG_CONFIG_HOME}</code>
+dizini altında bu işler olur. Ben macOS’da olduğum için;</p>
+<div class="highlight"><pre class="highlight plaintext"><code>~/.config/direnv/direnv.toml
+</code></pre></div>
+<p>dosyasını kullananlardanım. Eğer <code>~/.config</code> diye bir dizininiz yoksa elle
+oluşturabilirsiniz:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">mkdir</span> ~/.config         <span class="c"># eğer yoksa</span>
+<span class="nb">mkdir</span> ~/.config/direnv
+<span class="nb">touch</span> ~/.config/direnv/direnv.toml
+</code></pre></div>
+<p>Örnek <code>.toml</code>:</p>
+<div class="highlight"><pre class="highlight toml"><code><span class="nn">[whitelist]</span>
+<span class="py">prefix</span> <span class="p">=</span> <span class="p">[</span> <span class="s">"/Users/vigo/Repos/Development"</span> <span class="p">]</span>
+</code></pre></div>
+<p>Bu şu anlama geliyor, <code>/Users/vigo/Repos/Development</code> dizini altında gördüğün
+tüm <code>.envrc</code> dosyalarını hiç sormadan otomatik <code>allow</code> et. Konfigürasyonda
+farklı seçenekler de var, detayları buradan <a href="https://direnv.net/man/direnv.toml.1.html">görebilirsiniz</a>.</p>
+
+<p>Konu sadece bununla da bitmiyor, kendiniz custom extension’lar da
+yazabiliyorsunuz, hatta <code>direnv</code> size programatik işler yapmak için eksta
+<code>api</code> da sunuyor.</p>
+
+<p>Şunu unutmayın, bilgisayarınızda sembolik linkler varsa, konfig dosyasına
+gerçek path’i yazmanız lazım. Örneğin benim <code>~/Development</code> bir sembolik
+link, gerçek path’i ilk başta yazmadığım için 2-3 saat uğraştım whitelist için;
+sonra;</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">realpath</span> ~/Development
+/Users/vigo/Repos/Development  <span class="c"># gerçek path bu!</span>
+</code></pre></div>
+<p>yaptım ve sorunu çözdüm.</p>
+</div>
+                        </article>
+                        
+                            <nav class="mt-6 pagination is-centered" role="navigation" aria-label="pagination">
+                                <a href="/blog/tr/2024/12/29/2024-te-ogrendigim-yeni-seyler/" class="pagination-previous has-text-link">&laquo; 2024’te Öğrendiğim Yeni Şeyler</a>
+                                
+                            </nav>
+                    </div>
+                </div>
+                <div class="column is-3-desktop is-full-tablet">
+                    <div class="content">
+                            <div class="blog-post-list sidebar">
+        <h1>Benzer Makaleler</h1>
+        <p>Konu ile ilgili toplam “4” adet benzer makale bulunuyor.</p>
+        <ul>
+            <li>
+                <a href="/blog/tr/2024/05/16/ruby-1-dot-8-7-bash-ve-textmate/">Ruby 1.8.7, Bash ve TextMate</a>
+                <time pubdate datetime="2024-05-16T22:30:00+03:00">
+                    16 Mayıs 2024, Perşembe
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2021/08/28/json-isleme-araci-jq/">JSON İşleme Aracı: jq</a>
+                <time pubdate datetime="2021-08-28T11:38:00+03:00">
+                    28 Ağustos 2021, Cumartesi
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2013/02/20/bash-completion-anotomisi/">Bash Completion Anotomisi</a>
+                <time pubdate datetime="2013-02-20T23:37:00+02:00">
+                    20 Şubat 2013, Çarşamba
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2009/07/26/bash-completion-olayi/">Bash Completion olayı!</a>
+                <time pubdate datetime="2009-07-26T15:12:00+03:00">
+                    26 Temmuz 2009, Pazar
+                </time>
+            </li>
+        </ul>
+    </div>
+    
+
+                        
+                        <div class="blog-post-list sidebar">
+    <h1>Yıllara Göre</h1>
+    <p>Blog arşivinde toplam “82” kayıt bulunuyor.</p>
+<p><a href="/blog/tr/yil/2025/" class="">2025 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2024/" class="">2024 yılına ait 2 makale</a></p><p><a href="/blog/tr/yil/2023/" class="">2023 yılına ait 2 makale</a></p><p><a href="/blog/tr/yil/2022/" class="">2022 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2021/" class="">2021 yılına ait 4 makale</a></p><p><a href="/blog/tr/yil/2016/" class="">2016 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2015/" class="">2015 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2014/" class="">2014 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2013/" class="">2013 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2012/" class="">2012 yılına ait 8 makale</a></p><p><a href="/blog/tr/yil/2011/" class="">2011 yılına ait 16 makale</a></p><p><a href="/blog/tr/yil/2010/" class="">2010 yılına ait 6 makale</a></p><p><a href="/blog/tr/yil/2009/" class="">2009 yılına ait 22 makale</a></p><p><a href="/blog/tr/yil/2008/" class="">2008 yılına ait 11 makale</a></p><p><a href="/blog/tr/yil/2006/" class="">2006 yılına ait 1 makale</a></p></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <footer class="footer">
+    <div class="container">
+        <div class="content">
+            <a href="/feed-tr.xml" title="RSS Aboneliği">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-square-rss fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://github.com/sponsors/vigo" title="GitHub Sponsorluk">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-heart fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://patreon.com/vigoo" title="Patreon Destek">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-patreon fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://github.com/vigo" title="GitHub Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-github fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://github.com/vbyazilim" title="VB YAZILIM GitHub Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-github fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://hub.docker.com/u/vigo/" title="Dockerhub Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-docker fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://www.linkedin.com/in/ugurozyilmazel" title="LinkedIn Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-linkedin fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://www.linkedin.com/company/vbyazilim/" title="VB YAZILIM LinkedIn Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-linkedin fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://rubygems.org/profiles/vigo" title="Rubygems Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://pypi.org/user/vigo" title="Python Package Index Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://vigos.hashnode.dev/" title="Hashnode Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-hashnode fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://opensource-heroes.com/u/vigo" title="Open Source Heroes Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-osi fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://dev.to/vigo" title="Dev Community Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-dev fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://csdb.dk/scener/?id=8379" title="CSDB">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.pouet.net/user.php?who=4721" title="Pouet">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="http://janeway.exotica.org.uk/author.php?id=11962" title="Amiga Exotica">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://demozoo.org/sceners/6273" title="Demozoo">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://www.demoparty.net/users/vigo" title="Demoparty.net">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            
+            <script type="text/javascript">
+            document.write('<a href="mailto:');
+            document.write("hthebmlvyznmry\100tznvy\056pbz".replace(/[a-zA-Z]/g, function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
+            document.write('" title="E-Posta"');
+            document.write('<span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-at fa-stack-1x"></i></span>');
+            document.write('</a>');
+            </script>
+
+            <a target="_blank" href="https://vbyazilim.com/" title="Şirketim: VB YAZILIM">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fas fa-building fa-stack-1x"></i></span>
+            </a>
+
+        </div>
+    </div>
+</footer>
+
+
+
+</body>
+</html>

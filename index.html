@@ -36,11 +36,27 @@
                 $.each(non_forks, function(index, repo){
                     if(index < 10){
                         let t = moment(repo.pushed_at);
+                        
+                        htmlData.push('<li class="gh-repo-info">');
+                        htmlData.push(`<a target="_blank" href="${repo.html_url}">${repo.full_name}</a>`);
+                        htmlData.push(`<time pubdate datetime="${repo.pushed_at}">${t.fromNow()}</time>`);
 
-                        htmlData.push('<li>');
-                        htmlData.push('<a href="' + repo.html_url + '">' + repo.full_name + '</a>');
-                        htmlData.push('<time pubdate datetime="' + repo.pushed_at + '">' + t.fromNow() + '</time>');
-                        htmlData.push('<p class="mt-2">[ ★ ' + String(repo.stargazers_count).padStart(3, '0') + ' ]</span> <span class="repo-desc">' + repo.description + '</p>');
+                        htmlData.push('<div class="mt-2 mb-1">');
+                        htmlData.push(`[ ★ <a title="${repo.html_url}/stargazers" target="_blank" href="${repo.html_url}/stargazers">${String(repo.stargazers_count).padStart(3, '0')}</a> ]`);
+
+                        if (repo.license !== null) {
+                            htmlData.push(`&nbsp;[ &copy; ${repo.license.name} ]`);
+                        }
+                        if (repo.open_issues_count > 0) {
+                            htmlData.push(`&nbsp;( <a target="_blank" title="${repo.html_url}/issues" href="${repo.html_url}/issues">${repo.open_issues_count}</a> )`);
+                        }
+
+                        if (repo.topics && repo.topics.length > 0) {
+                            htmlData.push(`<div><small>${repo.topics.join(" , ")}</small></div>`)
+                        }
+
+                        htmlData.push('</div>');
+                        htmlData.push(`<p>${repo.description}</p>`);
                         htmlData.push('</li>');
                     }
                 });
@@ -82,7 +98,7 @@
             });
         </script>
 
-        <meta name="date" content="2025-02-17T19:08:08+03:00" />
+        <meta name="date" content="2025-02-20T23:47:38+03:00" />
         <meta name="description" content="" />
         <meta name="author" content="Uğur “vigo” Özyılmazel"/>
         <meta name="copyright" content="(c) 2006 / 2025 - Uğur “vigo” Özyılmazel" />
@@ -132,6 +148,24 @@
 
                 <div class="blog-post-list">
     <ul>
+        <li>
+            <a href="/blog/tr/2025/02/20/direnv-nedir-ne-ise-yarar/" class="is-size-4-desktop">`direnv` nedir? Ne işe yarar?</a>
+
+            <time pubdate datetime="2025-02-20T22:06:00+03:00">
+                20 Şubat 2025, Perşembe 22:06
+            </time>
+
+            <div class="is-size-4-desktop">
+                        <a href="/blog/tr/etiket/bash/" class="tag is-info" title="“bash” etiketli makaleleri listele">bash</a>
+
+                <p class="summary">
+                     Projelerinizde environment variable’ları otomatik olarak yüklemek ve kullanmak
+için <code>go</code> ile ile geliştirilmiş harika bir shell extention’ından bahsetmek
+istiyorum.  
+                    <a href="/blog/tr/2025/02/20/direnv-nedir-ne-ise-yarar/" title="“`direnv` nedir? Ne işe yarar?” makalesini oku">&raquo;</a>
+                </p>
+            </div>
+        </li>
         <li>
             <a href="/blog/tr/2024/12/29/2024-te-ogrendigim-yeni-seyler/" class="is-size-4-desktop">2024’te Öğrendiğim Yeni Şeyler</a>
 
@@ -299,30 +333,12 @@ Ben de yakın zamanda tam olarak öğrenip konuyu anladım ve çok mutlu oldum.
                 </p>
             </div>
         </li>
-        <li>
-            <a href="/blog/tr/2016/07/30/solid-prensibi/" class="is-size-4-desktop">SOLID Prensibi</a>
-
-            <time pubdate datetime="2016-07-30T18:30:00+03:00">
-                30 Temmuz 2016, Cumartesi 18:30
-            </time>
-
-            <div class="is-size-4-desktop">
-                        <a href="/blog/tr/etiket/solid/" class="tag is-info" title="“solid” etiketli makaleleri listele">solid</a>
-                        <a href="/blog/tr/etiket/ruby/" class="tag is-info" title="“ruby” etiketli makaleleri listele">ruby</a>
-
-                <p class="summary">
-                     Object Oriented Programming (OOP) yani Nesne Yönelimli Programlama’nın en temel
-prensibi olarak kabul edilir. 
-                    <a href="/blog/tr/2016/07/30/solid-prensibi/" title="“SOLID Prensibi” makalesini oku">&raquo;</a>
-                </p>
-            </div>
-        </li>
     </ul>
 </div>
 
 
                 <div class="content">
-                    <p>Toplam <strong>81</strong> makale bulunuyor. Tüm blog arişivi için <a href="/blog/tr/">tıklayın</a>.</p>
+                    <p>Toplam <strong>82</strong> makale bulunuyor. Tüm blog arişivi için <a href="/blog/tr/">tıklayın</a>.</p>
                 </div>
             </div>
             <div class="column is-3-desktop is-full-tablet">
@@ -344,7 +360,12 @@ prensibi olarak kabul edilir.
         </p>
     </div>
 </div>
-                    <div class="github-repos blog-post-list content">
+                    <style>
+    .gh-repo-info:hover {
+        background-color: #fafafa;
+    }
+</style>
+<div class="github-repos blog-post-list content">
     <h3>Güncel GitHub Repolarım</h3>
     <div id="github-latests">Yükleniyor...</div>
 </div>

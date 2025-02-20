@@ -5,10 +5,216 @@
   <id>https://ugur.ozyilmazel.com/blog/tr/</id>
   <link href="https://ugur.ozyilmazel.com/blog/tr/"/>
   <link href="https://ugur.ozyilmazel.com/feed-tr.xml" rel="self"/>
-  <updated>2024-12-29T11:51:00+03:00</updated>
+  <updated>2025-02-20T22:06:00+03:00</updated>
   <author>
     <name>Uğur “vigo” Özyılmazel</name>
   </author>
+  <entry>
+    <title>`direnv` nedir? Ne işe yarar?</title>
+    <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2025/02/20/direnv-nedir-ne-ise-yarar/"/>
+    <id>https://ugur.ozyilmazel.com/blog/tr/2025/02/20/direnv-nedir-ne-ise-yarar/</id>
+    <published>2025-02-20T22:06:00+03:00</published>
+    <updated>2025-02-20T23:43:52+03:00</updated>
+    <author>
+      <name>Uğur “vigo” Özyılmazel</name>
+    </author>
+    <content type="html">&lt;p&gt;Projelerinizde environment variable’ları otomatik olarak yüklemek ve kullanmak
+için &lt;code&gt;go&lt;/code&gt; ile ile geliştirilmiş harika bir shell extention’ından bahsetmek
+istiyorum. &lt;/p&gt;
+
+&lt;p&gt;Geliştirme yaparken çok sık environment variable’ları kullanırız. Kimi zaman
+secret’ları (&lt;em&gt;api token, aws credentials gibi&lt;/em&gt;) kimi zaman dinamik parametre
+amaçlı hep shell environment variable’larına ihtiyacımız olur.&lt;/p&gt;
+
+&lt;p&gt;Tüm yazılım dillerinin, environment variable’ları otomatik olarak
+yükleyebileceği bir kütüphanesi ya da paketi bulunur. Python dünyasında 
+&lt;a href="https://github.com/theskumar/python-dotenv"&gt;python-dotenv&lt;/a&gt;, Ruby dünyasında &lt;a href="https://github.com/bkeepers/dotenv"&gt;dotenv&lt;/a&gt;, Go dünyasında &lt;a href="https://github.com/joho/godotenv"&gt;GoDotEnv&lt;/a&gt; 
+gibi popüler paketler sıklıkla kullanılanlar arasındadır ve çok sayıda da 
+alternatifleri bulunur.&lt;/p&gt;
+
+&lt;p&gt;Genelde bu paketler kodun içine monte edilir. Bu kütüphaneler çoğunlukla proje
+dizininin altında &lt;code&gt;.env&lt;/code&gt; dosyalarını ararlar ve bulurlarsa otomatik olarak olarak 
+bu dosyayı okurlar, parse ederler ve değişkenlerin atamasını yaparlar. Günün 
+sonunda bu &lt;code&gt;.env&lt;/code&gt;  dosyası bir &lt;strong&gt;text&lt;/strong&gt; dosyasıdır ve bu kütüphaneler &lt;code&gt;key=value&lt;/code&gt; 
+yaklaşımıyla ilgili değişkene okuduğu değeri atarlar.&lt;/p&gt;
+
+&lt;p&gt;Gerçek bir &lt;code&gt;shell&lt;/code&gt; ya da &lt;code&gt;bash&lt;/code&gt; environment yoktur aslında. Yani kendi shell
+environment’ınızda bir bash dosyasını &lt;code&gt;source&lt;/code&gt; etmek gibi değildir. Örneğin
+sizin &lt;code&gt;~/.profile&lt;/code&gt; dosyanızda:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;source &lt;/span&gt;variables.bash
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;gibi bir deklarasyon yapsanız, shell’iniz ayağa kalkarken, bu dosyada yazan 
+her şeyi okur ve &lt;strong&gt;execute&lt;/strong&gt; eder. Sizin bu environment variable’ları için
+yüklediğiniz (&lt;em&gt;source&lt;/em&gt;) dosya aslında &lt;strong&gt;öz-be-öz&lt;/strong&gt; shell script’lerinin de 
+çalışabileceği bir &lt;strong&gt;source code&lt;/strong&gt; dosyasıdır.&lt;/p&gt;
+
+&lt;p&gt;Ama &lt;code&gt;.env&lt;/code&gt; dosyalarını kullanan environment loader paketleri için durum böyle
+değildir. Genelde doğru yazılmış environment variable ataması&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;VARIABLE_NAME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"VALUE"&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;şeklinde olmalıdır. Genelde dotenv paketlerinde &lt;code&gt;export&lt;/code&gt; kullanılmaz çünkü
+bu dosya shell execution için değildir. Bu bakımdan da sıkıntı şudur, eğer
+size projeniz içinde farklı farklı dillerle bir şeyler yapıyorsanız ve
+ortak environment variable’ları kullanıyorsanız işler biraz karışır.&lt;/p&gt;
+
+&lt;p&gt;Örneğin ben sıklıkla projelerimda &lt;code&gt;Rakefile&lt;/code&gt; kullanıyorum, otomasyon için.
+Dolayısıyla hem &lt;code&gt;ruby&lt;/code&gt; hem de &lt;code&gt;go&lt;/code&gt;’da aynı environment variable’ları kullanmak
+durumunda kalıyorum. &lt;code&gt;Rakefile&lt;/code&gt; için ayrı paket, &lt;code&gt;go&lt;/code&gt; için ayrı paket
+kullanmak gibi can sıkıcı, duplike bir durum oluşuyor.&lt;/p&gt;
+
+&lt;p&gt;Şu da bir çözümdür, eğer bahsi geçen değişkenler, sizin bilgisayarınızdaki
+tüm projelerde de kullanılıyorsa gidip bu değerleri &lt;code&gt;~/.profile&lt;/code&gt; ya da &lt;code&gt;~/.bashrc&lt;/code&gt;
+gibi global shell sisteminize ekleyebilirsiniz ama bence bu kötü bir yöntem. Her
+proje kendine has değişkenler ve değerler kullanabilir, boşu boşuna shell
+ortamınızı şişirmeye gerek yok.&lt;/p&gt;
+
+&lt;p&gt;Peki çözüm ne?&lt;/p&gt;
+
+&lt;h2&gt;&lt;code&gt;direnv&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href="https://direnv.net/"&gt;direnv&lt;/a&gt; dizinlerin altında &lt;code&gt;.envrc&lt;/code&gt; dosyasına bakar ve otomatik olarak bu
+dosyada yazanları &lt;code&gt;source&lt;/code&gt; eder. Projenize hiç bir ek paket kurmanıza da gerek
+kalmaz. Neredeyse tüm işletim sistemleri için paketi bulunur. Ben macOS kullandığım
+için:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;brew &lt;span class="nb"&gt;install &lt;/span&gt;direnv
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;yapmam yeterli. Kurulum sonrasında tek yapmam gereken &lt;code&gt;bash&lt;/code&gt; environment’ıma
+eklemek;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;eval&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;$(&lt;/span&gt;direnv hook bash&lt;span class="si"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Sadece bash ile değil, &lt;code&gt;zsh&lt;/code&gt;, &lt;code&gt;fish&lt;/code&gt;, &lt;code&gt;tcsh&lt;/code&gt;, &lt;code&gt;elvish&lt;/code&gt;, &lt;code&gt;nushell&lt;/code&gt;, &lt;code&gt;powershell&lt;/code&gt;
+gibi neredeyse tüm shell’lere desteği mevcut. İşin güzel yanı, &lt;code&gt;.envrc&lt;/code&gt; bildiğimiz
+shell scripti. Yani bu dosya &lt;code&gt;source .envrc&lt;/code&gt; şeklinde de kullanılabilecek
+şekilde bir dosya. Script derken, bu dosya içinde &lt;code&gt;alias&lt;/code&gt; ya da &lt;code&gt;function&lt;/code&gt; tanımı
+yapamazsınız! &lt;u&gt;Sadece environment variable deklarasyonu&lt;/u&gt; için kullanabilirsiniz.&lt;/p&gt;
+
+&lt;p&gt;Kurulum yaptıktan sonra, ilgili proje dizininize gidip &lt;code&gt;.envrc&lt;/code&gt; dosyasını
+oluşturmanız yeterli. Ne zaman o dizine &lt;code&gt;cd&lt;/code&gt; yaparsanız, &lt;code&gt;direnv&lt;/code&gt; otomatik olarak
+environment variable’ları yükler. Dizinden çıkınca da &lt;strong&gt;unload&lt;/strong&gt; eder yani
+&lt;strong&gt;directory&lt;/strong&gt; seviyesinde çalışan environment variable’larınız var artık!&lt;/p&gt;
+
+&lt;p&gt;İşin güzel yanı, alt dizinlere de etki ediyor. Şimdi bir demo yapalım;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; /tmp/
+&lt;span class="nb"&gt;mkdir &lt;/span&gt;demo
+&lt;span class="nb"&gt;cd &lt;/span&gt;demo/
+&lt;span class="nb"&gt;touch&lt;/span&gt; .envrc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code&gt;touch&lt;/code&gt; dediğimiz anda bir hata mesajı alırız:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight plaintext"&gt;&lt;code&gt;direnv: error /private/tmp/demo/.envrc is blocked. Run `direnv allow` to approve its content
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;çünkü &lt;code&gt;.envrc&lt;/code&gt;’nin otomatik yüklenmesi için izin vermemiz gerekir:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;direnv allow
+direnv: loading /private/tmp/demo/.envrc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Şimdi bir değişken tanımlayalım: &lt;code&gt;nano .envrc&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;DEMO&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"amiga"&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Yine hata mesajı aldık:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight plaintext"&gt;&lt;code&gt;direnv: error /private/tmp/demo/.envrc is blocked. Run `direnv allow` to approve its content
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Çünkü direnv korumalı çalışır, yani dosya değiştiği zaman mutlaka &lt;code&gt;direnv allow&lt;/code&gt;
+dememiz gerekir:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;direnv allow
+direnv: loading /private/tmp/demo/.envrc
+direnv: &lt;span class="nb"&gt;export&lt;/span&gt; +DEMO
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code&gt;+DEMO&lt;/code&gt; yani &lt;code&gt;DEMO&lt;/code&gt; adında bir değişkeni otomatik yükledim der bize. Şimdi bir
+üst dizine geçelim:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; /tmp/
+direnv: unloading   &lt;span class="c"&gt;# &amp;lt;- artık DEMO diye bir değişken yok!&lt;/span&gt;
+
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;DEMO&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+
+&lt;span class="c"&gt;# boş...&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Tekrar içeri girelim:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; /tmp/demo/
+direnv: loading /private/tmp/demo/.envrc
+direnv: &lt;span class="nb"&gt;export&lt;/span&gt; +DEMO
+
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;DEMO&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+amiga
+
+&lt;span class="nb"&gt;mkdir&lt;/span&gt; &lt;span class="nt"&gt;-p&lt;/span&gt; sub1/sub2
+&lt;span class="nv"&gt;$ &lt;/span&gt;tree &lt;span class="nb"&gt;.&lt;/span&gt; &lt;span class="nt"&gt;-al&lt;/span&gt;
+&lt;span class="nb"&gt;.&lt;/span&gt;
+├── .envrc
+└── sub1
+    └── sub2
+
+&lt;span class="nb"&gt;cd &lt;/span&gt;sub1/sub2/
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Şimdi &lt;code&gt;sub1/sub2&lt;/code&gt; altında &lt;code&gt;nano test.bash&lt;/code&gt; bir script oluşturalım:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="c"&gt;#!/usr/bin/env bash&lt;/span&gt;
+
+&lt;span class="nb"&gt;set&lt;/span&gt; &lt;span class="nt"&gt;-e&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt; &lt;span class="nt"&gt;-o&lt;/span&gt; pipefail
+&lt;span class="nb"&gt;set&lt;/span&gt; &lt;span class="nt"&gt;-o&lt;/span&gt; errexit
+&lt;span class="nb"&gt;set&lt;/span&gt; &lt;span class="nt"&gt;-o&lt;/span&gt; nounset
+
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"DEMO? &lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;DEMO&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Çalıştıralım:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;bash test.bash 
+DEMO? amiga
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Şimdi aynı yerde başka bir &lt;code&gt;.envrc&lt;/code&gt; dosyası yapalım ve &lt;code&gt;DEMO&lt;/code&gt; değişkenini
+ezelim: &lt;code&gt;nano .envrc&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;DEMO&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"commodore"&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Yine uyarı aldık:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight plaintext"&gt;&lt;code&gt;direnv: error /private/tmp/demo/sub1/sub2/.envrc is blocked. Run `direnv allow` to approve its content
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;direnv allow
+direnv: loading /private/tmp/demo/sub1/sub2/.envrc
+direnv: &lt;span class="nb"&gt;export&lt;/span&gt; +DEMO
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Şimdi bakalım:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;DEMO&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+commodore
+
+&lt;span class="nb"&gt;cd&lt;/span&gt; ../
+direnv: loading /private/tmp/demo/.envrc &lt;span class="c"&gt;# &amp;lt;- hemen bir üstteki&lt;/span&gt;
+direnv: &lt;span class="nb"&gt;export&lt;/span&gt; +DEMO                     &lt;span class="c"&gt;#    .envrc devreye girdi.&lt;/span&gt;
+
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;DEMO&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+amiga        &lt;span class="c"&gt;# &amp;lt;- eski değer&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Mesela &lt;code&gt;.envrc&lt;/code&gt;’yi kendi &lt;code&gt;${HOME}/.envrc&lt;/code&gt; şeklinde yapıp, en dipteki
+dizine kadar etki edebilirsiniz. Eğer her seferince &lt;code&gt;direnv allow&lt;/code&gt; ile
+uğraşmak istemiyorsanız, &lt;strong&gt;whitelist&lt;/strong&gt;’e ekleyebilirsiniz. Önce konfigürasyon
+dosyası oluşturmak lazım. Genelde &lt;code&gt;*nix&lt;/code&gt; ortamlarında &lt;code&gt;${XDG_CONFIG_HOME}&lt;/code&gt;
+dizini altında bu işler olur. Ben macOS’da olduğum için;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight plaintext"&gt;&lt;code&gt;~/.config/direnv/direnv.toml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;dosyasını kullananlardanım. Eğer &lt;code&gt;~/.config&lt;/code&gt; diye bir dizininiz yoksa elle
+oluşturabilirsiniz:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;mkdir&lt;/span&gt; ~/.config         &lt;span class="c"&gt;# eğer yoksa&lt;/span&gt;
+&lt;span class="nb"&gt;mkdir&lt;/span&gt; ~/.config/direnv
+&lt;span class="nb"&gt;touch&lt;/span&gt; ~/.config/direnv/direnv.toml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Örnek &lt;code&gt;.toml&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight toml"&gt;&lt;code&gt;&lt;span class="nn"&gt;[whitelist]&lt;/span&gt;
+&lt;span class="py"&gt;prefix&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt; &lt;span class="s"&gt;"/Users/vigo/Repos/Development"&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Bu şu anlama geliyor, &lt;code&gt;/Users/vigo/Repos/Development&lt;/code&gt; dizini altında gördüğün
+tüm &lt;code&gt;.envrc&lt;/code&gt; dosyalarını hiç sormadan otomatik &lt;code&gt;allow&lt;/code&gt; et. Konfigürasyonda
+farklı seçenekler de var, detayları buradan &lt;a href="https://direnv.net/man/direnv.toml.1.html"&gt;görebilirsiniz&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Konu sadece bununla da bitmiyor, kendiniz custom extension’lar da
+yazabiliyorsunuz, hatta &lt;code&gt;direnv&lt;/code&gt; size programatik işler yapmak için eksta
+&lt;code&gt;api&lt;/code&gt; da sunuyor.&lt;/p&gt;
+
+&lt;p&gt;Şunu unutmayın, bilgisayarınızda sembolik linkler varsa, konfig dosyasına
+gerçek path’i yazmanız lazım. Örneğin benim &lt;code&gt;~/Development&lt;/code&gt; bir sembolik
+link, gerçek path’i ilk başta yazmadığım için 2-3 saat uğraştım whitelist için;
+sonra;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;realpath&lt;/span&gt; ~/Development
+/Users/vigo/Repos/Development  &lt;span class="c"&gt;# gerçek path bu!&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;yaptım ve sorunu çözdüm.&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>2024’te Öğrendiğim Yeni Şeyler</title>
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2024/12/29/2024-te-ogrendigim-yeni-seyler/"/>
@@ -2237,66 +2443,6 @@ ortaya koyduğu kurallardır.&lt;/p&gt;
 
 &lt;p&gt;Başta da belirttiğim gibi, usta &lt;a href="https://twitter.com/sandimetz"&gt;Sandi Metz&lt;/a&gt; bu konuyla ilgili çok
 güzel bir sunum yapmıştı. Bu sunumu da &lt;a href="https://speakerdeck.com/skmetz/solid-object-oriented-design"&gt;linkten&lt;/a&gt; indirebilirsiniz.&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>TextMate ve İnteraktif Giriş</title>
-    <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2015/04/13/textmate-ve-interaktif-giris/"/>
-    <id>https://ugur.ozyilmazel.com/blog/tr/2015/04/13/textmate-ve-interaktif-giris/</id>
-    <published>2015-04-13T09:28:00+03:00</published>
-    <updated>2024-06-24T13:32:21+03:00</updated>
-    <author>
-      <name>Uğur “vigo” Özyılmazel</name>
-    </author>
-    <content type="html">&lt;p&gt;Çoğu zaman birşeyleri hızla denemek için &lt;a href="http://macromates.com" title="TextMate: The Missing Editor"&gt;TextMate&lt;/a&gt;’i kullanırım. 
-İstediğim programlama dilinde, anında birşeyleri yazıp çalıştırmak mümkündür
-TextMate’de. &lt;/p&gt;
-
-&lt;p&gt;Örneğin &lt;strong&gt;Ruby&lt;/strong&gt; çalıştırmak için; aşağıdaki gibi boş bir döküman açıp,
-kayıt bile etmeden;&lt;/p&gt;
-
-&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img class="shadow"  title="TextMate ekran görüntüsü" src="/public/images/posts/2015-04-13-textmate/2015-04-13-textmate-ruby.png" alt="TextMate ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; Yeni pencerede &lt;kbd&gt;⌘&lt;/kbd&gt; + &lt;kbd&gt;N&lt;/kbd&gt; 
-&lt;/p&gt;&lt;/div&gt;
-
-&lt;p&gt;Yazmak istediğinizi yazıp &lt;kbd&gt;⌘&lt;/kbd&gt; + &lt;kbd&gt;R&lt;/kbd&gt; yaparak (&lt;em&gt;bazı dillerde bu tuş kombinasyonu
-farklı olabiliyor ama geneli hep bu&amp;hellip;&lt;/em&gt;) hemen çalıştırabilirsiniz.&lt;/p&gt;
-
-&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img class="shadow"  title="TextMate ekran görüntüsü" src="/public/images/posts/2015-04-13-textmate/2015-04-13-textmate-ruby-2.png" alt="TextMate ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; Çıktı ekranı 
-&lt;/p&gt;&lt;/div&gt;
-
-&lt;p&gt;Fakat bazı durumlarda kullanıcıdan &lt;strong&gt;input&lt;/strong&gt; almanız gerekebilir. &lt;code&gt;STDIN&lt;/code&gt; yani
-standart input’dan &lt;strong&gt;giriş&lt;/strong&gt; almanız gerekebilir. Tüm amacım, TextMate ortamını
-terketmeden işlerimi yapmak demiştim :) Acaba bu sorunu çözmenin yolu var mı?
-diye bakarken çok güzel birşeyle karşılaştım.&lt;/p&gt;
-
-&lt;p&gt;Zaten bu konu 2009 yılında çözümlenmiş. TextMate’in &lt;a href="http://blog.macromates.com/2009/interactive-input/"&gt;blog&lt;/a&gt;’unda 
-yazılanlara baktım. Yıl 2015 ve halen benim gibi en eski &lt;strong&gt;Version 1.5.11 (1635)&lt;/strong&gt;
-kullananlar için birisi kafa yormuş ve güzel bir kütüphane hazırlamış.&lt;/p&gt;
-
-&lt;p&gt;Yapmanız gereken &lt;a href="https://github.com/alkemist/"&gt;alkemist&lt;/a&gt; adlı kullanıcın hazırladığı
-&lt;a href="https://github.com/alkemist/interactive-input/downloads"&gt;tm_interactive_input.dylib&lt;/a&gt; paketini indirmek. Paketi indirdikten
-sonra ilgili yere kopyalamak:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; /Applications/TextMate.app/Contents/SharedSupport/Support/lib/
-&lt;span class="nb"&gt;cp&lt;/span&gt; ~/Downloads/tm&lt;span class="se"&gt;\_&lt;/span&gt;interactive_input.dylib &lt;span class="nb"&gt;.&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Daha sonra TextMate’i bir restart edin. ve aşağıdaki kodu çalıştırmayı
-deneyin: &lt;kbd&gt;⌘&lt;/kbd&gt; + &lt;kbd&gt;R&lt;/kbd&gt;;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;gets&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;chomp&lt;/span&gt;        &lt;span class="c1"&gt;# Kullanıcıdan input alır&lt;/span&gt;
-&lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="s2"&gt;"input: &lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;div class="card blog-card mt-2 mb-4"&gt;&lt;div class="card-image has-text-centered"&gt;&lt;img class="mt-4" title="INPUT istemcisi!" src="/public/images/posts/2015-04-13-textmate/2015-04-13-textmate-ruby-3.png" alt="INPUT istemcisi!" /&gt;&lt;/div&gt;&lt;div class="card-content"&gt;&lt;div class="content has-text-centered is-size-5-desktop is-size-6-mobile has-text-weight-semibold"&gt;&lt;p&gt; INPUT istemcisi! 
-&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;An itibariyle OS X Yosemite 10.10.3’te sıkıntısız çalışıyor ama nereye
-kadar çalışır bilemiyorum. En azından şimdilik işimizi görüyor!&lt;/p&gt;
-
-&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img title="TextMate ekran görüntüsü" src="/public/images/posts/2015-04-13-textmate/2015-04-13-textmate-ruby-4.png" alt="TextMate ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; Sonuç: input geldi&amp;hellip; 
-&lt;/p&gt;&lt;/div&gt;
-
-&lt;h3&gt;Güncelleme: 16 Ağustos 2022&lt;/h3&gt;
-
-&lt;p&gt;Çok uzun bir süre önce, yanılmıyorsam 2015’teki &lt;strong&gt;macOS El Capitan&lt;/strong&gt; ile birlikte
-işletim sistemindeki büyük değişiklikler yüzünden bu özellik kullanılamaz oldu.&lt;/p&gt;
 </content>
   </entry>
 </feed>
