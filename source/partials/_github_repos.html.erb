@@ -8,6 +8,11 @@ texts = {
     }
 }
 %>
+<style>
+    .gh-repo-info:hover {
+        background-color: #fafafa;
+    }
+</style>
 <div class="github-repos blog-post-list content">
     <h3><%= I18n.t('latest_github_repos') %></h3>
     <div id="github-latests"><%= texts[I18n.locale][:loading] %></div>
@@ -28,11 +33,27 @@ texts = {
                 $.each(non_forks, function(index, repo){
                     if(index < 10){
                         let t = moment(repo.pushed_at);
+                        
+                        htmlData.push('<li class="gh-repo-info">');
+                        htmlData.push(`<a target="_blank" href="${repo.html_url}">${repo.full_name}</a>`);
+                        htmlData.push(`<time pubdate datetime="${repo.pushed_at}">${t.fromNow()}</time>`);
 
-                        htmlData.push('<li>');
-                        htmlData.push('<a href="' + repo.html_url + '">' + repo.full_name + '</a>');
-                        htmlData.push('<time pubdate datetime="' + repo.pushed_at + '">' + t.fromNow() + '</time>');
-                        htmlData.push('<p class="mt-2">[ ★ ' + String(repo.stargazers_count).padStart(3, '0') + ' ]</span> <span class="repo-desc">' + repo.description + '</p>');
+                        htmlData.push('<div class="mt-2 mb-1">');
+                        htmlData.push(`[ ★ <a title="${repo.html_url}/stargazers" target="_blank" href="${repo.html_url}/stargazers">${String(repo.stargazers_count).padStart(3, '0')}</a> ]`);
+
+                        if (repo.license !== null) {
+                            htmlData.push(`&nbsp;[ &copy; ${repo.license.name} ]`);
+                        }
+                        if (repo.open_issues_count > 0) {
+                            htmlData.push(`&nbsp;( <a target="_blank" title="${repo.html_url}/issues" href="${repo.html_url}/issues">${repo.open_issues_count}</a> )`);
+                        }
+
+                        if (repo.topics && repo.topics.length > 0) {
+                            htmlData.push(`<div><small>${repo.topics.join(" , ")}</small></div>`)
+                        }
+
+                        htmlData.push('</div>');
+                        htmlData.push(`<p>${repo.description}</p>`);
                         htmlData.push('</li>');
                     }
                 });

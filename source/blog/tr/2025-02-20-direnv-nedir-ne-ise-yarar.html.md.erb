@@ -1,0 +1,274 @@
+---
+title: "`direnv` nedir? Ne işe yarar?"
+locale: tr
+subtitle: "Environment Variable Yöneticisi"
+date: 2025-02-20 22:06
+cover: "2025-02-20-direnv-screen.png"
+# cover_title: ""
+# cover_subtitle: ""
+# og_image: ""
+# og_image_dir: ""
+tags: bash
+comments: false
+---
+
+Projelerinizde environment variable’ları otomatik olarak yüklemek ve kullanmak
+için `go` ile ile geliştirilmiş harika bir shell extention’ından bahsetmek
+istiyorum. READ_MORE
+
+Geliştirme yaparken çok sık environment variable’ları kullanırız. Kimi zaman
+secret’ları (*api token, aws credentials gibi*) kimi zaman dinamik parametre
+amaçlı hep shell environment variable’larına ihtiyacımız olur.
+
+Tüm yazılım dillerinin, environment variable’ları otomatik olarak
+yükleyebileceği bir kütüphanesi ya da paketi bulunur. Python dünyasında 
+[python-dotenv][001], Ruby dünyasında [dotenv][002], Go dünyasında [GoDotEnv][003] 
+gibi popüler paketler sıklıkla kullanılanlar arasındadır ve çok sayıda da 
+alternatifleri bulunur.
+
+Genelde bu paketler kodun içine monte edilir. Bu kütüphaneler çoğunlukla proje
+dizininin altında `.env` dosyalarını ararlar ve bulurlarsa otomatik olarak olarak 
+bu dosyayı okurlar, parse ederler ve değişkenlerin atamasını yaparlar. Günün 
+sonunda bu `.env`  dosyası bir **text** dosyasıdır ve bu kütüphaneler `key=value` 
+yaklaşımıyla ilgili değişkene okuduğu değeri atarlar.
+
+Gerçek bir `shell` ya da `bash` environment yoktur aslında. Yani kendi shell
+environment’ınızda bir bash dosyasını `source` etmek gibi değildir. Örneğin
+sizin `~/.profile` dosyanızda:
+
+```bash
+source variables.bash
+```
+
+gibi bir deklarasyon yapsanız, shell’iniz ayağa kalkarken, bu dosyada yazan 
+her şeyi okur ve **execute** eder. Sizin bu environment variable’ları için
+yüklediğiniz (*source*) dosya aslında **öz-be-öz** shell script’lerinin de 
+çalışabileceği bir **source code** dosyasıdır.
+
+Ama `.env` dosyalarını kullanan environment loader paketleri için durum böyle
+değildir. Genelde doğru yazılmış environment variable ataması
+
+```bash
+export VARIABLE_NAME="VALUE"
+```
+
+şeklinde olmalıdır. Genelde dotenv paketlerinde `export` kullanılmaz çünkü
+bu dosya shell execution için değildir. Bu bakımdan da sıkıntı şudur, eğer
+size projeniz içinde farklı farklı dillerle bir şeyler yapıyorsanız ve
+ortak environment variable’ları kullanıyorsanız işler biraz karışır.
+
+Örneğin ben sıklıkla projelerimda `Rakefile` kullanıyorum, otomasyon için.
+Dolayısıyla hem `ruby` hem de `go`’da aynı environment variable’ları kullanmak
+durumunda kalıyorum. `Rakefile` için ayrı paket, `go` için ayrı paket
+kullanmak gibi can sıkıcı, duplike bir durum oluşuyor.
+
+Şu da bir çözümdür, eğer bahsi geçen değişkenler, sizin bilgisayarınızdaki
+tüm projelerde de kullanılıyorsa gidip bu değerleri `~/.profile` ya da `~/.bashrc`
+gibi global shell sisteminize ekleyebilirsiniz ama bence bu kötü bir yöntem. Her
+proje kendine has değişkenler ve değerler kullanabilir, boşu boşuna shell
+ortamınızı şişirmeye gerek yok.
+
+Peki çözüm ne?
+
+## `direnv`
+
+[direnv][000] dizinlerin altında `.envrc` dosyasına bakar ve otomatik olarak bu
+dosyada yazanları `source` eder. Projenize hiç bir ek paket kurmanıza da gerek
+kalmaz. Neredeyse tüm işletim sistemleri için paketi bulunur. Ben macOS kullandığım
+için:
+
+```bash
+brew install direnv
+```
+
+yapmam yeterli. Kurulum sonrasında tek yapmam gereken `bash` environment’ıma
+eklemek;
+
+```bash
+eval "$(direnv hook bash)"
+```
+
+Sadece bash ile değil, `zsh`, `fish`, `tcsh`, `elvish`, `nushell`, `powershell`
+gibi neredeyse tüm shell’lere desteği mevcut. İşin güzel yanı, `.envrc` bildiğimiz
+shell scripti. Yani bu dosya `source .envrc` şeklinde de kullanılabilecek
+şekilde bir dosya. Script derken, bu dosya içinde `alias` ya da `function` tanımı
+yapamazsınız! _Sadece environment variable deklarasyonu_ için kullanabilirsiniz.
+
+Kurulum yaptıktan sonra, ilgili proje dizininize gidip `.envrc` dosyasını
+oluşturmanız yeterli. Ne zaman o dizine `cd` yaparsanız, `direnv` otomatik olarak
+environment variable’ları yükler. Dizinden çıkınca da **unload** eder yani
+**directory** seviyesinde çalışan environment variable’larınız var artık!
+
+İşin güzel yanı, alt dizinlere de etki ediyor. Şimdi bir demo yapalım;
+
+```bash
+cd /tmp/
+mkdir demo
+cd demo/
+touch .envrc
+```
+
+`touch` dediğimiz anda bir hata mesajı alırız:
+
+    direnv: error /private/tmp/demo/.envrc is blocked. Run `direnv allow` to approve its content
+
+çünkü `.envrc`’nin otomatik yüklenmesi için izin vermemiz gerekir:
+
+```bash
+direnv allow
+direnv: loading /private/tmp/demo/.envrc
+```
+
+Şimdi bir değişken tanımlayalım: `nano .envrc`
+
+```bash
+export DEMO="amiga"
+```
+
+Yine hata mesajı aldık:
+
+    direnv: error /private/tmp/demo/.envrc is blocked. Run `direnv allow` to approve its content
+
+Çünkü direnv korumalı çalışır, yani dosya değiştiği zaman mutlaka `direnv allow`
+dememiz gerekir:
+
+```bash
+direnv allow
+direnv: loading /private/tmp/demo/.envrc
+direnv: export +DEMO
+```
+
+`+DEMO` yani `DEMO` adında bir değişkeni otomatik yükledim der bize. Şimdi bir
+üst dizine geçelim:
+
+```bash
+cd /tmp/
+direnv: unloading   # <- artık DEMO diye bir değişken yok!
+
+echo "${DEMO}"
+
+# boş...
+```
+
+Tekrar içeri girelim:
+
+```bash
+cd /tmp/demo/
+direnv: loading /private/tmp/demo/.envrc
+direnv: export +DEMO
+
+echo "${DEMO}"
+amiga
+
+mkdir -p sub1/sub2
+$ tree . -al
+.
+├── .envrc
+└── sub1
+    └── sub2
+
+cd sub1/sub2/
+
+```
+
+Şimdi `sub1/sub2` altında `nano test.bash` bir script oluşturalım:
+
+```bash
+#!/usr/bin/env bash
+
+set -e
+set -o pipefail
+set -o errexit
+set -o nounset
+
+echo "DEMO? ${DEMO}"
+```
+
+Çalıştıralım:
+
+```bash
+bash test.bash 
+DEMO? amiga
+```
+
+Şimdi aynı yerde başka bir `.envrc` dosyası yapalım ve `DEMO` değişkenini
+ezelim: `nano .envrc`
+
+```bash
+export DEMO="commodore"
+```
+
+Yine uyarı aldık:
+
+    direnv: error /private/tmp/demo/sub1/sub2/.envrc is blocked. Run `direnv allow` to approve its content
+
+```bash
+direnv allow
+direnv: loading /private/tmp/demo/sub1/sub2/.envrc
+direnv: export +DEMO
+```
+
+Şimdi bakalım:
+
+```bash
+echo "${DEMO}"
+commodore
+
+cd ../
+direnv: loading /private/tmp/demo/.envrc # <- hemen bir üstteki
+direnv: export +DEMO                     #    .envrc devreye girdi.
+
+echo "${DEMO}"
+amiga        # <- eski değer
+```
+
+Mesela `.envrc`’yi kendi `${HOME}/.envrc` şeklinde yapıp, en dipteki
+dizine kadar etki edebilirsiniz. Eğer her seferince `direnv allow` ile
+uğraşmak istemiyorsanız, **whitelist**’e ekleyebilirsiniz. Önce konfigürasyon
+dosyası oluşturmak lazım. Genelde `*nix` ortamlarında `${XDG_CONFIG_HOME}`
+dizini altında bu işler olur. Ben macOS’da olduğum için;
+
+    ~/.config/direnv/direnv.toml
+
+dosyasını kullananlardanım. Eğer `~/.config` diye bir dizininiz yoksa elle
+oluşturabilirsiniz:
+
+```bash
+mkdir ~/.config         # eğer yoksa
+mkdir ~/.config/direnv
+touch ~/.config/direnv/direnv.toml
+```
+
+Örnek `.toml`:
+
+```toml
+[whitelist]
+prefix = [ "/Users/vigo/Repos/Development" ]
+```
+
+Bu şu anlama geliyor, `/Users/vigo/Repos/Development` dizini altında gördüğün
+tüm `.envrc` dosyalarını hiç sormadan otomatik `allow` et. Konfigürasyonda
+farklı seçenekler de var, detayları buradan [görebilirsiniz][101].
+
+Konu sadece bununla da bitmiyor, kendiniz custom extension’lar da
+yazabiliyorsunuz, hatta `direnv` size programatik işler yapmak için eksta
+`api` da sunuyor.
+
+Şunu unutmayın, bilgisayarınızda sembolik linkler varsa, konfig dosyasına
+gerçek path’i yazmanız lazım. Örneğin benim `~/Development` bir sembolik
+link, gerçek path’i ilk başta yazmadığım için 2-3 saat uğraştım whitelist için;
+sonra;
+
+```bash
+realpath ~/Development
+/Users/vigo/Repos/Development  # gerçek path bu!
+```
+
+yaptım ve sorunu çözdüm.
+
+[001]: https://github.com/theskumar/python-dotenv
+[002]: https://github.com/bkeepers/dotenv
+[003]: https://github.com/joho/godotenv
+[000]: https://direnv.net/
+
+[101]: https://direnv.net/man/direnv.toml.1.html
