@@ -1,3 +1,5 @@
+require 'bundler/setup'
+require 'logger'
 require 'uglifier'
 require 'time'
 require 'active_support/all'
