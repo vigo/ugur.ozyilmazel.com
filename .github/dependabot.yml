@@ -1,0 +1,16 @@
+version: 2
+updates:
+  - package-ecosystem: 'bundler'
+    directory: '/'
+    schedule:
+      interval: 'daily'
+    reviewers:
+      - "vigo"
+    assignees:
+      - "vigo"
+    labels:
+      - "dependabot"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "[dependabot] - upgrade ruby dependencies"
+      include: "scope"
