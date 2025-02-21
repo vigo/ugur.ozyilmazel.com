@@ -88,7 +88,7 @@ activate :blog do |blog|
   blog.name              = "turkish"
   blog.prefix            = "blog/tr/"
   blog.permalink         = "{year}/{month}/{day}/{title}/index.html"
-  blog.sources           = "{year}-{month}-{day}-{title}.html"
+  blog.sources           = "{year}/{year}-{month}-{day}-{title}.html"
   blog.taglink           = "etiket/{tag}/index.html"
   blog.year_link         = "yil/{year}/index.html"
   blog.paginate          = true
@@ -104,7 +104,7 @@ activate :blog do |blog|
   blog.name              = "english"
   blog.prefix            = "blog/en/"
   blog.permalink         = "{year}/{month}/{day}/{title}/index.html"
-  blog.sources           = "{year}-{month}-{day}-{title}.html"
+  blog.sources           = "{year}/{year}-{month}-{day}-{title}.html"
   blog.taglink           = "tag/{tag}/index.html"
   blog.year_link         = "year/{year}/index.html"
   blog.paginate          = true
