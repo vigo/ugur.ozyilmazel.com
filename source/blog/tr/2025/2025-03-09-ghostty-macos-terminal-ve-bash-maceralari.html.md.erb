@@ -1,0 +1,312 @@
+---
+title: "Ghostty macOS Terminal ve Bash Maceraları"
+locale: tr
+date: 2025-03-09 20:58
+cover: "2025-03-09-ghostty-terminal-bash.png"
+tags: ghostty,bash,terminal,trap
+comments: false
+---
+
+[Ghostty][ghostty] yeni nesil terminal client’ını denerken bir de baktım kendi
+icadım olan bazı şeyler çalışmıyor! Önce problemin kimden ve nereden
+kaynaklandığını bulmaya çalıştım.
+READ_MORE
+
+Hatta ilk olarak Ghostty’nin forumunda sordum, neden böyle oluyor diye. Yine
+garip bir sorun bir bana denk gelmişti...
+
+Benim `PS1`’de kullandığım küçük bir fonksiyonum var, son çalışan komut 
+**kaç saniye sürdü** ise onu görüyorum ve son `BASH EXIT CODE`’u da buradan 
+takip ediyorum:
+
+    [ .379841 - 0 ]
+         ^      ^
+        süre    last exit code
+
+Aslında amacım şu, bir komutu `time <command>` gibi her seferinde çağırmaktansa
+otomatik olarak olarak bunu prompt shell’imde göreyim dedim.
+
+```bash
+$ time sleep 2
+
+real	0m2.022s
+user	0m0.001s
+sys	0m0.006s
+[ 2.190589 - 0 ]
+$
+```
+
+Bunu yapmak için;
+
+```bash
+export color_blue=$'\e[0;0;34m'
+export color_blink_red=$'\e[5;31m'
+export color_off=$'\e[0m'
+
+export last_exit_code
+last_exit(){
+    local ex=$?
+    last_exit_code=${ex}
+    if [[ ${last_exit_code} != 0 ]]; then
+        last_exit_code="${color_bold_blink_red}${last_exit_code}${color_off}"
+    fi
+}
+
+icon_timelapse=$'\uE384' # nerd font ikonu
+
+export CUSTOMER_TIMER
+export TIMER_SHOW
+timer_start() {
+    CUSTOMER_TIMER=${CUSTOMER_TIMER:-$EPOCHREALTIME}
+}
+
+timer_stop() {
+    TIMER_SHOW="${color_blue}${icon_timelapse} $(bc <<< "${EPOCHREALTIME}-${CUSTOMER_TIMER}")${color_off} - "
+    unset CUSTOMER_TIMER
+}
+
+PROMPT_COMMAND="last_exit${PROMPT_COMMAND:+;$PROMPT_COMMAND}"
+PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND;}timer_stop"
+trap 'timer_start' DEBUG
+```
+
+şeklinde küçük bir script’i `~/.bashrc`’ime eklemiştim. Merak edenler için;
+`PROMPT_COMMAND` özel bir [environment variable][promptcommand].  Bash’e özel, 
+yaptığı iş şu:
+
+> The contents of this variable are executed as a regular Bash command just 
+before Bash displays a prompt. 
+
+Yani Bash’in `PS1`’i çalıştırmadan önce çalıştıracağı fonksiyonlar burada
+yazıyor. macOS’un default Terminal.app’inde bu değişkeninin içinde ne yazdığına
+bakarsak:
+
+```bash
+echo $PROMPT_COMMAND
+last_exit;_pyenv_virtualenv_hook;_direnv_hook;history -a;update_terminal_cwd;timer_stop
+```
+
+<%= zoomable src: '2025-03-09-macos-terminal.png',
+             shadow: true,
+             alt: 'macOS Terminal.app ekranı',
+             cap: 'macOS Terminal.app ekranı'
+%>
+
+
+gibi fonksiyonları görürüz. Bu gördüğünüz değelerin bazılarını ben belirledim,
+`last_exit` ve `timer_stop` elle eklediğim, `_pyenv_virtualenv_hook` ise
+`pyenv` kurulumuyla geldi, keza `direnv` kullandığım için `_direnv_hook` da
+ondan geldi. `history -a` benim `history` ayarlarımla ilgili. Yeni tab açınca
+history’i hep güncel olarak kullanabiliyorum. Peki `update_terminal_cwd`
+nereden geldi?
+
+Bu macOS’un derinliklerinden geliyor; `/etc/bashrc` bunu otomatik olarak
+takıyor:
+
+```bash
+# System-wide .bashrc file for interactive bash(1) shells.
+if [ -z "$PS1" ]; then
+   return
+fi
+
+PS1='\h:\W \u\$ '
+# Make bash check its window size after a process completes
+shopt -s checkwinsize
+
+[ -r "/etc/bashrc_$TERM_PROGRAM" ] && . "/etc/bashrc_$TERM_PROGRAM"
+```
+
+Eğer macOS Terminal.app’de `TERM_PROGRAM` değişkenini yazdırırsanız;
+
+```bash
+echo $TERM_PROGRAM
+Apple_Terminal
+```
+
+görürsünüz. Yani aslında `/etc/bashrc_Apple_Terminal` diye bir dosya var mı?
+var. Dosyanın başından bir kısmını ekliyorum:
+
+```bash
+if [ -z "$INSIDE_EMACS" ]; then
+    update_terminal_cwd() {
+	# Identify the directory using a "file:" scheme URL, including
+	# the host name to disambiguate local vs. remote paths.
+    :
+    :
+    PROMPT_COMMAND="update_terminal_cwd${PROMPT_COMMAND:+; $PROMPT_COMMAND}"
+```
+
+Şeklinde, eğer `emacs` içinde değilseniz bu fonksiyonu dinamik olarak
+oluşturuyor ve `PROMPT_COMMAND`’a takıyor. Aslına olay şu; eğer o an
+`PROMPT_COMMAND` değişkeninin için boşsa öne ekliyor, doluysa araya `;`
+atıyor, yani:
+
+```bash
+FOO="lego${FOO:+; $FOO}"   # şu an FOO diye bir değişken yok
+echo $FOO
+lego
+
+FOO="bar${FOO:+; $FOO}"    # FOO var ve içinde lego yazıyor, 
+                           # bir tür += işlemi ama ; ayraç
+echo $FOO
+bar; lego
+```
+
+İlk gölü bu olaydan yedim. Neden? `update_terminal_cwd` araya takılırken
+`TERM_PROGRAM` a göre karar veriliyor ya. Ghostty’i ilk açtığımda bu timer
+işleri saçmaladı. Bir baktım ki `update_terminal_cwd` diye bir şey yok
+`PROMPT_COMMAND` içinde:
+
+```bash
+# Ghostty’de
+echo $PROMPT_COMMAND
+last_exit;_pyenv_virtualenv_hook;_direnv_hook;history -atimer_stop
+```
+
+`history -atimer_stop` aradaki `;` olmadığı için çatladı. Ben de eğer sonda
+`;` varsa ya da yoksa bir ayar çekmek gerektiği için, ki aynı sorun
+**Visual Studio Code**’da oldu, mecburan şu kodu ekledim. Aslına `TERM_PROGRAM`’a
+göre de kontrol edebilirdim ama ileride `iTerm` kullansam onu da kontrol etmem
+gerekecekti, onun yerine sondaki `;` kontrol edeyim dedim:
+
+```bash
+PROMPT_COMMAND="last_exit${PROMPT_COMMAND:+;$PROMPT_COMMAND}"
+
+# for vscode/ghostty terminal fix ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+if [[ ${PROMPT_COMMAND: -1} == ";" ]]; then
+    PROMPT_COMMAND="${PROMPT_COMMAND}timer_stop"
+else
+    PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND;}timer_stop"
+fi
+# for vscode/ghostty terminal fix ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+Şeklinde bir düzeltme yaptım. Bu geçen süreyi hesaplama mantığı da şu;
+
+```bash
+trap 'timer_start' DEBUG
+```
+
+Her komut sonrası `timer_start` çalışıyor, sonra `PS1` çalışıp en son `timer_stop`
+devreye giriyor ve geçen süreyi ve son çalışan komutun hata kodunu `PS1` 
+içinde yazdırıyorum:
+
+```bash
+export PS1="[ \${TIMER_SHOW}\${last_exit_code} ]"
+```
+
+Mesela `ls foooooooooooooooooooooooooooooo` desem:
+
+```bash
+ls foooooooooooooooooooooooooooooo
+```
+
+Promptumda:
+
+    [ .188104 - 2 ]
+         ^      ^
+        süre    last exit code
+
+şeklinde görüyorum. Olmayan bir dizini listelemek istedim, hata kodu `2`.
+`PROMPT_COMMAND` ayarını da yapınca ne güzel çalışıyor diye sevinirken bugün
+ufak bir işim vardı, `cd` yaptığım dizini text editörde açmak için;
+
+```bash
+cd sites/
+mate $_
+```
+
+yaptım. `$_` interaktif shell’de son argümanı temsil eder yani:
+
+```bash
+cd /tmp/
+echo $_
+/tmp/
+```
+
+Komuta geçtiğim son argüman. Ben `mate $_` (mate benim text editör) dediğim
+an ekranda `timer_start` yadı ve sanki ben adı `timer_start` olan bir dosyayı
+açmaya çalışmışım gibi oldu.
+
+`timer_start` fonksiyonu benim `trap` ile çalıştırdığım bir şey. Yani son
+geçilen argüman olmuş bir şekilde. Bir şekilde bash’in default davranışını
+ezmişim ve nasıl ezdim ? nasıl çözerim bunu ? hiçbir fikrim yok...
+
+Yaklaşık **2 saat** kadar ChatGPT’deki bir kısım custom GPT’ler, Chat GPT’nin
+kendisi, DeepSeek, GitHub Co-Pilot, bildiğim tüm LLM’lere başvurdum. Hepsi
+totosundan sallama cevaplar verdi. Sonra eski dost google’a sordum. Stack
+Overflow’da benzer sorunları yaşayan hatta birebir aynısı yaşayanlar vardı.
+
+`trap` `$_`’u eziyor, yutuyor diye...
+
+Bazı anlar vardır, çaresizlik içinde hiçbir cevap bulamadığınız, kime sorsam ?
+kimden yardım alsam diye kara kara düşündüğünüz anlar...
+
+Önce `$_` bunun orijinal versiyonunu bir başka değişkene atıp en son `timer_stop`
+çağırıldığı zaman geri set etmek geldi ama buna izin vermiyor çünkü `_=$old_val`
+olmadı. 
+
+Bir sürü farklı şeyler denedikten sonra aklıma deneme yanılma yapmak geldi ve
+kodu şöyle değiştirdim:
+
+```bash
+trap 'timer_start "$_"' DEBUG
+```
+
+Yani `timer_start` günün sonunda bir fonksiyon, ben ona argüman olarak o an
+`$_` ne ise onu geçtim ve aslında son geçilen argüman yine o oldu. Ve büyük
+bir sürpriz oldu, çalıştı...
+
+Cuma akşamından beri [ysap][ysap] kanalını izliyorum, Bash bilgilerimi kontrol
+ediyordum, Dave orada çok kullanıyor `$_` durumunu, ben de eskiden kullanırdım
+ama zaman içinde unutmuşum, video sayesinde bunu tekrar kullanmasam çok ciddi
+bir sorunu kaçırmış olacaktım.
+
+Umarım meraklısının işine yarar bir yazı olmuştur. Kodun son hali:
+
+```bash
+export color_blue=$'\e[0;0;34m'
+export color_blink_red=$'\e[5;31m'
+export color_off=$'\e[0m'
+
+icon_timelapse=$'\uE384' # nerd font
+
+export last_exit_code
+last_exit(){
+    local ex=$?
+    last_exit_code=${ex}
+    if [[ ${last_exit_code} != 0 ]]; then
+        last_exit_code="${color_bold_blink_red}${last_exit_code}${color_off}"
+    fi
+}
+
+export CUSTOMER_TIMER
+export TIMER_SHOW
+timer_start() {
+    CUSTOMER_TIMER=${CUSTOMER_TIMER:-$EPOCHREALTIME}
+}
+
+timer_stop() {
+    TIMER_SHOW="${color_blue}${icon_timelapse} $(bc <<< "${EPOCHREALTIME}-${CUSTOMER_TIMER}")${color_off} - "
+    unset CUSTOMER_TIMER
+}
+
+PROMPT_COMMAND="last_exit${PROMPT_COMMAND:+;$PROMPT_COMMAND}"
+
+# for vscode/ghostty terminal fix ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+if [[ ${PROMPT_COMMAND: -1} == ";" ]]; then
+    PROMPT_COMMAND="${PROMPT_COMMAND}timer_stop"
+else
+    PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND;}timer_stop"
+fi
+# for vscode/ghostty terminal fix ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+trap 'timer_start "$_"' DEBUG
+
+export PS1="[ \${TIMER_SHOW}\${last_exit_code} ]"
+```
+
+
+[ghostty]: https://ghostty.org/
+[ysap]: https://www.youtube.com/@yousuckatprogramming
+[promptcommand]: https://tldp.org/HOWTO/Bash-Prompt-HOWTO/x264.html

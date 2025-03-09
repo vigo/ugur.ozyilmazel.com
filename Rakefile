@@ -87,6 +87,7 @@ namespace :new do
 
     publish_date = Time.parse(args.publish_date || now.strftime(BLOG_TIME_FORMAT))
     file_date = publish_date.strftime(BLOG_FILE_DATE_FORMAT)
+    file_year = publish_date.strftime('%Y')
 
     args.with_defaults(language: "tr", publish_date: publish_date)
     abort "please enter post title!..." unless args.title
@@ -110,7 +111,7 @@ comments: false
 ---
 END
 
-    save_file = "source/blog/#{args.language}/#{file_date}-#{args.title.to_url}.html.md.erb"
+    save_file = "source/blog/#{args.language}/#{file_year}/#{file_date}-#{args.title.to_url}.html.md.erb"
     
     File.open(save_file, "w") do |f|
       f.write output

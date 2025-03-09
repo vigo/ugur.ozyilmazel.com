@@ -1,8 +1,10 @@
 require 'bundler/setup'
+
 require 'logger'
 require 'uglifier'
 require 'time'
 require 'active_support/all'
+
 
 activate :i18n
 Time.zone = 'Europe/Istanbul'
@@ -127,8 +129,4 @@ page "/blog/en/feed.xml", layout: false
 configure :build do
   activate :minify_css
   activate :minify_javascript, compressor: -> { Uglifier.new(:mangle => false, :harmony => true) }
-end
-
-configure :development do
-  activate :livereload, host: '127.0.0.1'
 end
