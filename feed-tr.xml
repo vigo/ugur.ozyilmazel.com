@@ -5,10 +5,267 @@
   <id>https://ugur.ozyilmazel.com/blog/tr/</id>
   <link href="https://ugur.ozyilmazel.com/blog/tr/"/>
   <link href="https://ugur.ozyilmazel.com/feed-tr.xml" rel="self"/>
-  <updated>2025-02-20T22:06:00+03:00</updated>
+  <updated>2025-03-09T20:58:00+03:00</updated>
   <author>
     <name>Uğur “vigo” Özyılmazel</name>
   </author>
+  <entry>
+    <title>Ghostty macOS Terminal ve Bash Maceraları</title>
+    <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2025/03/09/ghostty-macos-terminal-ve-bash-maceralari/"/>
+    <id>https://ugur.ozyilmazel.com/blog/tr/2025/03/09/ghostty-macos-terminal-ve-bash-maceralari/</id>
+    <published>2025-03-09T20:58:00+03:00</published>
+    <updated>2025-03-10T00:08:28+03:00</updated>
+    <author>
+      <name>Uğur “vigo” Özyılmazel</name>
+    </author>
+    <content type="html">&lt;p&gt;&lt;a href="https://ghostty.org/"&gt;Ghostty&lt;/a&gt; yeni nesil terminal client’ını denerken bir de baktım kendi
+icadım olan bazı şeyler çalışmıyor! Önce problemin kimden ve nereden
+kaynaklandığını bulmaya çalıştım.
+&lt;/p&gt;
+
+&lt;p&gt;Hatta ilk olarak Ghostty’nin forumunda sordum, neden böyle oluyor diye. Yine
+garip bir sorun bir bana denk gelmişti&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;Benim &lt;code&gt;PS1&lt;/code&gt;’de kullandığım küçük bir fonksiyonum var, son çalışan komut 
+&lt;strong&gt;kaç saniye sürdü&lt;/strong&gt; ise onu görüyorum ve son &lt;code&gt;BASH EXIT CODE&lt;/code&gt;’u da buradan 
+takip ediyorum:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight plaintext"&gt;&lt;code&gt;[ .379841 - 0 ]
+     ^      ^
+    süre    last exit code
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Aslında amacım şu, bir komutu &lt;code&gt;time &amp;lt;command&amp;gt;&lt;/code&gt; gibi her seferinde çağırmaktansa
+otomatik olarak olarak bunu prompt shell’imde göreyim dedim.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;time sleep &lt;/span&gt;2
+
+real    0m2.022s
+user    0m0.001s
+sys 0m0.006s
+&lt;span class="o"&gt;[&lt;/span&gt; 2.190589 - 0 &lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="err"&gt;$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Bunu yapmak için;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;color_blue&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;$'&lt;/span&gt;&lt;span class="se"&gt;\e&lt;/span&gt;&lt;span class="s1"&gt;[0;0;34m'&lt;/span&gt;
+&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;color_blink_red&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;$'&lt;/span&gt;&lt;span class="se"&gt;\e&lt;/span&gt;&lt;span class="s1"&gt;[5;31m'&lt;/span&gt;
+&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;color_off&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;$'&lt;/span&gt;&lt;span class="se"&gt;\e&lt;/span&gt;&lt;span class="s1"&gt;[0m'&lt;/span&gt;
+
+&lt;span class="nb"&gt;export &lt;/span&gt;last_exit_code
+last_exit&lt;span class="o"&gt;(){&lt;/span&gt;
+    &lt;span class="nb"&gt;local &lt;/span&gt;&lt;span class="nv"&gt;ex&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$?&lt;/span&gt;
+    &lt;span class="nv"&gt;last_exit_code&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;ex&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;last_exit_code&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; 0 &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then
+        &lt;/span&gt;&lt;span class="nv"&gt;last_exit_code&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;color_bold_blink_red&lt;/span&gt;&lt;span class="k"&gt;}${&lt;/span&gt;&lt;span class="nv"&gt;last_exit_code&lt;/span&gt;&lt;span class="k"&gt;}${&lt;/span&gt;&lt;span class="nv"&gt;color_off&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+    &lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="nv"&gt;icon_timelapse&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;$'&lt;/span&gt;&lt;span class="se"&gt;\u&lt;/span&gt;&lt;span class="s1"&gt;E384'&lt;/span&gt; &lt;span class="c"&gt;# nerd font ikonu&lt;/span&gt;
+
+&lt;span class="nb"&gt;export &lt;/span&gt;CUSTOMER_TIMER
+&lt;span class="nb"&gt;export &lt;/span&gt;TIMER_SHOW
+timer_start&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="nv"&gt;CUSTOMER_TIMER&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;CUSTOMER_TIMER&lt;/span&gt;&lt;span class="k"&gt;:-&lt;/span&gt;&lt;span class="nv"&gt;$EPOCHREALTIME&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+timer_stop&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="nv"&gt;TIMER_SHOW&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;color_blue&lt;/span&gt;&lt;span class="k"&gt;}${&lt;/span&gt;&lt;span class="nv"&gt;icon_timelapse&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; &lt;/span&gt;&lt;span class="si"&gt;$(&lt;/span&gt;bc &lt;span class="o"&gt;&amp;lt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;EPOCHREALTIME&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;-&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;CUSTOMER_TIMER&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;)&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;color_off&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; - "&lt;/span&gt;
+    &lt;span class="nb"&gt;unset &lt;/span&gt;CUSTOMER_TIMER
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="nv"&gt;PROMPT_COMMAND&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"last_exit&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PROMPT_COMMAND&lt;/span&gt;:+&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$PROMPT_COMMAND&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+&lt;span class="nv"&gt;PROMPT_COMMAND&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PROMPT_COMMAND&lt;/span&gt;:+&lt;span class="nv"&gt;$PROMPT_COMMAND&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;timer_stop"&lt;/span&gt;
+&lt;span class="nb"&gt;trap&lt;/span&gt; &lt;span class="s1"&gt;'timer_start'&lt;/span&gt; DEBUG
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;şeklinde küçük bir script’i &lt;code&gt;~/.bashrc&lt;/code&gt;’ime eklemiştim. Merak edenler için;
+&lt;code&gt;PROMPT_COMMAND&lt;/code&gt; özel bir &lt;a href="https://tldp.org/HOWTO/Bash-Prompt-HOWTO/x264.html"&gt;environment variable&lt;/a&gt;.  Bash’e özel, 
+yaptığı iş şu:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;The contents of this variable are executed as a regular Bash command just 
+before Bash displays a prompt. &lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Yani Bash’in &lt;code&gt;PS1&lt;/code&gt;’i çalıştırmadan önce çalıştıracağı fonksiyonlar burada
+yazıyor. macOS’un default Terminal.app’inde bu değişkeninin içinde ne yazdığına
+bakarsak:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$PROMPT_COMMAND&lt;/span&gt;
+last_exit&lt;span class="p"&gt;;&lt;/span&gt;_pyenv_virtualenv_hook&lt;span class="p"&gt;;&lt;/span&gt;_direnv_hook&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nb"&gt;history&lt;/span&gt; &lt;span class="nt"&gt;-a&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;update_terminal_cwd&lt;span class="p"&gt;;&lt;/span&gt;timer_stop
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img class="shadow"  title="macOS Terminal.app ekranı" src="/public/images/posts/2025-03-09-macos-terminal.png" alt="macOS Terminal.app ekranı"&gt;&lt;/figure&gt;&lt;p&gt; macOS Terminal.app ekranı 
+&lt;/p&gt;&lt;/div&gt;
+
+&lt;p&gt;gibi fonksiyonları görürüz. Bu gördüğünüz değelerin bazılarını ben belirledim,
+&lt;code&gt;last_exit&lt;/code&gt; ve &lt;code&gt;timer_stop&lt;/code&gt; elle eklediğim, &lt;code&gt;_pyenv_virtualenv_hook&lt;/code&gt; ise
+&lt;code&gt;pyenv&lt;/code&gt; kurulumuyla geldi, keza &lt;code&gt;direnv&lt;/code&gt; kullandığım için &lt;code&gt;_direnv_hook&lt;/code&gt; da
+ondan geldi. &lt;code&gt;history -a&lt;/code&gt; benim &lt;code&gt;history&lt;/code&gt; ayarlarımla ilgili. Yeni tab açınca
+history’i hep güncel olarak kullanabiliyorum. Peki &lt;code&gt;update_terminal_cwd&lt;/code&gt;
+nereden geldi?&lt;/p&gt;
+
+&lt;p&gt;Bu macOS’un derinliklerinden geliyor; &lt;code&gt;/etc/bashrc&lt;/code&gt; bunu otomatik olarak
+takıyor:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="c"&gt;# System-wide .bashrc file for interactive bash(1) shells.&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="nt"&gt;-z&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$PS1&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then
+   return
+fi
+
+&lt;/span&gt;&lt;span class="nv"&gt;PS1&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;'\h:\W \u\$ '&lt;/span&gt;
+&lt;span class="c"&gt;# Make bash check its window size after a process completes&lt;/span&gt;
+&lt;span class="nb"&gt;shopt&lt;/span&gt; &lt;span class="nt"&gt;-s&lt;/span&gt; checkwinsize
+
+&lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="nt"&gt;-r&lt;/span&gt; &lt;span class="s2"&gt;"/etc/bashrc_&lt;/span&gt;&lt;span class="nv"&gt;$TERM_PROGRAM&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="nb"&gt;.&lt;/span&gt; &lt;span class="s2"&gt;"/etc/bashrc_&lt;/span&gt;&lt;span class="nv"&gt;$TERM_PROGRAM&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Eğer macOS Terminal.app’de &lt;code&gt;TERM_PROGRAM&lt;/code&gt; değişkenini yazdırırsanız;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$TERM_PROGRAM&lt;/span&gt;
+Apple_Terminal
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;görürsünüz. Yani aslında &lt;code&gt;/etc/bashrc_Apple_Terminal&lt;/code&gt; diye bir dosya var mı?
+var. Dosyanın başından bir kısmını ekliyorum:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="nt"&gt;-z&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$INSIDE_EMACS&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then
+    &lt;/span&gt;update_terminal_cwd&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="c"&gt;# Identify the directory using a "file:" scheme URL, including&lt;/span&gt;
+    &lt;span class="c"&gt;# the host name to disambiguate local vs. remote paths.&lt;/span&gt;
+    :
+    :
+    &lt;span class="nv"&gt;PROMPT_COMMAND&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"update_terminal_cwd&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PROMPT_COMMAND&lt;/span&gt;:+&lt;span class="p"&gt;; &lt;/span&gt;&lt;span class="nv"&gt;$PROMPT_COMMAND&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Şeklinde, eğer &lt;code&gt;emacs&lt;/code&gt; içinde değilseniz bu fonksiyonu dinamik olarak
+oluşturuyor ve &lt;code&gt;PROMPT_COMMAND&lt;/code&gt;’a takıyor. Aslına olay şu; eğer o an
+&lt;code&gt;PROMPT_COMMAND&lt;/code&gt; değişkeninin için boşsa öne ekliyor, doluysa araya &lt;code&gt;;&lt;/code&gt;
+atıyor, yani:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nv"&gt;FOO&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"lego&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;FOO&lt;/span&gt;:+&lt;span class="p"&gt;; &lt;/span&gt;&lt;span class="nv"&gt;$FOO&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;   &lt;span class="c"&gt;# şu an FOO diye bir değişken yok&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$FOO&lt;/span&gt;
+lego
+
+&lt;span class="nv"&gt;FOO&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"bar&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;FOO&lt;/span&gt;:+&lt;span class="p"&gt;; &lt;/span&gt;&lt;span class="nv"&gt;$FOO&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;    &lt;span class="c"&gt;# FOO var ve içinde lego yazıyor, &lt;/span&gt;
+                           &lt;span class="c"&gt;# bir tür += işlemi ama ; ayraç&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$FOO&lt;/span&gt;
+bar&lt;span class="p"&gt;;&lt;/span&gt; lego
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;İlk gölü bu olaydan yedim. Neden? &lt;code&gt;update_terminal_cwd&lt;/code&gt; araya takılırken
+&lt;code&gt;TERM_PROGRAM&lt;/code&gt; a göre karar veriliyor ya. Ghostty’i ilk açtığımda bu timer
+işleri saçmaladı. Bir baktım ki &lt;code&gt;update_terminal_cwd&lt;/code&gt; diye bir şey yok
+&lt;code&gt;PROMPT_COMMAND&lt;/code&gt; içinde:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="c"&gt;# Ghostty’de&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$PROMPT_COMMAND&lt;/span&gt;
+last_exit&lt;span class="p"&gt;;&lt;/span&gt;_pyenv_virtualenv_hook&lt;span class="p"&gt;;&lt;/span&gt;_direnv_hook&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nb"&gt;history&lt;/span&gt; &lt;span class="nt"&gt;-atimer_stop&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code&gt;history -atimer_stop&lt;/code&gt; aradaki &lt;code&gt;;&lt;/code&gt; olmadığı için çatladı. Ben de eğer sonda
+&lt;code&gt;;&lt;/code&gt; varsa ya da yoksa bir ayar çekmek gerektiği için, ki aynı sorun
+&lt;strong&gt;Visual Studio Code&lt;/strong&gt;’da oldu, mecburan şu kodu ekledim. Aslına &lt;code&gt;TERM_PROGRAM&lt;/code&gt;’a
+göre de kontrol edebilirdim ama ileride &lt;code&gt;iTerm&lt;/code&gt; kullansam onu da kontrol etmem
+gerekecekti, onun yerine sondaki &lt;code&gt;;&lt;/code&gt; kontrol edeyim dedim:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nv"&gt;PROMPT_COMMAND&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"last_exit&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PROMPT_COMMAND&lt;/span&gt;:+&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$PROMPT_COMMAND&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+
+&lt;span class="c"&gt;# for vscode/ghostty terminal fix ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PROMPT_COMMAND&lt;/span&gt;:&lt;span class="p"&gt; -1&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;";"&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then
+    &lt;/span&gt;&lt;span class="nv"&gt;PROMPT_COMMAND&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PROMPT_COMMAND&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;timer_stop"&lt;/span&gt;
+&lt;span class="k"&gt;else
+    &lt;/span&gt;&lt;span class="nv"&gt;PROMPT_COMMAND&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PROMPT_COMMAND&lt;/span&gt;:+&lt;span class="nv"&gt;$PROMPT_COMMAND&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;timer_stop"&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="c"&gt;# for vscode/ghostty terminal fix ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Şeklinde bir düzeltme yaptım. Bu geçen süreyi hesaplama mantığı da şu;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;trap&lt;/span&gt; &lt;span class="s1"&gt;'timer_start'&lt;/span&gt; DEBUG
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Her komut sonrası &lt;code&gt;timer_start&lt;/code&gt; çalışıyor, sonra &lt;code&gt;PS1&lt;/code&gt; çalışıp en son &lt;code&gt;timer_stop&lt;/code&gt;
+devreye giriyor ve geçen süreyi ve son çalışan komutun hata kodunu &lt;code&gt;PS1&lt;/code&gt; 
+içinde yazdırıyorum:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;PS1&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"[ &lt;/span&gt;&lt;span class="se"&gt;\$&lt;/span&gt;&lt;span class="s2"&gt;{TIMER_SHOW}&lt;/span&gt;&lt;span class="se"&gt;\$&lt;/span&gt;&lt;span class="s2"&gt;{last_exit_code} ]"&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Mesela &lt;code&gt;ls foooooooooooooooooooooooooooooo&lt;/code&gt; desem:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;ls &lt;/span&gt;foooooooooooooooooooooooooooooo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Promptumda:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight plaintext"&gt;&lt;code&gt;[ .188104 - 2 ]
+     ^      ^
+    süre    last exit code
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;şeklinde görüyorum. Olmayan bir dizini listelemek istedim, hata kodu &lt;code&gt;2&lt;/code&gt;.
+&lt;code&gt;PROMPT_COMMAND&lt;/code&gt; ayarını da yapınca ne güzel çalışıyor diye sevinirken bugün
+ufak bir işim vardı, &lt;code&gt;cd&lt;/code&gt; yaptığım dizini text editörde açmak için;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;cd &lt;/span&gt;sites/
+mate &lt;span class="nv"&gt;$_&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;yaptım. &lt;code&gt;$_&lt;/code&gt; interaktif shell’de son argümanı temsil eder yani:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; /tmp/
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$_&lt;/span&gt;
+/tmp/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Komuta geçtiğim son argüman. Ben &lt;code&gt;mate $_&lt;/code&gt; (mate benim text editör) dediğim
+an ekranda &lt;code&gt;timer_start&lt;/code&gt; yadı ve sanki ben adı &lt;code&gt;timer_start&lt;/code&gt; olan bir dosyayı
+açmaya çalışmışım gibi oldu.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;timer_start&lt;/code&gt; fonksiyonu benim &lt;code&gt;trap&lt;/code&gt; ile çalıştırdığım bir şey. Yani son
+geçilen argüman olmuş bir şekilde. Bir şekilde bash’in default davranışını
+ezmişim ve nasıl ezdim ? nasıl çözerim bunu ? hiçbir fikrim yok&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;Yaklaşık &lt;strong&gt;2 saat&lt;/strong&gt; kadar ChatGPT’deki bir kısım custom GPT’ler, Chat GPT’nin
+kendisi, DeepSeek, GitHub Co-Pilot, bildiğim tüm LLM’lere başvurdum. Hepsi
+totosundan sallama cevaplar verdi. Sonra eski dost google’a sordum. Stack
+Overflow’da benzer sorunları yaşayan hatta birebir aynısı yaşayanlar vardı.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;trap&lt;/code&gt; &lt;code&gt;$_&lt;/code&gt;’u eziyor, yutuyor diye&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;Bazı anlar vardır, çaresizlik içinde hiçbir cevap bulamadığınız, kime sorsam ?
+kimden yardım alsam diye kara kara düşündüğünüz anlar&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;Önce &lt;code&gt;$_&lt;/code&gt; bunun orijinal versiyonunu bir başka değişkene atıp en son &lt;code&gt;timer_stop&lt;/code&gt;
+çağırıldığı zaman geri set etmek geldi ama buna izin vermiyor çünkü &lt;code&gt;_=$old_val&lt;/code&gt;
+olmadı. &lt;/p&gt;
+
+&lt;p&gt;Bir sürü farklı şeyler denedikten sonra aklıma deneme yanılma yapmak geldi ve
+kodu şöyle değiştirdim:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;trap&lt;/span&gt; &lt;span class="s1"&gt;'timer_start "$_"'&lt;/span&gt; DEBUG
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Yani &lt;code&gt;timer_start&lt;/code&gt; günün sonunda bir fonksiyon, ben ona argüman olarak o an
+&lt;code&gt;$_&lt;/code&gt; ne ise onu geçtim ve aslında son geçilen argüman yine o oldu. Ve büyük
+bir sürpriz oldu, çalıştı&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;Cuma akşamından beri &lt;a href="https://www.youtube.com/@yousuckatprogramming"&gt;ysap&lt;/a&gt; kanalını izliyorum, Bash bilgilerimi kontrol
+ediyordum, Dave orada çok kullanıyor &lt;code&gt;$_&lt;/code&gt; durumunu, ben de eskiden kullanırdım
+ama zaman içinde unutmuşum, video sayesinde bunu tekrar kullanmasam çok ciddi
+bir sorunu kaçırmış olacaktım.&lt;/p&gt;
+
+&lt;p&gt;Umarım meraklısının işine yarar bir yazı olmuştur. Kodun son hali:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;color_blue&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;$'&lt;/span&gt;&lt;span class="se"&gt;\e&lt;/span&gt;&lt;span class="s1"&gt;[0;0;34m'&lt;/span&gt;
+&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;color_blink_red&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;$'&lt;/span&gt;&lt;span class="se"&gt;\e&lt;/span&gt;&lt;span class="s1"&gt;[5;31m'&lt;/span&gt;
+&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;color_off&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;$'&lt;/span&gt;&lt;span class="se"&gt;\e&lt;/span&gt;&lt;span class="s1"&gt;[0m'&lt;/span&gt;
+
+&lt;span class="nv"&gt;icon_timelapse&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;$'&lt;/span&gt;&lt;span class="se"&gt;\u&lt;/span&gt;&lt;span class="s1"&gt;E384'&lt;/span&gt; &lt;span class="c"&gt;# nerd font&lt;/span&gt;
+
+&lt;span class="nb"&gt;export &lt;/span&gt;last_exit_code
+last_exit&lt;span class="o"&gt;(){&lt;/span&gt;
+    &lt;span class="nb"&gt;local &lt;/span&gt;&lt;span class="nv"&gt;ex&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$?&lt;/span&gt;
+    &lt;span class="nv"&gt;last_exit_code&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;ex&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;last_exit_code&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; 0 &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then
+        &lt;/span&gt;&lt;span class="nv"&gt;last_exit_code&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;color_bold_blink_red&lt;/span&gt;&lt;span class="k"&gt;}${&lt;/span&gt;&lt;span class="nv"&gt;last_exit_code&lt;/span&gt;&lt;span class="k"&gt;}${&lt;/span&gt;&lt;span class="nv"&gt;color_off&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+    &lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="nb"&gt;export &lt;/span&gt;CUSTOMER_TIMER
+&lt;span class="nb"&gt;export &lt;/span&gt;TIMER_SHOW
+timer_start&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="nv"&gt;CUSTOMER_TIMER&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;CUSTOMER_TIMER&lt;/span&gt;&lt;span class="k"&gt;:-&lt;/span&gt;&lt;span class="nv"&gt;$EPOCHREALTIME&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+timer_stop&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="nv"&gt;TIMER_SHOW&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;color_blue&lt;/span&gt;&lt;span class="k"&gt;}${&lt;/span&gt;&lt;span class="nv"&gt;icon_timelapse&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; &lt;/span&gt;&lt;span class="si"&gt;$(&lt;/span&gt;bc &lt;span class="o"&gt;&amp;lt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;EPOCHREALTIME&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;-&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;CUSTOMER_TIMER&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;)&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;color_off&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; - "&lt;/span&gt;
+    &lt;span class="nb"&gt;unset &lt;/span&gt;CUSTOMER_TIMER
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="nv"&gt;PROMPT_COMMAND&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"last_exit&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PROMPT_COMMAND&lt;/span&gt;:+&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nv"&gt;$PROMPT_COMMAND&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+
+&lt;span class="c"&gt;# for vscode/ghostty terminal fix ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PROMPT_COMMAND&lt;/span&gt;:&lt;span class="p"&gt; -1&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;";"&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then
+    &lt;/span&gt;&lt;span class="nv"&gt;PROMPT_COMMAND&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PROMPT_COMMAND&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;timer_stop"&lt;/span&gt;
+&lt;span class="k"&gt;else
+    &lt;/span&gt;&lt;span class="nv"&gt;PROMPT_COMMAND&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PROMPT_COMMAND&lt;/span&gt;:+&lt;span class="nv"&gt;$PROMPT_COMMAND&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;timer_stop"&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="c"&gt;# for vscode/ghostty terminal fix ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&lt;/span&gt;
+
+&lt;span class="nb"&gt;trap&lt;/span&gt; &lt;span class="s1"&gt;'timer_start "$_"'&lt;/span&gt; DEBUG
+
+&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;PS1&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"[ &lt;/span&gt;&lt;span class="se"&gt;\$&lt;/span&gt;&lt;span class="s2"&gt;{TIMER_SHOW}&lt;/span&gt;&lt;span class="se"&gt;\$&lt;/span&gt;&lt;span class="s2"&gt;{last_exit_code} ]"&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+  </entry>
   <entry>
     <title>`direnv` nedir? Ne işe yarar?</title>
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2025/02/20/direnv-nedir-ne-ise-yarar/"/>
@@ -2159,290 +2416,6 @@ paket ismi olarak &lt;code&gt;foo/bar/my-project&lt;/code&gt; yapmak iyi bir fik
 bunun bile olabileceğini göstermek istedim.&lt;/p&gt;
 
 &lt;p&gt;Siz yeni projelerinizde mutlaka &lt;code&gt;repo/user/paket&lt;/code&gt; formatından şaşmayın!&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>SOLID Prensibi</title>
-    <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2016/07/30/solid-prensibi/"/>
-    <id>https://ugur.ozyilmazel.com/blog/tr/2016/07/30/solid-prensibi/</id>
-    <published>2016-07-30T18:30:00+03:00</published>
-    <updated>2022-08-20T12:50:14+03:00</updated>
-    <author>
-      <name>Uğur “vigo” Özyılmazel</name>
-    </author>
-    <content type="html">&lt;p&gt;Object Oriented Programming (OOP) yani Nesne Yönelimli Programlama’nın en temel
-prensibi olarak kabul edilir.&lt;/p&gt;
-
-&lt;p&gt;&lt;mark&gt;2015 yılında AslanobaLabs projesi bünyesinde yayınladığım yazımı proje iptal
-edildiği için kendi bloguma taşıdım. Biraz düzeltme ve güncellemeler de
-yaptım.&lt;/mark&gt;&lt;/p&gt;
-
-&lt;p&gt;2000’lerin başında konuşulmaya başlanan, &lt;a href="https://twitter.com/mfeathers"&gt;Michael Feathers&lt;/a&gt; tarafından tanıtılan
-ve &lt;q&gt;İlk Beş Prensip&lt;/q&gt; diye &lt;a href="http://en.wikipedia.org/wiki/Robert_Cecil_Martin"&gt;Robert C. Martin&lt;/a&gt; tarafından adlandırılan 
-Nesne Yönelimli Programlama’nın temel prensibidir &lt;strong&gt;S.O.L.I.D&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;S.O.L.I.D’deki her harf bir prensibe/kurala denk gelir:&lt;/p&gt;
-
-&lt;table&gt;&lt;thead&gt;
-&lt;tr&gt;
-&lt;th style="text-align: center"&gt;Harf&lt;/th&gt;
-&lt;th&gt;Açıklaması&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td style="text-align: center"&gt;&lt;strong&gt;S&lt;/strong&gt;&lt;/td&gt;
-&lt;td&gt;Single responsibility principle&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style="text-align: center"&gt;&lt;strong&gt;O&lt;/strong&gt;&lt;/td&gt;
-&lt;td&gt;Open/closed principle&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style="text-align: center"&gt;&lt;strong&gt;L&lt;/strong&gt;&lt;/td&gt;
-&lt;td&gt;Liskov substitution principle&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style="text-align: center"&gt;&lt;strong&gt;I&lt;/strong&gt;&lt;/td&gt;
-&lt;td&gt;Interface segregation principle&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style="text-align: center"&gt;&lt;strong&gt;D&lt;/strong&gt;&lt;/td&gt;
-&lt;td&gt;Dependency inversion principle&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;&lt;/table&gt;
-
-&lt;p&gt;Bu prensipler, daha iyi program yazmanın yanı sıra, sürdürülebilir uygulama
-geliştirmeye yardımcı olur. &lt;a href="https://twitter.com/sandimetz"&gt;Sandi Metz&lt;/a&gt;’in 2009’da düzenlenen
-&lt;a href="http://confreaks.tv/events/goruco2009"&gt;GoRuCo&lt;/a&gt; konferansında yaptığı &lt;a href="http://confreaks.tv/videos/goruco2009-solid-object-oriented-design"&gt;sunumun&lt;/a&gt; başında;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Uygulamanızı görmedim, ne yaptığınızı bilmiyorum ama kesin olarak bildiğim
-şey şu: uygulamanız değişecek!&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Evet, Sandi Metz, bu konuda çok haklıydı. Çünkü gerçekten de yazdığımız
-uygulama, bir noktada mutlaka değişikliklere uğrayacaktı. İster hata düzeltme
-ister yeni özellikler ekleme olsun, uygulamalar bir şekilde hiçbir zaman
-ilk yazıldığı gün gibi kalmayacaktı.&lt;/p&gt;
-
-&lt;p&gt;Sağlam temelleri olan bir uygulama geliştirmek için ilk adımın Test Driven
-Development olduğunu biliyoruz, ama bir noktada ne yazıkki bu yöntem de 
-&lt;a href="http://www.sandimetz.com/blog/2009/03/21/solid-design-principles"&gt;yetersiz kalabiliyor&lt;/a&gt;. &lt;/p&gt;
-
-&lt;p&gt;Uygulama geliştirirken başımızın fazla ağrımaması için, uzmanlar &lt;strong&gt;SOLID&lt;/strong&gt;
-prensipleri ortaya koydular. Şimdi tek tek bu prensiplere göz atalım.&lt;/p&gt;
-
-&lt;h2&gt;[S]: Single responsibility&lt;/h2&gt;
-
-&lt;p&gt;Bir sınıf (&lt;em&gt;class&lt;/em&gt;) sadece tek bir işten sorumlu olmalıdır. Örneğin, bir
-web uygulaması içinde, veritabanı ile bağlantı yapacak olan sınıfın tek işi
-bağlantıyı açması ve kapatması olmalıdır. Sorgu yapmak, tablo silmek
-ya da oluşturmak işlerinden biri &lt;strong&gt;OLMAMALIDIR&lt;/strong&gt;!&lt;/p&gt;
-
-&lt;p&gt;&lt;a href="https://docs.google.com/file/d/0ByOwmqah_nuGNHEtcU5OekdDMkk/edit"&gt;Kaynak&lt;/a&gt;, &lt;a href="http://en.wikipedia.org/wiki/Single_responsibility_principle"&gt;Kaynak&lt;/a&gt;&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h2&gt;[O]: Open/closed&lt;/h2&gt;
-
-&lt;p&gt;Bir sınıf, genişlemeye açık olmalı ama değişime kapalı olmalı. Yani kodu
-değiştirmeden, değişebilmeli. Modüller &lt;code&gt;extend&lt;/code&gt; edilebilmeli ama asla ilgili
-işi yapabilmek adına, hali hazırda bulunan kod tekrardan yazılmamalı, 
-değiştirilmemeli.&lt;/p&gt;
-
-&lt;p&gt;Örneğin, Daire ve Kare çizen bir uygulama olsun. Çizdirme işini yaparken,
-&lt;q&gt;eğer tipi daire ise şöyle çiz, kare ise böyle çiz&lt;/q&gt; şeklinde bir akış 
-kullanırsak, ileride &lt;strong&gt;üçgen&lt;/strong&gt; çizdirmemiz gerektiğinde bu prensibi bozmak
-zorunda kalırız. Kodu değiştirip &lt;q&gt;eğer tipi üçgen ise&lt;/q&gt; koşulunu eklememiz
-gerekir.&lt;/p&gt;
-
-&lt;p&gt;Halbuki, &lt;code&gt;Şekil&lt;/code&gt; adında bir sınıf olsa, &lt;code&gt;Daire&lt;/code&gt; ve &lt;code&gt;Kare&lt;/code&gt; bu sınıftan türese,
-her iki şeklinde kendi &lt;code&gt;çizim&lt;/code&gt; metodu olsa. En sonda da &lt;code&gt;ŞekliÇiz&lt;/code&gt; diye
-ayrı bir sınıf olsa, bu sınıfı oluştururken ilgili şekli parametre olarak
-geçsek ve çizme işlemi için ilgili şeklin &lt;code&gt;çizim&lt;/code&gt; metodunu çağırsak?&lt;/p&gt;
-
-&lt;p&gt;Aşağıdaki örnek bu prensibi ihlal eder. Yarın &lt;code&gt;json&lt;/code&gt; çıktı almak yerine
-&lt;code&gt;pdf&lt;/code&gt; ya da &lt;code&gt;xml&lt;/code&gt; çıktı gerekse kodu değiştirmek gerekecek&amp;hellip;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="c1"&gt;# Ruby kodu&lt;/span&gt;
-&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Rapor&lt;/span&gt;
-  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;dokuman&lt;/span&gt;
-    &lt;span class="n"&gt;dokumani_uret&lt;/span&gt;
-  &lt;span class="k"&gt;end&lt;/span&gt;
-
-  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;yazdir&lt;/span&gt;
-    &lt;span class="n"&gt;dokuman&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;to_json&lt;/span&gt; &lt;span class="c1"&gt;# json çıktı alır&lt;/span&gt;
-  &lt;span class="k"&gt;end&lt;/span&gt;
-&lt;span class="k"&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Yukarıdaki sınıf sadece &lt;code&gt;json&lt;/code&gt; çıktı almak üzerine planlanmış. &lt;code&gt;pdf&lt;/code&gt; çıktı
-almak gerektiği noktada bu kod’u değiştirmek gerekecek&amp;hellip; Halbuki aşağıdaki 
-kod parçası bu durumu düşünüp kurala uymuş;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="c1"&gt;# Ruby kodu&lt;/span&gt;
-&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Rapor&lt;/span&gt;
-  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;dokuman&lt;/span&gt;
-    &lt;span class="n"&gt;dokumani_uret&lt;/span&gt;
-  &lt;span class="k"&gt;end&lt;/span&gt;
-
-  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;yazdir&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;cikti_formati: &lt;/span&gt;&lt;span class="no"&gt;JSONFormatter&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;new&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;cikti_formati&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;format&lt;/span&gt; &lt;span class="n"&gt;dokuman&lt;/span&gt;
-  &lt;span class="k"&gt;end&lt;/span&gt;
-&lt;span class="k"&gt;end&lt;/span&gt;
-
-&lt;span class="n"&gt;aylik_rapor&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;Rapor&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;new&lt;/span&gt;
-&lt;span class="n"&gt;aylik_rapor&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;yazdir&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;cikti_formati: &lt;/span&gt;&lt;span class="no"&gt;XMLFormatter&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;new&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# xml olarak aldık...&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;a href="https://drive.google.com/file/d/0BwhCYaYDn8EgN2M5MTkwM2EtNWFkZC00ZTI3LWFjZTUtNTFhZGZiYmUzODc1/view"&gt;Kaynak&lt;/a&gt;&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h2&gt;[L]: Liskov substitution&lt;/h2&gt;
-
-&lt;p&gt;Alt sınıf (&lt;em&gt;türeyen sınıf - sub class&lt;/em&gt;), üst sınıfın (&lt;em&gt;base class&lt;/em&gt;) yerini
-alabilecek şekilde olmalıdır. Şimdi iki tane sınıfımız olsun. &lt;strong&gt;Dörtgen&lt;/strong&gt; ve &lt;strong&gt;Kare&lt;/strong&gt;.
-Kare, Dörtgen’den türemiş olsun. Dörtgen sınıfının &lt;code&gt;genislik&lt;/code&gt; ve &lt;code&gt;yukseklik&lt;/code&gt;
-adında iki tane &lt;strong&gt;accessor&lt;/strong&gt;’ü (&lt;em&gt;getter-setter&lt;/em&gt;) var, Ruby’den örnekliyoruz:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="c1"&gt;# Ruby kodu&lt;/span&gt;
-&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Dortgen&lt;/span&gt;
-  &lt;span class="nb"&gt;attr_accessor&lt;/span&gt; &lt;span class="ss"&gt;:genislik&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:yukseklik&lt;/span&gt;
-&lt;span class="k"&gt;end&lt;/span&gt; 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;ve &lt;code&gt;Dortgen&lt;/code&gt;’den türemiş &lt;code&gt;Kare&lt;/code&gt;:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="c1"&gt;# Ruby kodu&lt;/span&gt;
-&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Kare&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;Dortgen&lt;/span&gt;
-  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;yukseklik&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;yukseklik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="vi"&gt;@degisken&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;yukseklik&lt;/span&gt;
-  &lt;span class="k"&gt;end&lt;/span&gt;
-  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;genislik&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;genislik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="vi"&gt;@degisken&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;genislik&lt;/span&gt;
-  &lt;span class="k"&gt;end&lt;/span&gt;
-  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;genislik&lt;/span&gt;
-    &lt;span class="vi"&gt;@degisken&lt;/span&gt;
-  &lt;span class="k"&gt;end&lt;/span&gt;
-  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;yukseklik&lt;/span&gt;
-    &lt;span class="vi"&gt;@degisken&lt;/span&gt;
-  &lt;span class="k"&gt;end&lt;/span&gt;
-&lt;span class="k"&gt;end&lt;/span&gt; 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Ruby’de &lt;code&gt;=&lt;/code&gt; ile biten metod &lt;code&gt;setter&lt;/code&gt; anlamına geliyor. Yani &lt;code&gt;yukseklik=&lt;/code&gt; &lt;strong&gt;setter&lt;/strong&gt;,
-&lt;code&gt;yukseklik&lt;/code&gt; ise &lt;strong&gt;getter&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;Şimdi her iki şeklinde alanını hesap edelim:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight plaintext"&gt;&lt;code&gt;alan = genislik * yukseklik
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="c1"&gt;# Ruby kodu&lt;/span&gt;
-&lt;span class="n"&gt;dortgen&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;Dortgen&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;new&lt;/span&gt;
-&lt;span class="n"&gt;kare&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;Kare&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;new&lt;/span&gt;
-
-&lt;span class="n"&gt;dortgen&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;genislik&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;
-&lt;span class="n"&gt;dortgen&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;yukseklik&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;
-&lt;span class="n"&gt;dortgen&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;genislik&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;dortgen&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;yukseklik&lt;/span&gt; &lt;span class="c1"&gt;# =&amp;gt; 20&lt;/span&gt;
-
-&lt;span class="n"&gt;kare&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;genislik&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;
-&lt;span class="n"&gt;kare&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;yukseklik&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;
-&lt;span class="n"&gt;kare&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;genislik&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;kare&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;yukseklik&lt;/span&gt;       &lt;span class="c1"&gt;# =&amp;gt; 25 ???&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;code&gt;Kare&lt;/code&gt; sınıfı, Liskov değişimi kuralını ihlal edip, üst sınıftan gelen
-özellikleri modifiye etmiştir.&lt;/p&gt;
-
-&lt;p&gt;Başka bir örnek;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="c1"&gt;# Ruby kodu&lt;/span&gt;
-&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Hayvan&lt;/span&gt;
-  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;yuru&lt;/span&gt;
-     &lt;span class="n"&gt;yurume_islemi&lt;/span&gt;
-  &lt;span class="k"&gt;end&lt;/span&gt;
-&lt;span class="k"&gt;end&lt;/span&gt;
-
-&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Kedi&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;Hayvan&lt;/span&gt;
-  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;kos&lt;/span&gt;
-    &lt;span class="n"&gt;kosma_islemi&lt;/span&gt;
-  &lt;span class="k"&gt;end&lt;/span&gt;
-&lt;span class="k"&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Verdiğim örnek Ruby’den ve Ruby’de &lt;strong&gt;interface&lt;/strong&gt; mantığı yok. Yukarıdaki
-kod Liskov değişimi prensibini ihlal ediyor. Neden? &lt;code&gt;Kedi&lt;/code&gt; sınıfı &lt;code&gt;Hayvan&lt;/code&gt;dan
-türedi ve &lt;code&gt;Hayvan&lt;/code&gt; sınıfının &lt;code&gt;kos&lt;/code&gt; diye bir metodu yok&amp;hellip; Bu durumda,
-&lt;code&gt;Hayvan&lt;/code&gt; sınıfını bir &lt;strong&gt;interface&lt;/strong&gt; gibi düşünmeli ve interface’de olan
-metodları &lt;strong&gt;implement&lt;/strong&gt; etmeliyiz. Bu bakımdan &lt;code&gt;Hayvan&lt;/code&gt; sınıfı aşağıdaki
-gibi olmalı:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="c1"&gt;# Ruby kodu&lt;/span&gt;
-&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Hayvan&lt;/span&gt;
-  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;yuru&lt;/span&gt;
-    &lt;span class="n"&gt;yurume_islemi&lt;/span&gt;
-  &lt;span class="k"&gt;end&lt;/span&gt;
-  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;kos&lt;/span&gt;                          &lt;span class="c1"&gt;# koşma özelliği olmasa bile&lt;/span&gt;
-    &lt;span class="k"&gt;raise&lt;/span&gt; &lt;span class="no"&gt;NotImplementedError&lt;/span&gt;      &lt;span class="c1"&gt;# prensibe göre çapraz&lt;/span&gt;
-  &lt;span class="k"&gt;end&lt;/span&gt;                              &lt;span class="c1"&gt;# eşitlik olmalı...&lt;/span&gt;
-&lt;span class="k"&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;a href="http://en.wikipedia.org/wiki/Liskov_substitution_principle"&gt;Kaynak&lt;/a&gt;, &lt;a href="https://drive.google.com/file/d/0BwhCYaYDn8EgNzAzZjA5ZmItNjU3NS00MzQ5LTkwYjMtMDJhNDU5ZTM0MTlh/view"&gt;Kaynak&lt;/a&gt;&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h2&gt;[I] Interface segregation&lt;/h2&gt;
-
-&lt;p&gt;Genel amaca hizmet eden tek bir arayüz yapmak yerine, istemciye uygun farklı 
-farklı arayüzler yapmak daha iyidir. Yani bir sınıf, bir interface’den
-türerken sadece kendi işine yarayacak metodları almalıdır.&lt;/p&gt;
-
-&lt;p&gt;Bu sayede daha uyumlu kod yazma ve &lt;strong&gt;less coupling&lt;/strong&gt; yani başka kütphane/kod’a 
-bağlı kalmama özelliğini arttırmış/sağlamış oluruz.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href="https://drive.google.com/file/d/0BwhCYaYDn8EgOTViYjJhYzMtMzYxMC00MzFjLWJjMzYtOGJiMDc5N2JkYmJi/view"&gt;Kaynak&lt;/a&gt;, &lt;a href="http://en.wikipedia.org/wiki/Interface_segregation_principle"&gt;Kaynak&lt;/a&gt;&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;h2&gt;[D] Dependency inversion&lt;/h2&gt;
-
-&lt;p&gt;Bağımlılığın tersine dönmesi. Tek parça monolit/devasa bir sınıf olmak yerine
-kendi işlerini yapan küçük parçalardan oluşan sınıflar haline gelmek. Bağımlılıkları
-minimale indirmek, hatta başka bir değişle &lt;strong&gt;Dependency Injection&lt;/strong&gt; yapmak.&lt;/p&gt;
-
-&lt;p&gt;Özellikle &lt;a href="http://en.wikipedia.org/wiki/Test-driven_development"&gt;TDD&lt;/a&gt; yaparken sık kullandığımız &lt;a href="http://en.wikipedia.org/wiki/Mock_object"&gt;Mock&lt;/a&gt;, &lt;a href="http://en.wikipedia.org/wiki/Method_stub"&gt;Stub&lt;/a&gt;, 
-&lt;a href="http://en.wikipedia.org/wiki/Test_double"&gt;Test Double&lt;/a&gt; gibi kavramlar bu prensip üzerine kuruludur.&lt;/p&gt;
-
-&lt;p&gt;Bir sınıf oluşturuken parametre olarak &lt;code&gt;Hash&lt;/code&gt; / &lt;code&gt;Dictionary&lt;/code&gt; yani &lt;strong&gt;key-value&lt;/strong&gt;
-tutan nesne geçmek ya da ilgili başka bir sınıfı geçmek araya bağımlılık enjekte
-etmek anlamına gelir. Buradaki bağımlılık aslında bize esneklik sağlar.&lt;/p&gt;
-
-&lt;p&gt;Fonksiyonu ya da metodu çağırken sabit parametre yerine kullanılan Hash, hem
-bize parametre sırası zorunluluğundan kurtatır hem de ilgili fonksiyon içinde
-bağımsız hareket edebilme özgürlüğünü sağlar.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="c1"&gt;# Ruby kodu&lt;/span&gt;
-&lt;span class="no"&gt;DEFAULTS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-  &lt;span class="ss"&gt;a: &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-  &lt;span class="ss"&gt;b: &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-  &lt;span class="ss"&gt;c: &lt;/span&gt;&lt;span class="s2"&gt;"c"&lt;/span&gt;
-&lt;span class="p"&gt;}&lt;/span&gt;
-
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test_func&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{})&lt;/span&gt;
-  &lt;span class="n"&gt;args&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;DEFAULTS&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;merge&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="k"&gt;end&lt;/span&gt;
-
-&lt;span class="n"&gt;test_func&lt;/span&gt;
-&lt;span class="c1"&gt;# =&amp;gt; {:a=&amp;gt;1, :b=&amp;gt;2, :c=&amp;gt;"c"}&lt;/span&gt;
-
-&lt;span class="n"&gt;test_func&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="ss"&gt;a: &lt;/span&gt;&lt;span class="s2"&gt;"ali"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;b: &lt;/span&gt;&lt;span class="s2"&gt;"veli"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;c: &lt;/span&gt;&lt;span class="kp"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;})&lt;/span&gt;
-&lt;span class="c1"&gt;# =&amp;gt; {:a=&amp;gt;"ali", :b=&amp;gt;"veli", :c=&amp;gt;nil}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Test yazarken, henüz nasıl çalışacağına karar vermediğimiz ama tahminen sonucunu
-ne olması gerektiğini bildiğimiz durumlara, bu metodu varmış gibi taklit etmek,
-gerçek kodda kullanmak da tam bir &lt;strong&gt;Dependency Injection&lt;/strong&gt; örneğidir.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="c1"&gt;# Ruby, Rspec örnek...&lt;/span&gt;
-&lt;span class="n"&gt;f&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;"./test_file.txt"&lt;/span&gt;
-
-&lt;span class="n"&gt;file_downloader&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;double&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"Fetcher"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="c1"&gt;# Henüz Fetcher sınıfını yazmadık ama &lt;/span&gt;
-
-&lt;span class="n"&gt;file_downloader&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;stud&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:download&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nf"&gt;and_return&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="c1"&gt;# download metodu olacağını ve bir text dosyası döneceğini biliyoruz!&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;hr&gt;
-
-&lt;p&gt;Tüm bu prensipler aslında daha kullanışlı, daha rahat yönetilebilen ve
-sürdürülebilir yazılım geliştirmemizi sağlamak amacıyla uzmanların
-ortaya koyduğu kurallardır.&lt;/p&gt;
-
-&lt;p&gt;Başta da belirttiğim gibi, usta &lt;a href="https://twitter.com/sandimetz"&gt;Sandi Metz&lt;/a&gt; bu konuyla ilgili çok
-güzel bir sunum yapmıştı. Bu sunumu da &lt;a href="https://speakerdeck.com/skmetz/solid-object-oriented-design"&gt;linkten&lt;/a&gt; indirebilirsiniz.&lt;/p&gt;
 </content>
   </entry>
 </feed>

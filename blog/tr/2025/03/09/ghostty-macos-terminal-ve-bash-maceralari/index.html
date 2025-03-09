@@ -1,0 +1,493 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Ghostty macOS Terminal ve Bash Maceraları - Uğur “vigo” Özyılmazel</title>
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (Türkçe)" href="/feed-tr.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (English)" href="/feed-en.xml" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <script src="https://kit.fontawesome.com/ebc2456445.js" crossorigin="anonymous"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+        <link href="/public/css/syntax.css" rel="stylesheet" />
+        <link href="/public/css/application.css" rel="stylesheet" />
+    
+
+        <script src="/public/js/application.js"></script>
+    
+        <meta name="date" content="2025-03-10T00:09:42+03:00" />
+        <meta name="description" content="Ghostty yeni nesil terminal client’ını denerken bir de baktım kendi icadım olan bazı şeyler çalışmıyor! Önce problemin kimden ve nereden kaynaklandığını bulmaya çalıştım." />
+        <meta name="author" content="Uğur “vigo” Özyılmazel"/>
+        <meta name="copyright" content="(c) 2006 / 2025 - Uğur “vigo” Özyılmazel" />
+        <meta property="og:url" content="https://ugur.ozyilmazel.com/blog/tr/2025/03/09/ghostty-macos-terminal-ve-bash-maceralari/" />
+        <meta property="og:title" content="Ghostty macOS Terminal ve Bash Maceraları" />
+        <meta property="og:site_name" content="vigo" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="Ghostty yeni nesil terminal client’ını denerken bir de baktım kendi icadım olan bazı şeyler çalışmıyor! Önce problemin kimden ve nereden kaynaklandığını bulmaya çalıştım." />
+        <meta property="og:image" content="https://ugur.ozyilmazel.com/public/images/og/ugur-vigo-ozyilmazel-500x500.jpg" />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:width" content="500" />
+        <meta property="og:image:height" content="500" />
+
+    <link href="/public/images/favicon.png" rel="shortcut icon" type="image/png" />
+    </head>
+<body>
+    
+    
+    <section class="section menu">
+    <div class="container">
+        <nav class="level is-mobile">
+            <div class="level-left">
+<div class="level-item"><a href="/">Anasayfa</a></div><div class="level-item"><a href="/blog/tr/" class="is-active">Blog Arşiv</a></div><div class="level-item"><a href="/sayfa/tr/sunumlar/">Sunumlar</a></div>            </div>
+            <div class="level-right">
+<div class="level-item"><a href="https://vbyazilim.com" target="_blank">VB</a></div><div class="level-item"><a href="/en/">EN</a></div>            </div>
+        </nav>
+    </div>
+</section>
+
+    
+        <section class="hero is-medium cover is-hidden-touch" style="background-image: url(/public/images/covers/2025-03-09-ghostty-terminal-bash.png);">
+        <div class="hero-body">
+            <div class="container has-text-left">
+                
+                
+            </div>
+        </div>
+    </section>
+  
+    
+        <section class="section main">
+        <div class="container">
+        
+            <div class="columns is-multiline is-variable is-8">
+                <div class="column is-9-desktop is-full-tablet">
+                    <div class="content is-large">
+                        <article>
+                            <div class="meta">
+                                <span class="reading-time">OKUMA SÜRESİ 04:25</span>
+                                &mdash;
+                                <time pubdate datetime="2025-03-09T20:58:00+03:00" title="09 Mart 2025, Pazar 20:58">09 Mart 2025, Pazar 20:58</time>
+
+
+                                <div class="tags mt-3">
+                                        <a href="/blog/tr/etiket/ghostty/" class="tag is-info">ghostty</a>
+                                        <a href="/blog/tr/etiket/bash/" class="tag is-info">bash</a>
+                                        <a href="/blog/tr/etiket/terminal/" class="tag is-info">terminal</a>
+                                        <a href="/blog/tr/etiket/trap/" class="tag is-info">trap</a>
+                                </div>
+                                
+                            </div>
+                            
+                            <h1 class="title">Ghostty macOS Terminal ve Bash Maceraları</h1>
+                            
+                            <div class="yield"><p><a href="https://ghostty.org/">Ghostty</a> yeni nesil terminal client’ını denerken bir de baktım kendi
+icadım olan bazı şeyler çalışmıyor! Önce problemin kimden ve nereden
+kaynaklandığını bulmaya çalıştım.
+</p>
+
+<p>Hatta ilk olarak Ghostty’nin forumunda sordum, neden böyle oluyor diye. Yine
+garip bir sorun bir bana denk gelmişti&hellip;</p>
+
+<p>Benim <code>PS1</code>’de kullandığım küçük bir fonksiyonum var, son çalışan komut 
+<strong>kaç saniye sürdü</strong> ise onu görüyorum ve son <code>BASH EXIT CODE</code>’u da buradan 
+takip ediyorum:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>[ .379841 - 0 ]
+     ^      ^
+    süre    last exit code
+</code></pre></div>
+<p>Aslında amacım şu, bir komutu <code>time &lt;command&gt;</code> gibi her seferinde çağırmaktansa
+otomatik olarak olarak bunu prompt shell’imde göreyim dedim.</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">time sleep </span>2
+
+real    0m2.022s
+user    0m0.001s
+sys 0m0.006s
+<span class="o">[</span> 2.190589 - 0 <span class="o">]</span>
+<span class="err">$</span>
+</code></pre></div>
+<p>Bunu yapmak için;</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">export </span><span class="nv">color_blue</span><span class="o">=</span><span class="s1">$'</span><span class="se">\e</span><span class="s1">[0;0;34m'</span>
+<span class="nb">export </span><span class="nv">color_blink_red</span><span class="o">=</span><span class="s1">$'</span><span class="se">\e</span><span class="s1">[5;31m'</span>
+<span class="nb">export </span><span class="nv">color_off</span><span class="o">=</span><span class="s1">$'</span><span class="se">\e</span><span class="s1">[0m'</span>
+
+<span class="nb">export </span>last_exit_code
+last_exit<span class="o">(){</span>
+    <span class="nb">local </span><span class="nv">ex</span><span class="o">=</span><span class="nv">$?</span>
+    <span class="nv">last_exit_code</span><span class="o">=</span><span class="k">${</span><span class="nv">ex</span><span class="k">}</span>
+    <span class="k">if</span> <span class="o">[[</span> <span class="k">${</span><span class="nv">last_exit_code</span><span class="k">}</span> <span class="o">!=</span> 0 <span class="o">]]</span><span class="p">;</span> <span class="k">then
+        </span><span class="nv">last_exit_code</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">color_bold_blink_red</span><span class="k">}${</span><span class="nv">last_exit_code</span><span class="k">}${</span><span class="nv">color_off</span><span class="k">}</span><span class="s2">"</span>
+    <span class="k">fi</span>
+<span class="o">}</span>
+
+<span class="nv">icon_timelapse</span><span class="o">=</span><span class="s1">$'</span><span class="se">\u</span><span class="s1">E384'</span> <span class="c"># nerd font ikonu</span>
+
+<span class="nb">export </span>CUSTOMER_TIMER
+<span class="nb">export </span>TIMER_SHOW
+timer_start<span class="o">()</span> <span class="o">{</span>
+    <span class="nv">CUSTOMER_TIMER</span><span class="o">=</span><span class="k">${</span><span class="nv">CUSTOMER_TIMER</span><span class="k">:-</span><span class="nv">$EPOCHREALTIME</span><span class="k">}</span>
+<span class="o">}</span>
+
+timer_stop<span class="o">()</span> <span class="o">{</span>
+    <span class="nv">TIMER_SHOW</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">color_blue</span><span class="k">}${</span><span class="nv">icon_timelapse</span><span class="k">}</span><span class="s2"> </span><span class="si">$(</span>bc <span class="o">&lt;&lt;&lt;</span> <span class="s2">"</span><span class="k">${</span><span class="nv">EPOCHREALTIME</span><span class="k">}</span><span class="s2">-</span><span class="k">${</span><span class="nv">CUSTOMER_TIMER</span><span class="k">}</span><span class="s2">"</span><span class="si">)</span><span class="k">${</span><span class="nv">color_off</span><span class="k">}</span><span class="s2"> - "</span>
+    <span class="nb">unset </span>CUSTOMER_TIMER
+<span class="o">}</span>
+
+<span class="nv">PROMPT_COMMAND</span><span class="o">=</span><span class="s2">"last_exit</span><span class="k">${</span><span class="nv">PROMPT_COMMAND</span>:+<span class="p">;</span><span class="nv">$PROMPT_COMMAND</span><span class="k">}</span><span class="s2">"</span>
+<span class="nv">PROMPT_COMMAND</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">PROMPT_COMMAND</span>:+<span class="nv">$PROMPT_COMMAND</span><span class="p">;</span><span class="k">}</span><span class="s2">timer_stop"</span>
+<span class="nb">trap</span> <span class="s1">'timer_start'</span> DEBUG
+</code></pre></div>
+<p>şeklinde küçük bir script’i <code>~/.bashrc</code>’ime eklemiştim. Merak edenler için;
+<code>PROMPT_COMMAND</code> özel bir <a href="https://tldp.org/HOWTO/Bash-Prompt-HOWTO/x264.html">environment variable</a>.  Bash’e özel, 
+yaptığı iş şu:</p>
+
+<blockquote>
+<p>The contents of this variable are executed as a regular Bash command just 
+before Bash displays a prompt. </p>
+</blockquote>
+
+<p>Yani Bash’in <code>PS1</code>’i çalıştırmadan önce çalıştıracağı fonksiyonlar burada
+yazıyor. macOS’un default Terminal.app’inde bu değişkeninin içinde ne yazdığına
+bakarsak:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">echo</span> <span class="nv">$PROMPT_COMMAND</span>
+last_exit<span class="p">;</span>_pyenv_virtualenv_hook<span class="p">;</span>_direnv_hook<span class="p">;</span><span class="nb">history</span> <span class="nt">-a</span><span class="p">;</span>update_terminal_cwd<span class="p">;</span>timer_stop
+</code></pre></div>
+<div class="full zoomable"><figure class="image"><img class="shadow"  title="macOS Terminal.app ekranı" src="/public/images/posts/2025-03-09-macos-terminal.png" alt="macOS Terminal.app ekranı"></figure><p> macOS Terminal.app ekranı 
+</p></div>
+
+<p>gibi fonksiyonları görürüz. Bu gördüğünüz değelerin bazılarını ben belirledim,
+<code>last_exit</code> ve <code>timer_stop</code> elle eklediğim, <code>_pyenv_virtualenv_hook</code> ise
+<code>pyenv</code> kurulumuyla geldi, keza <code>direnv</code> kullandığım için <code>_direnv_hook</code> da
+ondan geldi. <code>history -a</code> benim <code>history</code> ayarlarımla ilgili. Yeni tab açınca
+history’i hep güncel olarak kullanabiliyorum. Peki <code>update_terminal_cwd</code>
+nereden geldi?</p>
+
+<p>Bu macOS’un derinliklerinden geliyor; <code>/etc/bashrc</code> bunu otomatik olarak
+takıyor:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="c"># System-wide .bashrc file for interactive bash(1) shells.</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="nv">$PS1</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+   return
+fi
+
+</span><span class="nv">PS1</span><span class="o">=</span><span class="s1">'\h:\W \u\$ '</span>
+<span class="c"># Make bash check its window size after a process completes</span>
+<span class="nb">shopt</span> <span class="nt">-s</span> checkwinsize
+
+<span class="o">[</span> <span class="nt">-r</span> <span class="s2">"/etc/bashrc_</span><span class="nv">$TERM_PROGRAM</span><span class="s2">"</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">.</span> <span class="s2">"/etc/bashrc_</span><span class="nv">$TERM_PROGRAM</span><span class="s2">"</span>
+</code></pre></div>
+<p>Eğer macOS Terminal.app’de <code>TERM_PROGRAM</code> değişkenini yazdırırsanız;</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">echo</span> <span class="nv">$TERM_PROGRAM</span>
+Apple_Terminal
+</code></pre></div>
+<p>görürsünüz. Yani aslında <code>/etc/bashrc_Apple_Terminal</code> diye bir dosya var mı?
+var. Dosyanın başından bir kısmını ekliyorum:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="k">if</span> <span class="o">[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="nv">$INSIDE_EMACS</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span>update_terminal_cwd<span class="o">()</span> <span class="o">{</span>
+    <span class="c"># Identify the directory using a "file:" scheme URL, including</span>
+    <span class="c"># the host name to disambiguate local vs. remote paths.</span>
+    :
+    :
+    <span class="nv">PROMPT_COMMAND</span><span class="o">=</span><span class="s2">"update_terminal_cwd</span><span class="k">${</span><span class="nv">PROMPT_COMMAND</span>:+<span class="p">; </span><span class="nv">$PROMPT_COMMAND</span><span class="k">}</span><span class="s2">"</span>
+</code></pre></div>
+<p>Şeklinde, eğer <code>emacs</code> içinde değilseniz bu fonksiyonu dinamik olarak
+oluşturuyor ve <code>PROMPT_COMMAND</code>’a takıyor. Aslına olay şu; eğer o an
+<code>PROMPT_COMMAND</code> değişkeninin için boşsa öne ekliyor, doluysa araya <code>;</code>
+atıyor, yani:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">FOO</span><span class="o">=</span><span class="s2">"lego</span><span class="k">${</span><span class="nv">FOO</span>:+<span class="p">; </span><span class="nv">$FOO</span><span class="k">}</span><span class="s2">"</span>   <span class="c"># şu an FOO diye bir değişken yok</span>
+<span class="nb">echo</span> <span class="nv">$FOO</span>
+lego
+
+<span class="nv">FOO</span><span class="o">=</span><span class="s2">"bar</span><span class="k">${</span><span class="nv">FOO</span>:+<span class="p">; </span><span class="nv">$FOO</span><span class="k">}</span><span class="s2">"</span>    <span class="c"># FOO var ve içinde lego yazıyor, </span>
+                           <span class="c"># bir tür += işlemi ama ; ayraç</span>
+<span class="nb">echo</span> <span class="nv">$FOO</span>
+bar<span class="p">;</span> lego
+</code></pre></div>
+<p>İlk gölü bu olaydan yedim. Neden? <code>update_terminal_cwd</code> araya takılırken
+<code>TERM_PROGRAM</code> a göre karar veriliyor ya. Ghostty’i ilk açtığımda bu timer
+işleri saçmaladı. Bir baktım ki <code>update_terminal_cwd</code> diye bir şey yok
+<code>PROMPT_COMMAND</code> içinde:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="c"># Ghostty’de</span>
+<span class="nb">echo</span> <span class="nv">$PROMPT_COMMAND</span>
+last_exit<span class="p">;</span>_pyenv_virtualenv_hook<span class="p">;</span>_direnv_hook<span class="p">;</span><span class="nb">history</span> <span class="nt">-atimer_stop</span>
+</code></pre></div>
+<p><code>history -atimer_stop</code> aradaki <code>;</code> olmadığı için çatladı. Ben de eğer sonda
+<code>;</code> varsa ya da yoksa bir ayar çekmek gerektiği için, ki aynı sorun
+<strong>Visual Studio Code</strong>’da oldu, mecburan şu kodu ekledim. Aslına <code>TERM_PROGRAM</code>’a
+göre de kontrol edebilirdim ama ileride <code>iTerm</code> kullansam onu da kontrol etmem
+gerekecekti, onun yerine sondaki <code>;</code> kontrol edeyim dedim:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">PROMPT_COMMAND</span><span class="o">=</span><span class="s2">"last_exit</span><span class="k">${</span><span class="nv">PROMPT_COMMAND</span>:+<span class="p">;</span><span class="nv">$PROMPT_COMMAND</span><span class="k">}</span><span class="s2">"</span>
+
+<span class="c"># for vscode/ghostty terminal fix ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span>
+<span class="k">if</span> <span class="o">[[</span> <span class="k">${</span><span class="nv">PROMPT_COMMAND</span>:<span class="p"> -1</span><span class="k">}</span> <span class="o">==</span> <span class="s2">";"</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nv">PROMPT_COMMAND</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">PROMPT_COMMAND</span><span class="k">}</span><span class="s2">timer_stop"</span>
+<span class="k">else
+    </span><span class="nv">PROMPT_COMMAND</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">PROMPT_COMMAND</span>:+<span class="nv">$PROMPT_COMMAND</span><span class="p">;</span><span class="k">}</span><span class="s2">timer_stop"</span>
+<span class="k">fi</span>
+<span class="c"># for vscode/ghostty terminal fix ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span>
+</code></pre></div>
+<p>Şeklinde bir düzeltme yaptım. Bu geçen süreyi hesaplama mantığı da şu;</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">trap</span> <span class="s1">'timer_start'</span> DEBUG
+</code></pre></div>
+<p>Her komut sonrası <code>timer_start</code> çalışıyor, sonra <code>PS1</code> çalışıp en son <code>timer_stop</code>
+devreye giriyor ve geçen süreyi ve son çalışan komutun hata kodunu <code>PS1</code> 
+içinde yazdırıyorum:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">export </span><span class="nv">PS1</span><span class="o">=</span><span class="s2">"[ </span><span class="se">\$</span><span class="s2">{TIMER_SHOW}</span><span class="se">\$</span><span class="s2">{last_exit_code} ]"</span>
+</code></pre></div>
+<p>Mesela <code>ls foooooooooooooooooooooooooooooo</code> desem:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">ls </span>foooooooooooooooooooooooooooooo
+</code></pre></div>
+<p>Promptumda:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>[ .188104 - 2 ]
+     ^      ^
+    süre    last exit code
+</code></pre></div>
+<p>şeklinde görüyorum. Olmayan bir dizini listelemek istedim, hata kodu <code>2</code>.
+<code>PROMPT_COMMAND</code> ayarını da yapınca ne güzel çalışıyor diye sevinirken bugün
+ufak bir işim vardı, <code>cd</code> yaptığım dizini text editörde açmak için;</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">cd </span>sites/
+mate <span class="nv">$_</span>
+</code></pre></div>
+<p>yaptım. <code>$_</code> interaktif shell’de son argümanı temsil eder yani:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">cd</span> /tmp/
+<span class="nb">echo</span> <span class="nv">$_</span>
+/tmp/
+</code></pre></div>
+<p>Komuta geçtiğim son argüman. Ben <code>mate $_</code> (mate benim text editör) dediğim
+an ekranda <code>timer_start</code> yadı ve sanki ben adı <code>timer_start</code> olan bir dosyayı
+açmaya çalışmışım gibi oldu.</p>
+
+<p><code>timer_start</code> fonksiyonu benim <code>trap</code> ile çalıştırdığım bir şey. Yani son
+geçilen argüman olmuş bir şekilde. Bir şekilde bash’in default davranışını
+ezmişim ve nasıl ezdim ? nasıl çözerim bunu ? hiçbir fikrim yok&hellip;</p>
+
+<p>Yaklaşık <strong>2 saat</strong> kadar ChatGPT’deki bir kısım custom GPT’ler, Chat GPT’nin
+kendisi, DeepSeek, GitHub Co-Pilot, bildiğim tüm LLM’lere başvurdum. Hepsi
+totosundan sallama cevaplar verdi. Sonra eski dost google’a sordum. Stack
+Overflow’da benzer sorunları yaşayan hatta birebir aynısı yaşayanlar vardı.</p>
+
+<p><code>trap</code> <code>$_</code>’u eziyor, yutuyor diye&hellip;</p>
+
+<p>Bazı anlar vardır, çaresizlik içinde hiçbir cevap bulamadığınız, kime sorsam ?
+kimden yardım alsam diye kara kara düşündüğünüz anlar&hellip;</p>
+
+<p>Önce <code>$_</code> bunun orijinal versiyonunu bir başka değişkene atıp en son <code>timer_stop</code>
+çağırıldığı zaman geri set etmek geldi ama buna izin vermiyor çünkü <code>_=$old_val</code>
+olmadı. </p>
+
+<p>Bir sürü farklı şeyler denedikten sonra aklıma deneme yanılma yapmak geldi ve
+kodu şöyle değiştirdim:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">trap</span> <span class="s1">'timer_start "$_"'</span> DEBUG
+</code></pre></div>
+<p>Yani <code>timer_start</code> günün sonunda bir fonksiyon, ben ona argüman olarak o an
+<code>$_</code> ne ise onu geçtim ve aslında son geçilen argüman yine o oldu. Ve büyük
+bir sürpriz oldu, çalıştı&hellip;</p>
+
+<p>Cuma akşamından beri <a href="https://www.youtube.com/@yousuckatprogramming">ysap</a> kanalını izliyorum, Bash bilgilerimi kontrol
+ediyordum, Dave orada çok kullanıyor <code>$_</code> durumunu, ben de eskiden kullanırdım
+ama zaman içinde unutmuşum, video sayesinde bunu tekrar kullanmasam çok ciddi
+bir sorunu kaçırmış olacaktım.</p>
+
+<p>Umarım meraklısının işine yarar bir yazı olmuştur. Kodun son hali:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">export </span><span class="nv">color_blue</span><span class="o">=</span><span class="s1">$'</span><span class="se">\e</span><span class="s1">[0;0;34m'</span>
+<span class="nb">export </span><span class="nv">color_blink_red</span><span class="o">=</span><span class="s1">$'</span><span class="se">\e</span><span class="s1">[5;31m'</span>
+<span class="nb">export </span><span class="nv">color_off</span><span class="o">=</span><span class="s1">$'</span><span class="se">\e</span><span class="s1">[0m'</span>
+
+<span class="nv">icon_timelapse</span><span class="o">=</span><span class="s1">$'</span><span class="se">\u</span><span class="s1">E384'</span> <span class="c"># nerd font</span>
+
+<span class="nb">export </span>last_exit_code
+last_exit<span class="o">(){</span>
+    <span class="nb">local </span><span class="nv">ex</span><span class="o">=</span><span class="nv">$?</span>
+    <span class="nv">last_exit_code</span><span class="o">=</span><span class="k">${</span><span class="nv">ex</span><span class="k">}</span>
+    <span class="k">if</span> <span class="o">[[</span> <span class="k">${</span><span class="nv">last_exit_code</span><span class="k">}</span> <span class="o">!=</span> 0 <span class="o">]]</span><span class="p">;</span> <span class="k">then
+        </span><span class="nv">last_exit_code</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">color_bold_blink_red</span><span class="k">}${</span><span class="nv">last_exit_code</span><span class="k">}${</span><span class="nv">color_off</span><span class="k">}</span><span class="s2">"</span>
+    <span class="k">fi</span>
+<span class="o">}</span>
+
+<span class="nb">export </span>CUSTOMER_TIMER
+<span class="nb">export </span>TIMER_SHOW
+timer_start<span class="o">()</span> <span class="o">{</span>
+    <span class="nv">CUSTOMER_TIMER</span><span class="o">=</span><span class="k">${</span><span class="nv">CUSTOMER_TIMER</span><span class="k">:-</span><span class="nv">$EPOCHREALTIME</span><span class="k">}</span>
+<span class="o">}</span>
+
+timer_stop<span class="o">()</span> <span class="o">{</span>
+    <span class="nv">TIMER_SHOW</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">color_blue</span><span class="k">}${</span><span class="nv">icon_timelapse</span><span class="k">}</span><span class="s2"> </span><span class="si">$(</span>bc <span class="o">&lt;&lt;&lt;</span> <span class="s2">"</span><span class="k">${</span><span class="nv">EPOCHREALTIME</span><span class="k">}</span><span class="s2">-</span><span class="k">${</span><span class="nv">CUSTOMER_TIMER</span><span class="k">}</span><span class="s2">"</span><span class="si">)</span><span class="k">${</span><span class="nv">color_off</span><span class="k">}</span><span class="s2"> - "</span>
+    <span class="nb">unset </span>CUSTOMER_TIMER
+<span class="o">}</span>
+
+<span class="nv">PROMPT_COMMAND</span><span class="o">=</span><span class="s2">"last_exit</span><span class="k">${</span><span class="nv">PROMPT_COMMAND</span>:+<span class="p">;</span><span class="nv">$PROMPT_COMMAND</span><span class="k">}</span><span class="s2">"</span>
+
+<span class="c"># for vscode/ghostty terminal fix ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span>
+<span class="k">if</span> <span class="o">[[</span> <span class="k">${</span><span class="nv">PROMPT_COMMAND</span>:<span class="p"> -1</span><span class="k">}</span> <span class="o">==</span> <span class="s2">";"</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nv">PROMPT_COMMAND</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">PROMPT_COMMAND</span><span class="k">}</span><span class="s2">timer_stop"</span>
+<span class="k">else
+    </span><span class="nv">PROMPT_COMMAND</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">PROMPT_COMMAND</span>:+<span class="nv">$PROMPT_COMMAND</span><span class="p">;</span><span class="k">}</span><span class="s2">timer_stop"</span>
+<span class="k">fi</span>
+<span class="c"># for vscode/ghostty terminal fix ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span>
+
+<span class="nb">trap</span> <span class="s1">'timer_start "$_"'</span> DEBUG
+
+<span class="nb">export </span><span class="nv">PS1</span><span class="o">=</span><span class="s2">"[ </span><span class="se">\$</span><span class="s2">{TIMER_SHOW}</span><span class="se">\$</span><span class="s2">{last_exit_code} ]"</span>
+</code></pre></div></div>
+                        </article>
+                        
+                            <nav class="mt-6 pagination is-centered" role="navigation" aria-label="pagination">
+                                <a href="/blog/tr/2025/02/20/direnv-nedir-ne-ise-yarar/" class="pagination-previous has-text-link">&laquo; `direnv` nedir? Ne işe yarar?</a>
+                                
+                            </nav>
+                    </div>
+                </div>
+                <div class="column is-3-desktop is-full-tablet">
+                    <div class="content">
+                            <div class="blog-post-list sidebar">
+        <h1>Benzer Makaleler</h1>
+        <p>Konu ile ilgili toplam “5” adet benzer makale bulunuyor.</p>
+        <ul>
+            <li>
+                <a href="/blog/tr/2025/02/20/direnv-nedir-ne-ise-yarar/">`direnv` nedir? Ne işe yarar?</a>
+                <time pubdate datetime="2025-02-20T22:06:00+03:00">
+                    20 Şubat 2025, Perşembe
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2024/05/16/ruby-1-dot-8-7-bash-ve-textmate/">Ruby 1.8.7, Bash ve TextMate</a>
+                <time pubdate datetime="2024-05-16T22:30:00+03:00">
+                    16 Mayıs 2024, Perşembe
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2021/08/28/json-isleme-araci-jq/">JSON İşleme Aracı: jq</a>
+                <time pubdate datetime="2021-08-28T11:38:00+03:00">
+                    28 Ağustos 2021, Cumartesi
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2013/02/20/bash-completion-anotomisi/">Bash Completion Anotomisi</a>
+                <time pubdate datetime="2013-02-20T23:37:00+02:00">
+                    20 Şubat 2013, Çarşamba
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2009/07/26/bash-completion-olayi/">Bash Completion olayı!</a>
+                <time pubdate datetime="2009-07-26T15:12:00+03:00">
+                    26 Temmuz 2009, Pazar
+                </time>
+            </li>
+        </ul>
+    </div>
+    
+
+                        
+                        <div class="blog-post-list sidebar">
+    <h1>Yıllara Göre</h1>
+    <p>Blog arşivinde toplam “83” kayıt bulunuyor.</p>
+<p><a href="/blog/tr/yil/2025/" class="">2025 yılına ait 2 makale</a></p><p><a href="/blog/tr/yil/2024/" class="">2024 yılına ait 2 makale</a></p><p><a href="/blog/tr/yil/2023/" class="">2023 yılına ait 2 makale</a></p><p><a href="/blog/tr/yil/2022/" class="">2022 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2021/" class="">2021 yılına ait 4 makale</a></p><p><a href="/blog/tr/yil/2016/" class="">2016 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2015/" class="">2015 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2014/" class="">2014 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2013/" class="">2013 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2012/" class="">2012 yılına ait 8 makale</a></p><p><a href="/blog/tr/yil/2011/" class="">2011 yılına ait 16 makale</a></p><p><a href="/blog/tr/yil/2010/" class="">2010 yılına ait 6 makale</a></p><p><a href="/blog/tr/yil/2009/" class="">2009 yılına ait 22 makale</a></p><p><a href="/blog/tr/yil/2008/" class="">2008 yılına ait 11 makale</a></p><p><a href="/blog/tr/yil/2006/" class="">2006 yılına ait 1 makale</a></p></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <footer class="footer">
+    <div class="container">
+        <div class="content">
+            <a href="/feed-tr.xml" title="RSS Aboneliği">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-square-rss fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://github.com/sponsors/vigo" title="GitHub Sponsorluk">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-heart fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://patreon.com/vigoo" title="Patreon Destek">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-patreon fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://github.com/vigo" title="GitHub Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-github fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://github.com/vbyazilim" title="VB YAZILIM GitHub Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-github fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://hub.docker.com/u/vigo/" title="Dockerhub Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-docker fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://www.linkedin.com/in/ugurozyilmazel" title="LinkedIn Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-linkedin fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://www.linkedin.com/company/vbyazilim/" title="VB YAZILIM LinkedIn Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-linkedin fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://rubygems.org/profiles/vigo" title="Rubygems Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://pypi.org/user/vigo" title="Python Package Index Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://vigos.hashnode.dev/" title="Hashnode Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-hashnode fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://opensource-heroes.com/u/vigo" title="Open Source Heroes Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-osi fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://dev.to/vigo" title="Dev Community Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-dev fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://csdb.dk/scener/?id=8379" title="CSDB">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.pouet.net/user.php?who=4721" title="Pouet">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="http://janeway.exotica.org.uk/author.php?id=11962" title="Amiga Exotica">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://demozoo.org/sceners/6273" title="Demozoo">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://www.demoparty.net/users/vigo" title="Demoparty.net">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            
+            <script type="text/javascript">
+            document.write('<a href="mailto:');
+            document.write("hthebmlvyznmry\100tznvy\056pbz".replace(/[a-zA-Z]/g, function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
+            document.write('" title="E-Posta"');
+            document.write('<span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-at fa-stack-1x"></i></span>');
+            document.write('</a>');
+            </script>
+
+            <a target="_blank" href="https://vbyazilim.com/" title="Şirketim: VB YAZILIM">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fas fa-building fa-stack-1x"></i></span>
+            </a>
+
+        </div>
+    </div>
+</footer>
+
+
+
+</body>
+</html>
