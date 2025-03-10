@@ -1,7 +1,25 @@
+# frozen_string_literal: true
+
+require 'English'
 require 'rubygems'
 require 'bundler'
 Bundler.require
+
 require 'time'
+
+task :command_exists, [:command] do |_, args|
+  abort "#{args.command} doesn't exists" if `command -v #{args.command} > /dev/null 2>&1 && echo $?`.chomp.empty?
+end
+
+task :is_repo_clean do
+  next if ENV['BYPASS_REPO_CLEAN']
+
+  abort 'please commit your changes first!' unless `git status -s | wc -l`.strip.to_i.zero?
+end
+
+task :has_bump_my_version do
+  Rake::Task['command_exists'].invoke('bump-my-version')
+end
 
 task :default => [:run_server]
 
@@ -24,7 +42,7 @@ task :deploy, [:bump] do |_, args|
     cd build/ &&
     git pull &&
     cd ../ &&
-    bumpversion #{args.bump} &&
+    bump-my-version bump #{args.bump} &&
     git push &&
     middleman build &&
     cd build/ &&
