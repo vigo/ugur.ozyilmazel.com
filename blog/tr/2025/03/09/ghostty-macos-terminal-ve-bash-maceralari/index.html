@@ -24,7 +24,7 @@
 
         <script src="/public/js/application.js"></script>
     
-        <meta name="date" content="2025-03-10T00:09:42+03:00" />
+        <meta name="date" content="2025-03-10T10:11:52+03:00" />
         <meta name="description" content="Ghostty yeni nesil terminal client’ını denerken bir de baktım kendi icadım olan bazı şeyler çalışmıyor! Önce problemin kimden ve nereden kaynaklandığını bulmaya çalıştım." />
         <meta name="author" content="Uğur “vigo” Özyılmazel"/>
         <meta name="copyright" content="(c) 2006 / 2025 - Uğur “vigo” Özyılmazel" />
@@ -220,7 +220,7 @@ last_exit<span class="p">;</span>_pyenv_virtualenv_hook<span class="p">;</span>_
 </code></pre></div>
 <p><code>history -atimer_stop</code> aradaki <code>;</code> olmadığı için çatladı. Ben de eğer sonda
 <code>;</code> varsa ya da yoksa bir ayar çekmek gerektiği için, ki aynı sorun
-<strong>Visual Studio Code</strong>’da oldu, mecburan şu kodu ekledim. Aslına <code>TERM_PROGRAM</code>’a
+<strong>Visual Studio Code</strong>’da oldu, mecburen şu kodu ekledim. Aslına <code>TERM_PROGRAM</code>’a
 göre de kontrol edebilirdim ama ileride <code>iTerm</code> kullansam onu da kontrol etmem
 gerekecekti, onun yerine sondaki <code>;</code> kontrol edeyim dedim:</p>
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">PROMPT_COMMAND</span><span class="o">=</span><span class="s2">"last_exit</span><span class="k">${</span><span class="nv">PROMPT_COMMAND</span>:+<span class="p">;</span><span class="nv">$PROMPT_COMMAND</span><span class="k">}</span><span class="s2">"</span>
@@ -261,7 +261,7 @@ mate <span class="nv">$_</span>
 /tmp/
 </code></pre></div>
 <p>Komuta geçtiğim son argüman. Ben <code>mate $_</code> (mate benim text editör) dediğim
-an ekranda <code>timer_start</code> yadı ve sanki ben adı <code>timer_start</code> olan bir dosyayı
+an ekranda <code>timer_start</code> yazdı ve sanki ben adı <code>timer_start</code> olan bir dosyayı
 açmaya çalışmışım gibi oldu.</p>
 
 <p><code>timer_start</code> fonksiyonu benim <code>trap</code> ile çalıştırdığım bir şey. Yani son
