@@ -12,4 +12,5 @@ gem 'middleman-syntax', '~> 3.2'
 gem 'readingtime', '~> 0.4.0'
 gem 'fastimage', '~> 2.4'
 gem 'sanitize', '~> 7.0'
-# gem 'concurrent-ruby', '1.3.5'
+
+gem "middleman-livereload", "~> 3.4"

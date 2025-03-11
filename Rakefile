@@ -21,12 +21,20 @@ task :has_bump_my_version do
   Rake::Task['command_exists'].invoke('bump-my-version')
 end
 
-task :default => [:run_server]
+task :default => ['run:server']
 
-desc "run server"
-task :run_server do
-  system "bin/middleman serve"
+namespace :run do
+  desc "run server"
+  task :server do
+    system "bin/middleman serve"
+  end
+
+  desc "run server verbose"
+  task :server_verbose do
+    system "bin/middleman serve --verbose"
+  end
 end
+
 
 desc "build pages"
 task :build do

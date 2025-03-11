@@ -5,6 +5,7 @@ require 'uglifier'
 require 'time'
 require 'active_support/all'
 
+require_relative 'lib/middleware/rack/downcase_headers'
 
 activate :i18n
 Time.zone = 'Europe/Istanbul'
@@ -129,4 +130,10 @@ page "/blog/en/feed.xml", layout: false
 configure :build do
   activate :minify_css
   activate :minify_javascript, compressor: -> { Uglifier.new(:mangle => false, :harmony => true) }
+end
+
+
+configure :development do
+  use ::Rack::DowncaseHeaders
+  activate :livereload, host: '127.0.0.1'
 end
