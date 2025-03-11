@@ -14,7 +14,7 @@
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2025/03/09/ghostty-macos-terminal-ve-bash-maceralari/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2025/03/09/ghostty-macos-terminal-ve-bash-maceralari/</id>
     <published>2025-03-09T20:58:00+03:00</published>
-    <updated>2025-03-10T10:07:49+03:00</updated>
+    <updated>2025-03-10T18:08:17+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -271,7 +271,7 @@ timer_stop&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2025/02/20/direnv-nedir-ne-ise-yarar/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2025/02/20/direnv-nedir-ne-ise-yarar/</id>
     <published>2025-02-20T22:06:00+03:00</published>
-    <updated>2025-03-10T09:19:43+03:00</updated>
+    <updated>2025-02-21T10:05:07+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -477,7 +477,7 @@ sonra;&lt;/p&gt;
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2024/12/29/2024-te-ogrendigim-yeni-seyler/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2024/12/29/2024-te-ogrendigim-yeni-seyler/</id>
     <published>2024-12-29T11:51:00+03:00</published>
-    <updated>2025-03-10T09:19:43+03:00</updated>
+    <updated>2024-12-29T15:57:17+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -730,7 +730,7 @@ geçecek!&lt;/p&gt;
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2024/05/16/ruby-1-dot-8-7-bash-ve-textmate/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2024/05/16/ruby-1-dot-8-7-bash-ve-textmate/</id>
     <published>2024-05-16T22:30:00+03:00</published>
-    <updated>2025-03-10T09:19:43+03:00</updated>
+    <updated>2024-06-24T13:32:21+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -1226,7 +1226,7 @@ yaptım. Eğer denemek isterseniz;&lt;/p&gt;
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2023/10/15/textmate-icin-go-modify-tags-eklentisi/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2023/10/15/textmate-icin-go-modify-tags-eklentisi/</id>
     <published>2023-10-15T22:45:00+03:00</published>
-    <updated>2025-03-10T09:19:43+03:00</updated>
+    <updated>2024-06-24T13:32:21+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -1279,7 +1279,7 @@ ekle/çıkar gibi.&lt;/p&gt;
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2023/03/12/textmate-icin-ruff-linter-eklentisi/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2023/03/12/textmate-icin-ruff-linter-eklentisi/</id>
     <published>2023-03-12T21:29:00+03:00</published>
-    <updated>2025-03-10T09:19:43+03:00</updated>
+    <updated>2024-06-24T13:32:21+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -1353,7 +1353,7 @@ ulaşabilir.&lt;/p&gt;
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2022/08/13/merhaba-dunya/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2022/08/13/merhaba-dunya/</id>
     <published>2022-08-13T21:33:00+03:00</published>
-    <updated>2025-03-10T09:19:43+03:00</updated>
+    <updated>2022-08-20T13:19:50+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -1392,7 +1392,7 @@ bir gazla blog yazmaya heveslendim.&lt;/p&gt;
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2021/09/26/olmazsa-olmaz-golang-kutuphaneleri/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2021/09/26/olmazsa-olmaz-golang-kutuphaneleri/</id>
     <published>2021-09-26T13:45:00+03:00</published>
-    <updated>2025-03-10T09:19:43+03:00</updated>
+    <updated>2022-08-20T16:01:18+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -1512,7 +1512,7 @@ framework’leri gibi daha geniş yardımcılar da bulunmakta.&lt;/p&gt;
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2021/08/28/json-isleme-araci-jq/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2021/08/28/json-isleme-araci-jq/</id>
     <published>2021-08-28T11:38:00+03:00</published>
-    <updated>2025-03-10T09:19:43+03:00</updated>
+    <updated>2023-10-19T19:02:23+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -1923,7 +1923,7 @@ daha fazlası var. Umarım sizin de işinize yarar.&lt;/p&gt;
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2021/08/22/django-model-ipuclari/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2021/08/22/django-model-ipuclari/</id>
     <published>2021-08-22T09:43:00+03:00</published>
-    <updated>2025-03-10T09:19:43+03:00</updated>
+    <updated>2023-10-19T19:02:23+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -2363,7 +2363,7 @@ mutlaka planlayın&amp;hellip;&lt;/p&gt;
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2021/05/27/istediginiz-yerden-go-kodunu-calistirabilirsiniz/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2021/05/27/istediginiz-yerden-go-kodunu-calistirabilirsiniz/</id>
     <published>2021-05-27T18:35:00+03:00</published>
-    <updated>2025-03-10T09:19:43+03:00</updated>
+    <updated>2023-10-19T19:02:23+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
