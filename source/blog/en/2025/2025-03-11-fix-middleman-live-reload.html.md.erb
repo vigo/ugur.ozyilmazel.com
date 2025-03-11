@@ -1,0 +1,128 @@
+---
+title: "Fix Middleman Live Reload"
+locale: en
+# subtitle: ""
+date: 2025-03-11 18:55
+cover: "2014-11-25-middleman.png"
+# cover_title: ""
+# cover_subtitle: ""
+# og_image: ""
+# og_image_dir: ""
+# tags: tag1,tag2
+comments: false
+---
+
+Package updates in Ruby projects have always made me uneasy. Usually, after an
+update, something always breaks or throws an error. READ_MORE
+
+I rarely add posts to my blog — sometimes every 3–4 months, sometimes once a
+year. Whenever I decide to write a new post, I tell myself
+
+> Wait, let’s update the packages first.
+
+Big mistake. It never fails—every single time I sit down to write, I somehow
+end up battling Ruby versions or package dependencies instead.
+
+A few days ago, I got excited again and decided to write a blog post. I
+checked GitHub, and `dependabot` had opened some PRs. I noticed an update for
+`middleman-core`. With my fingers crossed, I merged dependabot’s PRs.
+
+Oh my bash! The most useful feature when writing blog posts is live-reload, and guess
+what? **It wasn’t working**. 
+
+I checked the Firefox console, and `webrick` was returning a `500` http error.
+The reason? The incoming HTTP headers had uppercase keys, like `Content-Type`.
+
+Anyway, I told myself;
+
+> Let’s not deal with this now.
+
+So, I disabled the live reload feature, finished my post, and published it.
+
+After that, I turned to the greatest invention of our time—ChatGPT and other
+LLMs—to explain the issue and ask for help. No luck.
+
+Google? Stack Overflow? Nothing. Of course, it was up to me to fix it.
+
+For the past **six years**, I’ve been developing with `go`, so I’ve been following
+the `ruby` ecosystem from a distance. To keep my `ruby` skills from fading, I
+mostly tinker with `Rakefiles`. Because of that, I expected this issue to be a
+bit challenging—but surprisingly, it was an easy fix!.
+
+First, I ran Middleman in verbose mode:
+
+```bash
+bin/middleman serve --verbose
+```
+
+and here was the error:
+
+    [2025-03-11 18:10:15] ERROR Rack::Lint::LintError: uppercase character in header name: Content-Type
+        /private/tmp/my_project/vendor/bundle/ruby/3.3.0/gems/rack-3.1.12/lib/rack/lint.rb:717:in `block in check_headers'
+
+Opened the file `vendor/bundle/ruby/3.3.0/gems/rack-3.1.12/lib/rack/lint.rb:717`
+and commented out:
+
+```ruby
+## Header keys must not contain uppercase ASCII characters (A-Z).
+# raise LintError, "uppercase character in header name: #{key}" if key =~ /[A-Z]/
+# ^ this line
+```
+
+and it worked! Now, it’s time to use some **ruby magic** to override/implement
+a custom **Rack middleware** to that! I undo the comment, and implemented:
+
+```ruby
+# lib/middleware/rack/downcase_headers.rb
+module Rack
+  class DowncaseHeaders
+    def initialize(app)
+      @app = app
+    end
+
+    def call(env)
+      status, headers, body = @app.call(env)
+      new_headers = headers.transform_keys(&:downcase)
+      [status, new_headers, body]
+    end
+  end
+end
+```
+
+Now, updated my `config.rb`:
+
+```ruby
+# ...
+
+require_relative 'lib/middleware/rack/downcase_headers'
+
+# ...
+
+configure :development do
+  use ::Rack::DowncaseHeaders
+  activate :livereload, host: '127.0.0.1'
+end
+```
+
+That’s it! **Live reload** is back in business!
+
+This is just a basic monkey patch. The Middleman team or the live-reload team
+will probably fix this in the future, but until then, I’ll stick with this
+workaround.
+
+Files can be found:
+
+- [downcase_headers.rb][file1]
+- [config.rb][file2]
+
+The versions of gems are:
+
+- `em-websocket (0.5.3)`
+- `middleman (4.6.0)`
+- `middleman-livereload (3.4.7)`
+- `rack (3.1.12)`
+- `rack-livereload (0.3.17)`
+- `webrick (1.9.1)`
+
+[file1]: https://github.com/vigo/ugur.ozyilmazel.com/blob/main/lib/middleware/rack/downcase_headers.rb
+[file2]: https://github.com/vigo/ugur.ozyilmazel.com/blob/main/config.rb
