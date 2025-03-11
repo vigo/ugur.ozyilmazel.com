@@ -5,10 +5,127 @@
   <id>https://ugur.ozyilmazel.com/blog/en/</id>
   <link href="https://ugur.ozyilmazel.com/blog/en/"/>
   <link href="https://ugur.ozyilmazel.com/feed-en.xml" rel="self"/>
-  <updated>2024-05-21T20:44:00+03:00</updated>
+  <updated>2025-03-11T18:55:00+03:00</updated>
   <author>
     <name>Uğur “vigo” Özyılmazel</name>
   </author>
+  <entry>
+    <title>Fix Middleman Live Reload</title>
+    <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/en/2025/03/11/fix-middleman-live-reload/"/>
+    <id>https://ugur.ozyilmazel.com/blog/en/2025/03/11/fix-middleman-live-reload/</id>
+    <published>2025-03-11T18:55:00+03:00</published>
+    <updated>2025-03-11T19:25:27+03:00</updated>
+    <author>
+      <name>Uğur “vigo” Özyılmazel</name>
+    </author>
+    <content type="html">&lt;p&gt;Package updates in Ruby projects have always made me uneasy. Usually, after an
+update, something always breaks or throws an error. &lt;/p&gt;
+
+&lt;p&gt;I rarely add posts to my blog — sometimes every 3–4 months, sometimes once a
+year. Whenever I decide to write a new post, I tell myself&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Wait, let’s update the packages first.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Big mistake. It never fails—every single time I sit down to write, I somehow
+end up battling Ruby versions or package dependencies instead.&lt;/p&gt;
+
+&lt;p&gt;A few days ago, I got excited again and decided to write a blog post. I
+checked GitHub, and &lt;code&gt;dependabot&lt;/code&gt; had opened some PRs. I noticed an update for
+&lt;code&gt;middleman-core&lt;/code&gt;. With my fingers crossed, I merged dependabot’s PRs.&lt;/p&gt;
+
+&lt;p&gt;Oh my bash! The most useful feature when writing blog posts is live-reload, and guess
+what? &lt;strong&gt;It wasn’t working&lt;/strong&gt;. &lt;/p&gt;
+
+&lt;p&gt;I checked the Firefox console, and &lt;code&gt;webrick&lt;/code&gt; was returning a &lt;code&gt;500&lt;/code&gt; http error.
+The reason? The incoming HTTP headers had uppercase keys, like &lt;code&gt;Content-Type&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Anyway, I told myself;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Let’s not deal with this now.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;So, I disabled the live reload feature, finished my post, and published it.&lt;/p&gt;
+
+&lt;p&gt;After that, I turned to the greatest invention of our time—ChatGPT and other
+LLMs—to explain the issue and ask for help. No luck.&lt;/p&gt;
+
+&lt;p&gt;Google? Stack Overflow? Nothing. Of course, it was up to me to fix it.&lt;/p&gt;
+
+&lt;p&gt;For the past &lt;strong&gt;six years&lt;/strong&gt;, I’ve been developing with &lt;code&gt;go&lt;/code&gt;, so I’ve been following
+the &lt;code&gt;ruby&lt;/code&gt; ecosystem from a distance. To keep my &lt;code&gt;ruby&lt;/code&gt; skills from fading, I
+mostly tinker with &lt;code&gt;Rakefiles&lt;/code&gt;. Because of that, I expected this issue to be a
+bit challenging—but surprisingly, it was an easy fix!.&lt;/p&gt;
+
+&lt;p&gt;First, I ran Middleman in verbose mode:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;bin/middleman serve &lt;span class="nt"&gt;--verbose&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;and here was the error:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight plaintext"&gt;&lt;code&gt;[2025-03-11 18:10:15] ERROR Rack::Lint::LintError: uppercase character in header name: Content-Type
+    /private/tmp/my_project/vendor/bundle/ruby/3.3.0/gems/rack-3.1.12/lib/rack/lint.rb:717:in `block in check_headers'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Opened the file &lt;code&gt;vendor/bundle/ruby/3.3.0/gems/rack-3.1.12/lib/rack/lint.rb:717&lt;/code&gt;
+and commented out:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="c1"&gt;## Header keys must not contain uppercase ASCII characters (A-Z).&lt;/span&gt;
+&lt;span class="c1"&gt;# raise LintError, "uppercase character in header name: #{key}" if key =~ /[A-Z]/&lt;/span&gt;
+&lt;span class="c1"&gt;# ^ this line&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;and it worked! Now, it’s time to use some &lt;strong&gt;ruby magic&lt;/strong&gt; to override/implement
+a custom &lt;strong&gt;Rack middleware&lt;/strong&gt; to that! I undo the comment, and implemented:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="c1"&gt;# lib/middleware/rack/downcase_headers.rb&lt;/span&gt;
+&lt;span class="k"&gt;module&lt;/span&gt; &lt;span class="nn"&gt;Rack&lt;/span&gt;
+  &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;DowncaseHeaders&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;initialize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="vi"&gt;@app&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;app&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;call&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="n"&gt;status&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;headers&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;body&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="vi"&gt;@app&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;call&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="n"&gt;new_headers&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;headers&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;transform_keys&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="ss"&gt;:downcase&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;status&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;new_headers&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Now, updated my &lt;code&gt;config.rb&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="c1"&gt;# ...&lt;/span&gt;
+
+&lt;span class="nb"&gt;require_relative&lt;/span&gt; &lt;span class="s1"&gt;'lib/middleware/rack/downcase_headers'&lt;/span&gt;
+
+&lt;span class="c1"&gt;# ...&lt;/span&gt;
+
+&lt;span class="n"&gt;configure&lt;/span&gt; &lt;span class="ss"&gt;:development&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+  &lt;span class="n"&gt;use&lt;/span&gt; &lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Rack&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;DowncaseHeaders&lt;/span&gt;
+  &lt;span class="n"&gt;activate&lt;/span&gt; &lt;span class="ss"&gt;:livereload&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;host: &lt;/span&gt;&lt;span class="s1"&gt;'127.0.0.1'&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;That’s it! &lt;strong&gt;Live reload&lt;/strong&gt; is back in business!&lt;/p&gt;
+
+&lt;p&gt;This is just a basic monkey patch. The Middleman team or the live-reload team
+will probably fix this in the future, but until then, I’ll stick with this
+workaround.&lt;/p&gt;
+
+&lt;p&gt;Files can be found:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/vigo/ugur.ozyilmazel.com/blob/main/lib/middleware/rack/downcase_headers.rb"&gt;downcase_headers.rb&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/vigo/ugur.ozyilmazel.com/blob/main/config.rb"&gt;config.rb&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The versions of gems are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;em-websocket (0.5.3)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;middleman (4.6.0)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;middleman-livereload (3.4.7)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;rack (3.1.12)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;rack-livereload (0.3.17)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;webrick (1.9.1)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
   <entry>
     <title>Django Natural Key</title>
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/en/2024/05/21/django-natural-key/"/>
