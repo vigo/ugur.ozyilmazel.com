@@ -5,16 +5,179 @@
   <id>https://ugur.ozyilmazel.com/blog/en/</id>
   <link href="https://ugur.ozyilmazel.com/blog/en/"/>
   <link href="https://ugur.ozyilmazel.com/feed-en.xml" rel="self"/>
-  <updated>2025-03-11T18:55:00+03:00</updated>
+  <updated>2025-10-12T22:52:00+03:00</updated>
   <author>
     <name>Uğur “vigo” Özyılmazel</name>
   </author>
+  <entry>
+    <title>jc - A JSON Companion</title>
+    <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/en/2025/10/12/jc-a-json-companion/"/>
+    <id>https://ugur.ozyilmazel.com/blog/en/2025/10/12/jc-a-json-companion/</id>
+    <published>2025-10-12T22:52:00+03:00</published>
+    <updated>2025-10-13T00:02:38+03:00</updated>
+    <author>
+      <name>Uğur “vigo” Özyılmazel</name>
+    </author>
+    <content type="html">&lt;p&gt;&lt;code&gt;jc&lt;/code&gt; is a command-line tool for transforming output into &lt;strong&gt;json&lt;/strong&gt;. So what
+does that mean? In other words, you can turn the messy text output from common 
+&lt;strong&gt;CLI tools&lt;/strong&gt; into clean &lt;strong&gt;json&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;p&gt;Let’s look at a quick example using &lt;code&gt;dig&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;dig example.com
+&lt;span class="p"&gt;;&lt;/span&gt; &amp;lt;&amp;lt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; DiG 9.10.6 &amp;lt;&amp;lt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; example.com
+&lt;span class="p"&gt;;;&lt;/span&gt; global options: +cmd
+&lt;span class="p"&gt;;;&lt;/span&gt; Got answer:
+&lt;span class="p"&gt;;;&lt;/span&gt; -&amp;gt;&amp;gt;HEADER&lt;span class="o"&gt;&amp;lt;&amp;lt;-&lt;/span&gt; &lt;span class="no"&gt;opcode&lt;/span&gt;&lt;span class="sh"&gt;: QUERY, status: NOERROR, id: 42404
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 6, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 512
+;; QUESTION SECTION:
+;example.com.           IN  A
+
+;; ANSWER SECTION:
+example.com.        137 IN  A   23.192.228.80
+example.com.        137 IN  A   23.192.228.84
+example.com.        137 IN  A   23.220.75.232
+example.com.        137 IN  A   23.220.75.245
+example.com.        137 IN  A   23.215.0.136
+example.com.        137 IN  A   23.215.0.138
+
+;; Query time: 13 msec
+;; SERVER: 8.8.8.8#53(8.8.8.8)
+;; WHEN: Sun Oct 12 23:45:22 +03 2025
+;; MSG SIZE  rcvd: 136
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The output from &lt;code&gt;dig&lt;/code&gt; contains a lot of data. Alright, let’s convert it to
+&lt;code&gt;json&lt;/code&gt;!&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;dig example.com | jc &lt;span class="nt"&gt;--dig&lt;/span&gt;
+&lt;span class="o"&gt;[{&lt;/span&gt;&lt;span class="s2"&gt;"id"&lt;/span&gt;:10302,&lt;span class="s2"&gt;"opcode"&lt;/span&gt;:&lt;span class="s2"&gt;"QUERY"&lt;/span&gt;,&lt;span class="s2"&gt;"status"&lt;/span&gt;:&lt;span class="s2"&gt;"NOERROR"&lt;/span&gt;,&lt;span class="s2"&gt;"flags"&lt;/span&gt;:[&lt;span class="s2"&gt;"qr"&lt;/span&gt;,&lt;span class="s2"&gt;"rd"&lt;/span&gt;,&lt;span class="s2"&gt;"ra"&lt;/span&gt;,&lt;span class="s2"&gt;"ad"&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;,&lt;span class="s2"&gt;"query_num"&lt;/span&gt;:1,&lt;span class="s2"&gt;"answer_num"&lt;/span&gt;:6,&lt;span class="s2"&gt;"authority_num"&lt;/span&gt;:0,&lt;span class="s2"&gt;"additional_num"&lt;/span&gt;:1,&lt;span class="s2"&gt;"opt_pseudosection"&lt;/span&gt;:&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;"edns"&lt;/span&gt;:&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;"version"&lt;/span&gt;:0,&lt;span class="s2"&gt;"flags"&lt;/span&gt;:[],&lt;span class="s2"&gt;"udp"&lt;/span&gt;:512&lt;span class="o"&gt;}}&lt;/span&gt;,&lt;span class="s2"&gt;"question"&lt;/span&gt;:&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;"name"&lt;/span&gt;:&lt;span class="s2"&gt;"example.com."&lt;/span&gt;,&lt;span class="s2"&gt;"class"&lt;/span&gt;:&lt;span class="s2"&gt;"IN"&lt;/span&gt;,&lt;span class="s2"&gt;"type"&lt;/span&gt;:&lt;span class="s2"&gt;"A"&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;,&lt;span class="s2"&gt;"answer"&lt;/span&gt;:[&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;"name"&lt;/span&gt;:&lt;span class="s2"&gt;"example.com."&lt;/span&gt;,&lt;span class="s2"&gt;"class"&lt;/span&gt;:&lt;span class="s2"&gt;"IN"&lt;/span&gt;,&lt;span class="s2"&gt;"type"&lt;/span&gt;:&lt;span class="s2"&gt;"A"&lt;/span&gt;,&lt;span class="s2"&gt;"ttl"&lt;/span&gt;:108,&lt;span class="s2"&gt;"data"&lt;/span&gt;:&lt;span class="s2"&gt;"23.220.75.245"&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;,&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;"name"&lt;/span&gt;:&lt;span class="s2"&gt;"example.com."&lt;/span&gt;,&lt;span class="s2"&gt;"class"&lt;/span&gt;:&lt;span class="s2"&gt;"IN"&lt;/span&gt;,&lt;span class="s2"&gt;"type"&lt;/span&gt;:&lt;span class="s2"&gt;"A"&lt;/span&gt;,&lt;span class="s2"&gt;"ttl"&lt;/span&gt;:108,&lt;span class="s2"&gt;"data"&lt;/span&gt;:&lt;span class="s2"&gt;"23.192.228.84"&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;,&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;"name"&lt;/span&gt;:&lt;span class="s2"&gt;"example.com."&lt;/span&gt;,&lt;span class="s2"&gt;"class"&lt;/span&gt;:&lt;span class="s2"&gt;"IN"&lt;/span&gt;,&lt;span class="s2"&gt;"type"&lt;/span&gt;:&lt;span class="s2"&gt;"A"&lt;/span&gt;,&lt;span class="s2"&gt;"ttl"&lt;/span&gt;:108,&lt;span class="s2"&gt;"data"&lt;/span&gt;:&lt;span class="s2"&gt;"23.192.228.80"&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;,&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;"name"&lt;/span&gt;:&lt;span class="s2"&gt;"example.com."&lt;/span&gt;,&lt;span class="s2"&gt;"class"&lt;/span&gt;:&lt;span class="s2"&gt;"IN"&lt;/span&gt;,&lt;span class="s2"&gt;"type"&lt;/span&gt;:&lt;span class="s2"&gt;"A"&lt;/span&gt;,&lt;span class="s2"&gt;"ttl"&lt;/span&gt;:108,&lt;span class="s2"&gt;"data"&lt;/span&gt;:&lt;span class="s2"&gt;"23.220.75.232"&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;,&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;"name"&lt;/span&gt;:&lt;span class="s2"&gt;"example.com."&lt;/span&gt;,&lt;span class="s2"&gt;"class"&lt;/span&gt;:&lt;span class="s2"&gt;"IN"&lt;/span&gt;,&lt;span class="s2"&gt;"type"&lt;/span&gt;:&lt;span class="s2"&gt;"A"&lt;/span&gt;,&lt;span class="s2"&gt;"ttl"&lt;/span&gt;:108,&lt;span class="s2"&gt;"data"&lt;/span&gt;:&lt;span class="s2"&gt;"23.215.0.138"&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;,&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;"name"&lt;/span&gt;:&lt;span class="s2"&gt;"example.com."&lt;/span&gt;,&lt;span class="s2"&gt;"class"&lt;/span&gt;:&lt;span class="s2"&gt;"IN"&lt;/span&gt;,&lt;span class="s2"&gt;"type"&lt;/span&gt;:&lt;span class="s2"&gt;"A"&lt;/span&gt;,&lt;span class="s2"&gt;"ttl"&lt;/span&gt;:108,&lt;span class="s2"&gt;"data"&lt;/span&gt;:&lt;span class="s2"&gt;"23.215.0.136"&lt;/span&gt;&lt;span class="o"&gt;}]&lt;/span&gt;,&lt;span class="s2"&gt;"query_time"&lt;/span&gt;:11,&lt;span class="s2"&gt;"server"&lt;/span&gt;:&lt;span class="s2"&gt;"8.8.8.8#53(8.8.8.8)"&lt;/span&gt;,&lt;span class="s2"&gt;"when"&lt;/span&gt;:&lt;span class="s2"&gt;"Sun Oct 12 22:55:51 +03 2025"&lt;/span&gt;,&lt;span class="s2"&gt;"rcvd"&lt;/span&gt;:136,&lt;span class="s2"&gt;"when_epoch"&lt;/span&gt;:1760298951,&lt;span class="s2"&gt;"when_epoch_utc"&lt;/span&gt;:null&lt;span class="o"&gt;}]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Still ugly? Yep!&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;dig example.com | jc &lt;span class="nt"&gt;--dig&lt;/span&gt; | jq
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Result:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight json"&gt;&lt;code&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="nl"&gt;"id"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;3386&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="nl"&gt;"opcode"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"QUERY"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="nl"&gt;"status"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"NOERROR"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="nl"&gt;"flags"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="w"&gt;
+            &lt;/span&gt;&lt;span class="s2"&gt;"qr"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+            &lt;/span&gt;&lt;span class="s2"&gt;"rd"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+            &lt;/span&gt;&lt;span class="s2"&gt;"ra"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+            &lt;/span&gt;&lt;span class="s2"&gt;"ad"&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="nl"&gt;"query_num"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="nl"&gt;"answer_num"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="nl"&gt;"authority_num"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="nl"&gt;"additional_num"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="nl"&gt;"opt_pseudosection"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
+            &lt;/span&gt;&lt;span class="nl"&gt;"edns"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"version"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"flags"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[],&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"udp"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;512&lt;/span&gt;&lt;span class="w"&gt;
+            &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="nl"&gt;"question"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
+            &lt;/span&gt;&lt;span class="nl"&gt;"name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"example.com."&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+            &lt;/span&gt;&lt;span class="nl"&gt;"class"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"IN"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+            &lt;/span&gt;&lt;span class="nl"&gt;"type"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"A"&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="nl"&gt;"answer"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="w"&gt;
+            &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"example.com."&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"class"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"IN"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"type"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"A"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"ttl"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;121&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"data"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"23.215.0.136"&lt;/span&gt;&lt;span class="w"&gt;
+            &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;
+            &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"example.com."&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"class"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"IN"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"type"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"A"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"ttl"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;121&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"data"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"23.192.228.80"&lt;/span&gt;&lt;span class="w"&gt;
+            &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;
+            &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"example.com."&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"class"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"IN"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"type"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"A"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"ttl"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;121&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"data"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"23.215.0.138"&lt;/span&gt;&lt;span class="w"&gt;
+            &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;
+            &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"example.com."&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"class"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"IN"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"type"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"A"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"ttl"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;121&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"data"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"23.220.75.232"&lt;/span&gt;&lt;span class="w"&gt;
+            &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;
+            &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"example.com."&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"class"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"IN"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"type"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"A"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"ttl"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;121&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"data"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"23.192.228.84"&lt;/span&gt;&lt;span class="w"&gt;
+            &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;
+            &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"name"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"example.com."&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"class"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"IN"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"type"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"A"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"ttl"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;121&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+                &lt;/span&gt;&lt;span class="nl"&gt;"data"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"23.220.75.245"&lt;/span&gt;&lt;span class="w"&gt;
+            &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="nl"&gt;"query_time"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;11&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="nl"&gt;"server"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"8.8.8.8#53(8.8.8.8)"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="nl"&gt;"when"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"Sun Oct 12 23:49:27 +03 2025"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="nl"&gt;"rcvd"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;136&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="nl"&gt;"when_epoch"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1760302167&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+        &lt;/span&gt;&lt;span class="nl"&gt;"when_epoch_utc"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Fantastic right? You can install &lt;code&gt;jc&lt;/code&gt; from &lt;code&gt;brew&lt;/code&gt; (macOS):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;brew &lt;span class="nb"&gt;install &lt;/span&gt;jc
+brew &lt;span class="nb"&gt;install &lt;/span&gt;jq &lt;span class="c"&gt;# in case you don’t have jq installed&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;It’s an open-source tool:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="https://github.com/kellyjonbrazil/jc"&gt;https://github.com/kellyjonbrazil/jc&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2&gt;Examples from &lt;code&gt;jc&lt;/code&gt;’s GitHub Page&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;dig example.com | jc &lt;span class="nt"&gt;--dig&lt;/span&gt; | jq &lt;span class="nt"&gt;-r&lt;/span&gt; &lt;span class="s1"&gt;'.[].answer[].data'&lt;/span&gt;
+
+23.192.228.84
+23.215.0.136
+23.220.75.245
+23.192.228.80
+23.215.0.138
+23.220.75.232
+
+&lt;span class="c"&gt;# or magic syntax&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;jc dig example.com | jq &lt;span class="nt"&gt;-r&lt;/span&gt; &lt;span class="s1"&gt;'.[].answer[].data'&lt;/span&gt;
+
+&lt;span class="nv"&gt;$ &lt;/span&gt;git log | jc &lt;span class="nt"&gt;--git-log&lt;/span&gt; | jq
+&lt;span class="nv"&gt;$ &lt;/span&gt;ifconfig | jc &lt;span class="nt"&gt;--ifconfig&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;JWT_TOKEN&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; | jc &lt;span class="nt"&gt;--jwt&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"/Users/admin/.docker/bin"&lt;/span&gt; | jc &lt;span class="nt"&gt;--path&lt;/span&gt; | jq
+&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cat &lt;/span&gt;foo.yaml | jc &lt;span class="nt"&gt;--yaml&lt;/span&gt; | jq
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;There are &lt;a href="https://github.com/kellyjonbrazil/jc?tab=readme-ov-file#parsers"&gt;tons of parsers&lt;/a&gt; 
+available on GitHub!&lt;/p&gt;
+
+&lt;p&gt;Enjoy!&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>Fix Middleman Live Reload</title>
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/en/2025/03/11/fix-middleman-live-reload/"/>
     <id>https://ugur.ozyilmazel.com/blog/en/2025/03/11/fix-middleman-live-reload/</id>
     <published>2025-03-11T18:55:00+03:00</published>
-    <updated>2025-03-11T19:25:27+03:00</updated>
+    <updated>2025-10-13T00:02:45+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
