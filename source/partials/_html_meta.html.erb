@@ -7,10 +7,10 @@ og_description = config[:meta_description][page_metadata[:locale]]
 og_description = page_metadata[:description] if page_metadata[:description]
 og_description = Sanitize.fragment(current_page.summary).strip.gsub "\n"," " if current_page.respond_to?(:summary)
 
-og_image = "%s%s" % [config[:site_url], site_image("ugur-vigo-ozyilmazel-500x500.jpg", "og")]
+og_image = "%s%s" % [config[:site_url], site_image("ugur-vigo-ozyilmazel-huddle.jpg", "og")]
 og_image_type = 'image/jpeg'
-og_image_width = '500'
-og_image_height = '500'
+og_image_width = '1094'
+og_image_height = '1094'
 
 if page_metadata[:og_image]
   og_image_dir = page_metadata[:og_image_dir] || 'covers'

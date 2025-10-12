@@ -1,0 +1,179 @@
+---
+title: "jc - A JSON Companion"
+locale: en
+date: 2025-10-12 22:52
+covers_retina: "2025-10-12-jc@1x.png,2025-10-12-jc@2x.png"
+tags: jc,jq
+comments: false
+---
+
+`jc` is a command-line tool for transforming output into **json**. So what
+does that mean? In other words, you can turn the messy text output from common 
+**CLI tools** into clean **json**.
+
+READ_MORE
+
+Let’s look at a quick example using `dig`:
+
+```bash
+$ dig example.com
+; <<>> DiG 9.10.6 <<>> example.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 42404
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 6, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 512
+;; QUESTION SECTION:
+;example.com.			IN	A
+
+;; ANSWER SECTION:
+example.com.		137	IN	A	23.192.228.80
+example.com.		137	IN	A	23.192.228.84
+example.com.		137	IN	A	23.220.75.232
+example.com.		137	IN	A	23.220.75.245
+example.com.		137	IN	A	23.215.0.136
+example.com.		137	IN	A	23.215.0.138
+
+;; Query time: 13 msec
+;; SERVER: 8.8.8.8#53(8.8.8.8)
+;; WHEN: Sun Oct 12 23:45:22 +03 2025
+;; MSG SIZE  rcvd: 136
+```
+
+The output from `dig` contains a lot of data. Alright, let’s convert it to
+`json`!
+
+```bash
+$ dig example.com | jc --dig
+[{"id":10302,"opcode":"QUERY","status":"NOERROR","flags":["qr","rd","ra","ad"],"query_num":1,"answer_num":6,"authority_num":0,"additional_num":1,"opt_pseudosection":{"edns":{"version":0,"flags":[],"udp":512}},"question":{"name":"example.com.","class":"IN","type":"A"},"answer":[{"name":"example.com.","class":"IN","type":"A","ttl":108,"data":"23.220.75.245"},{"name":"example.com.","class":"IN","type":"A","ttl":108,"data":"23.192.228.84"},{"name":"example.com.","class":"IN","type":"A","ttl":108,"data":"23.192.228.80"},{"name":"example.com.","class":"IN","type":"A","ttl":108,"data":"23.220.75.232"},{"name":"example.com.","class":"IN","type":"A","ttl":108,"data":"23.215.0.138"},{"name":"example.com.","class":"IN","type":"A","ttl":108,"data":"23.215.0.136"}],"query_time":11,"server":"8.8.8.8#53(8.8.8.8)","when":"Sun Oct 12 22:55:51 +03 2025","rcvd":136,"when_epoch":1760298951,"when_epoch_utc":null}]
+```
+
+Still ugly? Yep!
+
+```bash
+$ dig example.com | jc --dig | jq
+```
+
+Result:
+
+```json
+[
+    {
+        "id": 3386,
+        "opcode": "QUERY",
+        "status": "NOERROR",
+        "flags": [
+            "qr",
+            "rd",
+            "ra",
+            "ad"
+        ],
+        "query_num": 1,
+        "answer_num": 6,
+        "authority_num": 0,
+        "additional_num": 1,
+        "opt_pseudosection": {
+            "edns": {
+                "version": 0,
+                "flags": [],
+                "udp": 512
+            }
+        },
+        "question": {
+            "name": "example.com.",
+            "class": "IN",
+            "type": "A"
+        },
+        "answer": [
+            {
+                "name": "example.com.",
+                "class": "IN",
+                "type": "A",
+                "ttl": 121,
+                "data": "23.215.0.136"
+            },
+            {
+                "name": "example.com.",
+                "class": "IN",
+                "type": "A",
+                "ttl": 121,
+                "data": "23.192.228.80"
+            },
+            {
+                "name": "example.com.",
+                "class": "IN",
+                "type": "A",
+                "ttl": 121,
+                "data": "23.215.0.138"
+            },
+            {
+                "name": "example.com.",
+                "class": "IN",
+                "type": "A",
+                "ttl": 121,
+                "data": "23.220.75.232"
+            },
+            {
+                "name": "example.com.",
+                "class": "IN",
+                "type": "A",
+                "ttl": 121,
+                "data": "23.192.228.84"
+            },
+            {
+                "name": "example.com.",
+                "class": "IN",
+                "type": "A",
+                "ttl": 121,
+                "data": "23.220.75.245"
+            }
+        ],
+        "query_time": 11,
+        "server": "8.8.8.8#53(8.8.8.8)",
+        "when": "Sun Oct 12 23:49:27 +03 2025",
+        "rcvd": 136,
+        "when_epoch": 1760302167,
+        "when_epoch_utc": null
+    }
+]
+```
+
+Fantastic right? You can install `jc` from `brew` (macOS):
+
+```bash
+brew install jc
+brew install jq # in case you don’t have jq installed
+```
+
+It’s an open-source tool:
+
+https://github.com/kellyjonbrazil/jc
+
+## Examples from `jc`’s GitHub Page
+
+```bash
+$ dig example.com | jc --dig | jq -r '.[].answer[].data'
+
+23.192.228.84
+23.215.0.136
+23.220.75.245
+23.192.228.80
+23.215.0.138
+23.220.75.232
+
+# or magic syntax
+$ jc dig example.com | jq -r '.[].answer[].data'
+
+$ git log | jc --git-log | jq
+$ ifconfig | jc --ifconfig
+$ echo "${JWT_TOKEN}" | jc --jwt
+$ echo "/Users/admin/.docker/bin" | jc --path | jq
+$ cat foo.yaml | jc --yaml | jq
+```
+
+There are [tons of parsers](https://github.com/kellyjonbrazil/jc?tab=readme-ov-file#parsers) 
+available on GitHub!
+
+Enjoy!

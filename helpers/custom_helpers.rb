@@ -152,4 +152,20 @@ module CustomHelpers
     yt_src = "https://www.youtube.com/embed/#{id}"
     video src: yt_src, title: options[:title] || nil, cap: options[:cap] || nil
   end
+  
+  def page_cover_as_inline_css_style(page_meta)
+    if page_meta[:covers_retina]
+      retina_urls = []
+      image_path_prefix = "/" + config[:images_dir] + "/covers/"
+      page_meta[:covers_retina].split(",").each_with_index do |filename, idx|
+        retina_urls << "url(#{image_path_prefix}#{filename}) #{idx+1}x"
+      end
+      return "background-image: image-set(#{retina_urls.join(',')});"
+    end
+
+    if page_meta[:cover]
+      cover_image = "/" + config[:images_dir] + "/covers/" + page_meta[:cover]
+      return "background-image: url(#{cover_image});"
+    end
+  end
 end

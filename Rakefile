@@ -87,7 +87,10 @@ namespace :new do
     output << "# blog: #{blog_name[args.language.to_sym]}"
     output << "layout: #{args.language}/layout-common"
     output << "# layout: #{args.language}/layout-common-markdown"
+    output << '# covers_retina: ""'
     output << '# cover: ""'
+    output << '# cover_color: ""'
+    output << '# cover_bgcolor: ""'
     output << '# cover_title: ""'
     output << '# cover_subtitle: ""'
     output << '# og_image: ""'
@@ -127,7 +130,10 @@ title: "#{args.title}"
 locale: #{args.language}
 # subtitle: ""
 date: #{frontmatter_date}
+# covers_retina: ""
 # cover: ""
+# cover_color: ""
+# cover_bgcolor: ""
 # cover_title: ""
 # cover_subtitle: ""
 # og_image: ""

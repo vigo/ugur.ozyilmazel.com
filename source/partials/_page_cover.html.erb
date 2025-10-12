@@ -1,7 +1,5 @@
 <%
-if locals[:meta][:cover]
-  cover_image = "/" + config[:images_dir] + "/covers/" + locals[:meta][:cover]
-
+if locals[:meta][:cover] || locals[:meta][:covers_retina]
   align = "has-text-left"
   align = locals[:meta][:cover_align] if locals[:meta][:cover_align]
   align = @cover_align unless @cover_align.nil?
@@ -23,7 +21,7 @@ if locals[:meta][:cover]
   cover_subtitle = @cover_subtitle unless @cover_subtitle.nil?
   
   %>
-    <section class="hero is-medium cover is-hidden-touch" style="background-image: url(<%= cover_image %>);">
+    <section class="hero is-medium cover is-hidden-touch" style="<%= page_cover_as_inline_css_style locals[:meta] %>">
         <div class="hero-body">
             <div class="container <%= align %>">
                 <% if cover_title %><p class="is-size-3 has-text-weight-bold <%= color %>"><span class="bandage <%= bgcolor %>"><%= cover_title %></span></p><% end %>
