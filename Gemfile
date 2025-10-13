@@ -13,4 +13,4 @@ gem 'readingtime', '~> 0.4.0'
 gem 'fastimage', '~> 2.4'
 gem 'sanitize', '~> 7.0'
 
-gem "middleman-livereload", "~> 3.4"
+gem "middleman-livereload", "~> 3.5"
