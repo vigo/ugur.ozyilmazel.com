@@ -1,7 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (7.2.2.1)
+    activesupport (7.2.3)
       base64
       benchmark (>= 0.3)
       bigdecimal
@@ -18,15 +18,15 @@ GEM
     autoprefixer-rails (10.4.19.0)
       execjs (~> 2)
     base64 (0.3.0)
-    benchmark (0.4.1)
-    bigdecimal (3.2.2)
+    benchmark (0.5.0)
+    bigdecimal (3.3.1)
     builder (3.3.0)
     coffee-script (2.4.1)
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.3.5)
-    connection_pool (2.5.3)
+    connection_pool (2.5.4)
     contracts (0.17.2)
     crass (1.0.6)
     dotenv (3.1.8)
@@ -47,7 +47,7 @@ GEM
     ffi (1.17.2-x86_64-darwin)
     ffi (1.17.2-x86_64-linux-gnu)
     ffi (1.17.2-x86_64-linux-musl)
-    haml (6.3.0)
+    haml (6.4.0)
       temple (>= 0.8.2)
       thor
       tilt
@@ -70,7 +70,7 @@ GEM
     middleman-autoprefixer (3.0.0)
       autoprefixer-rails (~> 10.0)
       middleman-core (>= 4.0.0)
-    middleman-blog (4.1.0)
+    middleman-blog (4.2.1)
       addressable (~> 2.3)
       middleman-core (>= 4.0.0)
       tzinfo (>= 0.3.0)
@@ -111,7 +111,7 @@ GEM
     middleman-syntax (3.6.1)
       middleman-core (>= 3.2)
       rouge (~> 3.2)
-    minitest (5.25.5)
+    minitest (5.26.1)
     nokogiri (1.18.9-aarch64-linux-gnu)
       racc (~> 1.4)
     nokogiri (1.18.9-aarch64-linux-musl)
@@ -137,7 +137,7 @@ GEM
     parslet (2.0.0)
     public_suffix (6.0.2)
     racc (1.8.1)
-    rack (3.2.3)
+    rack (3.2.4)
     rack-livereload (0.3.17)
       rack
     rackup (2.2.1)
@@ -147,7 +147,7 @@ GEM
       ffi (~> 1.0)
     readingtime (0.4.0)
     redcarpet (3.6.1)
-    rexml (3.4.2)
+    rexml (3.4.4)
     rouge (3.30.0)
     sanitize (7.0.0)
       crass (~> 1.0.2)
@@ -183,7 +183,7 @@ DEPENDENCIES
   fastimage (~> 2.4)
   middleman (~> 4.6)
   middleman-autoprefixer (~> 3.0)
-  middleman-blog (~> 4.1)
+  middleman-blog (~> 4.2)
   middleman-livereload (~> 3.4)
   middleman-syntax (~> 3.6)
   readingtime (~> 0.4.0)
