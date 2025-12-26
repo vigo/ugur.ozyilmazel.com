@@ -1,0 +1,228 @@
+---
+title: "2025'te Neler Yaptım"
+locale: tr
+# subtitle: ""
+date: 2025-12-26 01:46
+# covers_retina: ""
+# cover: ""
+# cover_color: ""
+# cover_bgcolor: ""
+# cover_title: ""
+# cover_subtitle: ""
+# og_image: ""
+# og_image_dir: ""
+# tags: tag1,tag2
+tags: retrospektif
+comments: false
+---
+
+Koskoca bir yıl çok hızlı bir şekilde bitti yine. Şöyle bir retrospektif yapayım
+kendi çapımda dedim. Geçen sene olduğu gibi acaba yeni neler öğrendim? READ_MORE
+
+İlk olarak [ghostty][ghostty] için bir soru açmışım, Terminal’deki **blink**
+özelliğinin olmadığı ile ilgili. Altında bir-kaç konuşma olmuş ama şimdi
+baktım uzay boşluğunda kalmış...
+
+Sonra bir tane açık kaynak go kütüphanesi yapmışım: [getenv][getenv], an itibariyle
+ne olduğunu hemen hatırlayamadım, **2 tane** issue açmışım, `dependabot` PR’larını da
+şimdi gördüm, hemen **merge** ettim...
+
+[devchain][devchain] adında bir organizasyon kurup, yine açık kaynaklı bir
+proje yaptım. [cauldron][cauldron] adında, GitHub, GitLab gibi platformların
+webhook’larını çok hızlı bir şekilde handle edip Kafka’ya yazan ve daha sonra
+buradan analizler yapan bir proje. Bununla uğraşırken [webhooks][webhooks] diye
+başka bir açık kaynak kütüphaneye de eksik eventleri ekleyerek katkı yapma
+fırsatı buldum. Repo sahibi sanırım bırakmış artık projeyi, Ocak 2025’te
+açtığım [PR][webhooks-pr]’lar olduğu gibi duruyor...
+
+<%= zoomable src: '2025-12-26/devchain-kafka-ui.png',
+             shadow: true,
+             alt: 'Kafka Web UI',
+             cap: 'Gelen GitHub event’leri'
+%>
+
+Sonra hemen GitHub Star sevgili kardeşim [Fatih Kadir Akın][fka]’a dedim ki
+
+> Pampa, senin [awesome-chatgpt-prompts][acp] reposuna bir webhook eklesek? Bir projem var, event’leri dinleyeceğim!
+
+Sağolsun hemen ekledi, eklediği gibi yağmur gibi event’ler akmaya başladı. Neredeyse
+dünyanın en çok aksiyonu olan repolarından biri oldu
+
+<%= zoomable src: '2025-12-26/devchain-dashbboard.png',
+             shadow: true,
+             alt: 'DevChain dashboard',
+             cap: 'Event dashboard’lardan bir tanesi'
+%>
+
+Sonra, [Mehmet İnce][mehmeti]’in bir çağrısını görüp, [bir şeyler yapmaya][cvepreserve] 
+çalıştım, çok da fazla üzerine düşemedim, archive moduna çektim.
+
+Yine izlediğim bir YouTube videosundan ([nushell][nushell]) gaza gelerek [tablo][tablo] diye bir
+command-line tool’u geliştirdim, tabiiki açık kaynak. Bash kullanıcılarının
+hoşuna gidebilir.
+
+```bash
+echo "hello|world" | tablo -l "|"
+┌───────┐
+│ hello │
+├───────┤
+│ world │
+└───────┘
+```
+
+İlk aşkım, tek kürekçim [TextMate][textmate] için [go bundle][tm-go]’ı yaptım, kendi private
+bundle’ımda bulunan her şeyi oradan söküp attım, ayrı bir bundle yaptım.
+Muhtemelen benden başka da kullanan yoktur.
+
+Yine [Fatih][fka]’in [mcptools][mcptools] projesine ufak tefek katkılar yaptım.
+
+Statik html bir websitem için iletişim form’u lazımdı, form post edilince
+slack’e mesaj atan basit bir servis. Daha önce **JavaScript** ile backend hiç
+yazmamıştım, öğrendim ve yaptım.
+
+Şirkette bir kısım seri halinde eğitimler yaptım;
+
+- Introduction to Python
+- Introduction to Docker, Docker Compose, Docker Swarm
+- Rest API Best Practices
+- Basic Fundamentals
+- Introduction to Linux
+
+Yine şirket için, demo amaçlı Kong ile api gateway / load balancer projesi yaptım.
+
+Geçen sene yaptığımız, sonra unuttuğumuz yapay zeka projemizi (*o dönemde GPT-3 vardı*)
+gaza gelerek baştan tekrar yazmaya başladım. Gündüzleri şirket işleri, geceleri de
+[Talent Mirror][talent-mirror] ile uğraştım. İlk yaptığım dönemde `responses` api
+yoktu, `chat completion` ile yapmıştım...
+
+<%= zoomable src: '2025-12-26/talent-mirror.png',
+             shadow: true,
+             alt: 'Talent Mirror',
+             cap: 'Talent Mirror'
+%>
+
+
+Bolca `docker stack` yaml yazdım, kendi çapımda **devops**’culuk oynadım,
+kampanya ve kupon kodları kovaladım, Hostinger’den ucuza makineler aldım,
+acayip bir playground oldu benim için. [Traefik][traefik], Docker Swarm ve benzeri
+konularda bir ton şey öğrendim. Tabiiki `rake` task’lerle deployment’lar,
+otomasyonlar `ruby` hep yanımda!
+
+Projenin ortasında LangChain’e geçtim, kendimi `python` ve yapay zeka ekosistemi
+içinde bir kütüphaneden diğerine, daldan dala atlarken buldum...
+
+Önceki staj döneminin rock star’ı [Taha Berk Kuyruk][tahaberk]’u işe alarak yapay zeka
+departmanımızın ilk adımlarını attık. Kendi adıma yepyeni bir python framework’ü
+olan [Streamlit][streamlit] ile tanışıp hemen bir proje yaptık.
+
+Kendim için büyük gaz verici ama insanlık için mikro seviyede, OpenAI’ın
+codex’i için `Python 3.14` desteği veren bir [PR][openai-pr] açtım ve
+**merge** edildi! Süper basit bir işti, benim de codex-cloud’a 3.14’e
+ihtiyacım vardı, şansımı denedim ve oldu... Yani PR’ın zoru-basiti ya da
+küçüğü-büyüğü olur demeyin, bulduğunuz yerde yapıştırın...
+
+[Talent Mirror][talent-mirror]’ı şirket kullanmak istedi ve ek bir geliştirme
+durumu doğdu. Onu yaparken aklımıza bu feature’dan da acaba bir proje çıkar mı?
+dedik ve kardeş proje [Talent Score][talent-score] çıktı!
+
+<%= zoomable src: '2025-12-26/talent-score.png',
+             shadow: true,
+             alt: 'Talent Score',
+             cap: 'Talent Score'
+%>
+
+
+[Django][django]’dan kurtulayım derken battıkça batmıştım ama [Talent Score][talent-score]’da 
+realtime işler yapmak için web socket sunucusu lazım oldu. Django’nun [channels][django-channels]’ı 
+ya da hali hazırdaki async python çözümleri olabilecekken ben ne yaptım?
+
+Oturup `go` ile **web socket** servisi yazdım, kendi yazdığım servisi kullanmak
+istedim. Acayip küçük bir **memory** ve **filesize**’da işi bitirdim, hem de bir sürü
+yeni olaylar öğrendim.
+
+Her iki projede de öküz olduğum için server-side rendering (*react vs frontend
+olmadığı için bende*) yaptım ve günün sonunda bir sürü JavaScript lazım oldu.
+İşte o noktada hayatıma [Alpine.js][alpine] girdi. Tam benlik. Bu iki projede,
+browser’ların media api’lerini, file api’lerini öğrenmek zorunda kaldım.
+
+Bir sürü [Celery][celery] task, queue’lar, **go ile tek CPU**’da **binlerce**
+http request handle ederken, **4 CPU**’lu makinede **max 3 tane** celery
+worker run edebilmenin verdiği üzüntüler, OpenAI api’sine her vuruşta modele
+göre yapılan ödemeler, kan-ter ve göz yaşlarında hahahahha güzel tecrübeler
+diyebiliriz...
+
+**Stripe**’ın python api’sini de öğrenmek zorunda kaldım, bir ton döküman
+okudum, stripe’ın doküman sitesinde AI assistance var, bana yazdırdığı kodlar
+kısmen OK kısmen değildi, özellikle bir sürü webhook’un olması, hangi webhook
+acaba bana lazım olur vs bunları denemek, öğrenmek ve anlamak gerçekten
+yordu...
+
+Ben AI tool olarak ilk günden beri **ChatGPT** kullanıyorum. **Codex** çıkınca
+hem **cli** hem de **cloud** versiyonları kullandım. Gerçekten çok işime
+yaradı. Projenin ortasında ekibe katılan **süper bir developer** gibi ona
+açtığım task’leri projelerin genel kod geliştirme stiline göre yaptı.
+
+Yaklaşık **1 hafta önce** gaza gelip **Claude** aboneliği açtım Apple
+üzerinden (*daha ucuz oluyor diye*) sonra dedim ki; keşke ilk günden sadece 
+Claude kullansaymışım!!!
+
+Aradaki fark fersah fersah. Geçenlerde [Fatih][fka] tweet atmıştı;
+
+Eğer **AGI** diye bir şey varsa şu an **Opus 4.5** modeli bence **AGI**...
+
+demişti. Aynı fikirdeyim En az **1 haftada** yapacağım şeyi **1 saate** yaptı
+hem de cillop gibi, testleriyle beraber.
+
+Şirketteki ekibimize canavar gibi stajyer bir kardeşimiz katıldı, **Tuna Toktaş**, 
+Taha ile beraber çılgın bir yapay zeka projesi yaptılar, ben süpervizörlük yaptım, 
+vektör database, api servisleri bir sürü Django + Django REST 
+(*internal servis için*) havalarda uçtu...
+
+Ekim ayı kampanyalarından acayip ucuza 1 yıllık **boots.dev** aboneliği aldım,
+gamification olayı beni bozdu, eğitmen ve konular iyi ama oyun gibi olması
+beni soğuttu biraz.
+
+Bu yazıyı yazarken farkettim, bu sene sadece **2 kitap** almışım. Bol bol
+YouTube videoları izledim. **Tailwind CSS** skill’erim acayip yükseldi :)
+
+Bu sene en çok hoşuma giden olay [Fatih][fka]’in GitHub elektronik badge’ini 
+bana hediye etmesi ve bir sürü GitHub goodie’leri getirmesiydi ♥️
+
+Kendi adıma yine bol bol kod yazdığım bir yıl oldu, yeni şeyler öğrenmeye devam
+ettim. Bolca `python` ve `django`, `bash`, `ruby` ve çok az `go`, kendime göre
+çok fazla `js`, bolca `markdown` yazdığımı düşünüyorum.
+
+Eğer son dakikada caymazsam, bir sonraki projede backend’i `go` ile yazıp
+`django`’yu admin panel olarak kullanıp, hardcore `reactjs` ile frontend’i
+yapıcam canıma tak dedi...
+
+Kabaca **2025** bende bu şekilde geçti, bakalım seneye neler olacak? Herkese
+iyi seneler dilerim.
+
+[ghostty]: https://github.com/ghostty-org/ghostty
+[getenv]: https://github.com/vigo/getenv
+[devchain]: https://github.com/devchain-network
+[cauldron]: https://github.com/devchain-network/cauldron
+[webhooks]: https://github.com/devchain-network/webhooks
+[cvepreserve]: https://github.com/vigo/cvepreserve
+[tablo]: https://github.com/vigo/tablo
+[tm-go]: https://github.com/vigo/textmate2-golang
+[talent-mirror]: https://talentmirror.cloud/
+[talent-score]: https://talentscore.cloud/
+
+[fka]: https://github.com/f
+[acp]: https://github.com/f/awesome-chatgpt-prompts
+[mehmeti]: https://github.com/mdisec/
+[textmate]: https://github.com/textmate/
+[mcptools]: https://github.com/f/mcptools
+[tahaberk]: https://github.com/tberk-s
+[streamlit]: https://streamlit.io/
+[openai-pr]: https://github.com/openai/codex-universal/pull/90
+[django]: https://www.djangoproject.com/
+[django-channels]: https://channels.readthedocs.io/en/latest/
+[alpine]: https://alpinejs.dev/
+[celery]: https://docs.celeryq.dev/en/stable/
+[nushell]: https://www.nushell.sh/
+[traefik]: https://traefik.io/
+[docker-swarm]: https://docs.docker.com/engine/swarm/
+[webhooks-pr]: https://github.com/go-playground/webhooks/pulls
