@@ -14,7 +14,7 @@
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2025/12/26/2025-te-neler-yaptim/"/>
     <id>https://ugur.ozyilmazel.com/blog/tr/2025/12/26/2025-te-neler-yaptim/</id>
     <published>2025-12-26T01:46:00+03:00</published>
-    <updated>2025-12-26T18:55:38+03:00</updated>
+    <updated>2025-12-26T19:00:09+03:00</updated>
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
@@ -102,9 +102,9 @@ yoktu, &lt;code&gt;chat completion&lt;/code&gt; ile yapmıştım…&lt;/p&gt;
 
 &lt;p&gt;Bolca &lt;code&gt;docker stack&lt;/code&gt; yaml yazdım, kendi çapımda &lt;strong&gt;devops&lt;/strong&gt;’culuk oynadım,
 kampanya ve kupon kodları kovaladım, Hostinger’den ucuza makineler aldım,
-acayip bir playground oldu benim için. &lt;a href="https://traefik.io/"&gt;Traefik&lt;/a&gt;, Docker Swarm ve benzeri
-konularda bir ton şey öğrendim. Tabiiki &lt;code&gt;rake&lt;/code&gt; task’lerle deployment’lar,
-otomasyonlar &lt;code&gt;ruby&lt;/code&gt; hep yanımda!&lt;/p&gt;
+acayip bir playground oldu benim için. &lt;a href="https://traefik.io/"&gt;Traefik&lt;/a&gt;, &lt;a href="https://docs.docker.com/engine/swarm/"&gt;Docker Swarm&lt;/a&gt; 
+ve benzeri konularda bir ton şey öğrendim. Tabiiki &lt;code&gt;rake&lt;/code&gt; task’lerle 
+deployment’lar, otomasyonlar &lt;code&gt;ruby&lt;/code&gt; hep yanımda!&lt;/p&gt;
 
 &lt;p&gt;Projenin ortasında LangChain’e geçtim, kendimi &lt;code&gt;python&lt;/code&gt; ve yapay zeka ekosistemi
 içinde bir kütüphaneden diğerine, daldan dala atlarken buldum…&lt;/p&gt;
