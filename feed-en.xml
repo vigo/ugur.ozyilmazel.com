@@ -18,11 +18,7 @@
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;code&gt;jc&lt;/code&gt; is a command-line tool for transforming output into &lt;strong&gt;json&lt;/strong&gt;. So what
-does that mean? In other words, you can turn the messy text output from common 
-&lt;strong&gt;CLI tools&lt;/strong&gt; into clean &lt;strong&gt;json&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;
+    <content type="html">
 
 &lt;p&gt;Let’s look at a quick example using &lt;code&gt;dig&lt;/code&gt;:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;dig example.com
@@ -181,8 +177,7 @@ available on GitHub!&lt;/p&gt;
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
-    <content type="html">&lt;p&gt;Package updates in Ruby projects have always made me uneasy. Usually, after an
-update, something always breaks or throws an error. &lt;/p&gt;
+    <content type="html">
 
 &lt;p&gt;I rarely add posts to my blog — sometimes every 3–4 months, sometimes once a
 year. Whenever I decide to write a new post, I tell myself&lt;/p&gt;
@@ -298,10 +293,7 @@ workaround.&lt;/p&gt;
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
-    <content type="html">&lt;p&gt;I have found that many Django developers I have talked to are either unaware 
-of the &lt;code&gt;natural_key&lt;/code&gt; method that comes with Django models, and the 
-&lt;code&gt;get_by_natural_key&lt;/code&gt; method in model managers, or they do not know 
-how to use them. &lt;/p&gt;
+    <content type="html">
 
 &lt;p&gt;I think one of the most amazing aspects of Django is the ability to
 automatically create the database right after defining the model and quickly
@@ -754,8 +746,7 @@ manually.&lt;/p&gt;
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
-    <content type="html">&lt;p&gt;I was upgrading the go version of my &lt;a href="https://github.com/vigo/homebrew-statoo"&gt;personal project&lt;/a&gt; the other day.
-&lt;/p&gt;
+    <content type="html">
 
 &lt;p&gt;I moved from &lt;code&gt;go 1.16&lt;/code&gt; to &lt;code&gt;go 1.19&lt;/code&gt;. I had to come out with a new version. I
 upgraded my custom brew package as I always do; fix the &lt;code&gt;url&lt;/code&gt; and &lt;code&gt;sha&lt;/code&gt; fields
@@ -792,14 +783,18 @@ then change the code to:&lt;/p&gt;
 &lt;p&gt;Break down of args:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;bin/&amp;quot;statoo&amp;quot;&lt;/code&gt; is the executable path&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;bash-completion&lt;/code&gt; is an arg for &lt;code&gt;statoo&lt;/code&gt; executable, generates bash related completion code.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;completions&lt;/code&gt; is the &lt;code&gt;base_name&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;code&gt;bin/"statoo"&lt;/code&gt; is the executable path&lt;/li&gt;
+&lt;li&gt;
+&lt;code&gt;bash-completion&lt;/code&gt; is an arg for &lt;code&gt;statoo&lt;/code&gt; executable, generates bash related completion code.&lt;/li&gt;
+&lt;li&gt;
+&lt;code&gt;completions&lt;/code&gt; is the &lt;code&gt;base_name&lt;/code&gt;
+&lt;/li&gt;
 &lt;li&gt;Completion code is compatible with &lt;code&gt;bash&lt;/code&gt; only, therefor I set the shel &lt;code&gt;:bash&lt;/code&gt; only.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;I spent an hour to fix and understand the problem and solution. I couldn’t
-find any examples or documentation about this new formula style change&amp;hellip; This
+find any examples or documentation about this new formula style change… This
 is why I’m writing this blog post so that will be useful to other brewers :)&lt;/p&gt;
 
 &lt;p&gt;Here is the function signature of &lt;code&gt;generate_completions_from_executable&lt;/code&gt;:&lt;/p&gt;
@@ -814,8 +809,10 @@ is why I’m writing this blog post so that will be useful to other brewers :)&l
 custom brew package here:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="https://github.com/vigo/statoo"&gt;https://github.com/vigo/statoo&lt;/a&gt; (&lt;em&gt;project&lt;/em&gt;)&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://github.com/vigo/homebrew-statoo"&gt;https://github.com/vigo/homebrew-statoo&lt;/a&gt; (&lt;em&gt;brew package&lt;/em&gt;)&lt;/li&gt;
+&lt;li&gt;
+&lt;a href="https://github.com/vigo/statoo"&gt;https://github.com/vigo/statoo&lt;/a&gt; (&lt;em&gt;project&lt;/em&gt;)&lt;/li&gt;
+&lt;li&gt;
+&lt;a href="https://github.com/vigo/homebrew-statoo"&gt;https://github.com/vigo/homebrew-statoo&lt;/a&gt; (&lt;em&gt;brew package&lt;/em&gt;)&lt;/li&gt;
 &lt;/ul&gt;
 </content>
   </entry>
@@ -828,16 +825,15 @@ custom brew package here:&lt;/p&gt;
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
-    <content type="html">&lt;p&gt;I’ve been saving blog posts I like (to local disk) for a long time.
-&lt;/p&gt;
+    <content type="html">
 
 &lt;p&gt;I subscribe to many newsletters about programming. I have a git repository
 where I keep sample codes, small snippets from the articles I read.
 Sometimes I want to keep the entire article for later usage.&lt;/p&gt;
 
-&lt;p&gt;I was keeping bookmarks&amp;hellip; Tons of links that I’ll read one day&amp;hellip; Bookmarking
+&lt;p&gt;I was keeping bookmarks… Tons of links that I’ll read one day… Bookmarking
 is easy but requires maintenance, synchronization between devices, backup
-etc&amp;hellip; One day I realized that websites don’t live forever. Domain name can
+etc… One day I realized that websites don’t live forever. Domain name can
 expire, the author can close/shutdown the site or site may fall into black
 hole somehow :)&lt;/p&gt;
 
@@ -854,12 +850,14 @@ out the maximum repository size limit was &lt;strong&gt;1 Gigabyte&lt;/strong&gt
 webarchive files and sometimes &lt;code&gt;png&lt;/code&gt; screenshot files. GitLab is like a
 bottomless pit, feels like no limits!&lt;/p&gt;
 
-&lt;table&gt;&lt;thead&gt;
+&lt;table&gt;
+&lt;thead&gt;
 &lt;tr&gt;
 &lt;th style="text-align: left"&gt;What?&lt;/th&gt;
 &lt;th style="text-align: right"&gt;Size&lt;/th&gt;
 &lt;/tr&gt;
-&lt;/thead&gt;&lt;tbody&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
 &lt;tr&gt;
 &lt;td style="text-align: left"&gt;LFS Storage&lt;/td&gt;
 &lt;td style="text-align: right"&gt;4.4 GB&lt;/td&gt;
@@ -876,7 +874,8 @@ bottomless pit, feels like no limits!&lt;/p&gt;
 &lt;td style="text-align: left"&gt;# of files&lt;/td&gt;
 &lt;td style="text-align: right"&gt;&lt;strong&gt;5178&lt;/strong&gt;&lt;/td&gt;
 &lt;/tr&gt;
-&lt;/tbody&gt;&lt;/table&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 
 &lt;p&gt;Normally, webarchive files are default/native macOS format and can be
 previewed via built-in QuickLook feature. Somehow webarchive support is broken
@@ -891,8 +890,11 @@ was still readable.&lt;/p&gt;
 &lt;code&gt;File &amp;gt; Export as PDF...&lt;/code&gt;. Feature was working fine and were saving the whole 
 website as a one single and large pdf file. &lt;/p&gt;
 
-&lt;div class="card blog-card mt-2 mb-4"&gt;&lt;div class="card-image has-text-centered"&gt;&lt;img class="mt-4" title="Small clip from Safari screenshot" src="/public/images/posts/2022-10-02-safari-export-pdf.png" alt="Small clip from Safari screenshot" /&gt;&lt;/div&gt;&lt;div class="card-content"&gt;&lt;div class="content has-text-centered is-size-5-desktop is-size-6-mobile has-text-weight-semibold"&gt;&lt;p&gt; Safari &amp;gt; File &amp;gt; Export as PDF 
-&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class="card blog-card mt-2 mb-4"&gt;
+&lt;div class="card-image has-text-centered"&gt;&lt;img class="mt-4" title="Small clip from Safari screenshot" src="/public/images/posts/2022-10-02-safari-export-pdf.png" alt="Small clip from Safari screenshot"&gt;&lt;/div&gt;
+&lt;div class="card-content"&gt;&lt;div class="content has-text-centered is-size-5-desktop is-size-6-mobile has-text-weight-semibold"&gt;&lt;p&gt; Safari &amp;gt; File &amp;gt; Export as PDF 
+&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
 
 &lt;p&gt;There was one little issue: &lt;strong&gt;the file size&lt;/strong&gt;. How can I reduce the pdf size?&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;brew &lt;span class="nb"&gt;install &lt;/span&gt;ghostscript
@@ -908,12 +910,14 @@ low-resolution output similar to the Acrobat Distiller (up to version X)
 &lt;q&gt;Screen Optimized&lt;/q&gt; setting. I’ve tried every output options, &lt;code&gt;screen&lt;/code&gt; seems
 the smallest one:&lt;/p&gt;
 
-&lt;table&gt;&lt;thead&gt;
+&lt;table&gt;
+&lt;thead&gt;
 &lt;tr&gt;
 &lt;th style="text-align: left"&gt;Format&lt;/th&gt;
 &lt;th style="text-align: right"&gt;Size&lt;/th&gt;
 &lt;/tr&gt;
-&lt;/thead&gt;&lt;tbody&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
 &lt;tr&gt;
 &lt;td style="text-align: left"&gt;&lt;code&gt;webarchive&lt;/code&gt;&lt;/td&gt;
 &lt;td style="text-align: right"&gt;6.2 MB&lt;/td&gt;
@@ -938,7 +942,8 @@ the smallest one:&lt;/p&gt;
 &lt;td style="text-align: left"&gt;&lt;code&gt;/ebook&lt;/code&gt;&lt;/td&gt;
 &lt;td style="text-align: right"&gt;611 KB&lt;/td&gt;
 &lt;/tr&gt;
-&lt;/tbody&gt;&lt;/table&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 
 &lt;p&gt;After compressing with tar+gz, 383 KB reduced to &lt;strong&gt;291 KB&lt;/strong&gt;. File size is
 reduced by approximately &lt;strong&gt;20 times&lt;/strong&gt; (6.2 MB -&amp;gt; 291 KB). Not that bad ha? I
@@ -982,8 +987,7 @@ wish I knew these methods/techniques earlier. Thanks to &lt;a href="https://supe
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
-    <content type="html">&lt;p&gt;It’s been a long time since my last scribble.
-&lt;/p&gt;
+    <content type="html">
 
 &lt;p&gt;It’s always on my mind to write what I learned, for some reason I can’t find
 enough time. I plan to share my programming experiences over time. Let’s see
@@ -999,8 +1003,7 @@ how successful I can be?&lt;/p&gt;
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
-    <content type="html">&lt;p&gt;I’d like to write about the super cool &lt;code&gt;bash&lt;/code&gt; technique I learned from a
-training video of 2011. &lt;/p&gt;
+    <content type="html">
 
 &lt;p&gt;Yes, you can implement super basic phonebook application via shell script.
 Create a file called: &lt;code&gt;phonebook&lt;/code&gt;&lt;/p&gt;
@@ -1036,7 +1039,7 @@ vigo 0123-456-78-99
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
-    <content type="html">&lt;p&gt;I’ve decided to write in English. &lt;/p&gt;
+    <content type="html">
 
 &lt;p&gt;Hello friends! I’ve been thinking about this for a long time. I’d like to
 share my blog both in Turkish and English. I’m planning to write more about

@@ -5,10 +5,197 @@
   <id>https://ugur.ozyilmazel.com/blog/tr/</id>
   <link href="https://ugur.ozyilmazel.com/blog/tr/"/>
   <link href="https://ugur.ozyilmazel.com/feed-tr.xml" rel="self"/>
-  <updated>2025-03-09T20:58:00+03:00</updated>
+  <updated>2025-12-26T01:46:00+03:00</updated>
   <author>
     <name>Uğur “vigo” Özyılmazel</name>
   </author>
+  <entry>
+    <title>2025'te Neler Yaptım</title>
+    <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2025/12/26/2025-te-neler-yaptim/"/>
+    <id>https://ugur.ozyilmazel.com/blog/tr/2025/12/26/2025-te-neler-yaptim/</id>
+    <published>2025-12-26T01:46:00+03:00</published>
+    <updated>2025-12-26T18:55:38+03:00</updated>
+    <author>
+      <name>Uğur “vigo” Özyılmazel</name>
+    </author>
+    <content type="html">
+
+&lt;p&gt;İlk olarak &lt;a href="https://github.com/ghostty-org/ghostty"&gt;ghostty&lt;/a&gt; için bir soru açmışım, Terminal’deki &lt;strong&gt;blink&lt;/strong&gt;
+özelliğinin olmadığı ile ilgili. Altında bir-kaç konuşma olmuş ama şimdi
+baktım uzay boşluğunda kalmış…&lt;/p&gt;
+
+&lt;p&gt;Sonra bir tane açık kaynak go kütüphanesi yapmışım: &lt;a href="https://github.com/vigo/getenv"&gt;getenv&lt;/a&gt;, an itibariyle
+ne olduğunu hemen hatırlayamadım, &lt;strong&gt;2 tane&lt;/strong&gt; issue açmışım, &lt;code&gt;dependabot&lt;/code&gt; PR’larını da
+şimdi gördüm, hemen &lt;strong&gt;merge&lt;/strong&gt; ettim…&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="https://github.com/devchain-network"&gt;devchain&lt;/a&gt; adında bir organizasyon kurup, yine açık kaynaklı bir
+proje yaptım. &lt;a href="https://github.com/devchain-network/cauldron"&gt;cauldron&lt;/a&gt; adında, GitHub, GitLab gibi platformların
+webhook’larını çok hızlı bir şekilde handle edip Kafka’ya yazan ve daha sonra
+buradan analizler yapan bir proje. Bununla uğraşırken &lt;a href="https://github.com/devchain-network/webhooks"&gt;webhooks&lt;/a&gt; diye
+başka bir açık kaynak kütüphaneye de eksik eventleri ekleyerek katkı yapma
+fırsatı buldum. Repo sahibi sanırım bırakmış artık projeyi, Ocak 2025’te
+açtığım &lt;a href="https://github.com/go-playground/webhooks/pulls"&gt;PR&lt;/a&gt;’lar olduğu gibi duruyor…&lt;/p&gt;
+
+&lt;div class="full zoomable"&gt;
+&lt;figure class="image"&gt;&lt;img class="shadow" title="Kafka Web UI" src="/public/images/posts/2025-12-26/devchain-kafka-ui.png" alt="Kafka Web UI"&gt;&lt;/figure&gt;&lt;p&gt; Gelen GitHub event’leri 
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Sonra hemen GitHub Star sevgili kardeşim &lt;a href="https://github.com/f"&gt;Fatih Kadir Akın&lt;/a&gt;’a dedim ki&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Pampa, senin &lt;a href="https://github.com/f/awesome-chatgpt-prompts"&gt;awesome-chatgpt-prompts&lt;/a&gt; reposuna bir webhook eklesek? Bir projem var, event’leri dinleyeceğim!&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Sağolsun hemen ekledi, eklediği gibi yağmur gibi event’ler akmaya başladı. Neredeyse
+dünyanın en çok aksiyonu olan repolarından biri oldu&lt;/p&gt;
+
+&lt;div class="full zoomable"&gt;
+&lt;figure class="image"&gt;&lt;img class="shadow" title="DevChain dashboard" src="/public/images/posts/2025-12-26/devchain-dashbboard.png" alt="DevChain dashboard"&gt;&lt;/figure&gt;&lt;p&gt; Event dashboard’lardan bir tanesi 
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Sonra, &lt;a href="https://github.com/mdisec/"&gt;Mehmet İnce&lt;/a&gt;’in bir çağrısını görüp, &lt;a href="https://github.com/vigo/cvepreserve"&gt;bir şeyler yapmaya&lt;/a&gt; 
+çalıştım, çok da fazla üzerine düşemedim, archive moduna çektim.&lt;/p&gt;
+
+&lt;p&gt;Yine izlediğim bir YouTube videosundan (&lt;a href="https://www.nushell.sh/"&gt;nushell&lt;/a&gt;) gaza gelerek &lt;a href="https://github.com/vigo/tablo"&gt;tablo&lt;/a&gt; diye bir
+command-line tool’u geliştirdim, tabiiki açık kaynak. Bash kullanıcılarının
+hoşuna gidebilir.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"hello|world"&lt;/span&gt; | tablo &lt;span class="nt"&gt;-l&lt;/span&gt; &lt;span class="s2"&gt;"|"&lt;/span&gt;
+┌───────┐
+│ hello │
+├───────┤
+│ world │
+└───────┘
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;İlk aşkım, tek kürekçim &lt;a href="https://github.com/textmate/"&gt;TextMate&lt;/a&gt; için &lt;a href="https://github.com/vigo/textmate2-golang"&gt;go bundle&lt;/a&gt;’ı yaptım, kendi private
+bundle’ımda bulunan her şeyi oradan söküp attım, ayrı bir bundle yaptım.
+Muhtemelen benden başka da kullanan yoktur.&lt;/p&gt;
+
+&lt;p&gt;Yine &lt;a href="https://github.com/f"&gt;Fatih&lt;/a&gt;’in &lt;a href="https://github.com/f/mcptools"&gt;mcptools&lt;/a&gt; projesine ufak tefek katkılar yaptım.&lt;/p&gt;
+
+&lt;p&gt;Statik html bir websitem için iletişim form’u lazımdı, form post edilince
+slack’e mesaj atan basit bir servis. Daha önce &lt;strong&gt;JavaScript&lt;/strong&gt; ile backend hiç
+yazmamıştım, öğrendim ve yaptım.&lt;/p&gt;
+
+&lt;p&gt;Şirkette bir kısım seri halinde eğitimler yaptım;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Introduction to Python&lt;/li&gt;
+&lt;li&gt;Introduction to Docker, Docker Compose, Docker Swarm&lt;/li&gt;
+&lt;li&gt;Rest API Best Practices&lt;/li&gt;
+&lt;li&gt;Basic Fundamentals&lt;/li&gt;
+&lt;li&gt;Introduction to Linux&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Yine şirket için, demo amaçlı Kong ile api gateway / load balancer projesi yaptım.&lt;/p&gt;
+
+&lt;p&gt;Geçen sene yaptığımız, sonra unuttuğumuz yapay zeka projemizi (&lt;em&gt;o dönemde GPT-3 vardı&lt;/em&gt;)
+gaza gelerek baştan tekrar yazmaya başladım. Gündüzleri şirket işleri, geceleri de
+&lt;a href="https://talentmirror.cloud/"&gt;Talent Mirror&lt;/a&gt; ile uğraştım. İlk yaptığım dönemde &lt;code&gt;responses&lt;/code&gt; api
+yoktu, &lt;code&gt;chat completion&lt;/code&gt; ile yapmıştım…&lt;/p&gt;
+
+&lt;div class="full zoomable"&gt;
+&lt;figure class="image"&gt;&lt;img class="shadow" title="Talent Mirror" src="/public/images/posts/2025-12-26/talent-mirror.png" alt="Talent Mirror"&gt;&lt;/figure&gt;&lt;p&gt; Talent Mirror 
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Bolca &lt;code&gt;docker stack&lt;/code&gt; yaml yazdım, kendi çapımda &lt;strong&gt;devops&lt;/strong&gt;’culuk oynadım,
+kampanya ve kupon kodları kovaladım, Hostinger’den ucuza makineler aldım,
+acayip bir playground oldu benim için. &lt;a href="https://traefik.io/"&gt;Traefik&lt;/a&gt;, Docker Swarm ve benzeri
+konularda bir ton şey öğrendim. Tabiiki &lt;code&gt;rake&lt;/code&gt; task’lerle deployment’lar,
+otomasyonlar &lt;code&gt;ruby&lt;/code&gt; hep yanımda!&lt;/p&gt;
+
+&lt;p&gt;Projenin ortasında LangChain’e geçtim, kendimi &lt;code&gt;python&lt;/code&gt; ve yapay zeka ekosistemi
+içinde bir kütüphaneden diğerine, daldan dala atlarken buldum…&lt;/p&gt;
+
+&lt;p&gt;Önceki staj döneminin rock star’ı &lt;a href="https://github.com/tberk-s"&gt;Taha Berk Kuyruk&lt;/a&gt;’u işe alarak yapay zeka
+departmanımızın ilk adımlarını attık. Kendi adıma yepyeni bir python framework’ü
+olan &lt;a href="https://streamlit.io/"&gt;Streamlit&lt;/a&gt; ile tanışıp hemen bir proje yaptık.&lt;/p&gt;
+
+&lt;p&gt;Kendim için büyük gaz verici ama insanlık için mikro seviyede, OpenAI’ın
+codex’i için &lt;code&gt;Python 3.14&lt;/code&gt; desteği veren bir &lt;a href="https://github.com/openai/codex-universal/pull/90"&gt;PR&lt;/a&gt; açtım ve
+&lt;strong&gt;merge&lt;/strong&gt; edildi! Süper basit bir işti, benim de codex-cloud’a 3.14’e
+ihtiyacım vardı, şansımı denedim ve oldu… Yani PR’ın zoru-basiti ya da
+küçüğü-büyüğü olur demeyin, bulduğunuz yerde yapıştırın…&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="https://talentmirror.cloud/"&gt;Talent Mirror&lt;/a&gt;’ı şirket kullanmak istedi ve ek bir geliştirme
+durumu doğdu. Onu yaparken aklımıza bu feature’dan da acaba bir proje çıkar mı?
+dedik ve kardeş proje &lt;a href="https://talentscore.cloud/"&gt;Talent Score&lt;/a&gt; çıktı!&lt;/p&gt;
+
+&lt;div class="full zoomable"&gt;
+&lt;figure class="image"&gt;&lt;img class="shadow" title="Talent Score" src="/public/images/posts/2025-12-26/talent-score.png" alt="Talent Score"&gt;&lt;/figure&gt;&lt;p&gt; Talent Score 
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;a href="https://www.djangoproject.com/"&gt;Django&lt;/a&gt;’dan kurtulayım derken battıkça batmıştım ama &lt;a href="https://talentscore.cloud/"&gt;Talent Score&lt;/a&gt;’da 
+realtime işler yapmak için web socket sunucusu lazım oldu. Django’nun &lt;a href="https://channels.readthedocs.io/en/latest/"&gt;channels&lt;/a&gt;’ı 
+ya da hali hazırdaki async python çözümleri olabilecekken ben ne yaptım?&lt;/p&gt;
+
+&lt;p&gt;Oturup &lt;code&gt;go&lt;/code&gt; ile &lt;strong&gt;web socket&lt;/strong&gt; servisi yazdım, kendi yazdığım servisi kullanmak
+istedim. Acayip küçük bir &lt;strong&gt;memory&lt;/strong&gt; ve &lt;strong&gt;filesize&lt;/strong&gt;’da işi bitirdim, hem de bir sürü
+yeni olaylar öğrendim.&lt;/p&gt;
+
+&lt;p&gt;Her iki projede de öküz olduğum için server-side rendering (&lt;em&gt;react vs frontend
+olmadığı için bende&lt;/em&gt;) yaptım ve günün sonunda bir sürü JavaScript lazım oldu.
+İşte o noktada hayatıma &lt;a href="https://alpinejs.dev/"&gt;Alpine.js&lt;/a&gt; girdi. Tam benlik. Bu iki projede,
+browser’ların media api’lerini, file api’lerini öğrenmek zorunda kaldım.&lt;/p&gt;
+
+&lt;p&gt;Bir sürü &lt;a href="https://docs.celeryq.dev/en/stable/"&gt;Celery&lt;/a&gt; task, queue’lar, &lt;strong&gt;go ile tek CPU&lt;/strong&gt;’da &lt;strong&gt;binlerce&lt;/strong&gt;
+http request handle ederken, &lt;strong&gt;4 CPU&lt;/strong&gt;’lu makinede &lt;strong&gt;max 3 tane&lt;/strong&gt; celery
+worker run edebilmenin verdiği üzüntüler, OpenAI api’sine her vuruşta modele
+göre yapılan ödemeler, kan-ter ve göz yaşlarında hahahahha güzel tecrübeler
+diyebiliriz…&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Stripe&lt;/strong&gt;’ın python api’sini de öğrenmek zorunda kaldım, bir ton döküman
+okudum, stripe’ın doküman sitesinde AI assistance var, bana yazdırdığı kodlar
+kısmen OK kısmen değildi, özellikle bir sürü webhook’un olması, hangi webhook
+acaba bana lazım olur vs bunları denemek, öğrenmek ve anlamak gerçekten
+yordu…&lt;/p&gt;
+
+&lt;p&gt;Ben AI tool olarak ilk günden beri &lt;strong&gt;ChatGPT&lt;/strong&gt; kullanıyorum. &lt;strong&gt;Codex&lt;/strong&gt; çıkınca
+hem &lt;strong&gt;cli&lt;/strong&gt; hem de &lt;strong&gt;cloud&lt;/strong&gt; versiyonları kullandım. Gerçekten çok işime
+yaradı. Projenin ortasında ekibe katılan &lt;strong&gt;süper bir developer&lt;/strong&gt; gibi ona
+açtığım task’leri projelerin genel kod geliştirme stiline göre yaptı.&lt;/p&gt;
+
+&lt;p&gt;Yaklaşık &lt;strong&gt;1 hafta önce&lt;/strong&gt; gaza gelip &lt;strong&gt;Claude&lt;/strong&gt; aboneliği açtım Apple
+üzerinden (&lt;em&gt;daha ucuz oluyor diye&lt;/em&gt;) sonra dedim ki; keşke ilk günden sadece 
+Claude kullansaymışım!!!&lt;/p&gt;
+
+&lt;p&gt;Aradaki fark fersah fersah. Geçenlerde &lt;a href="https://github.com/f"&gt;Fatih&lt;/a&gt; tweet atmıştı;&lt;/p&gt;
+
+&lt;p&gt;Eğer &lt;strong&gt;AGI&lt;/strong&gt; diye bir şey varsa şu an &lt;strong&gt;Opus 4.5&lt;/strong&gt; modeli bence &lt;strong&gt;AGI&lt;/strong&gt;…&lt;/p&gt;
+
+&lt;p&gt;demişti. Aynı fikirdeyim En az &lt;strong&gt;1 haftada&lt;/strong&gt; yapacağım şeyi &lt;strong&gt;1 saate&lt;/strong&gt; yaptı
+hem de cillop gibi, testleriyle beraber.&lt;/p&gt;
+
+&lt;p&gt;Şirketteki ekibimize canavar gibi stajyer bir kardeşimiz katıldı, &lt;strong&gt;Tuna Toktaş&lt;/strong&gt;, 
+Taha ile beraber çılgın bir yapay zeka projesi yaptılar, ben süpervizörlük yaptım, 
+vektör database, api servisleri bir sürü Django + Django REST 
+(&lt;em&gt;internal servis için&lt;/em&gt;) havalarda uçtu…&lt;/p&gt;
+
+&lt;p&gt;Ekim ayı kampanyalarından acayip ucuza 1 yıllık &lt;strong&gt;boots.dev&lt;/strong&gt; aboneliği aldım,
+gamification olayı beni bozdu, eğitmen ve konular iyi ama oyun gibi olması
+beni soğuttu biraz.&lt;/p&gt;
+
+&lt;p&gt;Bu yazıyı yazarken farkettim, bu sene sadece &lt;strong&gt;2 kitap&lt;/strong&gt; almışım. Bol bol
+YouTube videoları izledim. &lt;strong&gt;Tailwind CSS&lt;/strong&gt; skill’erim acayip yükseldi :)&lt;/p&gt;
+
+&lt;p&gt;Bu sene en çok hoşuma giden olay &lt;a href="https://github.com/f"&gt;Fatih&lt;/a&gt;’in GitHub elektronik badge’ini 
+bana hediye etmesi ve bir sürü GitHub goodie’leri getirmesiydi ♥️&lt;/p&gt;
+
+&lt;p&gt;Kendi adıma yine bol bol kod yazdığım bir yıl oldu, yeni şeyler öğrenmeye devam
+ettim. Bolca &lt;code&gt;python&lt;/code&gt; ve &lt;code&gt;django&lt;/code&gt;, &lt;code&gt;bash&lt;/code&gt;, &lt;code&gt;ruby&lt;/code&gt; ve çok az &lt;code&gt;go&lt;/code&gt;, kendime göre
+çok fazla &lt;code&gt;js&lt;/code&gt;, bolca &lt;code&gt;markdown&lt;/code&gt; yazdığımı düşünüyorum.&lt;/p&gt;
+
+&lt;p&gt;Eğer son dakikada caymazsam, bir sonraki projede backend’i &lt;code&gt;go&lt;/code&gt; ile yazıp
+&lt;code&gt;django&lt;/code&gt;’yu admin panel olarak kullanıp, hardcore &lt;code&gt;reactjs&lt;/code&gt; ile frontend’i
+yapıcam canıma tak dedi…&lt;/p&gt;
+
+&lt;p&gt;Kabaca &lt;strong&gt;2025&lt;/strong&gt; bende bu şekilde geçti, bakalım seneye neler olacak? Herkese
+iyi seneler dilerim.&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>Ghostty macOS Terminal ve Bash Maceraları</title>
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2025/03/09/ghostty-macos-terminal-ve-bash-maceralari/"/>
@@ -18,13 +205,10 @@
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;a href="https://ghostty.org/"&gt;Ghostty&lt;/a&gt; yeni nesil terminal client’ını denerken bir de baktım kendi
-icadım olan bazı şeyler çalışmıyor! Önce problemin kimden ve nereden
-kaynaklandığını bulmaya çalıştım.
-&lt;/p&gt;
+    <content type="html">
 
 &lt;p&gt;Hatta ilk olarak Ghostty’nin forumunda sordum, neden böyle oluyor diye. Yine
-garip bir sorun bir bana denk gelmişti&amp;hellip;&lt;/p&gt;
+garip bir sorun bir bana denk gelmişti…&lt;/p&gt;
 
 &lt;p&gt;Benim &lt;code&gt;PS1&lt;/code&gt;’de kullandığım küçük bir fonksiyonum var, son çalışan komut 
 &lt;strong&gt;kaç saniye sürdü&lt;/strong&gt; ise onu görüyorum ve son &lt;code&gt;BASH EXIT CODE&lt;/code&gt;’u da buradan 
@@ -89,8 +273,10 @@ bakarsak:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$PROMPT_COMMAND&lt;/span&gt;
 last_exit&lt;span class="p"&gt;;&lt;/span&gt;_pyenv_virtualenv_hook&lt;span class="p"&gt;;&lt;/span&gt;_direnv_hook&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nb"&gt;history&lt;/span&gt; &lt;span class="nt"&gt;-a&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;update_terminal_cwd&lt;span class="p"&gt;;&lt;/span&gt;timer_stop
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img class="shadow"  title="macOS Terminal.app ekranı" src="/public/images/posts/2025-03-09-macos-terminal.png" alt="macOS Terminal.app ekranı"&gt;&lt;/figure&gt;&lt;p&gt; macOS Terminal.app ekranı 
-&lt;/p&gt;&lt;/div&gt;
+&lt;div class="full zoomable"&gt;
+&lt;figure class="image"&gt;&lt;img class="shadow" title="macOS Terminal.app ekranı" src="/public/images/posts/2025-03-09-macos-terminal.png" alt="macOS Terminal.app ekranı"&gt;&lt;/figure&gt;&lt;p&gt; macOS Terminal.app ekranı 
+&lt;/p&gt;
+&lt;/div&gt;
 
 &lt;p&gt;gibi fonksiyonları görürüz. Bu gördüğünüz değelerin bazılarını ben belirledim,
 &lt;code&gt;last_exit&lt;/code&gt; ve &lt;code&gt;timer_stop&lt;/code&gt; elle eklediğim, &lt;code&gt;_pyenv_virtualenv_hook&lt;/code&gt; ise
@@ -195,17 +381,17 @@ açmaya çalışmışım gibi oldu.&lt;/p&gt;
 
 &lt;p&gt;&lt;code&gt;timer_start&lt;/code&gt; fonksiyonu benim &lt;code&gt;trap&lt;/code&gt; ile çalıştırdığım bir şey. Yani son
 geçilen argüman olmuş bir şekilde. Bir şekilde bash’in default davranışını
-ezmişim ve nasıl ezdim ? nasıl çözerim bunu ? hiçbir fikrim yok&amp;hellip;&lt;/p&gt;
+ezmişim ve nasıl ezdim ? nasıl çözerim bunu ? hiçbir fikrim yok…&lt;/p&gt;
 
 &lt;p&gt;Yaklaşık &lt;strong&gt;2 saat&lt;/strong&gt; kadar ChatGPT’deki bir kısım custom GPT’ler, Chat GPT’nin
 kendisi, DeepSeek, GitHub Co-Pilot, bildiğim tüm LLM’lere başvurdum. Hepsi
 totosundan sallama cevaplar verdi. Sonra eski dost google’a sordum. Stack
 Overflow’da benzer sorunları yaşayan hatta birebir aynısı yaşayanlar vardı.&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;trap&lt;/code&gt; &lt;code&gt;$_&lt;/code&gt;’u eziyor, yutuyor diye&amp;hellip;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;trap&lt;/code&gt; &lt;code&gt;$_&lt;/code&gt;’u eziyor, yutuyor diye…&lt;/p&gt;
 
 &lt;p&gt;Bazı anlar vardır, çaresizlik içinde hiçbir cevap bulamadığınız, kime sorsam ?
-kimden yardım alsam diye kara kara düşündüğünüz anlar&amp;hellip;&lt;/p&gt;
+kimden yardım alsam diye kara kara düşündüğünüz anlar…&lt;/p&gt;
 
 &lt;p&gt;Önce &lt;code&gt;$_&lt;/code&gt; bunun orijinal versiyonunu bir başka değişkene atıp en son &lt;code&gt;timer_stop&lt;/code&gt;
 çağırıldığı zaman geri set etmek geldi ama buna izin vermiyor çünkü &lt;code&gt;_=$old_val&lt;/code&gt;
@@ -217,7 +403,7 @@ kodu şöyle değiştirdim:&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Yani &lt;code&gt;timer_start&lt;/code&gt; günün sonunda bir fonksiyon, ben ona argüman olarak o an
 &lt;code&gt;$_&lt;/code&gt; ne ise onu geçtim ve aslında son geçilen argüman yine o oldu. Ve büyük
-bir sürpriz oldu, çalıştı&amp;hellip;&lt;/p&gt;
+bir sürpriz oldu, çalıştı…&lt;/p&gt;
 
 &lt;p&gt;Cuma akşamından beri &lt;a href="https://www.youtube.com/@yousuckatprogramming"&gt;ysap&lt;/a&gt; kanalını izliyorum, Bash bilgilerimi kontrol
 ediyordum, Dave orada çok kullanıyor &lt;code&gt;$_&lt;/code&gt; durumunu, ben de eskiden kullanırdım
@@ -275,9 +461,7 @@ timer_stop&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
-    <content type="html">&lt;p&gt;Projelerinizde environment variable’ları otomatik olarak yüklemek ve kullanmak
-için &lt;code&gt;go&lt;/code&gt; ile ile geliştirilmiş harika bir shell extention’ından bahsetmek
-istiyorum. &lt;/p&gt;
+    <content type="html">
 
 &lt;p&gt;Geliştirme yaparken çok sık environment variable’ları kullanırız. Kimi zaman
 secret’ları (&lt;em&gt;api token, aws credentials gibi&lt;/em&gt;) kimi zaman dinamik parametre
@@ -481,8 +665,7 @@ sonra;&lt;/p&gt;
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
-    <content type="html">&lt;p&gt;Sabah &lt;a href="https://dreamsofcode.io/mentoring"&gt;Elliott&lt;/a&gt;’ın &lt;a href="https://www.youtube.com/watch?v=A_3MP_V-kB4"&gt;YouTube&lt;/a&gt; videosunu izlerken düşündüm. Acaba
-ben neler öğrendim diye. &lt;/p&gt;
+    <content type="html">
 
 &lt;p&gt;Yılın ilk aylarında, devraldığım &lt;a href="https://www.python.org/"&gt;Python&lt;/a&gt;/&lt;a href="https://flask.palletsprojects.com/en/stable/"&gt;Flask&lt;/a&gt; projesi için api
 dokümantasyonu hazırlamam gerekti. Uygulama otomatik dokümantasyon yapamaya
@@ -589,22 +772,26 @@ Bu arada hepsinin yaptığı iş bir tane endpoint var ve geriye &lt;code&gt;jso
 olarak bakınca hiç biri yanından bile geçemiyor. Neredeyse &lt;strong&gt;YOK&lt;/strong&gt; denecek
 kadar az.&lt;/p&gt;
 
-&lt;table&gt;&lt;thead&gt;
+&lt;table&gt;
+&lt;thead&gt;
 &lt;tr&gt;
 &lt;th style="text-align: left"&gt;Stack&lt;/th&gt;
 &lt;th style="text-align: left"&gt;Memory&lt;/th&gt;
 &lt;th&gt;Image Size&lt;/th&gt;
 &lt;/tr&gt;
-&lt;/thead&gt;&lt;tbody&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
 &lt;tr&gt;
 &lt;td style="text-align: left"&gt;C&lt;/td&gt;
-&lt;td style="text-align: left"&gt;&lt;code&gt;108KB&lt;/code&gt; *&lt;/td&gt;
+&lt;td style="text-align: left"&gt;
+&lt;code&gt;108KB&lt;/code&gt; *&lt;/td&gt;
 &lt;td&gt;69.3Mb&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td style="text-align: left"&gt;Go&lt;/td&gt;
 &lt;td style="text-align: left"&gt;2.95MB&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;11.7Mb&lt;/code&gt; *&lt;/td&gt;
+&lt;td&gt;
+&lt;code&gt;11.7Mb&lt;/code&gt; *&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td style="text-align: left"&gt;Node&lt;/td&gt;
@@ -636,11 +823,12 @@ kadar az.&lt;/p&gt;
 &lt;td style="text-align: left"&gt;53.12MB&lt;/td&gt;
 &lt;td&gt;203MB&lt;/td&gt;
 &lt;/tr&gt;
-&lt;/tbody&gt;&lt;/table&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 
 &lt;p&gt;İnanılmaz düşük &lt;strong&gt;memory&lt;/strong&gt; tüketimiyle &lt;code&gt;C&lt;/code&gt; açık ara &lt;strong&gt;ezdi&lt;/strong&gt; geçti. En düşük container
 image size olarak &lt;code&gt;Go&lt;/code&gt; affetmedi. Hepsi multi-stage build, kendi bilgilerim
-dahilinde olabilecek en küçük image’lar&amp;hellip;&lt;/p&gt;
+dahilinde olabilecek en küçük image’lar…&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;macOS&lt;/strong&gt; kullanıyorum, bu bakımdan Docker’la ilişkim çok arttığı için &lt;a href="https://orbstack.dev/"&gt;Orbstack&lt;/a&gt;’i
 de derinlemesine kullanmayı öğrendim.&lt;/p&gt;
@@ -684,12 +872,18 @@ yaptım, Go’nun yeni &lt;code&gt;embed&lt;/code&gt; özelliklerini de bu sayed
 kitaplara başladım:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="https://www.amazon.com.tr/dp/0132350882"&gt;Clean Code&lt;/a&gt;: Benim dünyamla pek örtüşmese de genel kültür açısından okuyorum.&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://www.amazon.co.uk/Test-Driven-Development-Python-Harry-Percival/dp/1491958707"&gt;Test Driven Development With Python&lt;/a&gt;: Bu sene original kitabına sahip oldum, harika bir kitap. &lt;/li&gt;
-&lt;li&gt;&lt;a href="https://www.amazon.co.uk/dp/B08CMF2CQF"&gt;System Design Interviews I&lt;/a&gt;: Ufuk açıcı, harika şeyler var.&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://www.amazon.co.uk/dp/1736049119"&gt;System Design Interviews II&lt;/a&gt;: Serinin ikinci kitabı.&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://www.amazon.com.tr/dp/1680508466"&gt;Efective Go Recepies&lt;/a&gt;: Fena değil ama beklentimin altında çıktı.&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://www.amazon.com.tr/dp/1617299596"&gt;100 Go Mistakes&lt;/a&gt;: Efsane bir kitap, başucu kitabı, şiddetle tavsiye ediyorum.&lt;/li&gt;
+&lt;li&gt;
+&lt;a href="https://www.amazon.com.tr/dp/0132350882"&gt;Clean Code&lt;/a&gt;: Benim dünyamla pek örtüşmese de genel kültür açısından okuyorum.&lt;/li&gt;
+&lt;li&gt;
+&lt;a href="https://www.amazon.co.uk/Test-Driven-Development-Python-Harry-Percival/dp/1491958707"&gt;Test Driven Development With Python&lt;/a&gt;: Bu sene original kitabına sahip oldum, harika bir kitap. &lt;/li&gt;
+&lt;li&gt;
+&lt;a href="https://www.amazon.co.uk/dp/B08CMF2CQF"&gt;System Design Interviews I&lt;/a&gt;: Ufuk açıcı, harika şeyler var.&lt;/li&gt;
+&lt;li&gt;
+&lt;a href="https://www.amazon.co.uk/dp/1736049119"&gt;System Design Interviews II&lt;/a&gt;: Serinin ikinci kitabı.&lt;/li&gt;
+&lt;li&gt;
+&lt;a href="https://www.amazon.com.tr/dp/1680508466"&gt;Efective Go Recepies&lt;/a&gt;: Fena değil ama beklentimin altında çıktı.&lt;/li&gt;
+&lt;li&gt;
+&lt;a href="https://www.amazon.com.tr/dp/1617299596"&gt;100 Go Mistakes&lt;/a&gt;: Efsane bir kitap, başucu kitabı, şiddetle tavsiye ediyorum.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Dedim ya, asıl stack’im &lt;strong&gt;Go&lt;/strong&gt;. Bir kısım yanlışlarımı da bu yıl öğrendim. Hatta biraz
@@ -734,8 +928,7 @@ geçecek!&lt;/p&gt;
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;strong&gt;2023&lt;/strong&gt;’te python dünyasına bomba gibi giriş yapan &lt;a href="https://docs.astral.sh/ruff/" title="Ruff Linter"&gt;Ruff Linter&lt;/a&gt; için bir 
-&lt;a href="https://github.com/vigo/textmate2-ruff-linter" title="Python Ruff Linter for TextMate2"&gt;TextMate bundle&lt;/a&gt;’ı geliştirmiştim. &lt;/p&gt;
+    <content type="html">
 
 &lt;p&gt;Tam olarak entegre olamadığım için halen &lt;a href="https://github.com/vigo/textmate2-python-fmt" title="Python FMT bundle for TextMate"&gt;eski bundle&lt;/a&gt;’ımı 
 kullanmaya devam ediyordum. Üzerinde çalıştığım projenin çok fazla python
@@ -757,12 +950,12 @@ soru sorulabilir; &lt;/p&gt;
 
 &lt;p&gt;macOS’ta native çalışan tek dişi kalmış bir canavar kendisi. Ama asıl efsane
 kısmı şu, bu uygulamayı, bildiğiniz herhangi bir programlama dilini kullanarak
-(Python, Ruby, Bash, JavaScript, PHP, Perl, Swift, Lisp, AppleScript&amp;hellip;)
+(Python, Ruby, Bash, JavaScript, PHP, Perl, Swift, Lisp, AppleScript…)
 &lt;strong&gt;extend&lt;/strong&gt; edebilirsiniz. Hiçbir özel dil, konfigürasyon öğrenmenize gerek yok!&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Şöyle güzel bir markdown editörüm olsa ?&lt;/strong&gt; diyip oturup bunun için bundle
 yapabildim. Aynısını VS Code’a denedim, &lt;code&gt;vim&lt;/code&gt;’de denedim beceremedim. Önce
-vim’in dilini öğrenmem lazım (kullanım kısmına girmiyorum bile&amp;hellip;) Altı üstü
+vim’in dilini öğrenmem lazım (kullanım kısmına girmiyorum bile…) Altı üstü
 bir metin editörünü kullanmak için kurs almak, bir sürü video izlemek bana
 biraz garip geliyor.&lt;/p&gt;
 
@@ -790,7 +983,7 @@ başladım (&lt;em&gt;linting bakımında&lt;/em&gt;n).&lt;/p&gt;
 
 &lt;p&gt;Yıllar içinde, her yeni çıkan editörü denedim ve hiçbirinde TextMate’in
 esnekliğini bulamadım. İçlerinde benim için en heyecan verici olan &lt;a href="https://zed.dev/" title="Zed Editor"&gt;zed&lt;/a&gt;
-oldu ama o da bir yere kadar&amp;hellip;&lt;/p&gt;
+oldu ama o da bir yere kadar…&lt;/p&gt;
 
 &lt;p&gt;Bu yazıyı sizleri TextMate’e geçirmek için &lt;strong&gt;yazmıyorum&lt;/strong&gt;, belki seneye artık
 böyle bir araç tarih olacağı için kendi çapımda 
@@ -799,8 +992,10 @@ tarihe minik bir not düşsün diye yazıyorum.&lt;/p&gt;
 
 &lt;h2&gt;TextMate Bundle Editor ve Command&lt;/h2&gt;
 
-&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img class="shadow"  title="TextMate2 Bundle Editor ekran görüntüsü" src="/public/images/posts/2024-05-14-textmate-bundle-command.png" alt="TextMate2 Bundle Editor ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; TextMate2 Bundle Editor böyle bir şey, TextMate 1 daha güzeldi 
-&lt;/p&gt;&lt;/div&gt;
+&lt;div class="full zoomable"&gt;
+&lt;figure class="image"&gt;&lt;img class="shadow" title="TextMate2 Bundle Editor ekran görüntüsü" src="/public/images/posts/2024-05-14-textmate-bundle-command.png" alt="TextMate2 Bundle Editor ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; TextMate2 Bundle Editor böyle bir şey, TextMate 1 daha güzeldi 
+&lt;/p&gt;
+&lt;/div&gt;
 
 &lt;p&gt;Genel prensip şu; hangi dilde (&lt;em&gt;scope&lt;/em&gt;) kod yazıyorsanız, belli event’leri
 tetikleyerek ekrandaki kodu (&lt;em&gt;document&lt;/em&gt;) input olarak alıp bir şeyler
@@ -857,8 +1052,10 @@ kolayca, varolanlara ek kurulum yapmadan, sadece &lt;code&gt;brew install ruff&l
 &lt;strong&gt;Ruff&lt;/strong&gt;’ı kurup hayatına devam etmesini istiyordum. Dedim ya, yeni bir 
 maceraya yolculuk yapmayı kafaya koymuştum :)&lt;/p&gt;
 
-&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img class="shadow"  title="Rafta duran Ruby kitapları" src="/public/images/posts/2024-05-14-ruby-books.jpg" alt="Rafta duran Ruby kitapları"&gt;&lt;/figure&gt;&lt;p&gt; Emektar Ruby kitaplarım! 
-&lt;/p&gt;&lt;/div&gt;
+&lt;div class="full zoomable"&gt;
+&lt;figure class="image"&gt;&lt;img class="shadow" title="Rafta duran Ruby kitapları" src="/public/images/posts/2024-05-14-ruby-books.jpg" alt="Rafta duran Ruby kitapları"&gt;&lt;/figure&gt;&lt;p&gt; Emektar Ruby kitaplarım! 
+&lt;/p&gt;
+&lt;/div&gt;
 
 &lt;p&gt;Ruby bilgilerimi tazelemek için kendi yazdığım, bitiremediğim 
 &lt;a href="https://vigo.github.io/ruby101-kitap/"&gt;ruby kitabıma&lt;/a&gt; baktım. Modül kısmına. Çok basit ve yüzeysel
@@ -877,8 +1074,10 @@ implemente etmekti.&lt;/p&gt;
 &lt;p&gt;TextMate bize iki tane &lt;strong&gt;event&lt;/strong&gt; veriyor; buna da &lt;strong&gt;Semantic Class&lt;/strong&gt; deniyor:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;callback.document.will-save&lt;/code&gt;: fiziksel &lt;strong&gt;SAVE&lt;/strong&gt; işleminden önce&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;callback.document.did-save&lt;/code&gt;: &lt;strong&gt;SAVE&lt;/strong&gt; işleminden sonra&lt;/li&gt;
+&lt;li&gt;
+&lt;code&gt;callback.document.will-save&lt;/code&gt;: fiziksel &lt;strong&gt;SAVE&lt;/strong&gt; işleminden önce&lt;/li&gt;
+&lt;li&gt;
+&lt;code&gt;callback.document.did-save&lt;/code&gt;: &lt;strong&gt;SAVE&lt;/strong&gt; işleminden sonra&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Editör ekranında (&lt;em&gt;document&lt;/em&gt;) &lt;strong&gt;&lt;kbd&gt;⌘&lt;/kbd&gt;&lt;/strong&gt; + &lt;kbd&gt;S&lt;/kbd&gt; (&lt;em&gt;Command + S&lt;/em&gt;) 
@@ -888,8 +1087,10 @@ ekranda bir yerde görmek için iki seçeneğim var. Ya &lt;strong&gt;tool tip&l
 bir an belirip mouse üzerinde gidince kaybolan ya da yeni bir döküman açıp oraya 
 yazmak.&lt;/p&gt;
 
-&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;span class="player-status"&gt;▶&lt;/span&gt;&lt;img class="shadow animate"  data-play="/public/images/posts/2024-05-16-textmate-tooltip.gif"  title="TextMate2 Editor ekran görüntüsü, tool tip" src="/public/images/posts/2024-05-16-textmate-tooltip.png" alt="TextMate2 Editor ekran görüntüsü, tool tip"&gt;&lt;/figure&gt;&lt;p&gt; İşte tool tip. Mouse üzerinden gidince otomatik kayboluyor. 
-&lt;/p&gt;&lt;/div&gt;
+&lt;div class="full zoomable"&gt;
+&lt;figure class="image"&gt;&lt;span class="player-status"&gt;▶&lt;/span&gt;&lt;img class="shadow animate" data-play="/public/images/posts/2024-05-16-textmate-tooltip.gif" title="TextMate2 Editor ekran görüntüsü, tool tip" src="/public/images/posts/2024-05-16-textmate-tooltip.png" alt="TextMate2 Editor ekran görüntüsü, tool tip"&gt;&lt;/figure&gt;&lt;p&gt; İşte tool tip. Mouse üzerinden gidince otomatik kayboluyor. 
+&lt;/p&gt;
+&lt;/div&gt;
 
 &lt;p&gt;Event’ler arasında bir bağ olmadığı için, bunlar sanki bağımsız shell
 session’ı gibi her sefer sıfırdan &lt;strong&gt;clean-slate&lt;/strong&gt; çalışıyorlar. Yani o an, ruby’den
@@ -902,7 +1103,7 @@ sonuç tekrar document’a yazılıyor yani &lt;code&gt;STDOUT&lt;/code&gt;’a 
 işlemi başlıyor ve dosyanın nihayi hali diske yazılıyor. Önden formatlı hali
 vermem lazım ki esas &lt;code&gt;check&lt;/code&gt; işlemi SAVE esnasında yapılabilsin. Aksi taktirde
 sonsuz döngü gibi oluyor. Aynı &lt;code&gt;django&lt;/code&gt;’nun &lt;code&gt;signals&lt;/code&gt;’ı gibi. SAVE ederken
-write işi yaparsam tekrar &lt;strong&gt;SAVE&lt;/strong&gt; tetikleniyor, sonsuz döngü&amp;hellip;&lt;/p&gt;
+write işi yaparsam tekrar &lt;strong&gt;SAVE&lt;/strong&gt; tetikleniyor, sonsuz döngü…&lt;/p&gt;
 
 &lt;p&gt;Shell komutlarını çağırmak için TextMate’in içinden &lt;code&gt;process.rb&lt;/code&gt; çıkıyor ve
 bunu kendi kütüphanelerimizde;&lt;/p&gt;
@@ -1039,7 +1240,7 @@ desteği var mıydı? Tabiiki yoktu :) Bir an için in-memory SQLITE bile düş�
 &lt;p&gt;O zaman tek şansım aynı logger’daki gibi yine &lt;code&gt;/tmp/&lt;/code&gt; altında bir dosyaya
 yazıp okumak ve duruma göre silmek!&lt;/p&gt;
 
-&lt;p&gt;Ekstradan bir &lt;strong&gt;DISK I/O&lt;/strong&gt; operasyonu, minik bir yük&amp;hellip; Makineler güçlü,
+&lt;p&gt;Ekstradan bir &lt;strong&gt;DISK I/O&lt;/strong&gt; operasyonu, minik bir yük… Makineler güçlü,
 diskler hızlı o kadar olsun diyerek bu fikre sımsıkı sarıldım. Peki dosyayı
 hangi isimle kaydetmem lazımdı? Örneğin kullanıcı &lt;code&gt;foo.py&lt;/code&gt; diye bir dosyada
 çalışıyor, hata ya da başka bir iş için storage ne diye kaydedecekti kayıt
@@ -1060,7 +1261,7 @@ dinamik olarak dosyaların ne olduğuyla ya da adıyla cebelleşmeden işi
 &lt;p&gt;Dedim ya, uzun zamandır &lt;code&gt;ruby&lt;/code&gt; ile uğraşmıyorum. &lt;code&gt;ruby&lt;/code&gt;’de &lt;strong&gt;mixin&lt;/strong&gt; yaklaşımı
 var, &lt;code&gt;python&lt;/code&gt; gibi &lt;strong&gt;multiple inheritance&lt;/strong&gt; yok. Mixin’leri &lt;code&gt;class&lt;/code&gt;’a
 &lt;code&gt;include&lt;/code&gt; edebilirim. &lt;code&gt;class&lt;/code&gt; yerine &lt;code&gt;module&lt;/code&gt; kullanmak istiyorum, &lt;code&gt;Logging&lt;/code&gt;,
-&lt;code&gt;Storage&lt;/code&gt;, &lt;code&gt;Helpers&lt;/code&gt; gibi&amp;hellip; Birbirlerine takarak istediğim yapıyı kurmak
+&lt;code&gt;Storage&lt;/code&gt;, &lt;code&gt;Helpers&lt;/code&gt; gibi… Birbirlerine takarak istediğim yapıyı kurmak
 istiyorum.&lt;/p&gt;
 
 &lt;p&gt;Önce saçma sapan bir şeyler yaparak istediğime yakın bir yapı kurdum ama
@@ -1108,12 +1309,12 @@ için &lt;code&gt;Falsy&lt;/code&gt; değer. Yani;&lt;/p&gt;
     &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'ok'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Sonuç; hiçbir şey print edilmez!. Benim kafa &lt;code&gt;python&lt;/code&gt;’da olduğu için; &lt;code&gt;ruby&lt;/code&gt;’de
-de o şekilde yazdım&amp;hellip; ve büyük patladım:&lt;/p&gt;
+de o şekilde yazdım… ve büyük patladım:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
 &lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="s2"&gt;"ok"&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="c1"&gt;# =&amp;gt; ok&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Bir sürü şeyi düzeltmek zorunda kaldım. Güncel Ruby’de (&lt;em&gt;v3+&lt;/em&gt;) olan neredeyse
-hiçbir şey 1.8.7’de henüz implemente edilmemiş&amp;hellip; Zamanda geri yolculuk gibi.&lt;/p&gt;
+hiçbir şey 1.8.7’de henüz implemente edilmemiş… Zamanda geri yolculuk gibi.&lt;/p&gt;
 
 &lt;h2&gt;TextMate UI Elementleri&lt;/h2&gt;
 
@@ -1128,7 +1329,7 @@ ne yok bir bakayım dedim:&lt;/p&gt;
 (&lt;em&gt;bildiğimiz modern bir completion değil ama iş görür&lt;/em&gt;) tutun da,
 kullanıcıdan secure input (&lt;em&gt;keychain entegreli&lt;/em&gt;), renki tool tip’ler, içinde
 &lt;code&gt;html&lt;/code&gt; metin gösterme widget’ları, modal dialog’lar, progress bar, web
-preview&amp;hellip; Yıllarca &lt;strong&gt;nasıl yaparım ?&lt;/strong&gt; diye düşündüğüm her şey elimin altındaymış
+preview… Yıllarca &lt;strong&gt;nasıl yaparım ?&lt;/strong&gt; diye düşündüğüm her şey elimin altındaymış
 ve benim bundan haberim yok :)&lt;/p&gt;
 
 &lt;p&gt;Artık olayı kafayı taktığım için kendi screencast sitesine bakmaya karar verdim.
@@ -1164,8 +1365,10 @@ Tek farkı ben onu ruby’den çağırıyorum TextMate ise onu original olarak &
 
 &lt;h2&gt;Go to Errors&lt;/h2&gt;
 
-&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;span class="player-status"&gt;▶&lt;/span&gt;&lt;img class="shadow animate"  data-play="/public/images/posts/2024-05-16-textmate-guttter.gif"  title="TextMate2 Editor gutter ekran görüntüsü" src="/public/images/posts/2024-05-16-textmate-guttter.png" alt="TextMate2 Editor gutter ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; Gutter’a tıklayarak hatayı görüntüleme 
-&lt;/p&gt;&lt;/div&gt;
+&lt;div class="full zoomable"&gt;
+&lt;figure class="image"&gt;&lt;span class="player-status"&gt;▶&lt;/span&gt;&lt;img class="shadow animate" data-play="/public/images/posts/2024-05-16-textmate-guttter.gif" title="TextMate2 Editor gutter ekran görüntüsü" src="/public/images/posts/2024-05-16-textmate-guttter.png" alt="TextMate2 Editor gutter ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; Gutter’a tıklayarak hatayı görüntüleme 
+&lt;/p&gt;
+&lt;/div&gt;
 
 &lt;p&gt;Linter’ı çalışıp kurala uymayan satırları tespit ettikten sonra, ilgili
 satırı &lt;strong&gt;mark&lt;/strong&gt; edebiliyoruz. Satır sayısı az olunca yukarı aşağı hareket
@@ -1181,8 +1384,10 @@ vermek ama sorun şu; her şey asenkron ve bağımsız çalışıyor. Linter iş
 bitirdikten sonra sonucu bir yere yazmam lazım ki bir tuş kombinasyonuna
 basıldığı zaman oradan sonucu okuyup &lt;code&gt;UI.menu&lt;/code&gt;’ye verebileyim:&lt;/p&gt;
 
-&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;span class="player-status"&gt;▶&lt;/span&gt;&lt;img class="shadow animate"  data-play="/public/images/posts/2024-05-16-textmate-goto-error.gif"  title="TextMate2 Editor ekran görüntüsü" src="/public/images/posts/2024-05-16-textmate-goto-error.png" alt="TextMate2 Editor ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; &lt;strong&gt;&lt;kbd&gt;⌥&lt;/kbd&gt;&lt;/strong&gt; + &lt;kbd&gt;G&lt;/kbd&gt; (Option + G) ile Go to Error 
-&lt;/p&gt;&lt;/div&gt;
+&lt;div class="full zoomable"&gt;
+&lt;figure class="image"&gt;&lt;span class="player-status"&gt;▶&lt;/span&gt;&lt;img class="shadow animate" data-play="/public/images/posts/2024-05-16-textmate-goto-error.gif" title="TextMate2 Editor ekran görüntüsü" src="/public/images/posts/2024-05-16-textmate-goto-error.png" alt="TextMate2 Editor ekran görüntüsü"&gt;&lt;/figure&gt;&lt;p&gt; &lt;strong&gt;&lt;kbd&gt;⌥&lt;/kbd&gt;&lt;/strong&gt; + &lt;kbd&gt;G&lt;/kbd&gt; (Option + G) ile Go to Error 
+&lt;/p&gt;
+&lt;/div&gt;
 
 &lt;h2&gt;Bash Bilgilerimizi Tazeleyelim&lt;/h2&gt;
 
@@ -1206,7 +1411,7 @@ geceleri geç saatlere kadar debelendim büyük bir zevkle. &lt;/p&gt;
 &lt;p&gt;Çok uğraştım ve unuttuğum konuları tekrar hatırladım, bildiklerimi pekiştirdim
 ve en güzeli de; günlük mesaimde çalıştığım projeyi süper hızlı bir şekilde,
 kimi zaman elle, kimi zaman otomatik (&lt;em&gt;autfix özelliği var!&lt;/em&gt;) olarak
-tereyağından kıl çeker gibi refactor etmeyi başardım (&lt;em&gt;tam bitmedi ama&lt;/em&gt;)&amp;hellip;&lt;/p&gt;
+tereyağından kıl çeker gibi refactor etmeyi başardım (&lt;em&gt;tam bitmedi ama&lt;/em&gt;)…&lt;/p&gt;
 
 &lt;p&gt;Tamamen &lt;strong&gt;açık-kaynak&lt;/strong&gt;, herkes katkı sağlayabilir ve tepe tepe kullanabilir.
 Son olarak, ChatGPT’ye özel teşekkürlerimi sunuyorum. O olmasa Ruby 1.8.7
@@ -1230,9 +1435,7 @@ yaptım. Eğer denemek isterseniz;&lt;/p&gt;
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
-    <content type="html">&lt;p&gt;Bir gün yine açmışım &lt;a href="https://github.com/textmate/textmate"&gt;TextMate2&lt;/a&gt;’i,
-acaba yeni ne ekleyebilirim diye bakarken kendimi Fatih’in &lt;a href="https://github.com/fatih/gomodifytags"&gt;gomodifytags&lt;/a&gt;
-reposunda buldum. Işık hızıyla gaza geldim. &lt;/p&gt;
+    <content type="html">
 
 &lt;p&gt;&lt;a href="https://github.com/vigo/textmate2-gomodifytags"&gt;https://github.com/vigo/textmate2-gomodifytags&lt;/a&gt;&lt;/p&gt;
 
@@ -1248,29 +1451,34 @@ reposunda buldum. Işık hızıyla gaza geldim. &lt;/p&gt;
 &lt;code&gt;go install ...&lt;/code&gt; şeklinde kurulum yapınca executable dosyalar da 
 &lt;code&gt;~/.local/go/bin&lt;/code&gt; altında duruyor. Benim ayarım şu şekilde:&lt;/p&gt;
 
-&lt;table&gt;&lt;thead&gt;
+&lt;table&gt;
+&lt;thead&gt;
 &lt;tr&gt;
 &lt;th style="text-align: center"&gt;&lt;/th&gt;
 &lt;th style="text-align: left"&gt;Variable Name&lt;/th&gt;
 &lt;th style="text-align: left"&gt;Value&lt;/th&gt;
 &lt;/tr&gt;
-&lt;/thead&gt;&lt;tbody&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
 &lt;tr&gt;
 &lt;td style="text-align: center"&gt;[x]&lt;/td&gt;
 &lt;td style="text-align: left"&gt;&lt;code&gt;PATH&lt;/code&gt;&lt;/td&gt;
 &lt;td style="text-align: left"&gt;&lt;code&gt;/Users/vigo/.local/go/bin:$PATH&lt;/code&gt;&lt;/td&gt;
 &lt;/tr&gt;
-&lt;/tbody&gt;&lt;/table&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 
 &lt;p&gt;Şimdi bundle’ı kuralım:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; ~/Library/Application&lt;span class="se"&gt;\ &lt;/span&gt;Support/TextMate/Bundles/
 &lt;span class="nv"&gt;$ &lt;/span&gt;git clone https://github.com/vigo/textmate2-gomodifytags.git GoModifyTags.tmbundle
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img class="shadow"  title="TextMate2 için gomodifytags bundle animasyon gif" src="https://raw.githubusercontent.com/vigo/textmate2-gomodifytags/main/screens/tm2-gomodifytags.gif" alt="TextMate2 için gomodifytags bundle animasyon gif"&gt;&lt;/figure&gt;&lt;p&gt; TextMate2’den ekran görüntüsü 
-&lt;/p&gt;&lt;/div&gt;
+&lt;div class="full zoomable"&gt;
+&lt;figure class="image"&gt;&lt;img class="shadow" title="TextMate2 için gomodifytags bundle animasyon gif" src="https://raw.githubusercontent.com/vigo/textmate2-gomodifytags/main/screens/tm2-gomodifytags.gif" alt="TextMate2 için gomodifytags bundle animasyon gif"&gt;&lt;/figure&gt;&lt;p&gt; TextMate2’den ekran görüntüsü 
+&lt;/p&gt;
+&lt;/div&gt;
 
 &lt;p&gt;Kod içinde &lt;code&gt;struct&lt;/code&gt; ile ilgili bir &lt;strong&gt;selection&lt;/strong&gt; yapıp otomatik olarak
-&lt;strong&gt;annotation&lt;/strong&gt; yapabiliyorsunuz. Otomatik olarak &lt;code&gt;json&amp;quot;...&amp;quot;&lt;/code&gt; tag’leri
+&lt;strong&gt;annotation&lt;/strong&gt; yapabiliyorsunuz. Otomatik olarak &lt;code&gt;json"..."&lt;/code&gt; tag’leri
 ekle/çıkar gibi.&lt;/p&gt;
 </content>
   </entry>
@@ -1283,10 +1491,7 @@ ekle/çıkar gibi.&lt;/p&gt;
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
-    <content type="html">&lt;p&gt;Yıl &lt;strong&gt;2023&lt;/strong&gt;, ben halen tek dişi kalmış canavar olan
-&lt;a href="https://github.com/textmate/textmate"&gt;TextMate2&lt;/a&gt;’i kullanmaya devam ediyorum.
-Yetmezmiş gibi küçük-tefek eklentiler yazıp kendimce ölüyü diri tutmaya gayret
-ediyorum. &lt;/p&gt;
+    <content type="html">
 
 &lt;p&gt;Geçtiğimiz günlerde &lt;a href="https://www.youtube.com/watch?v=jeoL4qsSLbE"&gt;YouTube&lt;/a&gt;’da &lt;a href="https://github.com/charliermarsh/"&gt;Charlie Marsh&lt;/a&gt;’ı izledim. Kendisi
 Python için &lt;code&gt;rust&lt;/code&gt; ile geliştirdiği (&lt;em&gt;evet, python değil, başka bir dil&lt;/em&gt;)
@@ -1335,13 +1540,15 @@ def foo(x: int):
 bir &lt;a href="https://github.com/vigo/textmate2-python-fmt"&gt;Python eklentisini&lt;/a&gt; kullanıyordum. Hemen kollayı sıvadım ve giriştim
 hızla! Python scope’unda kod yazarken &lt;strong&gt;save&lt;/strong&gt; yapınca linter devreye giriyor.&lt;/p&gt;
 
-&lt;div class="full zoomable"&gt;&lt;figure class="image"&gt;&lt;img class="shadow"  title="Ruff-Linter çalışırken" src="/public/images/posts/2023-02-24-ruff-markers.gif" alt="Ruff-Linter çalışırken"&gt;&lt;/figure&gt;&lt;p&gt; TextMate2’den ekran görüntüsü 
-&lt;/p&gt;&lt;/div&gt;
+&lt;div class="full zoomable"&gt;
+&lt;figure class="image"&gt;&lt;img class="shadow" title="Ruff-Linter çalışırken" src="/public/images/posts/2023-02-24-ruff-markers.gif" alt="Ruff-Linter çalışırken"&gt;&lt;/figure&gt;&lt;p&gt; TextMate2’den ekran görüntüsü 
+&lt;/p&gt;
+&lt;/div&gt;
 
 &lt;p&gt;&lt;a href="https://github.com/PyCQA/pylint"&gt;Pylint&lt;/a&gt; kadar süper olmasa da hız bakımından tercih sebebidir. Proje
 büyüdükçe, &lt;code&gt;pylint&lt;/code&gt;’in çalışıp sonuç dönmesi çok uzun sürebiliyor. Bazen
 5-10sn’lere çıktığımı biliyorum. Uzun zamandır python’la uğraşmayan biri
-olarak beni bile gaza getirdi &lt;code&gt;ruff&lt;/code&gt;&amp;hellip;&lt;/p&gt;
+olarak beni bile gaza getirdi &lt;code&gt;ruff&lt;/code&gt;…&lt;/p&gt;
 
 &lt;p&gt;Merak edenler ya da katkı yapmak isteyenler;
 &lt;a href="https://github.com/vigo/textmate2-ruff-linter"&gt;https://github.com/vigo/textmate2-ruff-linter&lt;/a&gt; adresinden eklentiye
@@ -1357,14 +1564,12 @@ ulaşabilir.&lt;/p&gt;
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
-    <content type="html">&lt;p&gt;Uzunca zamandır aklımdaydı, sitemi güncellemek istiyordum. Özellikle &lt;code&gt;ruby&lt;/code&gt;
-bağımlılıkları, &lt;code&gt;middleman&lt;/code&gt;’in yeni versiyonuna geçmek gibi planlarım vardı.
-&lt;/p&gt;
+    <content type="html">
 
 &lt;p&gt;Kolay olsun diye tercih ettiğim &lt;a href="https://middlemanapp.com"&gt;Middleman&lt;/a&gt; bir süre
 sonra ayağıma dolanmaya başladı. Bir el atıp güncellemeleri yapmak gerekiyordu.
 Sitedeki bazı aksaklıklar yüzünden blog yazma hevesim de kırılıyordu. Nihayet
-bir zaman aralığı bulup komple giriştim siteye&amp;hellip;&lt;/p&gt;
+bir zaman aralığı bulup komple giriştim siteye…&lt;/p&gt;
 
 &lt;p&gt;Eski yazıların üstünden geçtim. Bazı yazılar ne yazık ki artık geçerliliğini
 kaybetmiş. Bahsettiğim bir servis artık yayında değil, ya da övdüğüm bir araç
@@ -1377,11 +1582,16 @@ bir gazla blog yazmaya heveslendim.&lt;/p&gt;
 &lt;p&gt;Neler kullandım;&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Yine &lt;a href="https://middlemanapp.com"&gt;Middleman&lt;/a&gt; ve &lt;a href="https://ruby-lang.org"&gt;Ruby&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;JavaScript için tabiiki &lt;a href="https://jquery.com/"&gt;jQuery&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;CSS için &lt;a href="https://bulma.io/"&gt;Bulma&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;İkonlar için &lt;a href="https://fontawesome.com/"&gt;Font Awesome&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Hosting için yine &lt;a href="https://pages.github.com/"&gt;GitHub&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Yine &lt;a href="https://middlemanapp.com"&gt;Middleman&lt;/a&gt; ve &lt;a href="https://ruby-lang.org"&gt;Ruby&lt;/a&gt;
+&lt;/li&gt;
+&lt;li&gt;JavaScript için tabiiki &lt;a href="https://jquery.com/"&gt;jQuery&lt;/a&gt;
+&lt;/li&gt;
+&lt;li&gt;CSS için &lt;a href="https://bulma.io/"&gt;Bulma&lt;/a&gt;
+&lt;/li&gt;
+&lt;li&gt;İkonlar için &lt;a href="https://fontawesome.com/"&gt;Font Awesome&lt;/a&gt;
+&lt;/li&gt;
+&lt;li&gt;Hosting için yine &lt;a href="https://pages.github.com/"&gt;GitHub&lt;/a&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Umarım daha sık ve düzenli olarak yazarım! Keyifli okumalar!&lt;/p&gt;
@@ -1396,11 +1606,10 @@ bir gazla blog yazmaya heveslendim.&lt;/p&gt;
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
-    <content type="html">&lt;p&gt;İster komut satırı aracı, ister kütüphane ya da servis geliştirirken bazı 3.parti
-kütüphaneler / yardımcılar, hayatımızı kolaylaştırır. Bu yazımda sizlere sık
-kullandığım paketlerden bahsedeceğim.&lt;/p&gt;
+    <content type="html">
 
-&lt;h3&gt;github.com/go-playground/validator &lt;span style="vertical-align: middle;" class="tag is-info"&gt;yeni&lt;/span&gt;&lt;/h3&gt;
+&lt;h3&gt;github.com/go-playground/validator &lt;span style="vertical-align: middle;" class="tag is-info"&gt;yeni&lt;/span&gt;
+&lt;/h3&gt;
 
 &lt;p&gt;&lt;a href="https://github.com/go-playground/validator"&gt;https://github.com/go-playground/validator&lt;/a&gt;&lt;/p&gt;
 
@@ -1408,13 +1617,15 @@ kullandığım paketlerden bahsedeceğim.&lt;/p&gt;
 e-posta değeri mi? &lt;code&gt;struct&lt;/code&gt; içindeki alanların duruma göre diğer alana
 göre kontrolü gibi işler için ideal.&lt;/p&gt;
 
-&lt;h3&gt;go.uber.org/zap &lt;span style="vertical-align: middle;" class="tag is-info"&gt;yeni&lt;/span&gt;&lt;/h3&gt;
+&lt;h3&gt;go.uber.org/zap &lt;span style="vertical-align: middle;" class="tag is-info"&gt;yeni&lt;/span&gt;
+&lt;/h3&gt;
 
 &lt;p&gt;&lt;a href="https://github.com/uber-go/zap"&gt;https://github.com/uber-go/zap&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Yapılandırılmış, alan-alan ayrıştırabileceğiniz hızlı bir log kütüphanesi.&lt;/p&gt;
 
-&lt;h3&gt;github.com/DATA-DOG/go-sqlmock &lt;span style="vertical-align: middle;" class="tag is-info"&gt;yeni&lt;/span&gt;&lt;/h3&gt;
+&lt;h3&gt;github.com/DATA-DOG/go-sqlmock &lt;span style="vertical-align: middle;" class="tag is-info"&gt;yeni&lt;/span&gt;
+&lt;/h3&gt;
 
 &lt;p&gt;&lt;a href="https://github.com/DATA-DOG/go-sqlmock"&gt;https://github.com/DATA-DOG/go-sqlmock&lt;/a&gt;&lt;/p&gt;
 
@@ -1456,7 +1667,7 @@ yapmanızı sağlıyor.&lt;/p&gt;
 
 &lt;p&gt;Sevgili &lt;a href="https://github.com/cenkalti/"&gt;Cenk Altı&lt;/a&gt; sayesinde haberdar olduğum
 harika bir &lt;code&gt;cli&lt;/code&gt; geliştirme aracı. Pek çok işi o kadar kolay hale getiriyor ve
-kolaylaştırıyor ki&amp;hellip; Daha önce başka araçları deneyip hatta hiç araç
+kolaylaştırıyor ki… Daha önce başka araçları deneyip hatta hiç araç
 kullanmadan uğraşıp yaptığım şeyleri inanılmaz derecede kolay ve hızlı bir
 şekilde yapmamı sağlıyor &lt;code&gt;urfave/cli&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;go get github.com/urfave/cli/v2
@@ -1479,7 +1690,8 @@ uygulamanın otomatik olarak tekrar derlenip çalışması için &lt;code&gt;air
 uygulamayı elle durdurup tekrar çalıştırma işi yapmamanız için harika bir
 çözüm!&lt;/p&gt;
 
-&lt;h3&gt;github.com/google/uuid &lt;span style="vertical-align: middle;" class="tag is-info"&gt;güncelleme&lt;/span&gt;&lt;/h3&gt;
+&lt;h3&gt;github.com/google/uuid &lt;span style="vertical-align: middle;" class="tag is-info"&gt;güncelleme&lt;/span&gt;
+&lt;/h3&gt;
 
 &lt;p&gt;&lt;a href="https://github.com/google/uuid"&gt;https://github.com/google/uuid&lt;/a&gt;&lt;/p&gt;
 
@@ -1516,11 +1728,7 @@ framework’leri gibi daha geniş yardımcılar da bulunmakta.&lt;/p&gt;
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;code&gt;JSON&lt;/code&gt; dosya formatı artık hayatımızın vazgeçilmezi. Gündelik hayatta hep
-onunla işimiz oluyor. Peki bir araç olsa, istediğimiz gibi filtreleme
-yapsak, hem de hiç kod yazmasak?&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;
+    <content type="html">
 
 &lt;p&gt;Sizi harika bir araçla tanıştırmak istiyorum: &lt;code&gt;jq&lt;/code&gt;. &lt;code&gt;jq&lt;/code&gt; süper hızlı çalışan
 hafif siklet bir komut satırı aracı. Tüm platformlarda var. macOS kullanıcıları
@@ -1578,7 +1786,7 @@ elimizde hep bir liste yani &lt;strong&gt;Array&lt;/strong&gt; ve içinde de obj
 1
 2
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Yani &lt;code&gt;jq &amp;#39;.[] | .id&amp;#39;&lt;/code&gt; şeklinde. Elimizde aşağıdaki gibi bir &lt;code&gt;json&lt;/code&gt; olsun:&lt;/p&gt;
+&lt;p&gt;Yani &lt;code&gt;jq '.[] | .id'&lt;/code&gt; şeklinde. Elimizde aşağıdaki gibi bir &lt;code&gt;json&lt;/code&gt; olsun:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre class="highlight json"&gt;&lt;code&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
     &lt;/span&gt;&lt;span class="nl"&gt;"user"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
         &lt;/span&gt;&lt;span class="nl"&gt;"id"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
@@ -1612,7 +1820,7 @@ elimizde hep bir liste yani &lt;strong&gt;Array&lt;/strong&gt; ve içinde de obj
   &lt;span class="o"&gt;}&lt;/span&gt;
 &lt;span class="o"&gt;]&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;İşin sırrı &lt;code&gt;jq &amp;#39;[. , . , .]&amp;#39;&lt;/code&gt; bu kısında. &lt;code&gt;.&lt;/code&gt; elemanın kendisi oluyor. Elimizde
+&lt;p&gt;İşin sırrı &lt;code&gt;jq '[. , . , .]'&lt;/code&gt; bu kısında. &lt;code&gt;.&lt;/code&gt; elemanın kendisi oluyor. Elimizde
 kullanıcıların listesi var mesela:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre class="highlight json"&gt;&lt;code&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="w"&gt;
     &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
@@ -1711,7 +1919,7 @@ fonksiyonunu kullanarak bulalım:&lt;/p&gt;
 &lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;'[1,2,3,4,5]'&lt;/span&gt; | jq &lt;span class="s1"&gt;'indices(2) | .[]'&lt;/span&gt;
 1
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;String içinde pipe yaparak çıktıyı flat-map yaptık. &lt;code&gt;jq &amp;#39;komut | .[]&amp;#39;&lt;/code&gt; şeklinde.
+&lt;p&gt;String içinde pipe yaparak çıktıyı flat-map yaptık. &lt;code&gt;jq 'komut | .[]'&lt;/code&gt; şeklinde.
 Bir kısım fonksiyon örneği verelim:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;'[2, 4, 6, 8]'&lt;/span&gt; | jq &lt;span class="s1"&gt;'contains([2])'&lt;/span&gt;  &lt;span class="c"&gt;# true&lt;/span&gt;
 &lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;'[2, 4, 6, 8]'&lt;/span&gt; | jq &lt;span class="s1"&gt;'reverse'&lt;/span&gt; &lt;span class="nt"&gt;-c&lt;/span&gt;     &lt;span class="c"&gt;# [8,6,4,2]&lt;/span&gt;
@@ -1775,7 +1983,7 @@ Bir kısım fonksiyon örneği verelim:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;'[{"id": 1, "name": "vigo", "age": 46}, {"id": 2, "name": "ezel", "age": 7}]'&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
     | jq &lt;span class="s1"&gt;'.[] | select(.age &amp;lt; 10) | .name'&lt;/span&gt; &lt;span class="c"&gt;# "ezel"&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;İşin püf noktası &lt;code&gt;&amp;#39;.[] | select(.age &amp;lt; 10) | .name&amp;#39;&lt;/code&gt; kısmında. &lt;code&gt;.[]&lt;/code&gt; ile liste
+&lt;p&gt;İşin püf noktası &lt;code&gt;'.[] | select(.age &amp;lt; 10) | .name'&lt;/code&gt; kısmında. &lt;code&gt;.[]&lt;/code&gt; ile liste
 işlemi yapacağımızı, tek tek elemanı alacağımızı belirtip elemanı &lt;code&gt;|&lt;/code&gt; ile
 &lt;code&gt;select&lt;/code&gt; fonksiyonuna &lt;code&gt;pipe&lt;/code&gt; ediyoruz. Fonksiyondan dönenin sadece &lt;code&gt;.name&lt;/code&gt;’ini
 alıyoruz.&lt;/p&gt;
@@ -1927,9 +2135,7 @@ daha fazlası var. Umarım sizin de işinize yarar.&lt;/p&gt;
     <author>
       <name>Uğur “vigo” Özyılmazel</name>
     </author>
-    <content type="html">&lt;p&gt;Yaklaşık 2008’den beri Django geliştiriyorum. Pek çok proje yaptım. Model
-tanımlamaları ile ilgili bazı edindiğim, okuduğum makalelerden öğrendiğim
-şeyleri yazmak istedim.&lt;/p&gt;
+    <content type="html">
 
 &lt;h2&gt;Ana Kural&lt;/h2&gt;
 
@@ -1953,7 +2159,7 @@ olmalıdır:&lt;/p&gt;
 &lt;li&gt;&lt;code&gt;def __str__()&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;def save()&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;def get_absolute_url()&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Kendi özel yazdığınız method, property ne varsa&amp;hellip;&lt;/li&gt;
+&lt;li&gt;Kendi özel yazdığınız method, property ne varsa…&lt;/li&gt;
 &lt;/ol&gt;
 &lt;div class="highlight"&gt;&lt;pre class="highlight python"&gt;&lt;code&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;get_group_creator_sentinel&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
     &lt;span class="n"&gt;payload&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
@@ -2067,7 +2273,7 @@ tüm modelleri toplarım.&lt;/p&gt;
 Bu sayede hiçbir zaman dışarıdan modeli import etmem. Peki nasıl tanımlarım?&lt;/p&gt;
 
 &lt;p&gt;Normalde &lt;code&gt;user = models.ForeignKey(User, ...)&lt;/code&gt; şeklinde &lt;code&gt;User&lt;/code&gt;’ı import etmek
-yerine, &lt;code&gt;to=&amp;#39;User&amp;#39;&lt;/code&gt; ile &lt;strong&gt;shorthand reference&lt;/strong&gt; kullanıyorum, yani;&lt;/p&gt;
+yerine, &lt;code&gt;to='User'&lt;/code&gt; ile &lt;strong&gt;shorthand reference&lt;/strong&gt; kullanıyorum, yani;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre class="highlight python"&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;django.conf&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;settings&lt;/span&gt;
 
 &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Article&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Model&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
@@ -2078,7 +2284,7 @@ yerine, &lt;code&gt;to=&amp;#39;User&amp;#39;&lt;/code&gt; ile &lt;strong&gt;sho
         &lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;şeklinde. &lt;code&gt;to=&amp;#39;String&amp;#39;&lt;/code&gt; de olur;&lt;/p&gt;
+&lt;p&gt;şeklinde. &lt;code&gt;to='String'&lt;/code&gt; de olur;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre class="highlight python"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;City&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Model&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="n"&gt;country&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ForeignKey&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
         &lt;span class="n"&gt;to&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;'Country'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -2125,7 +2331,7 @@ modele erişim sağlar.&lt;/p&gt;
 sorgu yapabilirim. Aksi halde Django’nun otomatik eklediği &lt;code&gt;model_set&lt;/code&gt; üzerinden
 gitmem gerekir.&lt;/p&gt;
 
-&lt;p&gt;Aynı şekilde, &lt;code&gt;Country.objects.filter(city__name=&amp;#39;xxx&amp;#39;)&lt;/code&gt; şeklinde &lt;code&gt;related_query_name&lt;/code&gt;
+&lt;p&gt;Aynı şekilde, &lt;code&gt;Country.objects.filter(city__name='xxx')&lt;/code&gt; şeklinde &lt;code&gt;related_query_name&lt;/code&gt;
 kullanarak sorgu yapabilirim.&lt;/p&gt;
 
 &lt;p&gt;Keza &lt;code&gt;related_name&lt;/code&gt; değeri de çoğul olarak verilmelidir. Yani &lt;code&gt;ForeignKey&lt;/code&gt; ilişkisi
@@ -2244,7 +2450,8 @@ tanımlayın. Aşağıdaki örneği &lt;strong&gt;DjangoCon&lt;/strong&gt; sunum
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;code&gt;null&lt;/code&gt; değeri olan query’ler hızlanır&lt;/li&gt;
+&lt;li&gt;
+&lt;code&gt;null&lt;/code&gt; değeri olan query’ler hızlanır&lt;/li&gt;
 &lt;li&gt;Sadece gönderilmemiş (&lt;em&gt;unshipped&lt;/em&gt;) olanlar index’lenir&lt;/li&gt;
 &lt;/ol&gt;
 
@@ -2284,7 +2491,7 @@ tablo oluşturur. Örneğin;&lt;/p&gt;
     &lt;span class="p"&gt;:&lt;/span&gt;    
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;gibi bir model varsa, Django yeni bir tablo yapar, buna &lt;strong&gt;Associative Table&lt;/strong&gt;
-denir ve orada sadece &lt;code&gt;Customer ID&lt;/code&gt; ve &lt;code&gt;User ID&lt;/code&gt; tutar&amp;hellip; Sizin bu tabloda
+denir ve orada sadece &lt;code&gt;Customer ID&lt;/code&gt; ve &lt;code&gt;User ID&lt;/code&gt; tutar… Sizin bu tabloda
 başka hiçbir kontrolünüz yoktur. Ne migration seviyesinde ne de sorgu
 seviyesinde kontrol hep Django’da olur.&lt;/p&gt;
 
@@ -2323,7 +2530,7 @@ ve &lt;code&gt;through_fields&lt;/code&gt; ile ara tabloyu kendimiz oluşturabil
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Ara tablo &lt;code&gt;CustomerMembership&lt;/code&gt; modelinde tanımlandı. Kontrol tamamen bizde.
 Hatta bu modelin &lt;code&gt;save()&lt;/code&gt;’ine istersek ek bir şeyler bile takabiliriz. Neticede
-bu artık bir model&amp;hellip;&lt;/p&gt;
+bu artık bir model…&lt;/p&gt;
 
 &lt;p&gt;Keza Django Admin’de de çok güzel bir şekilde kullanabiliriz:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre class="highlight python"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;CustomerInlineAdmin&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;TabularInlineAdmin&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
@@ -2355,67 +2562,7 @@ tarih hesapları yapmak yerine sadece sayı sorgusu yapmak çok daha hızlı
 ve az maliyetlidir.&lt;/p&gt;
 
 &lt;p&gt;Belki ay, gün için bile ek bir &lt;code&gt;IntegerField&lt;/code&gt; eklenebilir. Yani ne sorgulayacağınızı
-mutlaka planlayın&amp;hellip;&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>İstediğiniz Yerden Go Kodunu Çalıştırabilirsiniz</title>
-    <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2021/05/27/istediginiz-yerden-go-kodunu-calistirabilirsiniz/"/>
-    <id>https://ugur.ozyilmazel.com/blog/tr/2021/05/27/istediginiz-yerden-go-kodunu-calistirabilirsiniz/</id>
-    <published>2021-05-27T18:35:00+03:00</published>
-    <updated>2023-10-19T19:02:23+03:00</updated>
-    <author>
-      <name>Uğur “vigo” Özyılmazel</name>
-    </author>
-    <content type="html">&lt;p&gt;Dikkatimi çekti, pek çok kişi bu özelliğin ya farkında değil ya da bilmiyor.
-Ben de yakın zamanda tam olarak öğrenip konuyu anladım ve çok mutlu oldum.&lt;/p&gt;
-
-&lt;p&gt;Yeni bir projeye başlayacağım zaman ilk iş;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;$(&lt;/span&gt;go &lt;span class="nb"&gt;env &lt;/span&gt;GOPATH&lt;span class="si"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;/src/github.com/vigo"&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;yapmak olurdu ve ilgili repoyu bu dizin altında açardım. Ne zaman ki golang’e
-modül desteği geldi, bu sayede artık kodun bulunduğu yerin pek bir önemi
-kalmadı.&lt;/p&gt;
-
-&lt;p&gt;İçinde &lt;code&gt;go.mod&lt;/code&gt; olan her proje sıkıntısız olarak herhangi bir yerden
-çalışabiliyor.&lt;/p&gt;
-
-&lt;p&gt;Yeni bir projeye başlayacağım zaman artık;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; ~/Development/Golang
-&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;mkdir &lt;/span&gt;my-project
-&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd &lt;/span&gt;my-project/
-&lt;span class="nv"&gt;$ &lt;/span&gt;go mod init github.com/vigo/my-project
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;şeklinde başıyorum. Hatta daha da fantazi yapalım;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; /tmp/
-&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;mkdir &lt;/span&gt;my-project &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="nb"&gt;cd&lt;/span&gt; &lt;span class="nv"&gt;$_&lt;/span&gt;
-&lt;span class="nv"&gt;$ &lt;/span&gt;go mod init foo/bar/my-project
-go: creating new go.mod: module foo/bar/my-project
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;hemen bakalım &lt;code&gt;go.mod&lt;/code&gt; dosyasına;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight go"&gt;&lt;code&gt;&lt;span class="n"&gt;module&lt;/span&gt; &lt;span class="n"&gt;foo&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bar&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;my&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;project&lt;/span&gt;
-
-&lt;span class="k"&gt;go&lt;/span&gt; &lt;span class="m"&gt;1.16&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;sonrasında &lt;code&gt;touch main.go&lt;/code&gt; ile dosyayı oluşturalım ve içini aşağıdaki gibi
-dolduralım;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight go"&gt;&lt;code&gt;&lt;span class="k"&gt;package&lt;/span&gt; &lt;span class="n"&gt;main&lt;/span&gt;
-
-&lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="s"&gt;"fmt"&lt;/span&gt;
-
-&lt;span class="k"&gt;func&lt;/span&gt; &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-    &lt;span class="n"&gt;fmt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Hello World"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="p"&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;şimdi çalıştıralım:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;go run &lt;span class="nb"&gt;.&lt;/span&gt;
-Hello World
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Evet, proje &lt;code&gt;/tmp/&lt;/code&gt; dizini altında bir yerde bile kolaylıkla çalıştı. Tabii ki
-paket ismi olarak &lt;code&gt;foo/bar/my-project&lt;/code&gt; yapmak iyi bir fikir değil, sadece
-bunun bile olabileceğini göstermek istedim.&lt;/p&gt;
-
-&lt;p&gt;Siz yeni projelerinizde mutlaka &lt;code&gt;repo/user/paket&lt;/code&gt; formatından şaşmayın!&lt;/p&gt;
+mutlaka planlayın…&lt;/p&gt;
 </content>
   </entry>
 </feed>
