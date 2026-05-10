@@ -5,10 +5,356 @@
   <id>https://ugur.ozyilmazel.com/blog/tr/</id>
   <link href="https://ugur.ozyilmazel.com/blog/tr/"/>
   <link href="https://ugur.ozyilmazel.com/feed-tr.xml" rel="self"/>
-  <updated>2025-12-26T01:46:00+03:00</updated>
+  <updated>2026-05-10T22:11:00+03:00</updated>
   <author>
     <name>Uğur “vigo” Özyılmazel</name>
   </author>
+  <entry>
+    <title>`tablo` - Komut Satırı Aracı</title>
+    <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2026/05/10/tablo-komut-satiri-araci/"/>
+    <id>https://ugur.ozyilmazel.com/blog/tr/2026/05/10/tablo-komut-satiri-araci/</id>
+    <published>2026-05-10T22:11:00+03:00</published>
+    <updated>2026-05-10T22:46:57+03:00</updated>
+    <author>
+      <name>Uğur “vigo” Özyılmazel</name>
+    </author>
+    <content type="html">
+
+&lt;p&gt;İzlediğim bir YouTube videosunda &lt;a href="https://www.nushell.sh/"&gt;Nushell&lt;/a&gt; diye değişik bir shell gördüm.
+Acaba benzer bir yaklaşımı &lt;code&gt;bash&lt;/code&gt; için yapabilir miyim? dedim ve gündelik
+hayatta sık kullandığım bir tool çıktı ortaya. Tabiiki &lt;a href="https://github.com/vigo/tablo"&gt;açık kaynaklı&lt;/a&gt;! yani
+isteyen herkes katkı yapabilir!&lt;/p&gt;
+
+&lt;p&gt;Kurulumu çok kolay, eğer bilgisayarınızda &lt;code&gt;go&lt;/code&gt; kuruluysa (go 1.25.5 ya da üzeri):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;go &lt;span class="nb"&gt;install &lt;/span&gt;github.com/vigo/tablo@latest
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Eğer kurulu değilse &lt;a href="https://brew.sh/"&gt;homebrew&lt;/a&gt; ile:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;brew &lt;span class="nb"&gt;install &lt;/span&gt;vigo/tablo/tablo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;ile kurabilirsiniz. Ne işe yarar? ister interaktif ister &lt;code&gt;pipe&lt;/code&gt; yöntemiyle, text’leri
+tabular şekilde formatlı göstermenizi ya da filtrelemenizi sağlar:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"hello world"&lt;/span&gt; | tablo
+┌─────────────┐
+│ hello world │
+└─────────────┘
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Kolon ayracı (field delimeter) olarak varsayılan karakter &lt;strong&gt;çift boşluk&lt;/strong&gt; (double space)
+karakteridir. Eğer;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"hello  world"&lt;/span&gt; | tablo &lt;span class="c"&gt;# iki ya da daha fazla boşluk&lt;/span&gt;
+┌───────┬───────┐
+│ hello │ world │
+└───────┴───────┘
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;şeklinde olur. Eğer illa tek boşluk isterseniz;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"hello world"&lt;/span&gt; | tablo &lt;span class="nt"&gt;-f&lt;/span&gt; &lt;span class="s2"&gt;" "&lt;/span&gt;
+┌───────┬───────┐
+│ hello │ world │
+└───────┴───────┘
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Nerelerde işe yarar? Mesela &lt;code&gt;$PATH&lt;/code&gt; değişkeni… Kocaman tek satır bir text ve
+&lt;code&gt;:&lt;/code&gt; bir ayraç:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PATH&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+/Users/vigo/.bun/bin:/opt/homebrew/opt/postgresql@17/bin:/Users/vigo/.cargo/bin:/Users/vigo/.rbenv/shims:/Users/vigo/.rbenv/bin:/Users/vigo/.gem/ruby/2.6.0/bin:/Users/vigo/.pyenv/plugins/pyenv-virtualenvwrapper/shims:/Users/vigo/.pyenv/libexec:/Users/vigo/.pyenv/plugins/python-build/bin:/Users/vigo/.pyenv/plugins/pyenv-virtualenvwrapper/bin:/Users/vigo/.pyenv/plugins/pyenv-virtualenv/bin:/Users/vigo/.pyenv/plugins/pyenv-virtualenv/shims:/Users/vigo/.pyenv/shims:/Users/vigo/.pyenv/bin:/opt/homebrew/opt/curl/bin:/opt/homebrew/opt/sqlite/bin:/Users/vigo/.docker/bin:/opt/homebrew/opt/go/libexec/bin:/Users/vigo/.local/go/bin:/Users/vigo/.local/bin:/Users/vigo/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/pmk/env/global/bin:/Library/Apple/usr/bin:/usr/local/share/dotnet:~/.dotnet/tools:/Users/vigo/.orbstack/bin
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Bunu;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PATH&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; | tablo &lt;span class="nt"&gt;-l&lt;/span&gt; &lt;span class="s2"&gt;":"&lt;/span&gt;
+┌───────────────────────────────────────────────────────────────────────────────────┐
+│ /Users/vigo/.bun/bin                                                              │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /opt/homebrew/opt/postgresql@17/bin                                               │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.cargo/bin                                                            │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.rbenv/shims                                                          │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.rbenv/bin                                                            │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.gem/ruby/2.6.0/bin                                                   │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.pyenv/plugins/pyenv-virtualenvwrapper/shims                          │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.pyenv/libexec                                                        │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.pyenv/plugins/python-build/bin                                       │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.pyenv/plugins/pyenv-virtualenvwrapper/bin                            │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.pyenv/plugins/pyenv-virtualenv/bin                                   │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.pyenv/plugins/pyenv-virtualenv/shims                                 │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.pyenv/shims                                                          │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.pyenv/bin                                                            │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /opt/homebrew/opt/curl/bin                                                        │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /opt/homebrew/opt/sqlite/bin                                                      │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.docker/bin                                                           │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /opt/homebrew/opt/go/libexec/bin                                                  │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.local/go/bin                                                         │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.local/bin                                                            │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/bin                                                                   │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /opt/homebrew/bin                                                                 │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /opt/homebrew/sbin                                                                │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /usr/local/bin                                                                    │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /System/Cryptexes/App/usr/bin                                                     │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /usr/bin                                                                          │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /bin                                                                              │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /usr/sbin                                                                         │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /sbin                                                                             │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin         │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin               │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /opt/pmk/env/global/bin                                                           │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Library/Apple/usr/bin                                                            │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /usr/local/share/dotnet                                                           │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ ~/.dotnet/tools                                                                   │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.orbstack/bin                                                         │
+└───────────────────────────────────────────────────────────────────────────────────┘
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Ya da;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PATH&lt;/span&gt;&lt;span class="k"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; | tablo &lt;span class="nt"&gt;-l&lt;/span&gt; &lt;span class="s2"&gt;":"&lt;/span&gt; &lt;span class="nt"&gt;-n&lt;/span&gt;
+┌───────────────────────────────────────────────────────────────────────────────────┐
+│ /Users/vigo/.bun/bin                                                              │
+│ /opt/homebrew/opt/postgresql@17/bin                                               │
+│ /Users/vigo/.cargo/bin                                                            │
+│ /Users/vigo/.rbenv/shims                                                          │
+│ /Users/vigo/.rbenv/bin                                                            │
+│ /Users/vigo/.gem/ruby/2.6.0/bin                                                   │
+│ /Users/vigo/.pyenv/plugins/pyenv-virtualenvwrapper/shims                          │
+│ /Users/vigo/.pyenv/libexec                                                        │
+│ /Users/vigo/.pyenv/plugins/python-build/bin                                       │
+│ /Users/vigo/.pyenv/plugins/pyenv-virtualenvwrapper/bin                            │
+│ /Users/vigo/.pyenv/plugins/pyenv-virtualenv/bin                                   │
+│ /Users/vigo/.pyenv/plugins/pyenv-virtualenv/shims                                 │
+│ /Users/vigo/.pyenv/shims                                                          │
+│ /Users/vigo/.pyenv/bin                                                            │
+│ /opt/homebrew/opt/curl/bin                                                        │
+│ /opt/homebrew/opt/sqlite/bin                                                      │
+│ /Users/vigo/.docker/bin                                                           │
+│ /opt/homebrew/opt/go/libexec/bin                                                  │
+│ /Users/vigo/.local/go/bin                                                         │
+│ /Users/vigo/.local/bin                                                            │
+│ /Users/vigo/bin                                                                   │
+│ /opt/homebrew/bin                                                                 │
+│ /opt/homebrew/sbin                                                                │
+│ /usr/local/bin                                                                    │
+│ /System/Cryptexes/App/usr/bin                                                     │
+│ /usr/bin                                                                          │
+│ /bin                                                                              │
+│ /usr/sbin                                                                         │
+│ /sbin                                                                             │
+│ /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin         │
+│ /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin               │
+│ /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin │
+│ /opt/pmk/env/global/bin                                                           │
+│ /Library/Apple/usr/bin                                                            │
+│ /usr/local/share/dotnet                                                           │
+│ ~/.dotnet/tools                                                                   │
+│ /Users/vigo/.orbstack/bin                                                         │
+└───────────────────────────────────────────────────────────────────────────────────┘
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Yapabilirsiniz. Ben özellikle &lt;code&gt;docker&lt;/code&gt; komutunda çok kullanıyorum:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;docker images &lt;span class="nt"&gt;--format&lt;/span&gt; &lt;span class="s2"&gt;"{{.ID}}  {{.Repository}}  {{.Tag}}"&lt;/span&gt;
+0668926e2d4e  postgres  17
+35267b49b084  redis  latest
+0eaa8705309b  rancher/local-path-provisioner  v0.0.34
+227b80ee8e0a  docker/model-runner  latest
+b41714cf6249  rancher/local-path-provisioner  v0.0.31
+5548a49bb60b  registry.k8s.io/metrics-server/metrics-server  v0.7.2
+a7f913520a4a  rancher/local-path-provisioner  v0.0.26
+97e04611ad43  rancher/mirrored-coredns-coredns  1.10.1
+7d46a07936af  rancher/mirrored-pause  3.6
+
+docker images &lt;span class="nt"&gt;--format&lt;/span&gt; &lt;span class="s2"&gt;"{{.ID}}  {{.Repository}}  {{.Tag}}"&lt;/span&gt; | tablo
+┌──────────────┬───────────────────────────────────────────────┬─────────┐
+│ 0668926e2d4e │ postgres                                      │ 17      │
+├──────────────┼───────────────────────────────────────────────┼─────────┤
+│ 35267b49b084 │ redis                                         │ latest  │
+├──────────────┼───────────────────────────────────────────────┼─────────┤
+│ 0eaa8705309b │ rancher/local-path-provisioner                │ v0.0.34 │
+├──────────────┼───────────────────────────────────────────────┼─────────┤
+│ 227b80ee8e0a │ docker/model-runner                           │ latest  │
+├──────────────┼───────────────────────────────────────────────┼─────────┤
+│ b41714cf6249 │ rancher/local-path-provisioner                │ v0.0.31 │
+├──────────────┼───────────────────────────────────────────────┼─────────┤
+│ 5548a49bb60b │ registry.k8s.io/metrics-server/metrics-server │ v0.7.2  │
+├──────────────┼───────────────────────────────────────────────┼─────────┤
+│ a7f913520a4a │ rancher/local-path-provisioner                │ v0.0.26 │
+├──────────────┼───────────────────────────────────────────────┼─────────┤
+│ 97e04611ad43 │ rancher/mirrored-coredns-coredns              │ 1.10.1  │
+├──────────────┼───────────────────────────────────────────────┼─────────┤
+│ 7d46a07936af │ rancher/mirrored-pause                        │ 3.6     │
+└──────────────┴───────────────────────────────────────────────┴─────────┘
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Sadece ilk ve ikinci kolonları almak için:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;docker images &lt;span class="nt"&gt;--format&lt;/span&gt; &lt;span class="s2"&gt;"{{.ID}}  {{.Repository}}  {{.Tag}}"&lt;/span&gt; | tablo &lt;span class="nt"&gt;-fi&lt;/span&gt; &lt;span class="s2"&gt;"1,2"&lt;/span&gt;
+┌──────────────┬───────────────────────────────────────────────┐
+│ 0668926e2d4e │ postgres                                      │
+├──────────────┼───────────────────────────────────────────────┤
+│ 35267b49b084 │ redis                                         │
+├──────────────┼───────────────────────────────────────────────┤
+│ 0eaa8705309b │ rancher/local-path-provisioner                │
+├──────────────┼───────────────────────────────────────────────┤
+│ 227b80ee8e0a │ docker/model-runner                           │
+├──────────────┼───────────────────────────────────────────────┤
+│ b41714cf6249 │ rancher/local-path-provisioner                │
+├──────────────┼───────────────────────────────────────────────┤
+│ 5548a49bb60b │ registry.k8s.io/metrics-server/metrics-server │
+├──────────────┼───────────────────────────────────────────────┤
+│ a7f913520a4a │ rancher/local-path-provisioner                │
+├──────────────┼───────────────────────────────────────────────┤
+│ 97e04611ad43 │ rancher/mirrored-coredns-coredns              │
+├──────────────┼───────────────────────────────────────────────┤
+│ 7d46a07936af │ rancher/mirrored-pause                        │
+└──────────────┴───────────────────────────────────────────────┘
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Hatta çıktıyı &lt;code&gt;json&lt;/code&gt; almak için:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;docker images &lt;span class="nt"&gt;--format&lt;/span&gt; &lt;span class="s2"&gt;"{{.ID}}  {{.Repository}}  {{.Tag}}"&lt;/span&gt; | tablo &lt;span class="nt"&gt;-fi&lt;/span&gt; &lt;span class="s2"&gt;"1,2"&lt;/span&gt; &lt;span class="nt"&gt;-j&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;çıktı:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight json"&gt;&lt;code&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="w"&gt;
+  &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;"0668926e2d4e"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;"postgres"&lt;/span&gt;&lt;span class="w"&gt;
+  &lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="w"&gt;
+  &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;"35267b49b084"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;"redis"&lt;/span&gt;&lt;span class="w"&gt;
+  &lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="w"&gt;
+  &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;"0eaa8705309b"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;"rancher/local-path-provisioner"&lt;/span&gt;&lt;span class="w"&gt;
+  &lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="w"&gt;
+  &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;"227b80ee8e0a"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;"docker/model-runner"&lt;/span&gt;&lt;span class="w"&gt;
+  &lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="w"&gt;
+  &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;"b41714cf6249"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;"rancher/local-path-provisioner"&lt;/span&gt;&lt;span class="w"&gt;
+  &lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="w"&gt;
+  &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;"5548a49bb60b"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;"registry.k8s.io/metrics-server/metrics-server"&lt;/span&gt;&lt;span class="w"&gt;
+  &lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="w"&gt;
+  &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;"a7f913520a4a"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;"rancher/local-path-provisioner"&lt;/span&gt;&lt;span class="w"&gt;
+  &lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="w"&gt;
+  &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;"97e04611ad43"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;"rancher/mirrored-coredns-coredns"&lt;/span&gt;&lt;span class="w"&gt;
+  &lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="w"&gt;
+  &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;"7d46a07936af"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;
+    &lt;/span&gt;&lt;span class="s2"&gt;"rancher/mirrored-pause"&lt;/span&gt;&lt;span class="w"&gt;
+  &lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Hatta eğer &lt;a href="https://jqlang.org/"&gt;jq&lt;/a&gt; varsa;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;docker images &lt;span class="nt"&gt;--format&lt;/span&gt; &lt;span class="s2"&gt;"{{.ID}}  {{.Repository}}  {{.Tag}}"&lt;/span&gt; | tablo &lt;span class="nt"&gt;-fi&lt;/span&gt; &lt;span class="s2"&gt;"1,2"&lt;/span&gt; &lt;span class="nt"&gt;-j&lt;/span&gt; | jq
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Ek olarak &lt;code&gt;csv&lt;/code&gt; dosyları ile de uğraşıyorsanız:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="c"&gt;# cat /path/to/file.csv | tablo -f ";"&lt;/span&gt;
+
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;'Username;Identifier;First name;Last name
+booker12;9012;Rachel;Booker
+grey07;2070;Laura;Grey
+johnson81;4081;Craig;Johnson
+jenkins46;9346;Mary;Jenkins
+smith79;5079;Jamie;Smith'&lt;/span&gt; | tablo &lt;span class="nt"&gt;-f&lt;/span&gt; &lt;span class="s2"&gt;";"&lt;/span&gt;
+┌───────────┬────────────┬────────────┬───────────┐
+│ Username  │ Identifier │ First name │ Last name │
+├───────────┼────────────┼────────────┼───────────┤
+│ booker12  │ 9012       │ Rachel     │ Booker    │
+├───────────┼────────────┼────────────┼───────────┤
+│ grey07    │ 2070       │ Laura      │ Grey      │
+├───────────┼────────────┼────────────┼───────────┤
+│ johnson81 │ 4081       │ Craig      │ Johnson   │
+├───────────┼────────────┼────────────┼───────────┤
+│ jenkins46 │ 9346       │ Mary       │ Jenkins   │
+├───────────┼────────────┼────────────┼───────────┤
+│ smith79   │ 5079       │ Jamie      │ Smith     │
+└───────────┴────────────┴────────────┴───────────┘
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Hatta sadece &lt;code&gt;Username&lt;/code&gt; kolonu lazımsa;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;'Username;Identifier;First name;Last name
+booker12;9012;Rachel;Booker
+grey07;2070;Laura;Grey
+johnson81;4081;Craig;Johnson
+jenkins46;9346;Mary;Jenkins
+smith79;5079;Jamie;Smith'&lt;/span&gt; | tablo &lt;span class="nt"&gt;-f&lt;/span&gt; &lt;span class="s2"&gt;";"&lt;/span&gt; Username
+┌───────────┐
+│ Username  │
+├───────────┤
+│ booker12  │
+├───────────┤
+│ grey07    │
+├───────────┤
+│ johnson81 │
+├───────────┤
+│ jenkins46 │
+├───────────┤
+│ smith79   │
+└───────────┘
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Hatta;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;'Username;Identifier;First name;Last name
+booker12;9012;Rachel;Booker
+grey07;2070;Laura;Grey
+johnson81;4081;Craig;Johnson
+jenkins46;9346;Mary;Jenkins
+smith79;5079;Jamie;Smith'&lt;/span&gt; | tablo &lt;span class="nt"&gt;-nh&lt;/span&gt; &lt;span class="nt"&gt;-n&lt;/span&gt; &lt;span class="nt"&gt;-f&lt;/span&gt; &lt;span class="s2"&gt;";"&lt;/span&gt; Username
+┌───────────┐
+│ booker12  │
+│ grey07    │
+│ johnson81 │
+│ jenkins46 │
+│ smith79   │
+└───────────┘
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Şeklinde de kullanabilirsiniz. İsterseniz çıktıyı bir dosya ya da &lt;code&gt;&amp;gt; /path/to/file&lt;/code&gt;
+şeklinde atabilirsiniz:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;cat&lt;/span&gt; /path/to/file | tablo &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; /path/to/out
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Eğer bir input pipe’lamazsanız direk text’i girip &lt;kbd&gt;CTRL&lt;/kbd&gt; + &lt;kbd&gt;D&lt;/kbd&gt;
+ile input moddan çıkarak işlemlerinizi yapabilirsiniz:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;tablo
+press ENTER and CTRL+D to finish text entry
+foo  bar
+┌─────┬─────┐
+│ foo │ bar │
+└─────┴─────┘
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Bir sürü opsiyonu var;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;tablo &lt;span class="nt"&gt;-h&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;ile örnekleriyle birlikte görebilirsiniz.&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>2025'te Neler Yaptım</title>
     <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2025/12/26/2025-te-neler-yaptim/"/>
@@ -2124,445 +2470,6 @@ okuyup başka bir yere paslamak için de kullanılır.&lt;/p&gt;
 &lt;p&gt;Dediğim gibi, &lt;code&gt;jq&lt;/code&gt; benim gündelik hayatımda çok sık kullandığım bir araç. Ben
 sadece bildiğim ve sık kullandığım konuları yazdım. Burada yazdıklarımdan çok
 daha fazlası var. Umarım sizin de işinize yarar.&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>Django Model İpuçları</title>
-    <link rel="alternate" href="https://ugur.ozyilmazel.com/blog/tr/2021/08/22/django-model-ipuclari/"/>
-    <id>https://ugur.ozyilmazel.com/blog/tr/2021/08/22/django-model-ipuclari/</id>
-    <published>2021-08-22T09:43:00+03:00</published>
-    <updated>2023-10-19T19:02:23+03:00</updated>
-    <author>
-      <name>Uğur “vigo” Özyılmazel</name>
-    </author>
-    <content type="html">
-
-&lt;h2&gt;Ana Kural&lt;/h2&gt;
-
-&lt;p&gt;Mutlaka ama mutlaka değişken ve sınıf adlarını &lt;strong&gt;İngilizce&lt;/strong&gt; olarak kullanın.
-Yarın projenizi açık-kaynak yaptığınızda ya da ekibinize Türkçe bilmeyen
-biri katıldığında kodu kolay anlamalı.&lt;/p&gt;
-
-&lt;h3&gt;Model Yazma Kuralları&lt;/h3&gt;
-
-&lt;p&gt;Django bildiğiniz gibi muhteşem bir dokümantasyona sahip. Bizim için her ince
-detay yazılmış, örnekler verilmiş. Lütfen kod yazma işine başlamadan
-önce &lt;a href="https://docs.djangoproject.com/en/3.2/internals/contributing/writing-code/coding-style/#model-style"&gt;bu sayfaya&lt;/a&gt; gidin ve okuyun.&lt;/p&gt;
-
-&lt;p&gt;Doküman derki, bir model içindeki method/attribute sıralaması aşağıdaki gibi
-olmalıdır:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Tüm field tanımları&lt;/li&gt;
-&lt;li&gt;Custom manager attribute’ları&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;class Meta&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;def __str__()&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;def save()&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;def get_absolute_url()&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Kendi özel yazdığınız method, property ne varsa…&lt;/li&gt;
-&lt;/ol&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight python"&gt;&lt;code&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;get_group_creator_sentinel&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
-    &lt;span class="n"&gt;payload&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-        &lt;span class="n"&gt;email&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;'deleted@xxx.com'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;first_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;'Sentinel'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;last_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;'User'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-    &lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;get_user_model&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;objects&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_or_create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;payload&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;defaults&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;payload&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-
-&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Group&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Model&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="s"&gt;"""
-    User.objects.filter(group__name=...)
-    Permission.objects.filter(group__name=...)
-    """&lt;/span&gt;
-
-    &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;CharField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-        &lt;span class="n"&gt;max_length&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;150&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
-        &lt;span class="n"&gt;unique&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
-        &lt;span class="n"&gt;verbose_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'name'&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
-    &lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;creator&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ForeignKey&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-        &lt;span class="n"&gt;to&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;AUTH_USER_MODEL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;on_delete&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SET&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;get_group_creator_sentinel&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
-        &lt;span class="n"&gt;related_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;'creator_groups'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;related_query_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;'group'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;verbose_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'creator'&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
-    &lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;permissions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ManyToManyField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-        &lt;span class="n"&gt;to&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;Permission&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;related_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;'permissions_groups'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;related_query_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;'group'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;verbose_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'permissions'&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
-        &lt;span class="n"&gt;blank&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-    &lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;objects&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;GroupManager&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-
-    &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Meta&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-        &lt;span class="n"&gt;app_label&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;'core'&lt;/span&gt;
-        &lt;span class="n"&gt;verbose_name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'group'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-        &lt;span class="n"&gt;verbose_name_plural&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'groups'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__str__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;
-
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;natural_key&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,)&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h3&gt;Doğru Model Adı&lt;/h3&gt;
-
-&lt;p&gt;Model denen şey tek bir kaydı temsil eder. Bu bakımdan ismi tekil olmalıdır.
-Eğer bu model ara tablo değilse, yani &lt;strong&gt;ManyToMany through&lt;/strong&gt; tablosu değilse
-mutlaka tekil olmalıdır.&lt;/p&gt;
-
-&lt;p&gt;İngilizce bazı kelimelerin tekil ve çoğul durumları farklıdır. Örneğin
-&lt;strong&gt;People&lt;/strong&gt; kelimesi çoğuldur ve bunun tekili &lt;strong&gt;Person&lt;/strong&gt;’dır.&lt;/p&gt;
-
-&lt;p&gt;Bu doğrultuda;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;Post&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Article&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;User&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Person&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;şeklinde olmalıdır. Ama haber modeli diye bir model olacaksa o &lt;code&gt;News&lt;/code&gt; olur.&lt;/p&gt;
-
-&lt;h3&gt;Tablolara Ad Verin&lt;/h3&gt;
-
-&lt;p&gt;Mümkünse Database Tablo adını Kendiniz Belirleyin.&lt;/p&gt;
-
-&lt;p&gt;Modelin &lt;code&gt;class Meta:&lt;/code&gt; kısmında &lt;code&gt;db_table&lt;/code&gt; kullanarak tablo isimlerini Django
-yerine siz belirleyebilirsiniz. Bu sayede daha kısa tablo adları olur ve
-siz daha hakim olursunuz database’e.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight python"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Customer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Model&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Meta&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-        &lt;span class="n"&gt;app_label&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;'core'&lt;/span&gt;
-        &lt;span class="n"&gt;db_table&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;'customer'&lt;/span&gt;
-        &lt;span class="n"&gt;verbose_name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'customer'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-        &lt;span class="n"&gt;verbose_name_plural&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'customers'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="p"&gt;:&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h3&gt;“created_at” ve “updated_at”&lt;/h3&gt;
-
-&lt;p&gt;Mutlaka Modelin &lt;code&gt;created_at&lt;/code&gt; ve &lt;code&gt;updated_at&lt;/code&gt; field’ları olsun.&lt;/p&gt;
-
-&lt;p&gt;Genelde benim &lt;code&gt;base.py&lt;/code&gt; diye bir dosyam ve onun içinde tüm modellerde ortak
-olarak kullanmayı düşündüğüm alanları kapsayan bir &lt;code&gt;abstract&lt;/code&gt; model olur:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight python"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;MyBaseModel&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Model&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="n"&gt;created_at&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DateTimeField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;auto_now_add&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;verbose_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'created at'&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-    &lt;span class="n"&gt;updated_at&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DateTimeField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;auto_now&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;verbose_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'updated at'&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-
-    &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Meta&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-        &lt;span class="n"&gt;abstract&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Duruma göre &lt;code&gt;deleted_at&lt;/code&gt;, &lt;code&gt;is_active&lt;/code&gt; gibi alanlar da olabilir. İlgili
-modellerimi bundan türetirim.&lt;/p&gt;
-
-&lt;h3&gt;İlişki Belirtmek&lt;/h3&gt;
-
-&lt;p&gt;&lt;code&gt;Article&lt;/code&gt; diye bir modeliniz var, &lt;code&gt;Article&lt;/code&gt; içinde &lt;code&gt;User&lt;/code&gt; modeline &lt;code&gt;ForeignKey&lt;/code&gt;
-tanımlayacaksınız. Dolayısıyla &lt;code&gt;User&lt;/code&gt; modelini içeri &lt;code&gt;import&lt;/code&gt; etmeniz gerekiyor.
-&lt;strong&gt;Circular import&lt;/strong&gt; durumuna düşmemek adına ben genelde tek bir &lt;code&gt;app&lt;/code&gt; altına
-tüm modelleri toplarım.&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;User&lt;/code&gt; modelini de kendi oluşturduğum &lt;a href="https://docs.djangoproject.com/en/3.2/topics/auth/customizing/#specifying-a-custom-user-model"&gt;Custom User&lt;/a&gt; modelini kullanırım.
-Bu sayede hiçbir zaman dışarıdan modeli import etmem. Peki nasıl tanımlarım?&lt;/p&gt;
-
-&lt;p&gt;Normalde &lt;code&gt;user = models.ForeignKey(User, ...)&lt;/code&gt; şeklinde &lt;code&gt;User&lt;/code&gt;’ı import etmek
-yerine, &lt;code&gt;to='User'&lt;/code&gt; ile &lt;strong&gt;shorthand reference&lt;/strong&gt; kullanıyorum, yani;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight python"&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;django.conf&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;settings&lt;/span&gt;
-
-&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Article&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Model&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="n"&gt;user&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ForeignKey&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-        &lt;span class="n"&gt;to&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;AUTH_USER_MODEL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;on_delete&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;CASCADE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="p"&gt;:&lt;/span&gt;
-        &lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;şeklinde. &lt;code&gt;to='String'&lt;/code&gt; de olur;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight python"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;City&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Model&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="n"&gt;country&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ForeignKey&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-        &lt;span class="n"&gt;to&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;'Country'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;on_delete&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;CASCADE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;related_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;'cities'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;related_query_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;'city'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;verbose_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'country'&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
-    &lt;span class="p"&gt;)&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;bu sayede model import işleriyle uğraşmam. &lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;28 Ağustos 2021&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Sevgili &lt;a href="https://www.linkedin.com/in/muhammet-bahad%C4%B1r-kacar-698019187/"&gt;Muhammet Bahadır Kacar&lt;/a&gt;
-beni ikaz etti. Ben gözden kaçırmışım. Eğer &lt;code&gt;application.Model&lt;/code&gt; şeklinde
-&lt;strong&gt;string&lt;/strong&gt; olarak verilirse başka bir app’den de bu yöntemle &lt;strong&gt;lazy/short-hand
-ref&lt;/strong&gt; olarak &lt;a href="https://docs.djangoproject.com/en/3.2/ref/models/fields/#foreignkey"&gt;import&lt;/a&gt; edilebiliyor.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight python"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Permissions&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Model&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="n"&gt;groups&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ManyToManyField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-        &lt;span class="n"&gt;to&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;'Group'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;related_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;'user_set'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;related_query_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;'user'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;blank&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;verbose_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'groups'&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
-    &lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;user_permissions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ManyToManyField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-        &lt;span class="n"&gt;to&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;'auth.Permission'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;# &amp;lt;- buradaki gibi...
-&lt;/span&gt;        &lt;span class="n"&gt;related_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;'user_set'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;related_query_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;'user'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;blank&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;verbose_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'user permissions'&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
-    &lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="p"&gt;:&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h3&gt;“related_name” ve “related_query_name”&lt;/h3&gt;
-
-&lt;p&gt;Mutlaka ilişkili yani &lt;code&gt;ForeignKey&lt;/code&gt; ya da &lt;code&gt;ManyToMany&lt;/code&gt; field’lara &lt;code&gt;related_name&lt;/code&gt;
-ve &lt;code&gt;related_query_name&lt;/code&gt; tanımı yapın. &lt;code&gt;related_name&lt;/code&gt; o modeldeyken tersten üst
-modele erişim sağlar.&lt;/p&gt;
-
-&lt;p&gt;Yani, elimde &lt;code&gt;Country&lt;/code&gt; instance’ı varsa, ben &lt;code&gt;country.cities.filter()&lt;/code&gt; şeklinde
-sorgu yapabilirim. Aksi halde Django’nun otomatik eklediği &lt;code&gt;model_set&lt;/code&gt; üzerinden
-gitmem gerekir.&lt;/p&gt;
-
-&lt;p&gt;Aynı şekilde, &lt;code&gt;Country.objects.filter(city__name='xxx')&lt;/code&gt; şeklinde &lt;code&gt;related_query_name&lt;/code&gt;
-kullanarak sorgu yapabilirim.&lt;/p&gt;
-
-&lt;p&gt;Keza &lt;code&gt;related_name&lt;/code&gt; değeri de çoğul olarak verilmelidir. Yani &lt;code&gt;ForeignKey&lt;/code&gt; ilişkisi
-aslında &lt;strong&gt;One to Many&lt;/strong&gt; yani bir &lt;code&gt;Country&lt;/code&gt;’nin birden fazla şehri olabilir 
-mantığında olduğu için, o &lt;code&gt;Country&lt;/code&gt;’nin &lt;code&gt;cities&lt;/code&gt; yani şehirleri vardır.&lt;/p&gt;
-
-&lt;h3&gt;“ForeignKey” için “unique=True” Kullanmayın&lt;/h3&gt;
-
-&lt;p&gt;Çünkü bu iş için &lt;code&gt;OneToOneField&lt;/code&gt; var.&lt;/p&gt;
-
-&lt;h3&gt;Gerektiğinde “NullBooleanField” Kullanın&lt;/h3&gt;
-
-&lt;p&gt;&lt;code&gt;models.BooleanField(null=True)&lt;/code&gt; yerine &lt;code&gt;models.NullBooleanField()&lt;/code&gt; kullanın.&lt;/p&gt;
-
-&lt;h3&gt;“ObjectDoesNotExist” Yerine “Model.DoesNotExist”&lt;/h3&gt;
-
-&lt;p&gt;Kayıt yoksa &lt;code&gt;django.core.exceptions&lt;/code&gt;’da &lt;code&gt;ObjectDoesNotExist&lt;/code&gt; exception’ı
-yakalamak yerine modelin &lt;code&gt;Model.DoesNotExist&lt;/code&gt; exception’ını yakalamak daha
-iyi bir yöntem. Bazı özel durumlar dışında &lt;code&gt;Model.DoesNotExist&lt;/code&gt; kullanın.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight python"&gt;&lt;code&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-&lt;span class="p"&gt;:&lt;/span&gt;
-&lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="n"&gt;creator&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;user_model&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;objects&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;email&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;email&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="n"&gt;user_model&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DoesNotExist&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;exc&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="k"&gt;raise&lt;/span&gt; &lt;span class="n"&gt;CommandError&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'email (%s) does not exists'&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;email&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;exc&lt;/span&gt;
-&lt;span class="p"&gt;:&lt;/span&gt;
-&lt;span class="p"&gt;:&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h3&gt;“choices” Kullanımı&lt;/h3&gt;
-
-&lt;p&gt;Model için &lt;code&gt;choices&lt;/code&gt; kullanmanız gerektiğinde ya aşağıdaki gibi ya da
-yeni gelen &lt;a href="https://docs.djangoproject.com/en/3.2/ref/models/fields/#enumeration-types"&gt;Enumeration types&lt;/a&gt;’ı kullanabilirsiniz. Açıkcası ben henüz
-Enumeration types kullanmadım, eski yöntem kolayıma geliyor.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight python"&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;django.utils.translation&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;gettext_lazy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt;
-&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;django.db&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;
-
-&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Post&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Model&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="n"&gt;STATUS_OFFLINE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
-    &lt;span class="n"&gt;STATUS_ONLINE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
-    &lt;span class="n"&gt;STATUS_DELETED&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
-    &lt;span class="n"&gt;STATUS_DRAFT&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;
-    &lt;span class="n"&gt;STATUS_CHOICES&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
-        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;STATUS_OFFLINE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'offline'&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt;
-        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;STATUS_ONLINE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'online'&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt;
-        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;STATUS_DELETED&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'deleted'&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt;
-        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;STATUS_DRAFT&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'draft'&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt;
-    &lt;span class="p"&gt;)&lt;/span&gt;
-
-    &lt;span class="n"&gt;status&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;IntegerField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-        &lt;span class="n"&gt;choices&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;STATUS_CHOICES&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;default&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;STATUS_ONLINE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;verbose_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'status'&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
-    &lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="p"&gt;:&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Daha detaylı bilgi için &lt;a href="https://docs.djangoproject.com/en/3.2/ref/models/fields/#choices"&gt;tıklayabilirsiniz&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h3&gt;Alan Adındaki Fuzuli Model İsmi&lt;/h3&gt;
-
-&lt;p&gt;Eğer &lt;code&gt;User&lt;/code&gt; diye bir model varsa, &lt;code&gt;user_status = models.IntegerField(...)&lt;/code&gt;
-diye bir field yerine, &lt;code&gt;status = models.IntegerField(...)&lt;/code&gt; şeklinde field’ı
-tanımlamak daha mantıklıdır. Boşuna tekrar yapmamak lazım.&lt;/p&gt;
-
-&lt;h3&gt;“models.py” Yerine “models/” Paketi&lt;/h3&gt;
-
-&lt;p&gt;Model dosyası uzar gider, içinde hareket etmek zorlaşır. Bu bakımdan ben
-help modelleri &lt;code&gt;models&lt;/code&gt; paketi içinde tanımlarım:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;models/
-    __init__.py
-    user.py
-    post.py
-    comment.py
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;ve &lt;code&gt;__init__.py&lt;/code&gt; içinde de;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight python"&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;.user&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;User&lt;/span&gt;
-&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;.post&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Post&lt;/span&gt;
-&lt;span class="p"&gt;:&lt;/span&gt;
-&lt;span class="p"&gt;:&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Model dosyası içinde de nelerin importable olduğunu yazarım:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight python"&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;django.db&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;
-
-&lt;span class="n"&gt;__all__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;'City'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-
-&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;City&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Model&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="p"&gt;:&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h3&gt;Güvenli “save()”&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight python"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Foo&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Model&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;save&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pk&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-            &lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;'force_update'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
-            &lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;'force_insert'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
-        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-            &lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;'force_insert'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
-            &lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;'force_update'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
-    &lt;span class="nb"&gt;super&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;save&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h3&gt;Index Eklemek&lt;/h3&gt;
-
-&lt;p&gt;Sorgu yapmayı düşündüğünüz field’ları mutlaka index’leyin ama şunu da unutmayın
-ne kadar index o kadar büyük database. Eğer mümkünse index için &lt;code&gt;condition&lt;/code&gt; da
-tanımlayın. Aşağıdaki örneği &lt;strong&gt;DjangoCon&lt;/strong&gt; sunumlarından birinde görmüştüm.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight python"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Order&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Model&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Meta&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-        &lt;span class="n"&gt;indexes&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
-            &lt;span class="n"&gt;Index&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-                &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;'unshipped_orders'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-                &lt;span class="n"&gt;fields&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;'pk'&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
-                &lt;span class="n"&gt;condition&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;Q&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;is_shipped&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
-            &lt;span class="p"&gt;)&lt;/span&gt;
-        &lt;span class="p"&gt;]&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;code&gt;null&lt;/code&gt; değeri olan query’ler hızlanır&lt;/li&gt;
-&lt;li&gt;Sadece gönderilmemiş (&lt;em&gt;unshipped&lt;/em&gt;) olanlar index’lenir&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Keza database katmanında da validasyon için;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight python"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;MonthlyBudget&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Model&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Meta&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-        &lt;span class="n"&gt;constraints&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
-            &lt;span class="n"&gt;CheckConstraint&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-                &lt;span class="n"&gt;check&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;Q&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;month__in&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;13&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt;
-                &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;'check_valid_month'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-            &lt;span class="p"&gt;)&lt;/span&gt;
-        &lt;span class="p"&gt;]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;Ay değeri 1-12 (&lt;em&gt;inclusive&lt;/em&gt;) olur ve &lt;strong&gt;13&lt;/strong&gt; olamaz, bu da database
-katmanında bir kontrol/validasyon sağlar&lt;/li&gt;
-&lt;li&gt;Özellikle &lt;code&gt;bulk_update()&lt;/code&gt; işleri için çok işe yarar.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2&gt;“ManyToMany” için Kendi Tablonuzu Kullanın&lt;/h2&gt;
-
-&lt;p&gt;Eğer &lt;code&gt;ManyToMany&lt;/code&gt; field kullanıyorsanız, Django otomatik olarak gizli bir
-tablo oluşturur. Örneğin;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight python"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Customer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Model&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="n"&gt;users&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ManyToManyField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-        &lt;span class="n"&gt;to&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;AUTH_USER_MODEL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;related_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;'customers'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;related_query_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;'customer'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;blank&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;verbose_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'users'&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
-    &lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="p"&gt;:&lt;/span&gt;    
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;gibi bir model varsa, Django yeni bir tablo yapar, buna &lt;strong&gt;Associative Table&lt;/strong&gt;
-denir ve orada sadece &lt;code&gt;Customer ID&lt;/code&gt; ve &lt;code&gt;User ID&lt;/code&gt; tutar… Sizin bu tabloda
-başka hiçbir kontrolünüz yoktur. Ne migration seviyesinde ne de sorgu
-seviyesinde kontrol hep Django’da olur.&lt;/p&gt;
-
-&lt;p&gt;Peki ek bir field daha gerekse ne olacak? Yani &lt;code&gt;Customer ID&lt;/code&gt;, &lt;code&gt;User ID&lt;/code&gt; ve
-&lt;code&gt;Is Admin?&lt;/code&gt; tutmanız gerekse ne olacak? İşte bu durumlar için &lt;code&gt;through&lt;/code&gt;
-ve &lt;code&gt;through_fields&lt;/code&gt; ile ara tabloyu kendimiz oluşturabiliriz.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight python"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Customer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Model&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;CharField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_length&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;verbose_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'name'&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-    &lt;span class="n"&gt;users&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ManyToManyField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-        &lt;span class="n"&gt;to&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;AUTH_USER_MODEL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;through&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;'CustomerMembership'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;through_fields&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'customer'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;'user'&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
-        &lt;span class="n"&gt;related_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;'customers'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;related_query_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;'customer'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;blank&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;verbose_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'users'&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
-    &lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="p"&gt;:&lt;/span&gt;
-
-&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;CustomerMembership&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Model&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="n"&gt;customer&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ForeignKey&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-        &lt;span class="n"&gt;to&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;'Customer'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;on_delete&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;CASCADE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-    &lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;user&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ForeignKey&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-        &lt;span class="n"&gt;to&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;settings&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;AUTH_USER_MODEL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;on_delete&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;CASCADE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-    &lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;is_admin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;BooleanField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-        &lt;span class="n"&gt;default&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;verbose_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'customer admin status'&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
-    &lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="p"&gt;:&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Ara tablo &lt;code&gt;CustomerMembership&lt;/code&gt; modelinde tanımlandı. Kontrol tamamen bizde.
-Hatta bu modelin &lt;code&gt;save()&lt;/code&gt;’ine istersek ek bir şeyler bile takabiliriz. Neticede
-bu artık bir model…&lt;/p&gt;
-
-&lt;p&gt;Keza Django Admin’de de çok güzel bir şekilde kullanabiliriz:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre class="highlight python"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;CustomerInlineAdmin&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;TabularInlineAdmin&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="n"&gt;model&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Customer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;users&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;through&lt;/span&gt;  &lt;span class="c1"&gt;# &amp;lt;- bu kısım!
-&lt;/span&gt;    &lt;span class="n"&gt;extra&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
-    &lt;span class="n"&gt;autocomplete_fields&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;'customer'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;'user'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-    &lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="p"&gt;:&lt;/span&gt;
-
-&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;CustomerAdmin&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;admin&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ModelAdmin&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="n"&gt;list_display&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;'__str__'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-    &lt;span class="n"&gt;autocomplete_fields&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;'users'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-    &lt;span class="n"&gt;ordering&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;'name'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-    &lt;span class="n"&gt;inlines&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;CustomerInlineAdmin&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-    &lt;span class="p"&gt;:&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Özetle, üşenmeyin, &lt;code&gt;ManyToManyField&lt;/code&gt; durumunda &lt;code&gt;through&lt;/code&gt; kullanın :)&lt;/p&gt;
-
-&lt;hr&gt;
-
-&lt;p&gt;Son olarak, modeli planlarken yapacağınız sorguları da hayal edin. Örneğin
-sürekli tarih ile ilgili bir sorgu yapacaksınız. Yılı 2020 olan kayıtları
-getir ya da sürekli yıla göre rapor alıyorsunuz.&lt;/p&gt;
-
-&lt;p&gt;Modelin &lt;code&gt;created_at&lt;/code&gt; alanında sürekli &lt;code&gt;date lookup&lt;/code&gt; yapmak yerine, belkide
-modele bir &lt;code&gt;year&lt;/code&gt; field’ı eklemek ve bunu &lt;code&gt;IntegerField&lt;/code&gt; yapmak ve index
-koymak sorgularınızı aşırı derecede hızlandırabilir. Database içinde
-tarih hesapları yapmak yerine sadece sayı sorgusu yapmak çok daha hızlı
-ve az maliyetlidir.&lt;/p&gt;
-
-&lt;p&gt;Belki ay, gün için bile ek bir &lt;code&gt;IntegerField&lt;/code&gt; eklenebilir. Yani ne sorgulayacağınızı
-mutlaka planlayın…&lt;/p&gt;
 </content>
   </entry>
 </feed>

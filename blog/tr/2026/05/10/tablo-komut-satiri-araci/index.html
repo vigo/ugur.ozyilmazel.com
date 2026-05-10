@@ -1,0 +1,578 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>`tablo` - Komut Satırı Aracı - Uğur “vigo” Özyılmazel</title>
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (Türkçe)" href="/feed-tr.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed (English)" href="/feed-en.xml" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <script src="https://kit.fontawesome.com/ebc2456445.js" crossorigin="anonymous"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+        <link href="/public/css/syntax.css" rel="stylesheet" />
+        <link href="/public/css/application.css" rel="stylesheet" />
+    
+
+        <script src="/public/js/application.js"></script>
+    
+        <meta name="date" content="2026-05-10T22:48:36+03:00" />
+        <meta name="description" content="Bu sefer kendi geliştirdiğim bir komut satırı aracından bahsetmek istiyorum: tablo." />
+        <meta name="author" content="Uğur “vigo” Özyılmazel"/>
+        <meta name="copyright" content="(c) 2006 / 2026 - Uğur “vigo” Özyılmazel" />
+        <meta property="og:url" content="https://ugur.ozyilmazel.com/blog/tr/2026/05/10/tablo-komut-satiri-araci/" />
+        <meta property="og:title" content="`tablo` - Komut Satırı Aracı" />
+        <meta property="og:site_name" content="vigo" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="Bu sefer kendi geliştirdiğim bir komut satırı aracından bahsetmek istiyorum: tablo." />
+        <meta property="og:image" content="https://ugur.ozyilmazel.com/public/images/og/ugur-vigo-ozyilmazel-huddle.jpg" />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:width" content="1094" />
+        <meta property="og:image:height" content="1094" />
+
+    <link href="/public/images/favicon.png" rel="shortcut icon" type="image/png" />
+    </head>
+<body>
+    
+    
+    <section class="section menu">
+    <div class="container">
+        <nav class="level is-mobile">
+            <div class="level-left">
+<div class="level-item"><a href="/">Anasayfa</a></div><div class="level-item"><a href="/blog/tr/" class="is-active">Blog Arşiv</a></div><div class="level-item"><a href="/sayfa/tr/sunumlar/">Sunumlar</a></div>            </div>
+            <div class="level-right">
+<div class="level-item"><a href="https://vbyazilim.com" target="_blank">VB</a></div><div class="level-item"><a href="/en/">EN</a></div>            </div>
+        </nav>
+    </div>
+</section>
+
+    
+    
+    
+        <section class="section main">
+        <div class="container">
+        
+            <div class="columns is-multiline is-variable is-8">
+                <div class="column is-9-desktop is-full-tablet">
+                    <div class="content is-large">
+                        <article>
+                            <div class="meta">
+                                <span class="reading-time">OKUMA SÜRESİ 01:10</span>
+                                &mdash;
+                                <time pubdate datetime="2026-05-10T22:11:00+03:00" title="10 Mayıs 2026, Pazar 22:11">10 Mayıs 2026, Pazar 22:11</time>
+
+
+                                <div class="tags mt-3">
+                                        <a href="/blog/tr/etiket/bash/" class="tag is-info">bash</a>
+                                </div>
+                                
+                            </div>
+                            
+                            <h1 class="title">`tablo` - Komut Satırı Aracı</h1>
+                            
+                            <div class="yield"><p>Bu sefer kendi geliştirdiğim bir komut satırı aracından bahsetmek istiyorum:
+<code>tablo</code>. </p>
+
+<p>İzlediğim bir YouTube videosunda <a href="https://www.nushell.sh/">Nushell</a> diye değişik bir shell gördüm.
+Acaba benzer bir yaklaşımı <code>bash</code> için yapabilir miyim? dedim ve gündelik
+hayatta sık kullandığım bir tool çıktı ortaya. Tabiiki <a href="https://github.com/vigo/tablo">açık kaynaklı</a>! yani
+isteyen herkes katkı yapabilir!</p>
+
+<p>Kurulumu çok kolay, eğer bilgisayarınızda <code>go</code> kuruluysa (go 1.25.5 ya da üzeri):</p>
+<div class="highlight"><pre class="highlight shell"><code>go <span class="nb">install </span>github.com/vigo/tablo@latest
+</code></pre></div>
+<p>Eğer kurulu değilse <a href="https://brew.sh/">homebrew</a> ile:</p>
+<div class="highlight"><pre class="highlight shell"><code>brew <span class="nb">install </span>vigo/tablo/tablo
+</code></pre></div>
+<p>ile kurabilirsiniz. Ne işe yarar? ister interaktif ister <code>pipe</code> yöntemiyle, text’leri
+tabular şekilde formatlı göstermenizi ya da filtrelemenizi sağlar:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">echo</span> <span class="s2">"hello world"</span> | tablo
+┌─────────────┐
+│ hello world │
+└─────────────┘
+</code></pre></div>
+<p>Kolon ayracı (field delimeter) olarak varsayılan karakter <strong>çift boşluk</strong> (double space)
+karakteridir. Eğer;</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">echo</span> <span class="s2">"hello  world"</span> | tablo <span class="c"># iki ya da daha fazla boşluk</span>
+┌───────┬───────┐
+│ hello │ world │
+└───────┴───────┘
+</code></pre></div>
+<p>şeklinde olur. Eğer illa tek boşluk isterseniz;</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">echo</span> <span class="s2">"hello world"</span> | tablo <span class="nt">-f</span> <span class="s2">" "</span>
+┌───────┬───────┐
+│ hello │ world │
+└───────┴───────┘
+</code></pre></div>
+<p>Nerelerde işe yarar? Mesela <code>$PATH</code> değişkeni&hellip; Kocaman tek satır bir text ve
+<code>:</code> bir ayraç:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">echo</span> <span class="s2">"</span><span class="k">${</span><span class="nv">PATH</span><span class="k">}</span><span class="s2">"</span>
+/Users/vigo/.bun/bin:/opt/homebrew/opt/postgresql@17/bin:/Users/vigo/.cargo/bin:/Users/vigo/.rbenv/shims:/Users/vigo/.rbenv/bin:/Users/vigo/.gem/ruby/2.6.0/bin:/Users/vigo/.pyenv/plugins/pyenv-virtualenvwrapper/shims:/Users/vigo/.pyenv/libexec:/Users/vigo/.pyenv/plugins/python-build/bin:/Users/vigo/.pyenv/plugins/pyenv-virtualenvwrapper/bin:/Users/vigo/.pyenv/plugins/pyenv-virtualenv/bin:/Users/vigo/.pyenv/plugins/pyenv-virtualenv/shims:/Users/vigo/.pyenv/shims:/Users/vigo/.pyenv/bin:/opt/homebrew/opt/curl/bin:/opt/homebrew/opt/sqlite/bin:/Users/vigo/.docker/bin:/opt/homebrew/opt/go/libexec/bin:/Users/vigo/.local/go/bin:/Users/vigo/.local/bin:/Users/vigo/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/pmk/env/global/bin:/Library/Apple/usr/bin:/usr/local/share/dotnet:~/.dotnet/tools:/Users/vigo/.orbstack/bin
+</code></pre></div>
+<p>Bunu;</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">echo</span> <span class="s2">"</span><span class="k">${</span><span class="nv">PATH</span><span class="k">}</span><span class="s2">"</span> | tablo <span class="nt">-l</span> <span class="s2">":"</span>
+┌───────────────────────────────────────────────────────────────────────────────────┐
+│ /Users/vigo/.bun/bin                                                              │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /opt/homebrew/opt/postgresql@17/bin                                               │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.cargo/bin                                                            │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.rbenv/shims                                                          │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.rbenv/bin                                                            │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.gem/ruby/2.6.0/bin                                                   │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.pyenv/plugins/pyenv-virtualenvwrapper/shims                          │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.pyenv/libexec                                                        │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.pyenv/plugins/python-build/bin                                       │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.pyenv/plugins/pyenv-virtualenvwrapper/bin                            │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.pyenv/plugins/pyenv-virtualenv/bin                                   │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.pyenv/plugins/pyenv-virtualenv/shims                                 │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.pyenv/shims                                                          │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.pyenv/bin                                                            │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /opt/homebrew/opt/curl/bin                                                        │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /opt/homebrew/opt/sqlite/bin                                                      │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.docker/bin                                                           │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /opt/homebrew/opt/go/libexec/bin                                                  │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.local/go/bin                                                         │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.local/bin                                                            │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/bin                                                                   │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /opt/homebrew/bin                                                                 │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /opt/homebrew/sbin                                                                │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /usr/local/bin                                                                    │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /System/Cryptexes/App/usr/bin                                                     │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /usr/bin                                                                          │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /bin                                                                              │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /usr/sbin                                                                         │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /sbin                                                                             │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin         │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin               │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /opt/pmk/env/global/bin                                                           │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Library/Apple/usr/bin                                                            │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /usr/local/share/dotnet                                                           │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ ~/.dotnet/tools                                                                   │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.orbstack/bin                                                         │
+└───────────────────────────────────────────────────────────────────────────────────┘
+</code></pre></div>
+<p>Ya da;</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">echo</span> <span class="s2">"</span><span class="k">${</span><span class="nv">PATH</span><span class="k">}</span><span class="s2">"</span> | tablo <span class="nt">-l</span> <span class="s2">":"</span> <span class="nt">-n</span>
+┌───────────────────────────────────────────────────────────────────────────────────┐
+│ /Users/vigo/.bun/bin                                                              │
+│ /opt/homebrew/opt/postgresql@17/bin                                               │
+│ /Users/vigo/.cargo/bin                                                            │
+│ /Users/vigo/.rbenv/shims                                                          │
+│ /Users/vigo/.rbenv/bin                                                            │
+│ /Users/vigo/.gem/ruby/2.6.0/bin                                                   │
+│ /Users/vigo/.pyenv/plugins/pyenv-virtualenvwrapper/shims                          │
+│ /Users/vigo/.pyenv/libexec                                                        │
+│ /Users/vigo/.pyenv/plugins/python-build/bin                                       │
+│ /Users/vigo/.pyenv/plugins/pyenv-virtualenvwrapper/bin                            │
+│ /Users/vigo/.pyenv/plugins/pyenv-virtualenv/bin                                   │
+│ /Users/vigo/.pyenv/plugins/pyenv-virtualenv/shims                                 │
+│ /Users/vigo/.pyenv/shims                                                          │
+│ /Users/vigo/.pyenv/bin                                                            │
+│ /opt/homebrew/opt/curl/bin                                                        │
+│ /opt/homebrew/opt/sqlite/bin                                                      │
+│ /Users/vigo/.docker/bin                                                           │
+│ /opt/homebrew/opt/go/libexec/bin                                                  │
+│ /Users/vigo/.local/go/bin                                                         │
+│ /Users/vigo/.local/bin                                                            │
+│ /Users/vigo/bin                                                                   │
+│ /opt/homebrew/bin                                                                 │
+│ /opt/homebrew/sbin                                                                │
+│ /usr/local/bin                                                                    │
+│ /System/Cryptexes/App/usr/bin                                                     │
+│ /usr/bin                                                                          │
+│ /bin                                                                              │
+│ /usr/sbin                                                                         │
+│ /sbin                                                                             │
+│ /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin         │
+│ /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin               │
+│ /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin │
+│ /opt/pmk/env/global/bin                                                           │
+│ /Library/Apple/usr/bin                                                            │
+│ /usr/local/share/dotnet                                                           │
+│ ~/.dotnet/tools                                                                   │
+│ /Users/vigo/.orbstack/bin                                                         │
+└───────────────────────────────────────────────────────────────────────────────────┘
+</code></pre></div>
+<p>Yapabilirsiniz. Ben özellikle <code>docker</code> komutunda çok kullanıyorum:</p>
+<div class="highlight"><pre class="highlight shell"><code>docker images <span class="nt">--format</span> <span class="s2">"{{.ID}}  {{.Repository}}  {{.Tag}}"</span>
+0668926e2d4e  postgres  17
+35267b49b084  redis  latest
+0eaa8705309b  rancher/local-path-provisioner  v0.0.34
+227b80ee8e0a  docker/model-runner  latest
+b41714cf6249  rancher/local-path-provisioner  v0.0.31
+5548a49bb60b  registry.k8s.io/metrics-server/metrics-server  v0.7.2
+a7f913520a4a  rancher/local-path-provisioner  v0.0.26
+97e04611ad43  rancher/mirrored-coredns-coredns  1.10.1
+7d46a07936af  rancher/mirrored-pause  3.6
+
+docker images <span class="nt">--format</span> <span class="s2">"{{.ID}}  {{.Repository}}  {{.Tag}}"</span> | tablo
+┌──────────────┬───────────────────────────────────────────────┬─────────┐
+│ 0668926e2d4e │ postgres                                      │ 17      │
+├──────────────┼───────────────────────────────────────────────┼─────────┤
+│ 35267b49b084 │ redis                                         │ latest  │
+├──────────────┼───────────────────────────────────────────────┼─────────┤
+│ 0eaa8705309b │ rancher/local-path-provisioner                │ v0.0.34 │
+├──────────────┼───────────────────────────────────────────────┼─────────┤
+│ 227b80ee8e0a │ docker/model-runner                           │ latest  │
+├──────────────┼───────────────────────────────────────────────┼─────────┤
+│ b41714cf6249 │ rancher/local-path-provisioner                │ v0.0.31 │
+├──────────────┼───────────────────────────────────────────────┼─────────┤
+│ 5548a49bb60b │ registry.k8s.io/metrics-server/metrics-server │ v0.7.2  │
+├──────────────┼───────────────────────────────────────────────┼─────────┤
+│ a7f913520a4a │ rancher/local-path-provisioner                │ v0.0.26 │
+├──────────────┼───────────────────────────────────────────────┼─────────┤
+│ 97e04611ad43 │ rancher/mirrored-coredns-coredns              │ 1.10.1  │
+├──────────────┼───────────────────────────────────────────────┼─────────┤
+│ 7d46a07936af │ rancher/mirrored-pause                        │ 3.6     │
+└──────────────┴───────────────────────────────────────────────┴─────────┘
+</code></pre></div>
+<p>Sadece ilk ve ikinci kolonları almak için:</p>
+<div class="highlight"><pre class="highlight shell"><code>docker images <span class="nt">--format</span> <span class="s2">"{{.ID}}  {{.Repository}}  {{.Tag}}"</span> | tablo <span class="nt">-fi</span> <span class="s2">"1,2"</span>
+┌──────────────┬───────────────────────────────────────────────┐
+│ 0668926e2d4e │ postgres                                      │
+├──────────────┼───────────────────────────────────────────────┤
+│ 35267b49b084 │ redis                                         │
+├──────────────┼───────────────────────────────────────────────┤
+│ 0eaa8705309b │ rancher/local-path-provisioner                │
+├──────────────┼───────────────────────────────────────────────┤
+│ 227b80ee8e0a │ docker/model-runner                           │
+├──────────────┼───────────────────────────────────────────────┤
+│ b41714cf6249 │ rancher/local-path-provisioner                │
+├──────────────┼───────────────────────────────────────────────┤
+│ 5548a49bb60b │ registry.k8s.io/metrics-server/metrics-server │
+├──────────────┼───────────────────────────────────────────────┤
+│ a7f913520a4a │ rancher/local-path-provisioner                │
+├──────────────┼───────────────────────────────────────────────┤
+│ 97e04611ad43 │ rancher/mirrored-coredns-coredns              │
+├──────────────┼───────────────────────────────────────────────┤
+│ 7d46a07936af │ rancher/mirrored-pause                        │
+└──────────────┴───────────────────────────────────────────────┘
+</code></pre></div>
+<p>Hatta çıktıyı <code>json</code> almak için:</p>
+<div class="highlight"><pre class="highlight shell"><code>docker images <span class="nt">--format</span> <span class="s2">"{{.ID}}  {{.Repository}}  {{.Tag}}"</span> | tablo <span class="nt">-fi</span> <span class="s2">"1,2"</span> <span class="nt">-j</span>
+</code></pre></div>
+<p>çıktı:</p>
+<div class="highlight"><pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"0668926e2d4e"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"postgres"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"35267b49b084"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"redis"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"0eaa8705309b"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"rancher/local-path-provisioner"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"227b80ee8e0a"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"docker/model-runner"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"b41714cf6249"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"rancher/local-path-provisioner"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"5548a49bb60b"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"registry.k8s.io/metrics-server/metrics-server"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"a7f913520a4a"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"rancher/local-path-provisioner"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"97e04611ad43"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"rancher/mirrored-coredns-coredns"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"7d46a07936af"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"rancher/mirrored-pause"</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<p>Hatta eğer <a href="https://jqlang.org/">jq</a> varsa;</p>
+<div class="highlight"><pre class="highlight shell"><code>docker images <span class="nt">--format</span> <span class="s2">"{{.ID}}  {{.Repository}}  {{.Tag}}"</span> | tablo <span class="nt">-fi</span> <span class="s2">"1,2"</span> <span class="nt">-j</span> | jq
+</code></pre></div>
+<p>Ek olarak <code>csv</code> dosyları ile de uğraşıyorsanız:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="c"># cat /path/to/file.csv | tablo -f ";"</span>
+
+<span class="nb">echo</span> <span class="s1">'Username;Identifier;First name;Last name
+booker12;9012;Rachel;Booker
+grey07;2070;Laura;Grey
+johnson81;4081;Craig;Johnson
+jenkins46;9346;Mary;Jenkins
+smith79;5079;Jamie;Smith'</span> | tablo <span class="nt">-f</span> <span class="s2">";"</span>
+┌───────────┬────────────┬────────────┬───────────┐
+│ Username  │ Identifier │ First name │ Last name │
+├───────────┼────────────┼────────────┼───────────┤
+│ booker12  │ 9012       │ Rachel     │ Booker    │
+├───────────┼────────────┼────────────┼───────────┤
+│ grey07    │ 2070       │ Laura      │ Grey      │
+├───────────┼────────────┼────────────┼───────────┤
+│ johnson81 │ 4081       │ Craig      │ Johnson   │
+├───────────┼────────────┼────────────┼───────────┤
+│ jenkins46 │ 9346       │ Mary       │ Jenkins   │
+├───────────┼────────────┼────────────┼───────────┤
+│ smith79   │ 5079       │ Jamie      │ Smith     │
+└───────────┴────────────┴────────────┴───────────┘
+</code></pre></div>
+<p>Hatta sadece <code>Username</code> kolonu lazımsa;</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">echo</span> <span class="s1">'Username;Identifier;First name;Last name
+booker12;9012;Rachel;Booker
+grey07;2070;Laura;Grey
+johnson81;4081;Craig;Johnson
+jenkins46;9346;Mary;Jenkins
+smith79;5079;Jamie;Smith'</span> | tablo <span class="nt">-f</span> <span class="s2">";"</span> Username
+┌───────────┐
+│ Username  │
+├───────────┤
+│ booker12  │
+├───────────┤
+│ grey07    │
+├───────────┤
+│ johnson81 │
+├───────────┤
+│ jenkins46 │
+├───────────┤
+│ smith79   │
+└───────────┘
+</code></pre></div>
+<p>Hatta;</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">echo</span> <span class="s1">'Username;Identifier;First name;Last name
+booker12;9012;Rachel;Booker
+grey07;2070;Laura;Grey
+johnson81;4081;Craig;Johnson
+jenkins46;9346;Mary;Jenkins
+smith79;5079;Jamie;Smith'</span> | tablo <span class="nt">-nh</span> <span class="nt">-n</span> <span class="nt">-f</span> <span class="s2">";"</span> Username
+┌───────────┐
+│ booker12  │
+│ grey07    │
+│ johnson81 │
+│ jenkins46 │
+│ smith79   │
+└───────────┘
+</code></pre></div>
+<p>Şeklinde de kullanabilirsiniz. İsterseniz çıktıyı bir dosya ya da <code>&gt; /path/to/file</code>
+şeklinde atabilirsiniz:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">cat</span> /path/to/file | tablo <span class="o">&gt;</span> /path/to/out
+</code></pre></div>
+<p>Eğer bir input pipe’lamazsanız direk text’i girip <kbd>CTRL</kbd> + <kbd>D</kbd>
+ile input moddan çıkarak işlemlerinizi yapabilirsiniz:</p>
+<div class="highlight"><pre class="highlight shell"><code>tablo
+press ENTER and CTRL+D to finish text entry
+foo  bar
+┌─────┬─────┐
+│ foo │ bar │
+└─────┴─────┘
+</code></pre></div>
+<p>Bir sürü opsiyonu var;</p>
+<div class="highlight"><pre class="highlight shell"><code>tablo <span class="nt">-h</span>
+</code></pre></div>
+<p>ile örnekleriyle birlikte görebilirsiniz.</p>
+</div>
+                        </article>
+                        
+                            <nav class="mt-6 pagination is-centered" role="navigation" aria-label="pagination">
+                                <a href="/blog/tr/2025/12/26/2025-te-neler-yaptim/" class="pagination-previous has-text-link">&laquo; 2025'te Neler Yaptım</a>
+                                
+                            </nav>
+                    </div>
+                </div>
+                <div class="column is-3-desktop is-full-tablet">
+                    <div class="content">
+                            <div class="blog-post-list sidebar">
+        <h1>Benzer Makaleler</h1>
+        <p>Konu ile ilgili toplam “6” adet benzer makale bulunuyor.</p>
+        <ul>
+            <li>
+                <a href="/blog/tr/2025/03/09/ghostty-macos-terminal-ve-bash-maceralari/">Ghostty macOS Terminal ve Bash Maceraları</a>
+                <time pubdate datetime="2025-03-09T20:58:00+03:00">
+                    09 Mart 2025, Pazar
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2025/02/20/direnv-nedir-ne-ise-yarar/">`direnv` nedir? Ne işe yarar?</a>
+                <time pubdate datetime="2025-02-20T22:06:00+03:00">
+                    20 Şubat 2025, Perşembe
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2024/05/16/ruby-1-dot-8-7-bash-ve-textmate/">Ruby 1.8.7, Bash ve TextMate</a>
+                <time pubdate datetime="2024-05-16T22:30:00+03:00">
+                    16 Mayıs 2024, Perşembe
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2021/08/28/json-isleme-araci-jq/">JSON İşleme Aracı: jq</a>
+                <time pubdate datetime="2021-08-28T11:38:00+03:00">
+                    28 Ağustos 2021, Cumartesi
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2013/02/20/bash-completion-anotomisi/">Bash Completion Anotomisi</a>
+                <time pubdate datetime="2013-02-20T23:37:00+02:00">
+                    20 Şubat 2013, Çarşamba
+                </time>
+            </li>
+            <li>
+                <a href="/blog/tr/2009/07/26/bash-completion-olayi/">Bash Completion olayı!</a>
+                <time pubdate datetime="2009-07-26T15:12:00+03:00">
+                    26 Temmuz 2009, Pazar
+                </time>
+            </li>
+        </ul>
+    </div>
+    
+
+                        
+                        <div class="blog-post-list sidebar">
+    <h1>Yıllara Göre</h1>
+    <p>Blog arşivinde toplam “85” kayıt bulunuyor.</p>
+<p><a href="/blog/tr/yil/2026/" class="">2026 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2025/" class="">2025 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2024/" class="">2024 yılına ait 2 makale</a></p><p><a href="/blog/tr/yil/2023/" class="">2023 yılına ait 2 makale</a></p><p><a href="/blog/tr/yil/2022/" class="">2022 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2021/" class="">2021 yılına ait 4 makale</a></p><p><a href="/blog/tr/yil/2016/" class="">2016 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2015/" class="">2015 yılına ait 1 makale</a></p><p><a href="/blog/tr/yil/2014/" class="">2014 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2013/" class="">2013 yılına ait 3 makale</a></p><p><a href="/blog/tr/yil/2012/" class="">2012 yılına ait 8 makale</a></p><p><a href="/blog/tr/yil/2011/" class="">2011 yılına ait 16 makale</a></p><p><a href="/blog/tr/yil/2010/" class="">2010 yılına ait 6 makale</a></p><p><a href="/blog/tr/yil/2009/" class="">2009 yılına ait 22 makale</a></p><p><a href="/blog/tr/yil/2008/" class="">2008 yılına ait 11 makale</a></p><p><a href="/blog/tr/yil/2006/" class="">2006 yılına ait 1 makale</a></p></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <footer class="footer">
+    <div class="container">
+        <div class="content">
+            <a href="/feed-tr.xml" title="RSS Aboneliği">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-square-rss fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://github.com/sponsors/vigo" title="GitHub Sponsorluk">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-heart fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://patreon.com/vigoo" title="Patreon Destek">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-patreon fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://github.com/vigo" title="GitHub Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-github fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://github.com/vbyazilim" title="VB YAZILIM GitHub Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-github fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://hub.docker.com/u/vigo/" title="Dockerhub Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-docker fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://www.linkedin.com/in/ugurozyilmazel" title="LinkedIn Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-linkedin fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://www.linkedin.com/company/vbyazilim/" title="VB YAZILIM LinkedIn Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-linkedin fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://rubygems.org/profiles/vigo" title="Rubygems Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://pypi.org/user/vigo" title="Python Package Index Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-laptop-code fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://vigos.hashnode.dev/" title="Hashnode Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-hashnode fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://opensource-heroes.com/u/vigo" title="Open Source Heroes Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-osi fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://dev.to/vigo" title="Dev Community Profili">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-brands fa-dev fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://csdb.dk/scener/?id=8379" title="CSDB">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            <a target="_blank" href="https://www.pouet.net/user.php?who=4721" title="Pouet">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="http://janeway.exotica.org.uk/author.php?id=11962" title="Amiga Exotica">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://demozoo.org/sceners/6273" title="Demozoo">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+
+            <a target="_blank" href="https://www.demoparty.net/users/vigo" title="Demoparty.net">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-cube fa-stack-1x"></i></span>
+            </a>
+            
+            <script type="text/javascript">
+            document.write('<a href="mailto:');
+            document.write("hthebmlvyznmry\100tznvy\056pbz".replace(/[a-zA-Z]/g, function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
+            document.write('" title="E-Posta"');
+            document.write('<span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fa-solid fa-at fa-stack-1x"></i></span>');
+            document.write('</a>');
+            </script>
+
+            <a target="_blank" href="https://vbyazilim.com/" title="Şirketim: VB YAZILIM">
+                <span class="fa-stack" style="vertical-align: top;"><i class="fa-regular fa-circle fa-stack-2x"></i><i class="fas fa-building fa-stack-1x"></i></span>
+            </a>
+
+        </div>
+    </div>
+</footer>
+
+
+
+</body>
+</html>
