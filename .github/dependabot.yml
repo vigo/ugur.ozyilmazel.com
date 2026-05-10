@@ -14,3 +14,6 @@ updates:
     commit-message:
       prefix: "[dependabot] - upgrade ruby dependencies"
       include: "scope"
+    ignore:
+      - dependency-name: "nokogiri"
+        versions: [">= 1.19.0"]
