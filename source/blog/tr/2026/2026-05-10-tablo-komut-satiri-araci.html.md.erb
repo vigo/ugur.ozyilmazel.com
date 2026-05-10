@@ -1,0 +1,415 @@
+---
+title: "`tablo` - Komut Satırı Aracı"
+locale: tr
+# subtitle: ""
+date: 2026-05-10 22:11
+# covers_retina: ""
+# cover: ""
+# cover_color: ""
+# cover_bgcolor: ""
+# cover_title: ""
+# cover_subtitle: ""
+# og_image: ""
+# og_image_dir: ""
+tags: bash
+comments: false
+---
+
+Bu sefer kendi geliştirdiğim bir komut satırı aracından bahsetmek istiyorum:
+`tablo`. READ_MORE
+
+İzlediğim bir YouTube videosunda [Nushell][001] diye değişik bir shell gördüm.
+Acaba benzer bir yaklaşımı `bash` için yapabilir miyim? dedim ve gündelik
+hayatta sık kullandığım bir tool çıktı ortaya. Tabiiki [açık kaynaklı][002]! yani
+isteyen herkes katkı yapabilir!
+
+Kurulumu çok kolay, eğer bilgisayarınızda `go` kuruluysa (go 1.25.5 ya da üzeri):
+
+```bash
+go install github.com/vigo/tablo@latest
+```
+
+Eğer kurulu değilse [homebrew][homebrew] ile:
+
+```bash
+brew install vigo/tablo/tablo
+```
+
+ile kurabilirsiniz. Ne işe yarar? ister interaktif ister `pipe` yöntemiyle, text’leri
+tabular şekilde formatlı göstermenizi ya da filtrelemenizi sağlar:
+
+```bash
+echo "hello world" | tablo
+┌─────────────┐
+│ hello world │
+└─────────────┘
+```
+
+Kolon ayracı (field delimeter) olarak varsayılan karakter **çift boşluk** (double space)
+karakteridir. Eğer;
+
+```bash
+echo "hello  world" | tablo # iki ya da daha fazla boşluk
+┌───────┬───────┐
+│ hello │ world │
+└───────┴───────┘
+```
+
+şeklinde olur. Eğer illa tek boşluk isterseniz;
+
+```bash
+echo "hello world" | tablo -f " "
+┌───────┬───────┐
+│ hello │ world │
+└───────┴───────┘
+```
+
+Nerelerde işe yarar? Mesela `$PATH` değişkeni... Kocaman tek satır bir text ve
+`:` bir ayraç:
+
+```bash
+echo "${PATH}"
+/Users/vigo/.bun/bin:/opt/homebrew/opt/postgresql@17/bin:/Users/vigo/.cargo/bin:/Users/vigo/.rbenv/shims:/Users/vigo/.rbenv/bin:/Users/vigo/.gem/ruby/2.6.0/bin:/Users/vigo/.pyenv/plugins/pyenv-virtualenvwrapper/shims:/Users/vigo/.pyenv/libexec:/Users/vigo/.pyenv/plugins/python-build/bin:/Users/vigo/.pyenv/plugins/pyenv-virtualenvwrapper/bin:/Users/vigo/.pyenv/plugins/pyenv-virtualenv/bin:/Users/vigo/.pyenv/plugins/pyenv-virtualenv/shims:/Users/vigo/.pyenv/shims:/Users/vigo/.pyenv/bin:/opt/homebrew/opt/curl/bin:/opt/homebrew/opt/sqlite/bin:/Users/vigo/.docker/bin:/opt/homebrew/opt/go/libexec/bin:/Users/vigo/.local/go/bin:/Users/vigo/.local/bin:/Users/vigo/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/pmk/env/global/bin:/Library/Apple/usr/bin:/usr/local/share/dotnet:~/.dotnet/tools:/Users/vigo/.orbstack/bin
+```
+
+Bunu;
+
+```bash
+echo "${PATH}" | tablo -l ":"
+┌───────────────────────────────────────────────────────────────────────────────────┐
+│ /Users/vigo/.bun/bin                                                              │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /opt/homebrew/opt/postgresql@17/bin                                               │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.cargo/bin                                                            │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.rbenv/shims                                                          │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.rbenv/bin                                                            │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.gem/ruby/2.6.0/bin                                                   │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.pyenv/plugins/pyenv-virtualenvwrapper/shims                          │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.pyenv/libexec                                                        │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.pyenv/plugins/python-build/bin                                       │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.pyenv/plugins/pyenv-virtualenvwrapper/bin                            │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.pyenv/plugins/pyenv-virtualenv/bin                                   │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.pyenv/plugins/pyenv-virtualenv/shims                                 │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.pyenv/shims                                                          │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.pyenv/bin                                                            │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /opt/homebrew/opt/curl/bin                                                        │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /opt/homebrew/opt/sqlite/bin                                                      │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.docker/bin                                                           │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /opt/homebrew/opt/go/libexec/bin                                                  │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.local/go/bin                                                         │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.local/bin                                                            │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/bin                                                                   │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /opt/homebrew/bin                                                                 │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /opt/homebrew/sbin                                                                │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /usr/local/bin                                                                    │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /System/Cryptexes/App/usr/bin                                                     │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /usr/bin                                                                          │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /bin                                                                              │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /usr/sbin                                                                         │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /sbin                                                                             │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin         │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin               │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /opt/pmk/env/global/bin                                                           │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Library/Apple/usr/bin                                                            │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /usr/local/share/dotnet                                                           │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ ~/.dotnet/tools                                                                   │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│ /Users/vigo/.orbstack/bin                                                         │
+└───────────────────────────────────────────────────────────────────────────────────┘
+```
+
+Ya da;
+
+```bash
+echo "${PATH}" | tablo -l ":" -n
+┌───────────────────────────────────────────────────────────────────────────────────┐
+│ /Users/vigo/.bun/bin                                                              │
+│ /opt/homebrew/opt/postgresql@17/bin                                               │
+│ /Users/vigo/.cargo/bin                                                            │
+│ /Users/vigo/.rbenv/shims                                                          │
+│ /Users/vigo/.rbenv/bin                                                            │
+│ /Users/vigo/.gem/ruby/2.6.0/bin                                                   │
+│ /Users/vigo/.pyenv/plugins/pyenv-virtualenvwrapper/shims                          │
+│ /Users/vigo/.pyenv/libexec                                                        │
+│ /Users/vigo/.pyenv/plugins/python-build/bin                                       │
+│ /Users/vigo/.pyenv/plugins/pyenv-virtualenvwrapper/bin                            │
+│ /Users/vigo/.pyenv/plugins/pyenv-virtualenv/bin                                   │
+│ /Users/vigo/.pyenv/plugins/pyenv-virtualenv/shims                                 │
+│ /Users/vigo/.pyenv/shims                                                          │
+│ /Users/vigo/.pyenv/bin                                                            │
+│ /opt/homebrew/opt/curl/bin                                                        │
+│ /opt/homebrew/opt/sqlite/bin                                                      │
+│ /Users/vigo/.docker/bin                                                           │
+│ /opt/homebrew/opt/go/libexec/bin                                                  │
+│ /Users/vigo/.local/go/bin                                                         │
+│ /Users/vigo/.local/bin                                                            │
+│ /Users/vigo/bin                                                                   │
+│ /opt/homebrew/bin                                                                 │
+│ /opt/homebrew/sbin                                                                │
+│ /usr/local/bin                                                                    │
+│ /System/Cryptexes/App/usr/bin                                                     │
+│ /usr/bin                                                                          │
+│ /bin                                                                              │
+│ /usr/sbin                                                                         │
+│ /sbin                                                                             │
+│ /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin         │
+│ /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin               │
+│ /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin │
+│ /opt/pmk/env/global/bin                                                           │
+│ /Library/Apple/usr/bin                                                            │
+│ /usr/local/share/dotnet                                                           │
+│ ~/.dotnet/tools                                                                   │
+│ /Users/vigo/.orbstack/bin                                                         │
+└───────────────────────────────────────────────────────────────────────────────────┘
+```
+
+Yapabilirsiniz. Ben özellikle `docker` komutunda çok kullanıyorum:
+
+```bash
+docker images --format "{{.ID}}  {{.Repository}}  {{.Tag}}"
+0668926e2d4e  postgres  17
+35267b49b084  redis  latest
+0eaa8705309b  rancher/local-path-provisioner  v0.0.34
+227b80ee8e0a  docker/model-runner  latest
+b41714cf6249  rancher/local-path-provisioner  v0.0.31
+5548a49bb60b  registry.k8s.io/metrics-server/metrics-server  v0.7.2
+a7f913520a4a  rancher/local-path-provisioner  v0.0.26
+97e04611ad43  rancher/mirrored-coredns-coredns  1.10.1
+7d46a07936af  rancher/mirrored-pause  3.6
+
+docker images --format "{{.ID}}  {{.Repository}}  {{.Tag}}" | tablo
+┌──────────────┬───────────────────────────────────────────────┬─────────┐
+│ 0668926e2d4e │ postgres                                      │ 17      │
+├──────────────┼───────────────────────────────────────────────┼─────────┤
+│ 35267b49b084 │ redis                                         │ latest  │
+├──────────────┼───────────────────────────────────────────────┼─────────┤
+│ 0eaa8705309b │ rancher/local-path-provisioner                │ v0.0.34 │
+├──────────────┼───────────────────────────────────────────────┼─────────┤
+│ 227b80ee8e0a │ docker/model-runner                           │ latest  │
+├──────────────┼───────────────────────────────────────────────┼─────────┤
+│ b41714cf6249 │ rancher/local-path-provisioner                │ v0.0.31 │
+├──────────────┼───────────────────────────────────────────────┼─────────┤
+│ 5548a49bb60b │ registry.k8s.io/metrics-server/metrics-server │ v0.7.2  │
+├──────────────┼───────────────────────────────────────────────┼─────────┤
+│ a7f913520a4a │ rancher/local-path-provisioner                │ v0.0.26 │
+├──────────────┼───────────────────────────────────────────────┼─────────┤
+│ 97e04611ad43 │ rancher/mirrored-coredns-coredns              │ 1.10.1  │
+├──────────────┼───────────────────────────────────────────────┼─────────┤
+│ 7d46a07936af │ rancher/mirrored-pause                        │ 3.6     │
+└──────────────┴───────────────────────────────────────────────┴─────────┘
+```
+
+Sadece ilk ve ikinci kolonları almak için:
+
+```bash
+docker images --format "{{.ID}}  {{.Repository}}  {{.Tag}}" | tablo -fi "1,2"
+┌──────────────┬───────────────────────────────────────────────┐
+│ 0668926e2d4e │ postgres                                      │
+├──────────────┼───────────────────────────────────────────────┤
+│ 35267b49b084 │ redis                                         │
+├──────────────┼───────────────────────────────────────────────┤
+│ 0eaa8705309b │ rancher/local-path-provisioner                │
+├──────────────┼───────────────────────────────────────────────┤
+│ 227b80ee8e0a │ docker/model-runner                           │
+├──────────────┼───────────────────────────────────────────────┤
+│ b41714cf6249 │ rancher/local-path-provisioner                │
+├──────────────┼───────────────────────────────────────────────┤
+│ 5548a49bb60b │ registry.k8s.io/metrics-server/metrics-server │
+├──────────────┼───────────────────────────────────────────────┤
+│ a7f913520a4a │ rancher/local-path-provisioner                │
+├──────────────┼───────────────────────────────────────────────┤
+│ 97e04611ad43 │ rancher/mirrored-coredns-coredns              │
+├──────────────┼───────────────────────────────────────────────┤
+│ 7d46a07936af │ rancher/mirrored-pause                        │
+└──────────────┴───────────────────────────────────────────────┘
+```
+
+Hatta çıktıyı `json` almak için:
+
+```bash
+docker images --format "{{.ID}}  {{.Repository}}  {{.Tag}}" | tablo -fi "1,2" -j
+```
+
+çıktı:
+
+```json
+[
+  [
+    "0668926e2d4e",
+    "postgres"
+  ],
+  [
+    "35267b49b084",
+    "redis"
+  ],
+  [
+    "0eaa8705309b",
+    "rancher/local-path-provisioner"
+  ],
+  [
+    "227b80ee8e0a",
+    "docker/model-runner"
+  ],
+  [
+    "b41714cf6249",
+    "rancher/local-path-provisioner"
+  ],
+  [
+    "5548a49bb60b",
+    "registry.k8s.io/metrics-server/metrics-server"
+  ],
+  [
+    "a7f913520a4a",
+    "rancher/local-path-provisioner"
+  ],
+  [
+    "97e04611ad43",
+    "rancher/mirrored-coredns-coredns"
+  ],
+  [
+    "7d46a07936af",
+    "rancher/mirrored-pause"
+  ]
+]
+```
+
+Hatta eğer [jq][jq] varsa;
+
+```bash
+docker images --format "{{.ID}}  {{.Repository}}  {{.Tag}}" | tablo -fi "1,2" -j | jq
+```
+
+Ek olarak `csv` dosyları ile de uğraşıyorsanız:
+
+```bash
+# cat /path/to/file.csv | tablo -f ";"
+
+echo 'Username;Identifier;First name;Last name
+booker12;9012;Rachel;Booker
+grey07;2070;Laura;Grey
+johnson81;4081;Craig;Johnson
+jenkins46;9346;Mary;Jenkins
+smith79;5079;Jamie;Smith' | tablo -f ";"
+┌───────────┬────────────┬────────────┬───────────┐
+│ Username  │ Identifier │ First name │ Last name │
+├───────────┼────────────┼────────────┼───────────┤
+│ booker12  │ 9012       │ Rachel     │ Booker    │
+├───────────┼────────────┼────────────┼───────────┤
+│ grey07    │ 2070       │ Laura      │ Grey      │
+├───────────┼────────────┼────────────┼───────────┤
+│ johnson81 │ 4081       │ Craig      │ Johnson   │
+├───────────┼────────────┼────────────┼───────────┤
+│ jenkins46 │ 9346       │ Mary       │ Jenkins   │
+├───────────┼────────────┼────────────┼───────────┤
+│ smith79   │ 5079       │ Jamie      │ Smith     │
+└───────────┴────────────┴────────────┴───────────┘
+```
+
+Hatta sadece `Username` kolonu lazımsa;
+
+```bash
+echo 'Username;Identifier;First name;Last name
+booker12;9012;Rachel;Booker
+grey07;2070;Laura;Grey
+johnson81;4081;Craig;Johnson
+jenkins46;9346;Mary;Jenkins
+smith79;5079;Jamie;Smith' | tablo -f ";" Username
+┌───────────┐
+│ Username  │
+├───────────┤
+│ booker12  │
+├───────────┤
+│ grey07    │
+├───────────┤
+│ johnson81 │
+├───────────┤
+│ jenkins46 │
+├───────────┤
+│ smith79   │
+└───────────┘
+```
+
+Hatta;
+
+```bash
+echo 'Username;Identifier;First name;Last name
+booker12;9012;Rachel;Booker
+grey07;2070;Laura;Grey
+johnson81;4081;Craig;Johnson
+jenkins46;9346;Mary;Jenkins
+smith79;5079;Jamie;Smith' | tablo -nh -n -f ";" Username
+┌───────────┐
+│ booker12  │
+│ grey07    │
+│ johnson81 │
+│ jenkins46 │
+│ smith79   │
+└───────────┘
+```
+
+Şeklinde de kullanabilirsiniz. İsterseniz çıktıyı bir dosya ya da `> /path/to/file`
+şeklinde atabilirsiniz:
+
+```bash
+cat /path/to/file | tablo > /path/to/out
+```
+
+Eğer bir input pipe’lamazsanız direk text’i girip <kbd>CTRL</kbd> + <kbd>D</kbd>
+ile input moddan çıkarak işlemlerinizi yapabilirsiniz:
+
+```bash
+tablo
+press ENTER and CTRL+D to finish text entry
+foo  bar
+┌─────┬─────┐
+│ foo │ bar │
+└─────┴─────┘
+```
+
+Bir sürü opsiyonu var;
+
+```bash
+tablo -h
+```
+
+ile örnekleriyle birlikte görebilirsiniz.
+
+[homebrew]: https://brew.sh/
+[jq]: https://jqlang.org/
+[001]: https://www.nushell.sh/
+[002]: https://github.com/vigo/tablo

@@ -6,6 +6,7 @@ require 'bundler'
 Bundler.require
 
 require 'time'
+require 'fileutils'
 
 task :command_exists, [:command] do |_, args|
   abort "#{args.command} doesn't exists" if `command -v #{args.command} > /dev/null 2>&1 && echo $?`.chomp.empty?
@@ -100,9 +101,11 @@ namespace :new do
 
     save_file = "source/pages/#{args.language}/#{args.title.to_url}.html.md.erb"
 
-    # File.open(save_file, "w") do |f|
-    #   f.write output.join("\n")
-    # end
+    FileUtils.mkdir_p(File.dirname(save_file))
+
+    File.open(save_file, "w") do |f|
+      f.write output.join("\n")
+    end
     puts "New page is ready at: #{save_file}"
     
     puts "now add this proxy to your config.rb:"
@@ -144,7 +147,9 @@ comments: false
 END
 
     save_file = "source/blog/#{args.language}/#{file_year}/#{file_date}-#{args.title.to_url}.html.md.erb"
-    
+
+    FileUtils.mkdir_p(File.dirname(save_file))
+
     File.open(save_file, "w") do |f|
       f.write output
     end
