@@ -409,7 +409,31 @@ tablo -h
 
 ile örnekleriyle birlikte görebilirsiniz.
 
+### Güncelleme: 12 Mayıs 2026
+
+Bash completion özelliği geldi;
+
+```bash
+tablo --bash-completion
+```
+
+ile hem argümanları hem de `csv` header’ları otomatik tamamlayabilirsiniz. Eğer;
+
+```bash
+brew install vigo/tablo/tablo
+```
+
+ile kurduysanız ya da upgrade ettiyseniz otomatik olarak bash completion
+özelliği gelir; eğer manual eklemek isterseniz `bashrc` ya da `profile`’a
+
+```bash
+source <(tablo --bash-completion)
+```
+
+eklemeniz yeterlidir.
+
 [homebrew]: https://brew.sh/
 [jq]: https://jqlang.org/
 [001]: https://www.nushell.sh/
-[002]: https://github.com/vigo/tablo
+[002]: https://github.com/vigo/tablo  
+
