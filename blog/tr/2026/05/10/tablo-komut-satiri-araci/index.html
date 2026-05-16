@@ -24,7 +24,7 @@
 
         <script src="/public/js/application.js"></script>
     
-        <meta name="date" content="2026-05-10T22:48:36+03:00" />
+        <meta name="date" content="2026-05-16T20:04:41+03:00" />
         <meta name="description" content="Bu sefer kendi geliştirdiğim bir komut satırı aracından bahsetmek istiyorum: tablo." />
         <meta name="author" content="Uğur “vigo” Özyılmazel"/>
         <meta name="copyright" content="(c) 2006 / 2026 - Uğur “vigo” Özyılmazel" />
@@ -65,7 +65,7 @@
                     <div class="content is-large">
                         <article>
                             <div class="meta">
-                                <span class="reading-time">OKUMA SÜRESİ 01:10</span>
+                                <span class="reading-time">OKUMA SÜRESİ 01:27</span>
                                 &mdash;
                                 <time pubdate datetime="2026-05-10T22:11:00+03:00" title="10 Mayıs 2026, Pazar 22:11">10 Mayıs 2026, Pazar 22:11</time>
 
@@ -414,6 +414,20 @@ foo  bar
 <div class="highlight"><pre class="highlight shell"><code>tablo <span class="nt">-h</span>
 </code></pre></div>
 <p>ile örnekleriyle birlikte görebilirsiniz.</p>
+
+<h3>Güncelleme: 12 Mayıs 2026</h3>
+
+<p>Bash completion özelliği geldi;</p>
+<div class="highlight"><pre class="highlight shell"><code>tablo <span class="nt">--bash-completion</span>
+</code></pre></div>
+<p>ile hem argümanları hem de <code>csv</code> header’ları otomatik tamamlayabilirsiniz. Eğer;</p>
+<div class="highlight"><pre class="highlight shell"><code>brew <span class="nb">install </span>vigo/tablo/tablo
+</code></pre></div>
+<p>ile kurduysanız ya da upgrade ettiyseniz otomatik olarak bash completion
+özelliği gelir; eğer manual eklemek isterseniz <code>bashrc</code> ya da <code>profile</code>’a</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">source</span> &lt;<span class="o">(</span>tablo <span class="nt">--bash-completion</span><span class="o">)</span>
+</code></pre></div>
+<p>eklemeniz yeterlidir.</p>
 </div>
                         </article>
                         
